@@ -1,6 +1,6 @@
 package com.mv.schelokov.car_rent.db.repository.interfaces;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  *
@@ -19,6 +19,6 @@ public interface Repository<T> {
 
     boolean remove(Criteria criteria);
 
-    Map<Integer, T> query(Criteria criteria);
+    List<T> query(Criteria criteria);
     
 }
