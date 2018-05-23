@@ -1,5 +1,6 @@
 package com.mv.schelokov.car_rent.db.repository.interfaces;
 
+import com.mv.schelokov.car_rent.db.repository.exceptions.DbException;
 import java.util.List;
 
 /**
@@ -9,16 +10,16 @@ import java.util.List;
  */
 public interface Repository<T> {
     
-    boolean add(T item);
+    boolean add(T item) throws DbException;
 
-    boolean add(Iterable<T> items);
+    boolean add(Iterable<T> items) throws DbException;
 
-    boolean update(T item);
+    boolean update(T item) throws DbException;
 
-    boolean remove(T item);
+    boolean remove(T item) throws DbException;
 
-    boolean remove(Criteria criteria);
+    boolean remove(Criteria criteria) throws DbException;
 
-    List<T> query(Criteria criteria);
+    List<T> query(Criteria criteria) throws DbException;
     
 }
