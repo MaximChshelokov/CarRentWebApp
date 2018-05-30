@@ -12,14 +12,12 @@ public interface Repository<T> {
     
     boolean add(T item) throws DbException;
 
-    boolean add(Iterable<T> items) throws DbException;
-
     boolean update(T item) throws DbException;
 
     boolean remove(T item) throws DbException;
 
     boolean remove(Criteria criteria) throws DbException;
 
-    List<T> query(Criteria criteria) throws DbException;
+    List<T> read(Criteria criteria) throws DbException;
     
 }
