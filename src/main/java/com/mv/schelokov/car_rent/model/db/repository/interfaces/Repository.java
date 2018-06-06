@@ -1,6 +1,6 @@
-package com.mv.schelokov.car_rent.db.repository.interfaces;
+package com.mv.schelokov.car_rent.model.db.repository.interfaces;
 
-import com.mv.schelokov.car_rent.db.repository.exceptions.DbException;
+import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
 import java.util.List;
 
 /**

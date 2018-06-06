@@ -1,4 +1,4 @@
-package com.mv.schelokov.car_rent.db.repository.interfaces;
+package com.mv.schelokov.car_rent.model.db.repository.interfaces;
 
 /**
  * This is a marker interface.

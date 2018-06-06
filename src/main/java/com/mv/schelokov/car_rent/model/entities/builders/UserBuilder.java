@@ -1,0 +1,46 @@
+package com.mv.schelokov.car_rent.model.entities.builders;
+
+import com.mv.schelokov.car_rent.model.entities.User;
+
+/**
+ *
+ * @author Maxim Chshelokov <schelokov.mv@gmail.com>
+ */
+public class UserBuilder {
+    private User user;
+
+    
+    public UserBuilder createUser() {
+        this.user = new User();
+        return this;
+    }
+        
+    public UserBuilder setId(int id) {
+        this.user.setId(id);
+        return this;
+    }
+    public UserBuilder setLogin(String login) {
+        this.user.setLogin(login);
+        return this;
+    }
+    
+    public UserBuilder setPassword(String password) {
+        this.user.setPassword(password);
+        return this;
+    }
+    
+    public UserBuilder setRole(String role) {
+        this.user.setRole(role);
+        return this;
+    }
+    
+    public UserBuilder setUserData(int userData) {
+        this.user.setUserData(userData);
+        return this;
+    }
+    
+    public User getUser() {
+        return user;
+    }
+    
+}

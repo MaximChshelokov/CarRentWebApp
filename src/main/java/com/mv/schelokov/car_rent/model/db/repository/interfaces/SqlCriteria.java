@@ -1,4 +1,4 @@
-package com.mv.schelokov.car_rent.db.repository.interfaces;
+package com.mv.schelokov.car_rent.model.db.repository.interfaces;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
