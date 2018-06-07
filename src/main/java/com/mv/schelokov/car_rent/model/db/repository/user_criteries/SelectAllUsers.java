@@ -9,7 +9,7 @@ import java.sql.SQLException;
  */
 public class SelectAllUsers implements UserReadCriteria {
     
-    private static final String QUERY = "SELECT * FROM 'users'";
+    private static final String QUERY = "SELECT * FROM users";
 
     @Override
     public String toSqlQuery() {

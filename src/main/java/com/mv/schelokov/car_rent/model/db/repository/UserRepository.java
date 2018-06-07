@@ -7,9 +7,11 @@ import com.mv.schelokov.car_rent.model.db.repository.user_criteries.UserDeleteCr
 import com.mv.schelokov.car_rent.model.db.repository.user_criteries.UserReadCriteria;
 import com.mv.schelokov.car_rent.model.entities.User;
 import com.mv.schelokov.car_rent.model.entities.builders.UserBuilder;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 
 /**
  *
@@ -17,14 +19,18 @@ import java.sql.SQLException;
  */
 public class UserRepository extends AbstractSqlRepository<User> {
     
-    private static final String CREATE_QUERY = "INSERT INTO 'user' (user_id,"
-            + "user_data,login,password,role) VALUES (?,?,?,?,?)";
-    private static final String REMOVE_QUERY = "DELETE FROM 'user' WHERE"
+    private static final String CREATE_QUERY = "INSERT INTO users (user_data,"
+            + "login,password,role) VALUES (?,?,?,?)";
+    private static final String REMOVE_QUERY = "DELETE FROM users WHERE"
             + " user_id=?";
-    private static final String UPDATE_QUERY = "UPDATE 'user' SET user_data=?,"
+    private static final String UPDATE_QUERY = "UPDATE users SET user_data=?,"
             + "login=?,password=?,role=? WHERE user_id=?";
     
 
+    public UserRepository(Connection connection) {
+        super(connection);
+    }
+    
     @Override
     protected String getCreateQuery() {
         return CREATE_QUERY;
@@ -56,9 +62,10 @@ public class UserRepository extends AbstractSqlRepository<User> {
     protected void setStatement(PreparedStatement ps, User item, 
             boolean isUpdateStatement) throws SQLException {
         int i = 1;
-        if (!isUpdateStatement)
-            ps.setInt(i++, item.getId());
-        ps.setInt(i++, item.getUserData());
+        if (item.getUserData() == 0)
+            ps.setNull(i++, Types.INTEGER);
+        else
+            ps.setInt(i++, item.getUserData());
         ps.setString(i++, item.getLogin());
         ps.setString(i++, item.getPassword());
         ps.setInt(i++, item.getRole());

@@ -9,7 +9,7 @@ import java.sql.SQLException;
  */
 public class FindLoginPassword implements UserReadCriteria {
     
-    private static final String QUERY = "SELECT * FROM 'users' WHERE login=? "
+    private static final String QUERY = "SELECT * FROM users WHERE login=? "
             + "AND password=?";
     private final String login;
     private final String password;

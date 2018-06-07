@@ -17,7 +17,11 @@ import java.util.List;
  */
 public abstract class AbstractSqlRepository <T extends Entity> implements Repository <T> {
     
-    private Connection connection;
+    private final Connection connection;
+    
+    public AbstractSqlRepository(Connection connection) {
+        this.connection = connection;
+    }
 
     @Override
     public List<T> read(Criteria criteria) throws DbException {
@@ -31,6 +35,8 @@ public abstract class AbstractSqlRepository <T extends Entity> implements Reposi
                     while (rs.next()) {
                         result.add(createItem(rs));
                     }
+                } catch (SQLException ex) {
+                    throw new DbException ("Error while creating ResultSet", ex);
                 }
             } catch (SQLException ex) {
                 throw new DbException("Error while creating PreparedStatement", ex); // Change to constant
