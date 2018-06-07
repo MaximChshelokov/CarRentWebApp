@@ -49,7 +49,6 @@ public class UserRepository extends AbstractSqlRepository<User> {
     @Override
     protected User createItem(ResultSet rs) throws SQLException {
         return new UserBuilder()
-                .createUser()
                 .setId(rs.getInt(1))
                 .setUserData(rs.getInt(2))
                 .setLogin(rs.getString(3))

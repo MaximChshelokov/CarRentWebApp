@@ -1,6 +1,7 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
 import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
+import com.mv.schelokov.car_rent.model.db.repository.user_criteries.FindLogin;
 import com.mv.schelokov.car_rent.model.db.repository.user_criteries.FindLoginPassword;
 import com.mv.schelokov.car_rent.model.db.repository.user_criteries.SelectAllUsers;
 import com.mv.schelokov.car_rent.model.entities.User;
@@ -45,7 +46,7 @@ public class UserRepositoryTest {
     
     @Test
     public void createNewUser() throws DbException {
-        assertTrue(ur.add(new UserBuilder().createUser()
+        assertTrue(ur.add(new UserBuilder()
                 .setLogin("Dronchik")
                 .setPassword("228")
                 .setRole(2).getUser()));
@@ -65,7 +66,7 @@ public class UserRepositoryTest {
     
     @Test
     public void findAndUpdateUser() throws DbException {
-        List<User> ul = ur.read(new FindLoginPassword("Dronchik", "228"));
+        List<User> ul = ur.read(new FindLogin("Dronchik"));
         ul.get(0).setPassword(Integer.toString(Integer.parseInt(ul.get(0).getPassword()) + 1));
         assertTrue(ur.update(ul.get(0)));
     }

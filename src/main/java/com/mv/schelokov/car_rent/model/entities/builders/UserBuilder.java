@@ -10,9 +10,8 @@ public class UserBuilder {
     private User user;
 
     
-    public UserBuilder createUser() {
+    public UserBuilder() {
         this.user = new User();
-        return this;
     }
         
     public UserBuilder setId(int id) {
