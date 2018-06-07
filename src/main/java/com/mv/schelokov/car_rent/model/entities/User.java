@@ -12,7 +12,7 @@ public class User implements Entity {
     private int userData;
     private String login;
     private String password;
-    private String role;
+    private int role;
 
     /**
      * @return the id
@@ -71,28 +71,35 @@ public class User implements Entity {
         this.password = password;
     }
 
+    
+
+    @Override
+    public String toString() {
+        return "User{" + "id=" + id + ", userData=" + userData + ", login=" + login + ", password=" + password + ", role=" + role + '}';
+    }
+
     /**
      * @return the role
      */
-    public String getRole() {
+    public int getRole() {
         return role;
     }
 
     /**
      * @param role the role to set
      */
-    public void setRole(String role) {
+    public void setRole(int role) {
         this.role = role;
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 53 * hash + this.id;
-        hash = 53 * hash + this.userData;
-        hash = 53 * hash + Objects.hashCode(this.login);
-        hash = 53 * hash + Objects.hashCode(this.password);
-        hash = 53 * hash + Objects.hashCode(this.role);
+        int hash = 3;
+        hash = 11 * hash + this.id;
+        hash = 11 * hash + this.userData;
+        hash = 11 * hash + Objects.hashCode(this.login);
+        hash = 11 * hash + Objects.hashCode(this.password);
+        hash = 11 * hash + this.role;
         return hash;
     }
 
@@ -114,22 +121,16 @@ public class User implements Entity {
         if (this.userData != other.userData) {
             return false;
         }
+        if (this.role != other.role) {
+            return false;
+        }
         if (!Objects.equals(this.login, other.login)) {
             return false;
         }
         if (!Objects.equals(this.password, other.password)) {
             return false;
         }
-        if (!Objects.equals(this.role, other.role)) {
-            return false;
-        }
         return true;
     }
-
-    @Override
-    public String toString() {
-        return "User{" + "id=" + id + ", userData=" + userData + ", login=" + login + ", password=" + password + ", role=" + role + '}';
-    }
-    
     
 }

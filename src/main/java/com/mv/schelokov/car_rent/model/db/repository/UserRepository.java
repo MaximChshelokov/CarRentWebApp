@@ -3,6 +3,8 @@ package com.mv.schelokov.car_rent.model.db.repository;
 import com.mv.schelokov.car_rent.model.db.repository.exceptions.CriteriaMismatchException;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.AbstractSqlRepository;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.Criteria;
+import com.mv.schelokov.car_rent.model.db.repository.user_criteries.UserDeleteCriteria;
+import com.mv.schelokov.car_rent.model.db.repository.user_criteries.UserReadCriteria;
 import com.mv.schelokov.car_rent.model.entities.User;
 import com.mv.schelokov.car_rent.model.entities.builders.UserBuilder;
 import java.sql.PreparedStatement;
@@ -46,7 +48,7 @@ public class UserRepository extends AbstractSqlRepository<User> {
                 .setUserData(rs.getInt(2))
                 .setLogin(rs.getString(3))
                 .setPassword(rs.getString(4))
-                .setRole(rs.getString(5))
+                .setRole(rs.getInt(5))
                 .getUser();
     }
 
@@ -59,7 +61,7 @@ public class UserRepository extends AbstractSqlRepository<User> {
         ps.setInt(i++, item.getUserData());
         ps.setString(i++, item.getLogin());
         ps.setString(i++, item.getPassword());
-        ps.setString(i++, item.getRole());
+        ps.setInt(i++, item.getRole());
         if (isUpdateStatement)
             ps.setInt(i, item.getId());
     }
@@ -67,7 +69,12 @@ public class UserRepository extends AbstractSqlRepository<User> {
     @Override
     protected boolean checkCriteriaInstance(Criteria criteria, 
             boolean isDeleteCriteria) throws CriteriaMismatchException {
-        return true;
+        if (isDeleteCriteria) {
+            if (criteria instanceof UserDeleteCriteria)
+                return true;
+        } else if (criteria instanceof UserReadCriteria)
+            return true;
+        throw new CriteriaMismatchException();
     }
     
 }
