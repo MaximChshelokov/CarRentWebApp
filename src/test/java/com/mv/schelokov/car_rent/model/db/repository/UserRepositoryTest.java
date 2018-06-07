@@ -21,8 +21,8 @@ import static org.junit.Assert.*;
  */
 public class UserRepositoryTest {
     
-    Connection connection;
-    UserRepository ur;
+    private Connection connection;
+    private UserRepository ur;
     
     public UserRepositoryTest() {
     }
@@ -49,7 +49,7 @@ public class UserRepositoryTest {
         assertTrue(ur.add(new UserBuilder()
                 .setLogin("Dronchik")
                 .setPassword("228")
-                .setRole(2).getUser()));
+                .setRole("client").getUser()));
     }
     
     @Test

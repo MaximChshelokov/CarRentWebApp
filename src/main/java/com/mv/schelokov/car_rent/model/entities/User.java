@@ -12,7 +12,7 @@ public class User implements Entity {
     private int userData;
     private String login;
     private String password;
-    private int role;
+    private String role;
 
     /**
      * @return the id
@@ -81,25 +81,25 @@ public class User implements Entity {
     /**
      * @return the role
      */
-    public int getRole() {
+    public String getRole() {
         return role;
     }
 
     /**
      * @param role the role to set
      */
-    public void setRole(int role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 11 * hash + this.id;
-        hash = 11 * hash + this.userData;
-        hash = 11 * hash + Objects.hashCode(this.login);
-        hash = 11 * hash + Objects.hashCode(this.password);
-        hash = 11 * hash + this.role;
+        int hash = 7;
+        hash = 79 * hash + this.id;
+        hash = 79 * hash + this.userData;
+        hash = 79 * hash + Objects.hashCode(this.login);
+        hash = 79 * hash + Objects.hashCode(this.password);
+        hash = 79 * hash + Objects.hashCode(this.role);
         return hash;
     }
 
@@ -121,16 +121,18 @@ public class User implements Entity {
         if (this.userData != other.userData) {
             return false;
         }
-        if (this.role != other.role) {
-            return false;
-        }
         if (!Objects.equals(this.login, other.login)) {
             return false;
         }
         if (!Objects.equals(this.password, other.password)) {
             return false;
         }
+        if (!Objects.equals(this.role, other.role)) {
+            return false;
+        }
         return true;
     }
+
+
     
 }

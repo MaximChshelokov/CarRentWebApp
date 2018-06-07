@@ -20,11 +20,13 @@ import java.sql.Types;
 public class UserRepository extends AbstractSqlRepository<User> {
     
     private static final String CREATE_QUERY = "INSERT INTO users (user_data,"
-            + "login,password,role) VALUES (?,?,?,?)";
+            + "login,password,role) VALUES (?,?,?,(SELECT role_id FROM roles" 
+            + "	WHERE role_name=?))";
     private static final String REMOVE_QUERY = "DELETE FROM users WHERE"
             + " user_id=?";
     private static final String UPDATE_QUERY = "UPDATE users SET user_data=?,"
-            + "login=?,password=?,role=? WHERE user_id=?";
+            + "login=?,password=?,role=(SELECT role_id FROM roles" 
+            + "	WHERE role_name=?) WHERE user_id=?";
     
 
     public UserRepository(Connection connection) {
@@ -53,7 +55,7 @@ public class UserRepository extends AbstractSqlRepository<User> {
                 .setUserData(rs.getInt(2))
                 .setLogin(rs.getString(3))
                 .setPassword(rs.getString(4))
-                .setRole(rs.getInt(5))
+                .setRole(rs.getString(5))
                 .getUser();
     }
 
@@ -67,7 +69,7 @@ public class UserRepository extends AbstractSqlRepository<User> {
             ps.setInt(i++, item.getUserData());
         ps.setString(i++, item.getLogin());
         ps.setString(i++, item.getPassword());
-        ps.setInt(i++, item.getRole());
+        ps.setString(i++, item.getRole());
         if (isUpdateStatement)
             ps.setInt(i, item.getId());
     }

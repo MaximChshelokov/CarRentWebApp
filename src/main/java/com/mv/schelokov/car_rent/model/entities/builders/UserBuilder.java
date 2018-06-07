@@ -28,7 +28,7 @@ public class UserBuilder {
         return this;
     }
     
-    public UserBuilder setRole(int role) {
+    public UserBuilder setRole(String role) {
         this.user.setRole(role);
         return this;
     }
