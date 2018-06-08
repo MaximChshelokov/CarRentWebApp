@@ -9,7 +9,6 @@ import java.util.Objects;
  */
 public class User implements Entity {
     private int id;
-    private int userData;
     private String login;
     private String password;
     private String role;
@@ -27,20 +26,6 @@ public class User implements Entity {
      */
     public void setId(int id) {
         this.id = id;
-    }
-
-    /**
-     * @return the userData
-     */
-    public int getUserData() {
-        return userData;
-    }
-
-    /**
-     * @param userData the userData to set
-     */
-    public void setUserData(int userData) {
-        this.userData = userData;
     }
 
     /**
@@ -75,7 +60,7 @@ public class User implements Entity {
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", userData=" + userData + ", login=" + login + ", password=" + password + ", role=" + role + '}';
+        return "User{" + "id=" + id + ", login=" + login + ", password=" + password + ", role=" + role + '}';
     }
 
     /**
@@ -96,7 +81,6 @@ public class User implements Entity {
     public int hashCode() {
         int hash = 7;
         hash = 79 * hash + this.id;
-        hash = 79 * hash + this.userData;
         hash = 79 * hash + Objects.hashCode(this.login);
         hash = 79 * hash + Objects.hashCode(this.password);
         hash = 79 * hash + Objects.hashCode(this.role);
@@ -116,9 +100,6 @@ public class User implements Entity {
         }
         final User other = (User) obj;
         if (this.id != other.id) {
-            return false;
-        }
-        if (this.userData != other.userData) {
             return false;
         }
         if (!Objects.equals(this.login, other.login)) {

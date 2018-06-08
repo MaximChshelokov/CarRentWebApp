@@ -16,7 +16,7 @@ public class FindByUser implements UserDataReadCriteria {
     private final int userDataId;
     
     public FindByUser(User user) {
-        this.userDataId = user.getUserData();
+        this.userDataId = user.getId();
     }
     
     public FindByUser(int userDataId) {

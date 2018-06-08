@@ -33,11 +33,6 @@ public class UserBuilder {
         return this;
     }
     
-    public UserBuilder setUserData(int userData) {
-        this.user.setUserData(userData);
-        return this;
-    }
-    
     public User getUser() {
         return user;
     }

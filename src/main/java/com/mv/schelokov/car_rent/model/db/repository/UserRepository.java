@@ -19,13 +19,13 @@ import java.sql.Types;
  */
 public class UserRepository extends AbstractSqlRepository<User> {
     
-    private static final String CREATE_QUERY = "INSERT INTO users (user_data,"
-            + "login,password,role) VALUES (?,?,?,(SELECT role_id FROM roles" 
+    private static final String CREATE_QUERY = "INSERT INTO users (login,"
+            + "password,role) VALUES (?,?,(SELECT role_id FROM roles" 
             + "	WHERE role_name=?))";
     private static final String REMOVE_QUERY = "DELETE FROM users WHERE"
             + " user_id=?";
-    private static final String UPDATE_QUERY = "UPDATE users SET user_data=?,"
-            + "login=?,password=?,role=(SELECT role_id FROM roles" 
+    private static final String UPDATE_QUERY = "UPDATE users SET login=?,"
+            + "password=?,role=(SELECT role_id FROM roles" 
             + "	WHERE role_name=?) WHERE user_id=?";
     
 
@@ -52,10 +52,9 @@ public class UserRepository extends AbstractSqlRepository<User> {
     protected User createItem(ResultSet rs) throws SQLException {
         return new UserBuilder()
                 .setId(rs.getInt(1))
-                .setUserData(rs.getInt(2))
-                .setLogin(rs.getString(3))
-                .setPassword(rs.getString(4))
-                .setRole(rs.getString(5))
+                .setLogin(rs.getString(2))
+                .setPassword(rs.getString(3))
+                .setRole(rs.getString(4))
                 .getUser();
     }
 
@@ -63,10 +62,6 @@ public class UserRepository extends AbstractSqlRepository<User> {
     protected void setStatement(PreparedStatement ps, User item, 
             boolean isUpdateStatement) throws SQLException {
         int i = 1;
-        if (item.getUserData() == 0)
-            ps.setNull(i++, Types.INTEGER);
-        else
-            ps.setInt(i++, item.getUserData());
         ps.setString(i++, item.getLogin());
         ps.setString(i++, item.getPassword());
         ps.setString(i++, item.getRole());

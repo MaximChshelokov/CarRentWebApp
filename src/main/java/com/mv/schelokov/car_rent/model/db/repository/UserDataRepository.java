@@ -18,12 +18,12 @@ import java.sql.SQLException;
  */
 public class UserDataRepository extends AbstractSqlRepository<UserData> {
     
-    private static final String CREATE_QUERY = "INSERT INTO users_data (name,"
-            + "address,phone) VALUES (?,?,?)";
+    private static final String CREATE_QUERY = "INSERT INTO users_data ("
+            + "userdata_id,name,address,phone) VALUES (?,?,?,?)";
     private static final String REMOVE_QUERY = "DELETE FROM users_data WHERE"
             + " userdata_id=?";
-    private static final String UPDATE_QUERY = "UPDATE users_data SET name=?,"
-            + "address=?,phone=? WHERE userdata_id=?";
+    private static final String UPDATE_QUERY = "UPDATE users_data SET "
+            + "name=?,address=?,phone=? WHERE userdata_id=?";
     
     public UserDataRepository(Connection connection) {
         super(connection);
@@ -57,6 +57,8 @@ public class UserDataRepository extends AbstractSqlRepository<UserData> {
     @Override
     protected void setStatement(PreparedStatement ps, UserData item, boolean isUpdateStatement) throws SQLException {
         int i = 1;
+        if (!isUpdateStatement)
+            ps.setInt(i++, item.getId());
         ps.setString(i++, item.getName());
         ps.setString(i++, item.getAddress());
         ps.setString(i++, item.getPhone());

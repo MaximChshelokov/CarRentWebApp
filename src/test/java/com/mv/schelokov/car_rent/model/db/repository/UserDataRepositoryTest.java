@@ -41,22 +41,23 @@ public class UserDataRepositoryTest {
     @Test
     public void createNewUserData() throws DbException {
         assertTrue(udr.add(new UserDataBuilder()
-        .setName("Эдуард Робертович Михтельштейн")
-        .setAddress("ул. Победы, д. 22, кв 50")
-        .setPhone("+77087653492")
-        .getUserData()));
+                .setId(19)
+                .setName("Эдуард Робертович Михтельштейн")
+                .setAddress("ул. Победы, д. 22, кв 50")
+                .setPhone("+77087653492")
+                .getUserData()));
     }
     
     @Test
     public void findByUserEntity() throws DbException {
-        User user = new UserBuilder().setUserData(4).getUser();
+        User user = new UserBuilder().setId(4).getUser();
         List<UserData> udl = udr.read(new FindByUser(user));
         assertEquals(1, udl.size());
     }
     
     @Test
     public void findAndDeleteById() throws DbException {
-        List<UserData> udl = udr.read(new FindByUser(6));
+        List<UserData> udl = udr.read(new FindByUser(19));
         assertTrue(udr.remove(udl.get(0)));
     }
     
