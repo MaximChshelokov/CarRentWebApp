@@ -1,4 +1,4 @@
-package com.mv.schelokov.car_rent.model.db.repository.user_criteries;
+package com.mv.schelokov.car_rent.model.db.repository.user_criteria.interfaces;
 
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.SqlCriteria;
 

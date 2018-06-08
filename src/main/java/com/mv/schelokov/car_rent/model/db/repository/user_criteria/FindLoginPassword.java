@@ -1,5 +1,6 @@
-package com.mv.schelokov.car_rent.model.db.repository.user_criteries;
+package com.mv.schelokov.car_rent.model.db.repository.user_criteria;
 
+import com.mv.schelokov.car_rent.model.db.repository.user_criteria.interfaces.UserReadCriteria;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -7,14 +8,17 @@ import java.sql.SQLException;
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
-public class FindLogin implements UserReadCriteria {
+public class FindLoginPassword implements UserReadCriteria {
+    
     private static final String QUERY = "SELECT user_id,user_data,login,"
             + "password,role_name FROM users LEFT JOIN roles ON role=role_id "
-            + "WHERE login=?";
+            + "WHERE login=? AND password=?";
     private final String login;
+    private final String password;
     
-    public FindLogin(String login) {
+    public FindLoginPassword(String login, String password) {
         this.login = login;
+        this.password = password;
     }
 
     @Override
@@ -25,5 +29,7 @@ public class FindLogin implements UserReadCriteria {
     @Override
     public void setStatement(PreparedStatement ps) throws SQLException {
         ps.setString(1, login);
+        ps.setString(2, password);
     }
+    
 }
