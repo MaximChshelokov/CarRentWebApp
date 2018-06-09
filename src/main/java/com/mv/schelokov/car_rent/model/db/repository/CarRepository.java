@@ -7,6 +7,8 @@ import com.mv.schelokov.car_rent.model.db.repository.interfaces.AbstractSqlRepos
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.Criteria;
 import com.mv.schelokov.car_rent.model.entities.Car;
 import com.mv.schelokov.car_rent.model.entities.builders.CarBuilder;
+import com.mv.schelokov.car_rent.model.entities.builders.MakeBuilder;
+import com.mv.schelokov.car_rent.model.entities.builders.ModelBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -48,10 +50,17 @@ public class CarRepository extends AbstractSqlRepository<Car> {
     protected Car createItem(ResultSet rs) throws SQLException {
         return new CarBuilder()
                 .setId(rs.getInt(1))
-                .setModel(rs.getInt(2))
-                .setLicensePlate(rs.getString(3))
-                .setYearOfMake(rs.getInt(4))
-                .setPrice(rs.getInt(5))
+                .setLicensePlate(rs.getString(2))
+                .setYearOfMake(rs.getInt(3))
+                .setPrice(rs.getInt(4))
+                .setModel(new ModelBuilder()
+                        .setId(rs.getInt(5))
+                        .setName(rs.getString(6))
+                        .setMake(new MakeBuilder()
+                                .setId(rs.getInt(7))
+                                .setName(rs.getString(8))
+                                .getMake())
+                        .getModel())
                 .getCar();
     }
 
@@ -59,7 +68,7 @@ public class CarRepository extends AbstractSqlRepository<Car> {
     protected void setStatement(PreparedStatement ps, Car item, 
             boolean isUpdateStatement) throws SQLException {
         int i = 1;
-        ps.setInt(i++, item.getModel());
+        ps.setInt(i++, item.getModel().getId());
         ps.setString(i++, item.getLicensePlate());
         ps.setInt(i++, item.getYearOfMake());
         ps.setInt(i++, item.getPrice());

@@ -9,7 +9,7 @@ import java.util.Objects;
  */
 public class Car implements Entity {
     private int id;
-    private int model;
+    private Model model;
     private int yearOfMake;
     private int price;
     private String licensePlate;
@@ -26,20 +26,6 @@ public class Car implements Entity {
      */
     public void setId(int id) {
         this.id = id;
-    }
-
-    /**
-     * @return the model
-     */
-    public int getModel() {
-        return model;
-    }
-
-    /**
-     * @param model the model to set
-     */
-    public void setModel(int model) {
-        this.model = model;
     }
 
     /**
@@ -85,13 +71,32 @@ public class Car implements Entity {
     }
 
     @Override
+    public String toString() {
+        return "Car{" + "id=" + id + ", model=" + model + ", yearOfMake=" + yearOfMake + ", price=" + price + ", licensePlate=" + licensePlate + '}';
+    }
+
+    /**
+     * @return the model
+     */
+    public Model getModel() {
+        return model;
+    }
+
+    /**
+     * @param model the model to set
+     */
+    public void setModel(Model model) {
+        this.model = model;
+    }
+
+    @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 59 * hash + this.id;
-        hash = 59 * hash + this.model;
-        hash = 59 * hash + this.yearOfMake;
-        hash = 59 * hash + this.price;
-        hash = 59 * hash + Objects.hashCode(this.licensePlate);
+        int hash = 5;
+        hash = 29 * hash + this.id;
+        hash = 29 * hash + Objects.hashCode(this.model);
+        hash = 29 * hash + this.yearOfMake;
+        hash = 29 * hash + this.price;
+        hash = 29 * hash + Objects.hashCode(this.licensePlate);
         return hash;
     }
 
@@ -110,9 +115,6 @@ public class Car implements Entity {
         if (this.id != other.id) {
             return false;
         }
-        if (this.model != other.model) {
-            return false;
-        }
         if (this.yearOfMake != other.yearOfMake) {
             return false;
         }
@@ -122,12 +124,10 @@ public class Car implements Entity {
         if (!Objects.equals(this.licensePlate, other.licensePlate)) {
             return false;
         }
+        if (!Objects.equals(this.model, other.model)) {
+            return false;
+        }
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "Car{" + "id=" + id + ", model=" + model + ", yearOfMake=" + yearOfMake + ", price=" + price + ", licensePlate=" + licensePlate + '}';
-    }
-    
 }
