@@ -9,9 +9,9 @@ import java.sql.SQLException;
  */
 public class SelectAllCars implements CarReadCriteria {
     
-    private static final String QUERY = "SELECT c.car_id,c.license_plate,"
-            + "c.year_of_make,c.price,c.model,m.name,m.make,k.name FROM cars "
-            + "AS c LEFT JOIN models AS m ON model = model_id LEFT JOIN makes "
+    private static final String QUERY = "SELECT car_id,license_plate,"
+            + "year_of_make,price,model,m.name,m.make,k.name FROM cars "
+            + "LEFT JOIN models AS m ON model = model_id LEFT JOIN makes "
             + "AS k ON model = model_id";
 
     @Override
