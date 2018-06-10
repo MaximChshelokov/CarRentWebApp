@@ -1,7 +1,7 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
 import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
-import com.mv.schelokov.car_rent.model.db.repository.user_data_criteria.FindByUser;
+import com.mv.schelokov.car_rent.model.db.repository.criteria.user_data.FindByUser;
 import com.mv.schelokov.car_rent.model.entities.User;
 import com.mv.schelokov.car_rent.model.entities.UserData;
 import com.mv.schelokov.car_rent.model.entities.builders.UserBuilder;

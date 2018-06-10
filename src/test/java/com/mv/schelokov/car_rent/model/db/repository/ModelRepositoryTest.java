@@ -1,9 +1,10 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
+import com.mv.schelokov.car_rent.model.db.repository.criteria.model.SelectAllModels;
 import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
-import com.mv.schelokov.car_rent.model.db.repository.criteria.make.SelectAllMake;
-import com.mv.schelokov.car_rent.model.entities.Make;
+import com.mv.schelokov.car_rent.model.entities.Model;
 import com.mv.schelokov.car_rent.model.entities.builders.MakeBuilder;
+import com.mv.schelokov.car_rent.model.entities.builders.ModelBuilder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -17,12 +18,12 @@ import static org.junit.Assert.*;
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
-public class MakeRepositoryTest {
+public class ModelRepositoryTest {
     
     private Connection connection;
-    private MakeRepository mr;
+    private ModelRepository mr;
     
-    public MakeRepositoryTest() {
+    public ModelRepositoryTest() {
     }
     
     @Before
@@ -33,31 +34,34 @@ public class MakeRepositoryTest {
                 "jdbc:mysql://localhost/car_rent_test?autoReconnect=true"
                         + "&useSSL=false&characterEncoding=utf-8",
                 "car_rent_app", "Un3L41NoewVA");
-        mr = new MakeRepository(connection);
+        mr = new ModelRepository(connection);
     }
     
     @After
     public void tearDown() throws SQLException {
         connection.close();
     }
-    
+
     @Test
-    public void createNewMake() throws DbException {
-        assertTrue(mr.add(new MakeBuilder()
-                .setName("Shkoda")
-                .getMake()));
+    public void createNewModel() throws DbException {
+        assertTrue(mr.add(new ModelBuilder()
+                .setName("Corola")
+                .setMake(new MakeBuilder()
+                        .setId(1)
+                        .getMake())
+                .getModel()));
     }
     
     @Test
-    public void selectAllAndUpdateMake() throws DbException {
-        Make mk = mr.read(new SelectAllMake()).get(0);
-        mk.setName(mk.getName() + "ta");
-        assertTrue(mr.update(mk));
+    public void selectAllModelAndUpdateOne() throws DbException {
+        Model model = mr.read(new SelectAllModels()).get(2);
+        model.setName(model.getName() + "la");
+        assertTrue(mr.update(model));
     }
     
     @Test
-    public void deleteLastMake() throws DbException {
-        List<Make> ml = mr.read(new SelectAllMake());
+    public void selectAllAndDeleteLast() throws DbException {
+        List<Model> ml = mr.read(new SelectAllModels());
         assertTrue(mr.remove(ml.get(ml.size()-1)));
     }
     

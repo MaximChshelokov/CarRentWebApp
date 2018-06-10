@@ -1,6 +1,6 @@
-package com.mv.schelokov.car_rent.model.db.repository.user_data_criteria;
+package com.mv.schelokov.car_rent.model.db.repository.criteria.user_data;
 
-import com.mv.schelokov.car_rent.model.db.repository.user_data_criteria.interfaces.UserDataReadCriteria;
+import com.mv.schelokov.car_rent.model.db.repository.criteria.user_data.interfaces.UserDataReadCriteria;
 import com.mv.schelokov.car_rent.model.entities.User;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

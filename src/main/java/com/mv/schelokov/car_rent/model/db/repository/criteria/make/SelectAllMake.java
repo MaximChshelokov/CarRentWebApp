@@ -1,4 +1,4 @@
-package com.mv.schelokov.car_rent.model.db.repository.make_criteria;
+package com.mv.schelokov.car_rent.model.db.repository.criteria.make;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

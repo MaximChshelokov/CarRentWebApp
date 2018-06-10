@@ -1,9 +1,9 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
 import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
-import com.mv.schelokov.car_rent.model.db.repository.user_criteria.FindLogin;
-import com.mv.schelokov.car_rent.model.db.repository.user_criteria.FindLoginPassword;
-import com.mv.schelokov.car_rent.model.db.repository.user_criteria.SelectAllUsers;
+import com.mv.schelokov.car_rent.model.db.repository.criteria.user.FindLogin;
+import com.mv.schelokov.car_rent.model.db.repository.criteria.user.FindLoginPassword;
+import com.mv.schelokov.car_rent.model.db.repository.criteria.user.SelectAllUsers;
 import com.mv.schelokov.car_rent.model.entities.User;
 import com.mv.schelokov.car_rent.model.entities.builders.UserBuilder;
 import java.sql.Connection;

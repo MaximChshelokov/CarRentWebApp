@@ -1,7 +1,7 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
-import com.mv.schelokov.car_rent.model.db.repository.car_criteria.FindCarById;
-import com.mv.schelokov.car_rent.model.db.repository.car_criteria.SelectAllCars;
+import com.mv.schelokov.car_rent.model.db.repository.criteria.car.FindCarById;
+import com.mv.schelokov.car_rent.model.db.repository.criteria.car.SelectAllCars;
 import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
 import com.mv.schelokov.car_rent.model.entities.Car;
 import com.mv.schelokov.car_rent.model.entities.builders.CarBuilder;

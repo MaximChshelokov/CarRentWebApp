@@ -1,4 +1,4 @@
-package com.mv.schelokov.car_rent.model.db.repository.user_criteria.interfaces;
+package com.mv.schelokov.car_rent.model.db.repository.criteria.model;
 
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.SqlCriteria;
 
@@ -6,6 +6,6 @@ import com.mv.schelokov.car_rent.model.db.repository.interfaces.SqlCriteria;
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
-public interface UserDeleteCriteria extends SqlCriteria {
+public interface ModelDeleteCriteria extends SqlCriteria {
     
 }

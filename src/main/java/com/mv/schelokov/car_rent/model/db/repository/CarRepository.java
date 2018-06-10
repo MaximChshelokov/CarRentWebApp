@@ -1,7 +1,7 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
-import com.mv.schelokov.car_rent.model.db.repository.car_criteria.CarDeleteCriteria;
-import com.mv.schelokov.car_rent.model.db.repository.car_criteria.CarReadCriteria;
+import com.mv.schelokov.car_rent.model.db.repository.criteria.car.CarDeleteCriteria;
+import com.mv.schelokov.car_rent.model.db.repository.criteria.car.CarReadCriteria;
 import com.mv.schelokov.car_rent.model.db.repository.exceptions.CriteriaMismatchException;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.AbstractSqlRepository;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.Criteria;
