@@ -27,6 +27,23 @@ public class CarRepository extends AbstractSqlRepository<Car> {
     private static final String UPDATE_QUERY = "UPDATE cars SET model=?,"
             + "license_plate=?,year_of_make=?,price=? WHERE car_id=?";
     
+    /**
+     * The Field enum has column names for read methods and number of column for
+     * the update method and the add method (in the NUMBER attribute)
+     */
+    enum Fields {
+        CAR_ID(5), LICENSE_PLATE(2), YEAR_OF_MAKE(3), PRICE(4), MODEL(1), NAME, 
+        MAKE, MAKE_NAME;
+        
+        int NUMBER;
+        
+        Fields(int number) {
+            this.NUMBER = number;
+        }
+        Fields() {
+        }
+    }
+    
     public CarRepository(Connection connection) {
         super(connection);
     }
@@ -49,16 +66,16 @@ public class CarRepository extends AbstractSqlRepository<Car> {
     @Override
     protected Car createItem(ResultSet rs) throws SQLException {
         return new CarBuilder()
-                .setId(rs.getInt(1))
-                .setLicensePlate(rs.getString(2))
-                .setYearOfMake(rs.getInt(3))
-                .setPrice(rs.getInt(4))
+                .setId(rs.getInt(Fields.CAR_ID.name()))
+                .setLicensePlate(rs.getString(Fields.LICENSE_PLATE.name()))
+                .setYearOfMake(rs.getInt(Fields.YEAR_OF_MAKE.name()))
+                .setPrice(rs.getInt(Fields.PRICE.name()))
                 .setModel(new ModelBuilder()
-                        .setId(rs.getInt(5))
-                        .setName(rs.getString(6))
+                        .setId(rs.getInt(Fields.MODEL.name()))
+                        .setName(rs.getString(Fields.NAME.name()))
                         .setMake(new MakeBuilder()
-                                .setId(rs.getInt(7))
-                                .setName(rs.getString(8))
+                                .setId(rs.getInt(Fields.MAKE.name()))
+                                .setName(rs.getString(Fields.MAKE_NAME.name()))
                                 .getMake())
                         .getModel())
                 .getCar();
@@ -67,13 +84,12 @@ public class CarRepository extends AbstractSqlRepository<Car> {
     @Override
     protected void setStatement(PreparedStatement ps, Car item, 
             boolean isUpdateStatement) throws SQLException {
-        int i = 1;
-        ps.setInt(i++, item.getModel().getId());
-        ps.setString(i++, item.getLicensePlate());
-        ps.setInt(i++, item.getYearOfMake());
-        ps.setInt(i++, item.getPrice());
+        ps.setInt(Fields.MODEL.NUMBER, item.getModel().getId());
+        ps.setString(Fields.LICENSE_PLATE.NUMBER, item.getLicensePlate());
+        ps.setInt(Fields.YEAR_OF_MAKE.NUMBER, item.getYearOfMake());
+        ps.setInt(Fields.PRICE.NUMBER, item.getPrice());
         if (isUpdateStatement)
-            ps.setInt(i, item.getId());
+            ps.setInt(Fields.CAR_ID.NUMBER, item.getId());
     }
 
     @Override

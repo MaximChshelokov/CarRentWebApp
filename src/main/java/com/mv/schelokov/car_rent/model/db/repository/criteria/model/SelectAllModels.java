@@ -9,8 +9,8 @@ import java.sql.SQLException;
  */
 public class SelectAllModels implements ModelReadCriteria {
     
-    private static final String QUERY = "SELECT model_id,m.name,make,k.name "
-            + "FROM models AS m LEFT JOIN makes AS k ON make=make_id";
+    private static final String QUERY = "SELECT model_id,name,make,make_name "
+            + "FROM models_full";
 
     @Override
     public String toSqlQuery() {

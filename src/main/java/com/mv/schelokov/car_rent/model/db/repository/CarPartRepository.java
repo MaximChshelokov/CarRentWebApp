@@ -25,6 +25,20 @@ public class CarPartRepository extends AbstractSqlRepository<CarPart> {
     private static final String UPDATE_QUERY = "UPDATE car_parts SET name=? "
             + "WHERE part_id=?";
     
+    /**
+     * The Field enum has column names for read methods and number of column for
+     * the update method and the add method (in the NUMBER attribute)
+     */
+    enum Fields {
+        PART_ID(2), NAME(1);
+        
+        int NUMBER;
+        
+        Fields(int number) {
+            this.NUMBER = number;
+        }
+    }
+    
 
     public CarPartRepository(Connection connection) {
         super(connection);
@@ -48,17 +62,17 @@ public class CarPartRepository extends AbstractSqlRepository<CarPart> {
     @Override
     protected CarPart createItem(ResultSet rs) throws SQLException {
         return new CarPartBuilder()
-                .setId(rs.getInt(1))
-                .setName(rs.getString(2))
+                .setId(rs.getInt(Fields.PART_ID.name()))
+                .setName(rs.getString(Fields.NAME.name()))
                 .getCarPart();
     }
 
     @Override
     protected void setStatement(PreparedStatement ps, CarPart item, 
             boolean isUpdateStatement) throws SQLException {
-        ps.setString(1, item.getName());
+        ps.setString(Fields.NAME.NUMBER, item.getName());
         if (isUpdateStatement)
-            ps.setInt(2, item.getId());
+            ps.setInt(Fields.PART_ID.NUMBER, item.getId());
     }
 
     @Override

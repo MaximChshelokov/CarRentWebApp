@@ -1,13 +1,15 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.mv.schelokov.car_rent.model.db.repository;
 
+import com.mv.schelokov.car_rent.model.db.repository.criteria.rent_order.SelectAllRentOrders;
 import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
-import com.mv.schelokov.car_rent.model.db.repository.criteria.make.SelectAllMake;
-import com.mv.schelokov.car_rent.model.entities.Make;
-import com.mv.schelokov.car_rent.model.entities.builders.MakeBuilder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,12 +19,13 @@ import static org.junit.Assert.*;
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
-public class MakeRepositoryTest {
+public class RentOrderRepositoryTest {
     
     private Connection connection;
-    private MakeRepository mr;
+    private RentOrderRepository ror;
+
     
-    public MakeRepositoryTest() {
+    public RentOrderRepositoryTest() {
     }
     
     @Before
@@ -33,32 +36,17 @@ public class MakeRepositoryTest {
                 "jdbc:mysql://localhost/car_rent_test?autoReconnect=true"
                         + "&useSSL=false&characterEncoding=utf-8",
                 "car_rent_app", "Un3L41NoewVA");
-        mr = new MakeRepository(connection);
+        ror = new RentOrderRepository(connection);
     }
     
     @After
     public void tearDown() throws SQLException {
         connection.close();
     }
-    
+
     @Test
-    public void createNewMake() throws DbException {
-        assertTrue(mr.add(new MakeBuilder()
-                .setName("Shkoda")
-                .getMake()));
-    }
-    
-    @Test
-    public void selectAllAndUpdateMake() throws DbException {
-        Make mk = mr.read(new SelectAllMake()).get(0);
-        mk.setName(mk.getName() + "ta");
-        assertTrue(mr.update(mk));
-    }
-    
-    @Test
-    public void deleteLastMake() throws DbException {
-        List<Make> ml = mr.read(new SelectAllMake());
-        assertTrue(mr.remove(ml.get(ml.size()-1)));
+    public void findAllRentOrders() throws DbException {
+        assertEquals(1,ror.read(new SelectAllRentOrders()).size());
     }
     
 }

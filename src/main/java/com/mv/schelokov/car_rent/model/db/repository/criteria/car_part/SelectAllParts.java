@@ -9,7 +9,7 @@ import java.sql.SQLException;
  */
 public class SelectAllParts implements CarPartReadCriteria {
     
-    private static final String QUERY = "SELECT * FROM car_parts";
+    private static final String QUERY = "SELECT part_id, name FROM car_parts";
 
     @Override
     public String toSqlQuery() {

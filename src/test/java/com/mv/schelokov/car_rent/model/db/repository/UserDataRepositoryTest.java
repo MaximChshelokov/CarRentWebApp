@@ -30,7 +30,7 @@ public class UserDataRepositoryTest {
     @Before
     public void setUp() throws ClassNotFoundException, 
             InstantiationException, IllegalAccessException, SQLException {
-        Class.forName("com.mysql.jdbc.Driver").newInstance();
+        Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
         connection = DriverManager.getConnection(
                 "jdbc:mysql://localhost/car_rent_test?autoReconnect=true"
                         + "&useSSL=false&characterEncoding=utf-8",
@@ -53,6 +53,13 @@ public class UserDataRepositoryTest {
         User user = new UserBuilder().setId(4).getUser();
         List<UserData> udl = udr.read(new FindByUser(user));
         assertEquals(1, udl.size());
+    }
+    
+    @Test
+    public void findAndUpdate() throws DbException {
+        UserData ud = udr.read(new FindByUser(3)).get(0);
+        ud.setPhone(Long.toString(Long.parseLong(ud.getPhone()) - 1L));
+        assertTrue(udr.update(ud));        
     }
     
     @Test

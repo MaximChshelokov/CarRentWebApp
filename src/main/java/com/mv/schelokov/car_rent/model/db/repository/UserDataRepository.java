@@ -25,6 +25,22 @@ public class UserDataRepository extends AbstractSqlRepository<UserData> {
     private static final String UPDATE_QUERY = "UPDATE users_data SET "
             + "name=?,address=?,phone=? WHERE userdata_id=?";
     
+    /**
+     * The Field enum has column names for read methods and number of column for
+     * the update method and the add method (in the UPDATE attribute and the 
+     * INSERT attribute)
+     */
+    enum Fields {
+        USERDATA_ID(1, 4), NAME(2, 1), ADDRESS(3, 2), PHONE(4, 3);
+        
+        int INSERT, UPDATE;
+        
+        Fields(int insert, int update) {
+            this.INSERT = insert;
+            this.UPDATE = update;
+        }
+    }
+    
     public UserDataRepository(Connection connection) {
         super(connection);
     }
@@ -47,23 +63,26 @@ public class UserDataRepository extends AbstractSqlRepository<UserData> {
     @Override
     protected UserData createItem(ResultSet rs) throws SQLException {
         return new UserDataBuilder()
-                .setId(rs.getInt(1))
-                .setName(rs.getString(2))
-                .setAddress(rs.getString(3))
-                .setPhone(rs.getString(4))
+                .setId(rs.getInt(Fields.USERDATA_ID.name()))
+                .setName(rs.getString(Fields.NAME.name()))
+                .setAddress(rs.getString(Fields.ADDRESS.name()))
+                .setPhone(rs.getString(Fields.PHONE.name()))
                 .getUserData();
     }
 
     @Override
     protected void setStatement(PreparedStatement ps, UserData item, boolean isUpdateStatement) throws SQLException {
-        int i = 1;
-        if (!isUpdateStatement)
-            ps.setInt(i++, item.getId());
-        ps.setString(i++, item.getName());
-        ps.setString(i++, item.getAddress());
-        ps.setString(i++, item.getPhone());
-        if (isUpdateStatement)
-            ps.setInt(i, item.getId());
+        if (isUpdateStatement) {
+            ps.setInt(Fields.USERDATA_ID.UPDATE, item.getId());
+            ps.setString(Fields.NAME.UPDATE, item.getName());
+            ps.setString(Fields.ADDRESS.UPDATE, item.getAddress());
+            ps.setString(Fields.PHONE.UPDATE, item.getPhone());
+        } else {
+            ps.setInt(Fields.USERDATA_ID.INSERT, item.getId());
+            ps.setString(Fields.NAME.INSERT, item.getName());
+            ps.setString(Fields.ADDRESS.INSERT, item.getAddress());
+            ps.setString(Fields.PHONE.INSERT, item.getPhone());          
+        }
     }
 
     @Override

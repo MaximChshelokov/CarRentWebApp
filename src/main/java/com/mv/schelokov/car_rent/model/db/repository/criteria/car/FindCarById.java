@@ -10,9 +10,8 @@ import java.sql.SQLException;
 public class FindCarById implements CarReadCriteria {
     
     private static final String QUERY = "SELECT car_id,license_plate,"
-            + "year_of_make,price,model,m.name,m.make,k.name FROM cars "
-            + "LEFT JOIN models AS m ON model = model_id LEFT JOIN makes "
-            + "AS k ON model = model_id WHERE car_id=?";
+            + "year_of_make,price,model,name,make,make_name FROM cars_full "
+            + "WHERE car_id=?";
     
     private final int id;
     

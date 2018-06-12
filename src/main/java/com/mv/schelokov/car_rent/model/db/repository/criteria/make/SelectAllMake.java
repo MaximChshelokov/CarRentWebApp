@@ -9,7 +9,7 @@ import java.sql.SQLException;
  */
 public class SelectAllMake implements MakeReadCriteria {
     
-    private static final String QUERY = "SELECT * FROM makes";
+    private static final String QUERY = "SELECT make_id,name FROM makes";
 
     @Override
     public String toSqlQuery() {

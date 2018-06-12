@@ -25,6 +25,23 @@ public class ModelRepository extends AbstractSqlRepository<Model> {
             + " model_id=?";
     private static final String UPDATE_QUERY = "UPDATE models SET name=?,"
             + "make=? WHERE model_id=?";
+    
+    /**
+     * The Field enum has column names for read methods and number of column for
+     * the update method and the add method (in the NUMBER attribute)
+     */
+    enum Fields {
+        MODEL_ID(3), NAME(1), MAKE(2), MAKE_NAME;
+        
+        int NUMBER;
+        
+        Fields(int number) {
+            this.NUMBER = number;
+        }
+        
+        Fields() {
+        }
+    }
 
     public ModelRepository(Connection connection) {
         super(connection);
@@ -48,11 +65,11 @@ public class ModelRepository extends AbstractSqlRepository<Model> {
     @Override
     protected Model createItem(ResultSet rs) throws SQLException {
         return new ModelBuilder()
-                .setId(rs.getInt(1))
-                .setName(rs.getString(2))
+                .setId(rs.getInt(Fields.MODEL_ID.name()))
+                .setName(rs.getString(Fields.NAME.name()))
                 .setMake(new MakeBuilder()
-                        .setId(rs.getInt(3))
-                        .setName(rs.getString(4))
+                        .setId(rs.getInt(Fields.MAKE.name()))
+                        .setName(rs.getString(Fields.MAKE_NAME.name()))
                         .getMake())
                 .getModel();
     }
@@ -60,10 +77,10 @@ public class ModelRepository extends AbstractSqlRepository<Model> {
     @Override
     protected void setStatement(PreparedStatement ps, Model item,
             boolean isUpdateStatement) throws SQLException {
-        ps.setString(1, item.getName());
-        ps.setInt(2, item.getMake().getId());
+        ps.setString(Fields.NAME.NUMBER, item.getName());
+        ps.setInt(Fields.MAKE.NUMBER, item.getMake().getId());
         if (isUpdateStatement) {
-            ps.setInt(3, item.getId());
+            ps.setInt(Fields.MODEL_ID.NUMBER, item.getId());
         }
     }
 

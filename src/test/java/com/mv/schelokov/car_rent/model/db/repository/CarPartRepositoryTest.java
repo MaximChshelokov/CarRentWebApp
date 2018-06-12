@@ -28,7 +28,7 @@ public class CarPartRepositoryTest {
     @Before
     public void setUp() throws ClassNotFoundException, 
             InstantiationException, IllegalAccessException, SQLException {
-        Class.forName("com.mysql.jdbc.Driver").newInstance();
+        Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
         connection = DriverManager.getConnection(
                 "jdbc:mysql://localhost/car_rent_test?autoReconnect=true"
                         + "&useSSL=false&characterEncoding=utf-8",

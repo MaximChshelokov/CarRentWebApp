@@ -25,6 +25,19 @@ public class MakeRepository extends AbstractSqlRepository<Make> {
     private static final String UPDATE_QUERY = "UPDATE makes SET name=? "
             + "WHERE make_id=?";
     
+    /**
+     * The Field enum has column names for read methods and number of column for
+     * the update method and the add method (in the NUMBER attribute)
+     */
+    enum Fields {
+        MAKE_ID(2), NAME(1);
+        
+        int NUMBER;
+        
+        Fields(int number) {
+            this.NUMBER = number;
+        }
+    }
 
     public MakeRepository(Connection connection) {
         super(connection);
@@ -48,17 +61,17 @@ public class MakeRepository extends AbstractSqlRepository<Make> {
     @Override
     protected Make createItem(ResultSet rs) throws SQLException {
         return new MakeBuilder()
-                .setId(rs.getInt(1))
-                .setName(rs.getString(2))
+                .setId(rs.getInt(Fields.MAKE_ID.name()))
+                .setName(rs.getString(Fields.NAME.name()))
                 .getMake();
     }
 
     @Override
     protected void setStatement(PreparedStatement ps, Make item, 
             boolean isUpdateStatement) throws SQLException {
-        ps.setString(1, item.getName());
+        ps.setString(Fields.NAME.NUMBER, item.getName());
         if (isUpdateStatement)
-            ps.setInt(2, item.getId());
+            ps.setInt(Fields.MAKE_ID.NUMBER, item.getId());
     }
 
     @Override
