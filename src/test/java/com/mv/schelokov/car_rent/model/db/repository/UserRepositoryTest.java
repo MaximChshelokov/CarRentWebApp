@@ -5,6 +5,7 @@ import com.mv.schelokov.car_rent.model.db.repository.criteria.user.FindLogin;
 import com.mv.schelokov.car_rent.model.db.repository.criteria.user.FindLoginPassword;
 import com.mv.schelokov.car_rent.model.db.repository.criteria.user.SelectAllUsers;
 import com.mv.schelokov.car_rent.model.entities.User;
+import com.mv.schelokov.car_rent.model.entities.builders.RoleBuilder;
 import com.mv.schelokov.car_rent.model.entities.builders.UserBuilder;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -50,7 +51,9 @@ public class UserRepositoryTest {
         assertTrue(ur.add(new UserBuilder()
                 .setLogin("Dronchik")
                 .setPassword("228")
-                .setRole("client").getUser()));
+                .setRole(new RoleBuilder()
+                        .setId(2)
+                        .getRole()).getUser()));
     }
     
     @Test
@@ -66,10 +69,10 @@ public class UserRepositoryTest {
     }
     
     @Test
-    public void findAndUpdateUser() throws DbException {
-        List<User> ul = ur.read(new FindLogin("Dronchik"));
-        ul.get(0).setPassword(Integer.toString(Integer.parseInt(ul.get(0).getPassword()) + 1));
-        assertTrue(ur.update(ul.get(0)));
+    public void findLoginAndUpdateUser() throws DbException {
+        User user = ur.read(new FindLogin("Dronchik")).get(0);
+        user.setPassword(Integer.toString(Integer.parseInt(user.getPassword()) + 1));
+        assertTrue(ur.update(user));
     }
     
     @After

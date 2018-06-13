@@ -1,5 +1,6 @@
 package com.mv.schelokov.car_rent.model.entities.builders;
 
+import com.mv.schelokov.car_rent.model.entities.Role;
 import com.mv.schelokov.car_rent.model.entities.User;
 
 /**
@@ -28,7 +29,7 @@ public class UserBuilder {
         return this;
     }
     
-    public UserBuilder setRole(String role) {
+    public UserBuilder setRole(Role role) {
         this.user.setRole(role);
         return this;
     }

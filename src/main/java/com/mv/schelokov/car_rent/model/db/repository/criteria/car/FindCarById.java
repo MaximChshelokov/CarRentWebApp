@@ -12,6 +12,7 @@ public class FindCarById implements CarReadCriteria {
     private static final String QUERY = "SELECT car_id,license_plate,"
             + "year_of_make,price,model,name,make,make_name FROM cars_full "
             + "WHERE car_id=?";
+    private static final int CAR_ID = 1;
     
     private final int id;
     
@@ -29,6 +30,6 @@ public class FindCarById implements CarReadCriteria {
 
     @Override
     public void setStatement(PreparedStatement ps) throws SQLException {
-        ps.setInt(1, id);
+        ps.setInt(CAR_ID, id);
     }
 }

@@ -10,9 +10,10 @@ import java.sql.SQLException;
  */
 public class FindLoginPassword implements UserReadCriteria {
     
-    private static final String QUERY = "SELECT user_id,login,password,"
-            + "role_name FROM users LEFT JOIN roles ON role=role_id "
-            + "WHERE login=? AND password=?";
+    private static final String QUERY = "SELECT user_id,login,password,role,"
+            + "role_name FROM users_full WHERE login=? AND password=?";
+    private static final int LOGIN_COLUMN = 1;
+    private static final int PASSWORD_COLUMN = 2;
     private final String login;
     private final String password;
     
@@ -28,8 +29,8 @@ public class FindLoginPassword implements UserReadCriteria {
 
     @Override
     public void setStatement(PreparedStatement ps) throws SQLException {
-        ps.setString(1, login);
-        ps.setString(2, password);
+        ps.setString(LOGIN_COLUMN, login);
+        ps.setString(PASSWORD_COLUMN, password);
     }
     
 }

@@ -9,9 +9,9 @@ import java.sql.SQLException;
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
 public class FindLogin implements UserReadCriteria {
-    private static final String QUERY = "SELECT user_id,login,password,"
-            + "role_name FROM users LEFT JOIN roles ON role=role_id "
-            + "WHERE login=?";
+    private static final String QUERY = "SELECT user_id,login,password,role,"
+            + "role_name FROM users_full WHERE login=?";
+    private static final int LOGIN_COLUMN = 1;
     private final String login;
     
     public FindLogin(String login) {
@@ -25,6 +25,6 @@ public class FindLogin implements UserReadCriteria {
 
     @Override
     public void setStatement(PreparedStatement ps) throws SQLException {
-        ps.setString(1, login);
+        ps.setString(LOGIN_COLUMN, login);
     }
 }
