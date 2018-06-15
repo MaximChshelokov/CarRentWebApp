@@ -6,20 +6,20 @@ import com.mv.schelokov.car_rent.model.entities.InvoceType;
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
-public class InvoceTypeBuilder {
+public class InvoiceTypeBuilder {
     
     private final InvoceType invoceType;
     
-    public InvoceTypeBuilder() {
+    public InvoiceTypeBuilder() {
         this.invoceType = new InvoceType();
     }
     
-    public InvoceTypeBuilder setId(int id) {
+    public InvoiceTypeBuilder setId(int id) {
         this.invoceType.setId(id);
         return this;
     }
     
-    public InvoceTypeBuilder setName(String name) {
+    public InvoiceTypeBuilder setName(String name) {
         this.invoceType.setName(name);
         return this;
     }

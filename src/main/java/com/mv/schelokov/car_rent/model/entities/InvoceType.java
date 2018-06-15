@@ -14,6 +14,7 @@ public class InvoceType implements Entity {
     /**
      * @return the id
      */
+    @Override
     public int getId() {
         return id;
     }

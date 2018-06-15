@@ -15,6 +15,7 @@ public class Model implements Entity {
     /**
      * @return the id
      */
+    @Override
     public int getId() {
         return id;
     }

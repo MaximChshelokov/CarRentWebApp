@@ -1,7 +1,7 @@
 package com.mv.schelokov.car_rent.model.entities;
 
 import com.mv.schelokov.car_rent.model.entities.interfaces.Entity;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Objects;
 
 /**

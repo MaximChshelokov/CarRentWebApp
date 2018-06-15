@@ -14,6 +14,7 @@ public class Make implements Entity {
     /**
      * @return the id
      */
+    @Override
     public int getId() {
         return id;
     }

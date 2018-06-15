@@ -17,6 +17,7 @@ public class Car implements Entity {
     /**
      * @return the id
      */
+    @Override
     public int getId() {
         return id;
     }

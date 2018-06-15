@@ -6,7 +6,7 @@ import com.mv.schelokov.car_rent.model.db.repository.exceptions.CriteriaMismatch
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.AbstractSqlRepository;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.Criteria;
 import com.mv.schelokov.car_rent.model.entities.InvoceType;
-import com.mv.schelokov.car_rent.model.entities.builders.InvoceTypeBuilder;
+import com.mv.schelokov.car_rent.model.entities.builders.InvoiceTypeBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -60,7 +60,7 @@ public class InvoceTypeRepository extends AbstractSqlRepository<InvoceType> {
 
     @Override
     protected InvoceType createItem(ResultSet rs) throws SQLException {
-        return new InvoceTypeBuilder()
+        return new InvoiceTypeBuilder()
                 .setId(rs.getInt(Fields.TYPE_ID.name()))
                 .setName(rs.getString(Fields.NAME.name()))
                 .getInvoceType();

@@ -13,6 +13,7 @@ import com.mv.schelokov.car_rent.model.entities.builders.ModelBuilder;
 import com.mv.schelokov.car_rent.model.entities.builders.RentOrderBuilder;
 import com.mv.schelokov.car_rent.model.entities.builders.UserBuilder;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,7 +30,7 @@ public class RentOrderRepository extends AbstractSqlRepository<RentOrder> {
     private static final String REMOVE_QUERY = "DELETE FROM rent_orders WHERE"
             + " rent_id=?";
     private static final String UPDATE_QUERY = "UPDATE rent_orders SET car=?,"
-            + "user=?,start_date=?,end_date=?,approved_by=? WHERE user_id=?";
+            + "user=?,start_date=?,end_date=?,approved_by=? WHERE rent_id=?";
     
     /**
      * The Field enum has column names for read methods and number of column for
@@ -108,9 +109,9 @@ public class RentOrderRepository extends AbstractSqlRepository<RentOrder> {
             boolean isUpdateStatement) throws SQLException {
         ps.setInt(Fields.CAR.NUMBER, item.getCar().getId());
         ps.setInt(Fields.USER.NUMBER, item.getUser().getId());
-        ps.setDate(Fields.START_DATE.NUMBER, item.getStartDate());
-        ps.setDate(Fields.END_DATE.NUMBER, item.getEndDate());
-        if (item.getApprovedBy().getId() == 0)
+        ps.setDate(Fields.START_DATE.NUMBER, new Date(item.getStartDate().getTime()));
+        ps.setDate(Fields.END_DATE.NUMBER, new Date(item.getEndDate().getTime()));
+        if (item.getApprovedBy() == null || item.getApprovedBy().getId() == 0)
             ps.setNull(Fields.APPROVED_BY.NUMBER, Types.INTEGER);
         else
             ps.setInt(Fields.APPROVED_BY.NUMBER, item.getApprovedBy().getId());
