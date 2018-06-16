@@ -40,7 +40,7 @@ public class InvoiceLineBuilder {
         return this;
     }
     
-    public InvoceLine getInvoceLine() {
+    public InvoceLine getInvoiceLine() {
         return this.invoceLine;
     }
     

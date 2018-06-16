@@ -17,13 +17,13 @@ import java.sql.SQLException;
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
-public class InvoceLineRepository extends AbstractSqlRepository<InvoceLine> {
+public class InvoiceLineRepository extends AbstractSqlRepository<InvoceLine> {
     
-    private static final String CREATE_QUERY = "INSERT INTO invoce_lines ("
+    private static final String CREATE_QUERY = "INSERT INTO invoice_lines ("
             + "invoice_id,details,type,amount) VALUES (?,?,?,?)";
-    private static final String REMOVE_QUERY = "DELETE FROM invoce_lines WHERE"
+    private static final String REMOVE_QUERY = "DELETE FROM invoice_lines WHERE"
             + " line_id=?";
-    private static final String UPDATE_QUERY = "UPDATE invoce_lines SET "
+    private static final String UPDATE_QUERY = "UPDATE invoice_lines SET "
             + "invoice_id=?,details=?,type=?,amount=? WHERE line_id=?";
     
     /**
@@ -43,7 +43,7 @@ public class InvoceLineRepository extends AbstractSqlRepository<InvoceLine> {
         }
     }
 
-    public InvoceLineRepository(Connection connection) {
+    public InvoiceLineRepository(Connection connection) {
         super(connection);
     }
     
@@ -73,7 +73,7 @@ public class InvoceLineRepository extends AbstractSqlRepository<InvoceLine> {
                     .setName(rs.getString(Fields.NAME.name()))
                     .getInvoceType())
                 .setAmount(rs.getInt(Fields.AMOUNT.name()))
-                .getInvoceLine();
+                .getInvoiceLine();
     }
     
     @Override

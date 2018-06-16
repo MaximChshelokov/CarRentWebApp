@@ -1,8 +1,9 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
-import com.mv.schelokov.car_rent.model.db.repository.criteria.invoce_type.SelectAllTypes;
+import com.mv.schelokov.car_rent.model.db.repository.criteria.invoice_line.FindByInvoiceId;
 import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
-import com.mv.schelokov.car_rent.model.entities.InvoceType;
+import com.mv.schelokov.car_rent.model.entities.InvoceLine;
+import com.mv.schelokov.car_rent.model.entities.builders.InvoiceLineBuilder;
 import com.mv.schelokov.car_rent.model.entities.builders.InvoiceTypeBuilder;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -17,12 +18,12 @@ import static org.junit.Assert.*;
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
-public class InvoceTypeRepositoryTest {
+public class InvoceLineRepositoryTest {
     
     private Connection connection;
-    private InvoiceTypeRepository itr;
-    
-    public InvoceTypeRepositoryTest() {
+    private InvoiceLineRepository ilr;
+
+    public InvoceLineRepositoryTest() {
     }
     
     @Before
@@ -33,32 +34,36 @@ public class InvoceTypeRepositoryTest {
                 "jdbc:mysql://localhost/car_rent_test?autoReconnect=true"
                         + "&useSSL=false&characterEncoding=utf-8",
                 "car_rent_app", "Un3L41NoewVA");
-        itr = new InvoiceTypeRepository(connection);
+        ilr = new InvoiceLineRepository(connection);
     }
     
     @After
     public void tearDown() throws SQLException {
         connection.close();
     }
-
+    
     @Test
     public void createNewInvoceType() throws DbException {
-        assertTrue(itr.add(new InvoiceTypeBuilder()
-                .setName("rent total")
-                .getInvoceType()));
+        assertTrue(ilr.add(new InvoiceLineBuilder()
+                .setInvoiceId(1)
+                .setDetails("Штраф за царапину")
+                .setType(new InvoiceTypeBuilder().setId(2).getInvoceType())
+                .setAmount(3000)
+                .getInvoiceLine()));
     }
     
     @Test
-    public void findAllAndDeleteLast() throws DbException {
-        List<InvoceType> itl = itr.read(new SelectAllTypes());
-        assertTrue(itr.remove(itl.get(itl.size()-1)));
+    public void findByInvoiceIdAndDeleteLast() throws DbException {
+        List<InvoceLine> ill = ilr.read(new FindByInvoiceId(1));
+        assertTrue(ilr.remove(ill.get(ill.size()-1)));
     }
     
     @Test
-    public void findAllAndUpdateSecond() throws DbException {
-        InvoceType iType = itr.read(new SelectAllTypes()).get(1);
-        iType.setName("penalty");
+    public void findByInvoiceIdAndUpdateFirst() throws DbException {
+        InvoceLine iLine = ilr.read(new FindByInvoiceId(1)).get(0);
+        iLine.setAmount(iLine.getAmount()+1);
         
-        assertTrue(itr.update(iType));
+        assertTrue(ilr.update(iLine));
     }
+    
 }

@@ -16,13 +16,13 @@ import java.sql.SQLException;
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
-public class InvoceTypeRepository extends AbstractSqlRepository<InvoceType> {
+public class InvoiceTypeRepository extends AbstractSqlRepository<InvoceType> {
     
-    private static final String CREATE_QUERY = "INSERT INTO invoce_types (name)"
-            + " VALUES (?)";
-    private static final String REMOVE_QUERY = "DELETE FROM invoce_types WHERE"
+    private static final String CREATE_QUERY = "INSERT INTO invocie_types "
+            + "(name) VALUES (?)";
+    private static final String REMOVE_QUERY = "DELETE FROM invocie_types WHERE"
             + " type_id=?";
-    private static final String UPDATE_QUERY = "UPDATE invoce_types SET name=? "
+    private static final String UPDATE_QUERY = "UPDATE invocie_types SET name=? "
             + "WHERE type_id=?";
     
     /**
@@ -39,7 +39,7 @@ public class InvoceTypeRepository extends AbstractSqlRepository<InvoceType> {
         }
     }
 
-    public InvoceTypeRepository(Connection connection) {
+    public InvoiceTypeRepository(Connection connection) {
         super(connection);
     }
     

@@ -2,9 +2,15 @@ package com.mv.schelokov.car_rent.model.db.repository;
 
 import com.mv.schelokov.car_rent.model.db.repository.criteria.rent_order.SelectAllRentOrders;
 import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
+import com.mv.schelokov.car_rent.model.entities.RentOrder;
+import com.mv.schelokov.car_rent.model.entities.builders.CarBuilder;
+import com.mv.schelokov.car_rent.model.entities.builders.RentOrderBuilder;
+import com.mv.schelokov.car_rent.model.entities.builders.UserBuilder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.GregorianCalendar;
+import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,6 +48,29 @@ public class RentOrderRepositoryTest {
     @Test
     public void findAllRentOrders() throws DbException {
         assertEquals(1,ror.read(new SelectAllRentOrders()).size());
+    }
+    
+    @Test
+    public void createNewRentOrder() throws DbException {
+        assertTrue(ror.add(new RentOrderBuilder()
+                .setCar(new CarBuilder().setId(6).getCar())
+                .setUser(new UserBuilder().setId(4).getUser())
+                .setStartDate(new GregorianCalendar(2018, 5, 15).getTime())
+                .setEndDate(new GregorianCalendar(2018, 5, 30).getTime())
+                .getRentOrder()));
+    }
+    
+    @Test 
+    public void findAllAndDeleteLast() throws DbException {
+        List<RentOrder> rol = ror.read(new SelectAllRentOrders());
+        assertTrue(ror.remove(rol.get(rol.size()-1)));
+    }
+    
+    @Test
+    public void findAllAndUpdateFirst() throws DbException {
+        RentOrder order = ror.read(new SelectAllRentOrders()).get(0);
+        order.setApprovedBy(new UserBuilder().setId(1).getUser());
+        assertTrue(ror.update(order));
     }
     
 }
