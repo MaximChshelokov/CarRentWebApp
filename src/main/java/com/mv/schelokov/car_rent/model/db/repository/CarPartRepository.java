@@ -1,10 +1,9 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
-import com.mv.schelokov.car_rent.model.db.repository.criteria.car_part.CarPartDeleteCriteria;
-import com.mv.schelokov.car_rent.model.db.repository.criteria.car_part.CarPartReadCriteria;
 import com.mv.schelokov.car_rent.model.db.repository.exceptions.CriteriaMismatchException;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.AbstractSqlRepository;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.Criteria;
+import com.mv.schelokov.car_rent.model.db.repository.interfaces.SqlCriteria;
 import com.mv.schelokov.car_rent.model.entities.CarPart;
 import com.mv.schelokov.car_rent.model.entities.builders.CarPartBuilder;
 import java.sql.Connection;
@@ -17,6 +16,25 @@ import java.sql.SQLException;
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
 public class CarPartRepository extends AbstractSqlRepository<CarPart> {
+    
+    public interface ReadCriteria extends SqlCriteria {}
+
+    public interface DeleteCriteria extends SqlCriteria {}
+
+    public static final Criteria SELECT_ALL = new SelectAll();
+    
+    public static class SelectAll implements ReadCriteria {
+
+        private static final String QUERY = "SELECT part_id, name FROM car_parts";
+
+        @Override
+        public String toSqlQuery() {
+            return QUERY;
+        }
+
+        @Override
+        public void setStatement(PreparedStatement ps) throws SQLException {}
+    }
     
     private static final String CREATE_QUERY = "INSERT INTO car_parts (name)"
             + " VALUES (?)"; 
@@ -79,9 +97,9 @@ public class CarPartRepository extends AbstractSqlRepository<CarPart> {
     protected boolean checkCriteriaInstance(Criteria criteria, 
             boolean isDeleteCriteria) throws CriteriaMismatchException {
         if (isDeleteCriteria) {
-            if (criteria instanceof CarPartDeleteCriteria)
+            if (criteria instanceof DeleteCriteria)
                 return true;
-        } else if (criteria instanceof CarPartReadCriteria)
+        } else if (criteria instanceof ReadCriteria)
             return true;
         throw new CriteriaMismatchException();
     }

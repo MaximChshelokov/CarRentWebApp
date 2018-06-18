@@ -1,6 +1,5 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
-import com.mv.schelokov.car_rent.model.db.repository.criteria.rent_order.SelectAllRentOrders;
 import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
 import com.mv.schelokov.car_rent.model.entities.RentOrder;
 import com.mv.schelokov.car_rent.model.entities.builders.CarBuilder;
@@ -47,7 +46,7 @@ public class RentOrderRepositoryTest {
 
     @Test
     public void findAllRentOrders() throws DbException {
-        assertEquals(1,ror.read(new SelectAllRentOrders()).size());
+        assertEquals(1,ror.read(RentOrderRepository.SELECT_ALL).size());
     }
     
     @Test
@@ -62,13 +61,13 @@ public class RentOrderRepositoryTest {
     
     @Test 
     public void findAllAndDeleteLast() throws DbException {
-        List<RentOrder> rol = ror.read(new SelectAllRentOrders());
+        List<RentOrder> rol = ror.read(RentOrderRepository.SELECT_ALL);
         assertTrue(ror.remove(rol.get(rol.size()-1)));
     }
     
     @Test
     public void findAllAndUpdateFirst() throws DbException {
-        RentOrder order = ror.read(new SelectAllRentOrders()).get(0);
+        RentOrder order = ror.read(RentOrderRepository.SELECT_ALL).get(0);
         order.setApprovedBy(new UserBuilder().setId(1).getUser());
         assertTrue(ror.update(order));
     }

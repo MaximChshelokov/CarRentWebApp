@@ -7,11 +7,11 @@ import java.util.Objects;
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
-public class InvoceLine implements Entity {
+public class InvoiceLine implements Entity {
     private int id;
     private int invoiceId;
     private String details;
-    private InvoceType type;
+    private InvoiceType type;
     private int amount;
 
     /**
@@ -46,14 +46,14 @@ public class InvoceLine implements Entity {
     /**
      * @return the type
      */
-    public InvoceType getType() {
+    public InvoiceType getType() {
         return type;
     }
 
     /**
      * @param type the type to set
      */
-    public void setType(InvoceType type) {
+    public void setType(InvoiceType type) {
         this.type = type;
     }
 
@@ -107,7 +107,7 @@ public class InvoceLine implements Entity {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final InvoceLine other = (InvoceLine) obj;
+        final InvoiceLine other = (InvoiceLine) obj;
         if (this.id != other.id) {
             return false;
         }

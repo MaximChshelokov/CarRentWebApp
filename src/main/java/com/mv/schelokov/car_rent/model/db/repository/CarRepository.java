@@ -1,10 +1,9 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
-import com.mv.schelokov.car_rent.model.db.repository.criteria.car.CarDeleteCriteria;
-import com.mv.schelokov.car_rent.model.db.repository.criteria.car.CarReadCriteria;
 import com.mv.schelokov.car_rent.model.db.repository.exceptions.CriteriaMismatchException;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.AbstractSqlRepository;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.Criteria;
+import com.mv.schelokov.car_rent.model.db.repository.interfaces.SqlCriteria;
 import com.mv.schelokov.car_rent.model.entities.Car;
 import com.mv.schelokov.car_rent.model.entities.builders.CarBuilder;
 import com.mv.schelokov.car_rent.model.entities.builders.MakeBuilder;
@@ -19,6 +18,49 @@ import java.sql.SQLException;
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
 public class CarRepository extends AbstractSqlRepository<Car> {
+    
+    public interface ReadCriteria extends SqlCriteria {}
+    
+    public interface DeleteCriteria extends SqlCriteria {}
+    
+    public static final Criteria SELECT_ALL = new SelectAll();
+    
+    public static class SelectAll implements ReadCriteria {
+
+        private static final String QUERY = "SELECT car_id,license_plate,"
+                + "year_of_make,price,model,name,make,make_name FROM cars_full";
+
+        @Override
+        public String toSqlQuery() {
+            return QUERY;
+        }
+
+        @Override
+        public void setStatement(PreparedStatement ps) throws SQLException {}
+    }
+    
+    public static class FindById extends SelectAll {
+
+        private static final String QUERY = " WHERE car_id=?";
+        private static final int CAR_ID = 1;
+
+        private final int id;
+
+        // TODO: Add constructors for Invoice and Defect entities!
+        public FindById(int id) {
+            this.id = id;
+        }
+
+        @Override
+        public String toSqlQuery() {
+            return super.toSqlQuery() + QUERY;
+        }
+
+        @Override
+        public void setStatement(PreparedStatement ps) throws SQLException {
+            ps.setInt(CAR_ID, id);
+        }
+    }
     
     private static final String CREATE_QUERY = "INSERT INTO cars (model,"
             + "license_plate,year_of_make,price) VALUES (?,?,?,?)";
@@ -96,11 +138,10 @@ public class CarRepository extends AbstractSqlRepository<Car> {
     protected boolean checkCriteriaInstance(Criteria criteria, 
             boolean isDeleteCriteria) throws CriteriaMismatchException {
         if (isDeleteCriteria) {
-            if (criteria instanceof CarDeleteCriteria)
+            if (criteria instanceof DeleteCriteria)
                 return true;
-        } else if (criteria instanceof CarReadCriteria)
+        } else if (criteria instanceof ReadCriteria)
             return true;
         throw new CriteriaMismatchException();
     }
-    
 }

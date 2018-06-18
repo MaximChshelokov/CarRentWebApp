@@ -1,10 +1,9 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
-import com.mv.schelokov.car_rent.model.db.repository.criteria.model.ModelDeleteCriteria;
-import com.mv.schelokov.car_rent.model.db.repository.criteria.model.ModelReadCriteria;
 import com.mv.schelokov.car_rent.model.db.repository.exceptions.CriteriaMismatchException;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.AbstractSqlRepository;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.Criteria;
+import com.mv.schelokov.car_rent.model.db.repository.interfaces.SqlCriteria;
 import com.mv.schelokov.car_rent.model.entities.Model;
 import com.mv.schelokov.car_rent.model.entities.builders.MakeBuilder;
 import com.mv.schelokov.car_rent.model.entities.builders.ModelBuilder;
@@ -18,6 +17,25 @@ import java.sql.SQLException;
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
 public class ModelRepository extends AbstractSqlRepository<Model> {
+ 
+    public interface ReadCriteria extends SqlCriteria {}
+
+    public interface DeleteCriteria extends SqlCriteria {}
+
+    public static final Criteria SELECT_ALL = new SelectAll();
+
+    public static class SelectAll implements ReadCriteria {
+        private static final String QUERY = "SELECT model_id,name,make,"
+                + "make_name FROM models_full";
+
+        @Override
+        public String toSqlQuery() {
+            return QUERY;
+        }
+
+        @Override
+        public void setStatement(PreparedStatement ps) throws SQLException {}
+    }
     
     private static final String CREATE_QUERY = "INSERT INTO models (name,"
             + "make) VALUES (?,?)";
@@ -88,10 +106,10 @@ public class ModelRepository extends AbstractSqlRepository<Model> {
     protected boolean checkCriteriaInstance(Criteria criteria,
             boolean isDeleteCriteria) throws CriteriaMismatchException {
         if (isDeleteCriteria) {
-            if (criteria instanceof ModelDeleteCriteria) {
+            if (criteria instanceof DeleteCriteria) {
                 return true;
             }
-        } else if (criteria instanceof ModelReadCriteria) {
+        } else if (criteria instanceof ReadCriteria) {
             return true;
         }
         throw new CriteriaMismatchException();

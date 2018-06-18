@@ -1,6 +1,5 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
-import com.mv.schelokov.car_rent.model.db.repository.criteria.car_part.SelectAllParts;
 import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
 import com.mv.schelokov.car_rent.model.entities.CarPart;
 import com.mv.schelokov.car_rent.model.entities.builders.CarPartBuilder;
@@ -50,14 +49,14 @@ public class CarPartRepositoryTest {
     
     @Test
     public void selectAllAndUpdateFirst() throws DbException {
-        CarPart cp = cpr.read(new SelectAllParts()).get(0);
+        CarPart cp = cpr.read(CarPartRepository.SELECT_ALL).get(0);
         cp.setName("Заднее левое крылышко");
         assertTrue(cpr.update(cp));
     }
     
     @Test
     public void selectAllAndDeleteLast() throws DbException {
-        List<CarPart> cpl = cpr.read(new SelectAllParts());
+        List<CarPart> cpl = cpr.read(CarPartRepository.SELECT_ALL);
         assertTrue(cpr.remove(cpl.get(cpl.size()-1)));
     }
     

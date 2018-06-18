@@ -1,7 +1,6 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
 import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
-import com.mv.schelokov.car_rent.model.db.repository.criteria.user_data.FindByUser;
 import com.mv.schelokov.car_rent.model.entities.User;
 import com.mv.schelokov.car_rent.model.entities.UserData;
 import com.mv.schelokov.car_rent.model.entities.builders.UserBuilder;
@@ -51,20 +50,20 @@ public class UserDataRepositoryTest {
     @Test
     public void findByUserEntity() throws DbException {
         User user = new UserBuilder().setId(4).getUser();
-        List<UserData> udl = udr.read(new FindByUser(user));
+        List<UserData> udl = udr.read(new UserDataRepository.FindByUser(user));
         assertEquals(1, udl.size());
     }
     
     @Test
     public void findAndUpdate() throws DbException {
-        UserData ud = udr.read(new FindByUser(3)).get(0);
+        UserData ud = udr.read(new UserDataRepository.FindByUser(3)).get(0);
         ud.setPhone(Long.toString(Long.parseLong(ud.getPhone()) - 1L));
         assertTrue(udr.update(ud));        
     }
     
     @Test
     public void findAndDeleteById() throws DbException {
-        List<UserData> udl = udr.read(new FindByUser(19));
+        List<UserData> udl = udr.read(new UserDataRepository.FindByUser(19));
         assertTrue(udr.remove(udl.get(0)));
     }
     

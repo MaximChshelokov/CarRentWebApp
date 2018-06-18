@@ -1,9 +1,6 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
 import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
-import com.mv.schelokov.car_rent.model.db.repository.criteria.user.FindLogin;
-import com.mv.schelokov.car_rent.model.db.repository.criteria.user.FindLoginPassword;
-import com.mv.schelokov.car_rent.model.db.repository.criteria.user.SelectAllUsers;
 import com.mv.schelokov.car_rent.model.entities.User;
 import com.mv.schelokov.car_rent.model.entities.builders.RoleBuilder;
 import com.mv.schelokov.car_rent.model.entities.builders.UserBuilder;
@@ -42,7 +39,8 @@ public class UserRepositoryTest {
     @Test
     public void findLoginPasswordUser() throws DbException {
         
-        List<User> ul = ur.read(new FindLoginPassword("admin", "admin"));
+        List<User> ul = ur.read(new UserRepository.FindLoginPassword("admin", 
+                "admin"));
         assertEquals(ul.size(), 1);
     }
     
@@ -58,19 +56,20 @@ public class UserRepositoryTest {
     
     @Test
     public void findAndRemoveUser() throws DbException {
-        List<User> ul = ur.read(new SelectAllUsers());
+        List<User> ul = ur.read(UserRepository.SELECT_ALL);
         assertTrue(ur.remove(ul.get(ul.size()-1)));
     }
     
     @Test
     public void findLoginPasswordUserNotFount() throws DbException {
-        List<User> ul = ur.read(new FindLoginPassword("bogdan", "admin"));
+        List<User> ul = ur.read(new UserRepository.FindLoginPassword("bogdan", 
+                "admin"));
         assertEquals(ul.size(), 0);
     }
     
     @Test
     public void findLoginAndUpdateUser() throws DbException {
-        User user = ur.read(new FindLogin("Dronchik")).get(0);
+        User user = ur.read(new UserRepository.FindLogin("Dronchik")).get(0);
         user.setPassword(Integer.toString(Integer.parseInt(user.getPassword()) + 1));
         assertTrue(ur.update(user));
     }

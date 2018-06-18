@@ -1,11 +1,10 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
-import com.mv.schelokov.car_rent.model.db.repository.criteria.invoce_type.InvoceTypeDeleteCriteria;
-import com.mv.schelokov.car_rent.model.db.repository.criteria.invoce_type.InvoceTypeReadCriteria;
 import com.mv.schelokov.car_rent.model.db.repository.exceptions.CriteriaMismatchException;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.AbstractSqlRepository;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.Criteria;
-import com.mv.schelokov.car_rent.model.entities.InvoceType;
+import com.mv.schelokov.car_rent.model.db.repository.interfaces.SqlCriteria;
+import com.mv.schelokov.car_rent.model.entities.InvoiceType;
 import com.mv.schelokov.car_rent.model.entities.builders.InvoiceTypeBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,14 +15,34 @@ import java.sql.SQLException;
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
-public class InvoiceTypeRepository extends AbstractSqlRepository<InvoceType> {
+public class InvoiceTypeRepository extends AbstractSqlRepository<InvoiceType> {
     
-    private static final String CREATE_QUERY = "INSERT INTO invocie_types "
+    public interface ReadCriteria extends SqlCriteria {}
+
+    public interface DeleteCriteria extends SqlCriteria {}
+
+    public static final Criteria SELECT_ALL = new SelectAll();
+
+    public static class SelectAll implements ReadCriteria {
+  
+        private static final String QUERY = "SELECT type_id,name FROM "
+                + "invoice_types";
+
+        @Override
+        public String toSqlQuery() {
+            return QUERY;
+        }
+
+        @Override
+        public void setStatement(PreparedStatement ps) throws SQLException {}
+    }
+    
+    private static final String CREATE_QUERY = "INSERT INTO invoice_types "
             + "(name) VALUES (?)";
-    private static final String REMOVE_QUERY = "DELETE FROM invocie_types WHERE"
+    private static final String REMOVE_QUERY = "DELETE FROM invoice_types WHERE"
             + " type_id=?";
-    private static final String UPDATE_QUERY = "UPDATE invocie_types SET name=? "
-            + "WHERE type_id=?";
+    private static final String UPDATE_QUERY = "UPDATE invoice_types SET name=?"
+            + " WHERE type_id=?";
     
     /**
      * The Field enum has column names for read methods and number of column for
@@ -59,7 +78,7 @@ public class InvoiceTypeRepository extends AbstractSqlRepository<InvoceType> {
     }
 
     @Override
-    protected InvoceType createItem(ResultSet rs) throws SQLException {
+    protected InvoiceType createItem(ResultSet rs) throws SQLException {
         return new InvoiceTypeBuilder()
                 .setId(rs.getInt(Fields.TYPE_ID.name()))
                 .setName(rs.getString(Fields.NAME.name()))
@@ -67,7 +86,7 @@ public class InvoiceTypeRepository extends AbstractSqlRepository<InvoceType> {
     }
     
     @Override
-    protected void setStatement(PreparedStatement ps, InvoceType item, 
+    protected void setStatement(PreparedStatement ps, InvoiceType item, 
             boolean isUpdateStatement) throws SQLException {
         ps.setString(Fields.NAME.NUMBER, item.getName());
 
@@ -79,9 +98,9 @@ public class InvoiceTypeRepository extends AbstractSqlRepository<InvoceType> {
     protected boolean checkCriteriaInstance(Criteria criteria, 
             boolean isDeleteCriteria) throws CriteriaMismatchException {
         if (isDeleteCriteria) {
-            if (criteria instanceof InvoceTypeDeleteCriteria)
+            if (criteria instanceof DeleteCriteria)
                 return true;
-        } else if (criteria instanceof InvoceTypeReadCriteria)
+        } else if (criteria instanceof ReadCriteria)
             return true;
         throw new CriteriaMismatchException();
     }

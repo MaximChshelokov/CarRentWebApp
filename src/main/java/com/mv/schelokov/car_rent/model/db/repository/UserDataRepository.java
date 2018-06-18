@@ -3,8 +3,8 @@ package com.mv.schelokov.car_rent.model.db.repository;
 import com.mv.schelokov.car_rent.model.db.repository.exceptions.CriteriaMismatchException;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.AbstractSqlRepository;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.Criteria;
-import com.mv.schelokov.car_rent.model.db.repository.criteria.user_data.interfaces.UserDataDeleteCriteria;
-import com.mv.schelokov.car_rent.model.db.repository.criteria.user_data.interfaces.UserDataReadCriteria;
+import com.mv.schelokov.car_rent.model.db.repository.interfaces.SqlCriteria;
+import com.mv.schelokov.car_rent.model.entities.User;
 import com.mv.schelokov.car_rent.model.entities.UserData;
 import com.mv.schelokov.car_rent.model.entities.builders.UserDataBuilder;
 import java.sql.Connection;
@@ -17,6 +17,35 @@ import java.sql.SQLException;
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
 public class UserDataRepository extends AbstractSqlRepository<UserData> {
+    
+    public interface ReadCriteria extends SqlCriteria {}
+
+    public interface DeleteCriteria extends SqlCriteria {}
+
+    public static class FindByUser implements ReadCriteria {
+        private static final String QUERY = "SELECT * FROM users_data "
+                + "WHERE userdata_id=?";
+        private final int userId;
+        private static final int USER_ID_COLUMN = 1;
+
+        public FindByUser(User user) {
+            this.userId = user.getId();
+        }
+
+        public FindByUser(int userDataId) {
+            this.userId = userDataId;
+        }
+
+        @Override
+        public String toSqlQuery() {
+            return QUERY;
+        }
+
+        @Override
+        public void setStatement(PreparedStatement ps) throws SQLException {
+            ps.setInt(USER_ID_COLUMN, userId);
+        }
+    }
     
     private static final String CREATE_QUERY = "INSERT INTO users_data ("
             + "userdata_id,name,address,phone) VALUES (?,?,?,?)";
@@ -71,7 +100,8 @@ public class UserDataRepository extends AbstractSqlRepository<UserData> {
     }
 
     @Override
-    protected void setStatement(PreparedStatement ps, UserData item, boolean isUpdateStatement) throws SQLException {
+    protected void setStatement(PreparedStatement ps, UserData item, 
+            boolean isUpdateStatement) throws SQLException {
         if (isUpdateStatement) {
             ps.setInt(Fields.USERDATA_ID.UPDATE, item.getId());
             ps.setString(Fields.NAME.UPDATE, item.getName());
@@ -86,11 +116,12 @@ public class UserDataRepository extends AbstractSqlRepository<UserData> {
     }
 
     @Override
-    protected boolean checkCriteriaInstance(Criteria criteria, boolean isDeleteCriteria) throws CriteriaMismatchException {
+    protected boolean checkCriteriaInstance(Criteria criteria, 
+            boolean isDeleteCriteria) throws CriteriaMismatchException {
         if (isDeleteCriteria) {
-            if (criteria instanceof UserDataDeleteCriteria)
+            if (criteria instanceof DeleteCriteria)
                 return true;
-        } else if (criteria instanceof UserDataReadCriteria)
+        } else if (criteria instanceof ReadCriteria)
             return true;
         throw new CriteriaMismatchException();
     }

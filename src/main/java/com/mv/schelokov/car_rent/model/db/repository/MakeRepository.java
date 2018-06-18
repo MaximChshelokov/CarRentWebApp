@@ -3,8 +3,7 @@ package com.mv.schelokov.car_rent.model.db.repository;
 import com.mv.schelokov.car_rent.model.db.repository.exceptions.CriteriaMismatchException;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.AbstractSqlRepository;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.Criteria;
-import com.mv.schelokov.car_rent.model.db.repository.criteria.make.MakeDeleteCriteria;
-import com.mv.schelokov.car_rent.model.db.repository.criteria.make.MakeReadCriteria;
+import com.mv.schelokov.car_rent.model.db.repository.interfaces.SqlCriteria;
 import com.mv.schelokov.car_rent.model.entities.Make;
 import com.mv.schelokov.car_rent.model.entities.builders.MakeBuilder;
 import java.sql.Connection;
@@ -17,6 +16,24 @@ import java.sql.SQLException;
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
 public class MakeRepository extends AbstractSqlRepository<Make> {
+    
+    public interface ReadCriteria extends SqlCriteria {}
+
+    public interface DeleteCriteria extends SqlCriteria {}
+
+    public static final Criteria SELECT_ALL = new SelectAll();
+
+    public static class SelectAll implements ReadCriteria {
+        private static final String QUERY = "SELECT make_id,name FROM makes";
+
+        @Override
+        public String toSqlQuery() {
+            return QUERY;
+        }
+
+        @Override
+        public void setStatement(PreparedStatement ps) throws SQLException {}
+    }
     
     private static final String CREATE_QUERY = "INSERT INTO makes (name) "
             + "VALUES (?)";
@@ -78,9 +95,9 @@ public class MakeRepository extends AbstractSqlRepository<Make> {
     protected boolean checkCriteriaInstance(Criteria criteria, 
             boolean isDeleteCriteria) throws CriteriaMismatchException {
         if (isDeleteCriteria) {
-            if (criteria instanceof MakeDeleteCriteria)
+            if (criteria instanceof DeleteCriteria)
                 return true;
-        } else if (criteria instanceof MakeReadCriteria)
+        } else if (criteria instanceof ReadCriteria)
             return true;
         throw new CriteriaMismatchException();
     }

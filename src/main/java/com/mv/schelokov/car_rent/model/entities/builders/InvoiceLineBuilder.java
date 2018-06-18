@@ -1,7 +1,7 @@
 package com.mv.schelokov.car_rent.model.entities.builders;
 
-import com.mv.schelokov.car_rent.model.entities.InvoceLine;
-import com.mv.schelokov.car_rent.model.entities.InvoceType;
+import com.mv.schelokov.car_rent.model.entities.InvoiceLine;
+import com.mv.schelokov.car_rent.model.entities.InvoiceType;
 
 /**
  *
@@ -9,10 +9,10 @@ import com.mv.schelokov.car_rent.model.entities.InvoceType;
  */
 public class InvoiceLineBuilder {
     
-    private final InvoceLine invoceLine;
+    private final InvoiceLine invoceLine;
     
     public InvoiceLineBuilder() {
-        this.invoceLine = new InvoceLine();
+        this.invoceLine = new InvoiceLine();
     }
     
     public InvoiceLineBuilder setId(int id) {
@@ -30,7 +30,7 @@ public class InvoiceLineBuilder {
         return this;
     }
     
-    public InvoiceLineBuilder setType(InvoceType type) {
+    public InvoiceLineBuilder setType(InvoiceType type) {
         this.invoceLine.setType(type);
         return this;
     }
@@ -40,7 +40,7 @@ public class InvoiceLineBuilder {
         return this;
     }
     
-    public InvoceLine getInvoiceLine() {
+    public InvoiceLine getInvoiceLine() {
         return this.invoceLine;
     }
     

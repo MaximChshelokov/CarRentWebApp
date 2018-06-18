@@ -1,8 +1,7 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
-import com.mv.schelokov.car_rent.model.db.repository.criteria.invoce_type.SelectAllTypes;
 import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
-import com.mv.schelokov.car_rent.model.entities.InvoceType;
+import com.mv.schelokov.car_rent.model.entities.InvoiceType;
 import com.mv.schelokov.car_rent.model.entities.builders.InvoiceTypeBuilder;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -50,13 +49,13 @@ public class InvoceTypeRepositoryTest {
     
     @Test
     public void findAllAndDeleteLast() throws DbException {
-        List<InvoceType> itl = itr.read(new SelectAllTypes());
+        List<InvoiceType> itl = itr.read(InvoiceTypeRepository.SELECT_ALL);
         assertTrue(itr.remove(itl.get(itl.size()-1)));
     }
     
     @Test
     public void findAllAndUpdateSecond() throws DbException {
-        InvoceType iType = itr.read(new SelectAllTypes()).get(1);
+        InvoiceType iType = itr.read(InvoiceTypeRepository.SELECT_ALL).get(1);
         iType.setName("penalty");
         
         assertTrue(itr.update(iType));

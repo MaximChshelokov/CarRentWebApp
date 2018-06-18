@@ -1,6 +1,5 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
-import com.mv.schelokov.car_rent.model.db.repository.criteria.role.SelectAllRoles;
 import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
 import com.mv.schelokov.car_rent.model.entities.Role;
 import com.mv.schelokov.car_rent.model.entities.builders.RoleBuilder;
@@ -50,13 +49,13 @@ public class RoleRepositoryTest {
     
     @Test
     public void findAllAndDeleteLast() throws DbException {
-        List<Role> rl = rr.read(new SelectAllRoles());
+        List<Role> rl = rr.read(RoleRepository.SELECT_ALL);
         assertTrue(rr.remove(rl.get(rl.size()-1)));
     }
     
     @Test
     public void findAllAndUpdateSecond() throws DbException {
-        Role role = rr.read(new SelectAllRoles()).get(1);
+        Role role = rr.read(RoleRepository.SELECT_ALL).get(1);
         role.setRoleName(role.getRoleName()+"t");
         assertTrue(rr.update(role));
     }

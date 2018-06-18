@@ -1,6 +1,6 @@
 package com.mv.schelokov.car_rent.model.entities.builders;
 
-import com.mv.schelokov.car_rent.model.entities.InvoceType;
+import com.mv.schelokov.car_rent.model.entities.InvoiceType;
 
 /**
  *
@@ -8,10 +8,10 @@ import com.mv.schelokov.car_rent.model.entities.InvoceType;
  */
 public class InvoiceTypeBuilder {
     
-    private final InvoceType invoceType;
+    private final InvoiceType invoceType;
     
     public InvoiceTypeBuilder() {
-        this.invoceType = new InvoceType();
+        this.invoceType = new InvoiceType();
     }
     
     public InvoiceTypeBuilder setId(int id) {
@@ -24,7 +24,7 @@ public class InvoiceTypeBuilder {
         return this;
     }
     
-    public InvoceType getInvoceType() {
+    public InvoiceType getInvoceType() {
         return this.invoceType;
     }
 }

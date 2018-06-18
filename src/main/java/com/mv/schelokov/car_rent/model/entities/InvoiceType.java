@@ -7,7 +7,7 @@ import java.util.Objects;
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
-public class InvoceType implements Entity {
+public class InvoiceType implements Entity {
     private int id;
     private String name;
 
@@ -59,7 +59,7 @@ public class InvoceType implements Entity {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final InvoceType other = (InvoceType) obj;
+        final InvoiceType other = (InvoiceType) obj;
         if (this.id != other.id) {
             return false;
         }

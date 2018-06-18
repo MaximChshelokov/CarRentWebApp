@@ -1,6 +1,5 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
-import com.mv.schelokov.car_rent.model.db.repository.criteria.model.SelectAllModels;
 import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
 import com.mv.schelokov.car_rent.model.entities.Model;
 import com.mv.schelokov.car_rent.model.entities.builders.MakeBuilder;
@@ -54,14 +53,14 @@ public class ModelRepositoryTest {
     
     @Test
     public void selectAllModelAndUpdateOne() throws DbException {
-        Model model = mr.read(new SelectAllModels()).get(2);
+        Model model = mr.read(ModelRepository.SELECT_ALL).get(2);
         model.setName(model.getName() + "la");
         assertTrue(mr.update(model));
     }
     
     @Test
     public void selectAllAndDeleteLast() throws DbException {
-        List<Model> ml = mr.read(new SelectAllModels());
+        List<Model> ml = mr.read(ModelRepository.SELECT_ALL);
         assertTrue(mr.remove(ml.get(ml.size()-1)));
     }
     

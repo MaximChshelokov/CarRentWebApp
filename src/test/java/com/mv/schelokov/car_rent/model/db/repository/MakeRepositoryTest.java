@@ -1,7 +1,6 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
 import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
-import com.mv.schelokov.car_rent.model.db.repository.criteria.make.SelectAllMake;
 import com.mv.schelokov.car_rent.model.entities.Make;
 import com.mv.schelokov.car_rent.model.entities.builders.MakeBuilder;
 import java.sql.Connection;
@@ -50,14 +49,14 @@ public class MakeRepositoryTest {
     
     @Test
     public void selectAllAndUpdateMake() throws DbException {
-        Make mk = mr.read(new SelectAllMake()).get(0);
+        Make mk = mr.read(MakeRepository.SELECT_ALL).get(0);
         mk.setName(mk.getName() + "ta");
         assertTrue(mr.update(mk));
     }
     
     @Test
     public void deleteLastMake() throws DbException {
-        List<Make> ml = mr.read(new SelectAllMake());
+        List<Make> ml = mr.read(MakeRepository.SELECT_ALL);
         assertTrue(mr.remove(ml.get(ml.size()-1)));
     }
     

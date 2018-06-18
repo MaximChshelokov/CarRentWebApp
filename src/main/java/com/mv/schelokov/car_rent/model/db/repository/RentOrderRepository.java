@@ -1,10 +1,9 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
-import com.mv.schelokov.car_rent.model.db.repository.criteria.rent_order.RentOrderDeleteCriteria;
-import com.mv.schelokov.car_rent.model.db.repository.criteria.rent_order.RentOrderReadCriteria;
 import com.mv.schelokov.car_rent.model.db.repository.exceptions.CriteriaMismatchException;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.AbstractSqlRepository;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.Criteria;
+import com.mv.schelokov.car_rent.model.db.repository.interfaces.SqlCriteria;
 import com.mv.schelokov.car_rent.model.entities.Car;
 import com.mv.schelokov.car_rent.model.entities.RentOrder;
 import com.mv.schelokov.car_rent.model.entities.builders.CarBuilder;
@@ -24,6 +23,27 @@ import java.sql.Types;
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
 public class RentOrderRepository extends AbstractSqlRepository<RentOrder> {
+    
+    public interface ReadCriteria extends SqlCriteria {}
+
+    public interface DeleteCriteria extends SqlCriteria {}
+
+    public static final Criteria SELECT_ALL = new SelectAll();
+
+    public static class SelectAll implements ReadCriteria {
+        private static final String QUERY = "SELECT rent_id,start_date,"
+                + "end_date,car,license_plate,year_of_make,price,model,"
+                + "model_name,make,make_name,user,login,approved_by,"
+                + "approver_login FROM rent_orders_full";
+
+        @Override
+        public String toSqlQuery() {
+            return QUERY;
+        }
+
+        @Override
+        public void setStatement(PreparedStatement ps) throws SQLException {}
+    }
     
     private static final String CREATE_QUERY = "INSERT INTO rent_orders (car,"
             + "user,start_date, end_date, approved_by) VALUES (?,?,?,?,?)";
@@ -123,9 +143,9 @@ public class RentOrderRepository extends AbstractSqlRepository<RentOrder> {
     protected boolean checkCriteriaInstance(Criteria criteria, 
             boolean isDeleteCriteria) throws CriteriaMismatchException {
         if (isDeleteCriteria) {
-            if (criteria instanceof RentOrderDeleteCriteria)
+            if (criteria instanceof DeleteCriteria)
                 return true;
-        } else if (criteria instanceof RentOrderReadCriteria)
+        } else if (criteria instanceof ReadCriteria)
             return true;
         throw new CriteriaMismatchException();
     }

@@ -1,8 +1,7 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
-import com.mv.schelokov.car_rent.model.db.repository.criteria.invoice_line.FindByInvoiceId;
 import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
-import com.mv.schelokov.car_rent.model.entities.InvoceLine;
+import com.mv.schelokov.car_rent.model.entities.InvoiceLine;
 import com.mv.schelokov.car_rent.model.entities.builders.InvoiceLineBuilder;
 import com.mv.schelokov.car_rent.model.entities.builders.InvoiceTypeBuilder;
 import java.sql.Connection;
@@ -54,13 +53,15 @@ public class InvoceLineRepositoryTest {
     
     @Test
     public void findByInvoiceIdAndDeleteLast() throws DbException {
-        List<InvoceLine> ill = ilr.read(new FindByInvoiceId(1));
+        List<InvoiceLine> ill = ilr.read(new InvoiceLineRepository
+                .FindByInvoiceId(1));
         assertTrue(ilr.remove(ill.get(ill.size()-1)));
     }
     
     @Test
     public void findByInvoiceIdAndUpdateFirst() throws DbException {
-        InvoceLine iLine = ilr.read(new FindByInvoiceId(1)).get(0);
+        InvoiceLine iLine = ilr.read(new InvoiceLineRepository
+                .FindByInvoiceId(1)).get(0);
         iLine.setAmount(iLine.getAmount()+1);
         
         assertTrue(ilr.update(iLine));

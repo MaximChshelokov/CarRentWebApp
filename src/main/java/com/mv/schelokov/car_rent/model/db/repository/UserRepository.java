@@ -3,8 +3,7 @@ package com.mv.schelokov.car_rent.model.db.repository;
 import com.mv.schelokov.car_rent.model.db.repository.exceptions.CriteriaMismatchException;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.AbstractSqlRepository;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.Criteria;
-import com.mv.schelokov.car_rent.model.db.repository.criteria.user.interfaces.UserDeleteCriteria;
-import com.mv.schelokov.car_rent.model.db.repository.criteria.user.interfaces.UserReadCriteria;
+import com.mv.schelokov.car_rent.model.db.repository.interfaces.SqlCriteria;
 import com.mv.schelokov.car_rent.model.entities.User;
 import com.mv.schelokov.car_rent.model.entities.builders.RoleBuilder;
 import com.mv.schelokov.car_rent.model.entities.builders.UserBuilder;
@@ -18,6 +17,69 @@ import java.sql.SQLException;
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
 public class UserRepository extends AbstractSqlRepository<User> {
+    
+    public interface ReadCriteria extends SqlCriteria {}
+
+    public interface DeleteCriteria extends SqlCriteria {}
+
+    public static final Criteria SELECT_ALL = new SelectAll();
+
+    public static class SelectAll implements ReadCriteria {
+        private static final String QUERY = "SELECT user_id,login,password,"
+                + "role,role_name FROM users_full";
+
+        @Override
+        public String toSqlQuery() {
+            return QUERY;
+        }
+
+        @Override
+        public void setStatement(PreparedStatement ps) throws SQLException {}
+    }
+    
+    public static class FindLogin extends SelectAll {
+
+        private static final String QUERY = " WHERE login=?";
+        private static final int LOGIN_COLUMN = 1;
+        private final String login;
+
+        public FindLogin(String login) {
+            this.login = login;
+        }
+
+        @Override
+        public String toSqlQuery() {
+            return super.toSqlQuery() + QUERY;
+        }
+
+        @Override
+        public void setStatement(PreparedStatement ps) throws SQLException {
+            ps.setString(LOGIN_COLUMN, login);
+        }
+    }
+    
+    public static class FindLoginPassword extends FindLogin {
+
+        private static final String QUERY = " AND password=?";
+        private static final int PASSWORD_COLUMN = 2;
+        private final String password;
+
+        public FindLoginPassword(String login, String password) {
+            super(login);
+            this.password = password;
+        }
+
+        @Override
+        public String toSqlQuery() {
+            return super.toSqlQuery() + QUERY;
+        }
+
+        @Override
+        public void setStatement(PreparedStatement ps) throws SQLException {
+            super.setStatement(ps);
+            ps.setString(PASSWORD_COLUMN, password);
+        }
+    }
     
     private static final String CREATE_QUERY = "INSERT INTO users (login,"
             + "password,role) VALUES (?,?,?)";
@@ -88,9 +150,9 @@ public class UserRepository extends AbstractSqlRepository<User> {
     protected boolean checkCriteriaInstance(Criteria criteria, 
             boolean isDeleteCriteria) throws CriteriaMismatchException {
         if (isDeleteCriteria) {
-            if (criteria instanceof UserDeleteCriteria)
+            if (criteria instanceof DeleteCriteria)
                 return true;
-        } else if (criteria instanceof UserReadCriteria)
+        } else if (criteria instanceof ReadCriteria)
             return true;
         throw new CriteriaMismatchException();
     }
