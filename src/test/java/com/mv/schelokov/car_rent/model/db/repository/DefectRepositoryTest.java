@@ -42,7 +42,7 @@ public class DefectRepositoryTest {
     }
 
     @Test
-    public void createNewInvoceType() throws DbException {
+    public void createNewDefect() throws DbException {
         assertTrue(dr.add(new DefectBuilder()
                 .setCar(6)
                 .setCarPart(new CarPartBuilder().setId(1).getCarPart())
@@ -51,7 +51,7 @@ public class DefectRepositoryTest {
                 .getDefect()));
     }
     
-        @Test
+    @Test
     public void findAllAndDeleteLast() throws DbException {
         List<Defect> dl = dr.read(DefectRepository.SELECT_ALL);
         assertTrue(dr.remove(dl.get(dl.size()-1)));
