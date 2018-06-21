@@ -1,7 +1,5 @@
 package com.mv.schelokov.car_rent.model.db.repository.exceptions;
 
-import java.sql.SQLException;
-
 /**
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
