@@ -11,4 +11,8 @@ public class DbException extends Exception {
     public DbException(String err, Throwable ex) {
         super(err, ex);
     }
+    
+    public DbException(String err) {
+        super(err);
+    }
 }

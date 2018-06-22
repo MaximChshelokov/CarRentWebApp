@@ -39,11 +39,11 @@ public abstract class AbstractSqlRepository <T extends Entity> implements Reposi
                     throw new DbException ("Error while creating ResultSet", ex);
                 }
             } catch (SQLException ex) {
-                throw new DbException("Error while creating PreparedStatement", ex); // Change to constant
+                throw new DbException("Error while creating PreparedStatement", 
+                        ex); // Change to constant
             }
             return result;
-        }
-        return new ArrayList<>();
+        } else throw new CriteriaMismatchException("Criteria class mistmatches");
     }
 
     @Override
@@ -57,8 +57,7 @@ public abstract class AbstractSqlRepository <T extends Entity> implements Reposi
             } catch (SQLException ex) {
                 throw new DbException("Error while creating PreparedStatement", ex); // Change to constant
             }
-        }
-        return false;
+        } else throw new CriteriaMismatchException("Criteria class mistmatches");
     }
 
     /**
@@ -109,6 +108,6 @@ public abstract class AbstractSqlRepository <T extends Entity> implements Reposi
             boolean isUpdateStatement) throws SQLException;
     
     protected abstract boolean checkCriteriaInstance(Criteria criteria, 
-            boolean isDeleteCriteria) throws CriteriaMismatchException;
+            boolean isDeleteCriteria);
     
 }

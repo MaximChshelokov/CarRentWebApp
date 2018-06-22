@@ -148,13 +148,13 @@ public class UserRepository extends AbstractSqlRepository<User> {
 
     @Override
     protected boolean checkCriteriaInstance(Criteria criteria, 
-            boolean isDeleteCriteria) throws CriteriaMismatchException {
+            boolean isDeleteCriteria) {
         if (isDeleteCriteria) {
             if (criteria instanceof DeleteCriteria)
                 return true;
         } else if (criteria instanceof ReadCriteria)
             return true;
-        throw new CriteriaMismatchException();
+        return false;
     }
     
 }

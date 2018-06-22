@@ -13,4 +13,8 @@ public class CriteriaMismatchException extends DbException {
         super();
     }
     
+    public CriteriaMismatchException(String err) {
+        super(err);
+    }
+    
 }

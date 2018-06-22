@@ -107,15 +107,13 @@ public class InvoiceRepository extends AbstractSqlRepository<Invoice> {
     }
 
     @Override
-    protected boolean checkCriteriaInstance(Criteria criteria,
-            boolean isDeleteCriteria) throws CriteriaMismatchException {
+    protected boolean checkCriteriaInstance(Criteria criteria, 
+            boolean isDeleteCriteria) {
         if (isDeleteCriteria) {
-            if (criteria instanceof DeleteCriteria) {
+            if (criteria instanceof DeleteCriteria)
                 return true;
-            }
-        } else if (criteria instanceof ReadCriteria) {
+        } else if (criteria instanceof ReadCriteria)
             return true;
-        }
-        throw new CriteriaMismatchException();
+        return false;
     }
 }
