@@ -5,9 +5,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Collections;
-import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ConnectionPool {
     
     private static final String DB_PROPERTY_NAME = "db_params.properties";
-    private Queue<Connection> freeConnections;
+    private BlockingQueue<Connection> freeConnections;
     private Set<Connection> allConnections;
     private ParametersLoader params;
     
@@ -57,15 +57,20 @@ public class ConnectionPool {
                 allConnections.add(connection);
             }
         } catch(SQLException ex) {
-            throw new DataSourceException("Failed to create connection", ex);
+            throw new DataSourceException("Failed to create a connection", ex);
         } catch(InstantiationException | ClassNotFoundException 
                 | IllegalAccessException ex) {
             throw new DataSourceException("Failed to load MySQL JDBC driver", ex);
         }
     }
     
-    public Connection getConnection() {
-        return freeConnections.poll();
+    public Connection getConnection() throws DataSourceException {
+        try {
+            return freeConnections.take();
+        } catch (InterruptedException ex) {
+            throw new DataSourceException("Unable to take a connection from the"
+                    + " pool", ex);
+        }
     }
     
     public void freeConnection(Connection connection) {

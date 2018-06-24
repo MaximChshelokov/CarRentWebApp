@@ -68,6 +68,10 @@ public class UserRepository extends AbstractSqlRepository<User> {
             super(login);
             this.password = password;
         }
+        
+        public FindLoginPassword(User user) {
+            this(user.getLogin(), user.getPassword());
+        }
 
         @Override
         public String toSqlQuery() {

@@ -1,4 +1,4 @@
-package com.mv.schelokov.car_rent.model.db.repository.factory;
+package com.mv.schelokov.car_rent.model.db.repository.factories;
 
 import com.mv.schelokov.car_rent.model.db.datasource.ConnectionPool;
 import com.mv.schelokov.car_rent.model.db.datasource.exceptions.DataSourceException;
@@ -98,7 +98,7 @@ public class RepositoryFactory implements AutoCloseable {
             connection.commit();
             connectionPool.freeConnection(connection);
         } catch (SQLException ex) {
-            throw new RepositoryException("Failed to close connection", ex);
+            throw new RepositoryException("Failed to close the connection", ex);
         }
     }
     
