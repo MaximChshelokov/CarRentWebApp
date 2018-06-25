@@ -50,7 +50,7 @@ public class MakeRepositoryTest {
     @Test
     public void selectAllAndUpdateMake() throws DbException {
         Make mk = mr.read(MakeRepository.SELECT_ALL).get(0);
-        mk.setName(mk.getName() + "ta");
+        mk.setName("Toyota");
         assertTrue(mr.update(mk));
     }
     

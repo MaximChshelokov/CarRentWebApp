@@ -1,6 +1,5 @@
 package com.mv.schelokov.car_rent.model.services;
 
-import com.mv.schelokov.car_rent.model.db.repository.UserRepository;
 import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
 import com.mv.schelokov.car_rent.model.db.repository.exceptions.RepositoryException;
 import com.mv.schelokov.car_rent.model.db.repository.factories.CriteriaFactory;

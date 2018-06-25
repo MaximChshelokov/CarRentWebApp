@@ -56,7 +56,7 @@ public class RoleRepositoryTest {
     @Test
     public void findAllAndUpdateSecond() throws DbException {
         Role role = rr.read(RoleRepository.SELECT_ALL).get(1);
-        role.setRoleName(role.getRoleName()+"t");
+        role.setRoleName("guest");
         assertTrue(rr.update(role));
     }
     

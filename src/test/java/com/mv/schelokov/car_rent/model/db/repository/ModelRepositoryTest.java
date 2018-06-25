@@ -54,7 +54,7 @@ public class ModelRepositoryTest {
     @Test
     public void selectAllModelAndUpdateOne() throws DbException {
         Model model = mr.read(ModelRepository.SELECT_ALL).get(2);
-        model.setName(model.getName() + "la");
+        model.setName("Corola");
         assertTrue(mr.update(model));
     }
     

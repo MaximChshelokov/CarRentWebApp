@@ -46,7 +46,7 @@ public class RentOrderRepositoryTest {
 
     @Test
     public void findAllRentOrders() throws DbException {
-        assertEquals(1,ror.read(RentOrderRepository.SELECT_ALL).size());
+        assertEquals(2,ror.read(RentOrderRepository.SELECT_ALL).size());
     }
     
     @Test
