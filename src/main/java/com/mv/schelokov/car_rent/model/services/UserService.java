@@ -11,8 +11,7 @@ import com.mv.schelokov.car_rent.model.services.exceptions.ServiceException;
 import com.mv.schelokov.car_rent.model.utils.ShaHash;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -20,7 +19,13 @@ import java.util.logging.Logger;
  */
 public class UserService {
     
+    public static final Logger log = Logger.getLogger(UserService.class);
     private static final String SALT = "NuiF9cD32Kaw3";
+    
+    private static final String NEW_USER_ERROR = "Failed to create new user";
+    private static final String CHECK_USER_ERROR = "Failed to check if the user"
+            + " does exist";
+    private static final String HASH_ERROR = "Hash algorithm SHA-512 not found";
     
     public void RegisterNewUser(User user) throws ServiceException {
         try(RepositoryFactory repositoryFactory = new RepositoryFactory()) {
@@ -29,7 +34,8 @@ public class UserService {
             userRepository.add(user);
         }
         catch (RepositoryException | DbException ex) {
-            throw new ServiceException("Failed to create new user", ex);
+            log.error(NEW_USER_ERROR, ex);
+            throw new ServiceException(NEW_USER_ERROR, ex);
         }
     }
     
@@ -51,8 +57,8 @@ public class UserService {
             return userRepository.read(criteria);
         }
         catch (RepositoryException | DbException ex) {
-            throw new ServiceException("Failed to check if the user does exist",
-                    ex);
+            log.error(CHECK_USER_ERROR, ex);
+            throw new ServiceException(CHECK_USER_ERROR, ex);
         }
     }   
     
@@ -60,7 +66,8 @@ public class UserService {
         try {
             return ShaHash.getSHA512Hash(password, SALT);
         } catch(NoSuchAlgorithmException ex) {
-            throw new ServiceException("Hash algorithm SHA-512 not found", ex);
+            log.error(HASH_ERROR, ex);
+            throw new ServiceException(HASH_ERROR, ex);
         }
     }
 }

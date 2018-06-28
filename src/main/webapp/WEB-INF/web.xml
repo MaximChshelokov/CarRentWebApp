@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee  http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <listener>
+        <lilistener-class>
+            com.mv.schelokov.car_rent.controller.listeners.WebAppListener
+        </lilistener-class>
+    </listener>
     <welcome-file-list>
         <welcome-file>action/home</welcome-file>
     </welcome-file-list>
+    <listener>
+        <description>ServletContextListener</description>
+        <listener-class>com.mv.schelokov.car_rent.controller.listeners.WebAppListener</listener-class>
+    </listener>
     <servlet>
         <servlet-name>Controller</servlet-name>
         <servlet-class>com.mv.schelokov.car_rent.controller.Controller</servlet-class>

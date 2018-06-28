@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -29,14 +30,17 @@ public class Controller extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
+    public static final Logger log = Logger.getLogger(Controller.class);
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Action action = ActionFactory.action(request);
-        JspRedirect redirect;
+        JspRedirect redirect = new JspRedirect("index.html");
         try {
             redirect = action.execute(request, response);
         } catch (Exception ex) {
-            throw new ServletException("Sheeeeeeeeed", ex);
+            log.error("Failed to redirect", ex);
         }
         String path = "/" + redirect.getUrl();
         request.getRequestDispatcher(path).include(request, response);
