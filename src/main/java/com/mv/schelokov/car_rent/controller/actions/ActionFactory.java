@@ -18,6 +18,10 @@ public class ActionFactory {
         switch(Urls.valueOf(actionName)) {
             case HOME:
                 return new ShowPage("index.html");
+            case LOGIN:
+                return new Login();
+            case LOGIN_PAGE:
+                return new ShowPage("login.jsp");
             default:
                 return new ShowPage("index.html");                
         }

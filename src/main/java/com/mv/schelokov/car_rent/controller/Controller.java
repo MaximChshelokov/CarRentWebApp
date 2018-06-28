@@ -9,7 +9,6 @@ import com.mv.schelokov.car_rent.controller.actions.Action;
 import com.mv.schelokov.car_rent.controller.actions.ActionFactory;
 import com.mv.schelokov.car_rent.controller.actions.JspRedirect;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -33,9 +32,14 @@ public class Controller extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Action action = ActionFactory.action(request);
-        JspRedirect redirect = action.execute(request, response);
+        JspRedirect redirect;
+        try {
+            redirect = action.execute(request, response);
+        } catch (Exception ex) {
+            throw new ServletException("Sheeeeeeeeed", ex);
+        }
         String path = "/" + redirect.getUrl();
-        request.getRequestDispatcher(path).forward(request, response);
+        request.getRequestDispatcher(path).include(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

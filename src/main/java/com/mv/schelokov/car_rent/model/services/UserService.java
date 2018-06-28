@@ -10,6 +10,7 @@ import com.mv.schelokov.car_rent.model.entities.User;
 import com.mv.schelokov.car_rent.model.services.exceptions.ServiceException;
 import com.mv.schelokov.car_rent.model.utils.ShaHash;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,7 +24,7 @@ public class UserService {
     
     public void RegisterNewUser(User user) throws ServiceException {
         try(RepositoryFactory repositoryFactory = new RepositoryFactory()) {
-            hashUserPassword(user);
+            user.setPassword(hashPassword(user.getPassword()));
             Repository userRepository = repositoryFactory.getUserRepository();
             userRepository.add(user);
         }
@@ -32,21 +33,22 @@ public class UserService {
         }
     }
     
-    public boolean isExistingUser(User user) throws ServiceException {
-        hashUserPassword(user);
-        Criteria criteria = CriteriaFactory.getUserFindLoginPassword(user);
-        return isExistingByCriteria(criteria);
+    public List getUserByCredentials(String login, String password) 
+            throws ServiceException {
+        Criteria criteria = CriteriaFactory.getUserFindLoginPassword(login, 
+                hashPassword(password));
+        return getUsersByCriteria(criteria);
     }
     
-    public boolean isExistingLogin(User user) throws ServiceException {
+    public List getUserByLogin(User user) throws ServiceException {
         Criteria criteria = CriteriaFactory.getUserFindLogin(user.getLogin());
-        return isExistingByCriteria(criteria);
+        return getUsersByCriteria(criteria);
     }
     
-    private boolean isExistingByCriteria(Criteria criteria) throws ServiceException {
+    private List getUsersByCriteria(Criteria criteria) throws ServiceException {
         try(RepositoryFactory repositoryFactory = new RepositoryFactory()) {
             Repository userRepository = repositoryFactory.getUserRepository();
-            return userRepository.read(criteria).size() == 1;
+            return userRepository.read(criteria);
         }
         catch (RepositoryException | DbException ex) {
             throw new ServiceException("Failed to check if the user does exist",
@@ -54,9 +56,9 @@ public class UserService {
         }
     }   
     
-    private void hashUserPassword(User user) throws ServiceException {
+    private String hashPassword(String password) throws ServiceException {
         try {
-            user.setPassword(ShaHash.getSHA512Hash(user.getPassword(), SALT));
+            return ShaHash.getSHA512Hash(password, SALT);
         } catch(NoSuchAlgorithmException ex) {
             throw new ServiceException("Hash algorithm SHA-512 not found", ex);
         }

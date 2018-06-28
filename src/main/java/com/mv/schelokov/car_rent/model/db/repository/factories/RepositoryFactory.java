@@ -34,13 +34,9 @@ public class RepositoryFactory implements AutoCloseable {
         try {
             connectionPool = ConnectionPool.getInstance();
             connection = connectionPool.getConnection();
-            connection.setAutoCommit(false);
-            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
         } catch(DataSourceException ex) {
             throw new RepositoryException("Failed to get connection pool "
                     + "instance", ex);
-        } catch (SQLException ex) {
-            throw new RepositoryException("Connection setup error", ex);
         }
     }
     
@@ -95,9 +91,8 @@ public class RepositoryFactory implements AutoCloseable {
     @Override
     public void close() throws RepositoryException {
         try {
-            connection.commit();
             connectionPool.freeConnection(connection);
-        } catch (SQLException ex) {
+        } catch (DataSourceException ex) {
             throw new RepositoryException("Failed to close the connection", ex);
         }
     }

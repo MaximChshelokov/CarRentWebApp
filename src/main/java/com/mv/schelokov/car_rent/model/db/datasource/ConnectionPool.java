@@ -9,6 +9,8 @@ import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -16,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ConnectionPool {
     
-    private static final String DB_PROPERTY_NAME = "db_params.properties";
+    private static final String DB_PROPERTIES_NAME = "db_params.properties";
     private BlockingQueue<Connection> freeConnections;
     private Set<Connection> allConnections;
     private ParametersLoader params;
@@ -34,8 +36,8 @@ public class ConnectionPool {
     
     private ConnectionPool() {
         try {
-            params = new ParametersLoader(this.getClass()
-                    .getResourceAsStream(DB_PROPERTY_NAME));
+            params = new ParametersLoader(this.getClass().getClassLoader()
+                    .getResourceAsStream(DB_PROPERTIES_NAME));
             freeConnections = new ArrayBlockingQueue<>(params.getPoolSize());
             allConnections = Collections.newSetFromMap(
                     new ConcurrentHashMap<Connection, Boolean>());
@@ -66,14 +68,25 @@ public class ConnectionPool {
     
     public Connection getConnection() throws DataSourceException {
         try {
-            return freeConnections.take();
+            Connection result = freeConnections.take();
+            result.setAutoCommit(false);
+            result.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            return result;
         } catch (InterruptedException ex) {
             throw new DataSourceException("Unable to take a connection from the"
                     + " pool", ex);
         }
+        catch (SQLException ex) {
+            throw new DataSourceException("Can't set up connection", ex);
+        }
     }
     
-    public void freeConnection(Connection connection) {
+    public void freeConnection(Connection connection) throws DataSourceException {
+        try {
+            connection.commit();
+        } catch (SQLException ex) {
+            throw new DataSourceException("Failed to commit", ex);
+        }
         freeConnections.offer(connection);
     }
     

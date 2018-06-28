@@ -12,6 +12,7 @@
         <title>Welcome!</title>
     </head>
     <body>
-        <h1>${name}</h1>
+        <h1>${user.login}</h1>
+        <p>Your login: ${login}</p>
     </body>
 </html>

@@ -17,4 +17,9 @@ public class CriteriaFactory {
     public static Criteria getUserFindLogin(String login) {
         return new UserRepository.FindLogin(login);
     }
+    
+    public static Criteria getUserFindLoginPassword(String login, 
+            String password) {
+        return new UserRepository.FindLoginPassword(login, password);
+    }
 }

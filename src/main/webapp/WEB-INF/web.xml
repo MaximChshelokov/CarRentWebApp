@@ -4,17 +4,9 @@
         <welcome-file>action/home</welcome-file>
     </welcome-file-list>
     <servlet>
-        <servlet-name>Login</servlet-name>
-        <servlet-class>com.mv.schelokov.car_rent.controller.Login</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>Controller</servlet-name>
         <servlet-class>com.mv.schelokov.car_rent.controller.Controller</servlet-class>
     </servlet>
-    <servlet-mapping>
-        <servlet-name>Login</servlet-name>
-        <url-pattern>/login</url-pattern>
-    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Controller</servlet-name>
         <url-pattern>/action/*</url-pattern>
