@@ -5,14 +5,12 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Welcome!</title>
-    </head>
-    <body>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<t:generic>
+    <jsp:attribute name="content">
         <h1>${user.login}</h1>
         <p>Your login: ${login}</p>
-    </body>
-</html>
+        <p>Your role: ${user.role.roleName}
+        </jsp:attribute>
+    </t:generic>

@@ -43,7 +43,7 @@ public class Controller extends HttpServlet {
             log.error("Failed to redirect", ex);
         }
         String path = "/" + redirect.getUrl();
-        request.getRequestDispatcher(path).include(request, response);
+        request.getRequestDispatcher(path).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
