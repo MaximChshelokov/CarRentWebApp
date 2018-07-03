@@ -1,11 +1,23 @@
 <%@tag description="Page template" pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@attribute name="content" fragment="true" %>
+
+<fmt:bundle basename="i18n">
+    <fmt:message key="email" var="email"/>
+    <fmt:message key="err_login" var="errLogin"/>
+    <fmt:message key="login" var="login"/>
+    <fmt:message key="password" var="password"/>
+    <fmt:message key="remember" var="remember"/>
+    <fmt:message key="title" var="title"/>
+</fmt:bundle>
+
+
 <!DOCTYPE HTML>
 <html>
     <head>
-        <title>Rent A Car</title>
+        <title>${title}</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <c:set var="url">${pageContext.request.requestURL}</c:set>
@@ -16,7 +28,7 @@
         <!-- Header -->
         <header id="header">
             <div class="inner">
-                <a href="${root}" class="logo"><strong>Rent A Car</strong></a>
+                <a href="" class="logo"><strong>${title}</strong></a>
                 <nav id="nav">
                     <a href="index.html">Sign in</a>
                     <a href="generic.html">Login</a>
@@ -39,34 +51,39 @@
 
                     <section class="3u 12u(medium)">                                                    
                         <c:if test="${errorLogin==1}">
-                            <p>No such user!</p>
+                            <p>${errLogin}</p>
                         </c:if>
-                        <c:if test="${empty user}">
-                            <h3>Login</h3>
+                        <c:choose>
+                        <c:when test="${empty user}">
+                            <h3>${login}</h3>
                             <form method="post" action="action/login">
                                 <div class="row uniform">
                                     <div class="12u">
                                         <!--<label for="email">Email ID:</label>-->
-                                        <input type="text" name="email" placeholder="Email" />
+                                        <input type="text" name="email" placeholder="${email}" />
                                     </div>
                                     <div class="12u">
                                         <!--<label for="email">Password:</label>-->
-                                        <input type="password" name="pass" placeholder="Password" />
+                                        <input type="password" name="pass" placeholder="${password}" />
                                     </div>
                                     <div class="12u">
                                         <ul class="actions">
-                                            <input type="submit" value="login" />
+                                            <input type="submit" value="${login}" />
                                         </ul>
                                     </div>
                                     <div class="12u">
                                         <input type="checkbox" id="remember" name="remember">
                                         <label for="remember">
-                                            Remember me
+                                            ${remember}
                                         </label>
                                     </div>
                                 </div>
                             </form>
-                        </c:if>
+                        </c:when>
+                            <c:otherwise>
+                                
+                            </c:otherwise>
+                        </c:choose>
                     </section>
                 </div>
             </div>

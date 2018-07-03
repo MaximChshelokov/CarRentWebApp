@@ -23,7 +23,8 @@ public class Login implements Action {
         UserService userService = new UserService();
         String login = req.getParameter("email");
         String password = req.getParameter("pass");
-        log.debug(String.format("Login = '%s', password = '%s'", login, password));
+        String remember = req.getParameter("remember");
+        log.debug(String.format("Login = '%s', password = '%s', remember = '%s'", login, password, remember));
         try {
             List userList = userService.getUserByCredentials(login, password);
             if (userList.size() == 1) {
