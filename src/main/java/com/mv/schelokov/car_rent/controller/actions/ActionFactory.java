@@ -1,8 +1,6 @@
 package com.mv.schelokov.car_rent.controller.actions;
 
 import com.mv.schelokov.car_rent.controller.Urls;
-import java.util.HashMap;
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -14,16 +12,20 @@ public class ActionFactory {
     public static Action action(HttpServletRequest req) {
         String actionName = req.getPathInfo().replaceAll("/", "").toUpperCase();
         if ("".equals(actionName))
-            return new ShowPage("index.html");
+            return new ShowPage("WEB-INF/jsp/home.jsp");
         switch(Urls.valueOf(actionName)) {
             case HOME:
-                return new ShowPage("index.html");
+                return new ShowPage("WEB-INF/jsp/home.jsp");
             case LOGIN:
                 return new Login();
             case LOGIN_PAGE:
                 return new ShowPage("login.jsp");
+            case WELCOME:
+                return new ShowPage("view/welcome.jsp");
+            case ADMIN_ACTIONS:
+                return new ShowPage("WEB-INF/jsp/admin/admin-actions.jsp");
             default:
-                return new ShowPage("index.html");                
+                return new ShowPage("WEB-INF/jsp/home.jsp");                
         }
     }
 }

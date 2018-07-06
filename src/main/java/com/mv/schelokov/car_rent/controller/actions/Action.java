@@ -9,6 +9,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 public interface Action {
     
-    JspRedirect execute(HttpServletRequest req, HttpServletResponse res) throws Exception;
+    JspForward execute(HttpServletRequest req, HttpServletResponse res) throws Exception;
     
 }

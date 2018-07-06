@@ -2,14 +2,10 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@attribute name="content" fragment="true" %>
 
-<fmt:bundle basename="i18n">
-    <fmt:message key="email" var="email"/>
-    <fmt:message key="err_login" var="errLogin"/>
-    <fmt:message key="login" var="login"/>
-    <fmt:message key="password" var="password"/>
-    <fmt:message key="remember" var="remember"/>
+<fmt:bundle basename="i18n" prefix="application.">
     <fmt:message key="title" var="title"/>
 </fmt:bundle>
 
@@ -50,38 +46,12 @@
                     <!-- Sidebar -->
 
                     <section class="3u 12u(medium)">                                                    
-                        <c:if test="${errorLogin==1}">
-                            <p>${errLogin}</p>
-                        </c:if>
                         <c:choose>
-                        <c:when test="${empty user}">
-                            <h3>${login}</h3>
-                            <form method="post" action="action/login">
-                                <div class="row uniform">
-                                    <div class="12u">
-                                        <!--<label for="email">Email ID:</label>-->
-                                        <input type="text" name="email" placeholder="${email}" />
-                                    </div>
-                                    <div class="12u">
-                                        <!--<label for="email">Password:</label>-->
-                                        <input type="password" name="pass" placeholder="${password}" />
-                                    </div>
-                                    <div class="12u">
-                                        <ul class="actions">
-                                            <input type="submit" value="${login}" />
-                                        </ul>
-                                    </div>
-                                    <div class="12u">
-                                        <input type="checkbox" id="remember" name="remember">
-                                        <label for="remember">
-                                            ${remember}
-                                        </label>
-                                    </div>
-                                </div>
-                            </form>
-                        </c:when>
+                            <c:when test="${empty user}">
+                                <t:login-panel/>
+                            </c:when>
                             <c:otherwise>
-                                
+
                             </c:otherwise>
                         </c:choose>
                     </section>
@@ -92,30 +62,9 @@
         <!-- Footer -->
         <footer id="footer">
             <div class="inner">
-
-                <h3>Get in touch</h3>
-
-                <form action="#" method="post">
-
-                    <div class="field half first">
-                        <label for="name">Name</label>
-                        <input name="name" id="name" type="text" placeholder="Name">
-                    </div>
-                    <div class="field half">
-                        <label for="email">Email</label>
-                        <input name="email" id="email" type="email" placeholder="Email">
-                    </div>
-                    <div class="field">
-                        <label for="message">Message</label>
-                        <textarea name="message" id="message" rows="6" placeholder="Message"></textarea>
-                    </div>
-                    <ul class="actions">
-                        <li><input value="Send Message" class="button alt" type="submit"></li>
-                    </ul>
-                </form>
-
                 <div class="copyright">
-                    &copy; Untitled. Design: <a href="https://templated.co">TEMPLATED</a>. Images: <a href="https://unsplash.com">Unsplash</a>.
+                    Education project by Maxim Chshelokov: <a href="https://github.com/MaximChshelokov/CarRentWebApp">GitHub</a>.<br/>
+                    &copy; CSS Design free template: <a href="https://templated.co">TEMPLATED</a>.
                 </div>
 
             </div>

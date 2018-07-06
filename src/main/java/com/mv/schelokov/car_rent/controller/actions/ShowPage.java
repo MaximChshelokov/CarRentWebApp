@@ -1,7 +1,12 @@
 package com.mv.schelokov.car_rent.controller.actions;
 
+import com.mv.schelokov.car_rent.controller.exceptions.ActionException;
+import com.mv.schelokov.car_rent.model.entities.User;
+import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -9,15 +14,37 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ShowPage implements Action {
     
-    private String url;
+    private static final Logger log = Logger.getLogger(ShowPage.class);
+    private static final String SEND_ERROR = "Failed to send an HTTP error";
+    private final String url;
     
     public ShowPage(String url) {
         this.url = url;
     }
 
     @Override
-    public JspRedirect execute(HttpServletRequest req, HttpServletResponse res) {
-        return new JspRedirect(url);
+    public JspForward execute(HttpServletRequest req, HttpServletResponse res)
+            throws ActionException {
+        // Get the subdirectory name in the jsp folder. This name must be the
+        // same as a role name for the user (case insensitive)
+        String urlAccessRole = url.replace("WEB-INF/jsp", "");
+        urlAccessRole = urlAccessRole.substring(0, urlAccessRole
+                .lastIndexOf("/")).replaceAll("/", "");
+        if (urlAccessRole.length() > 0) {
+            HttpSession session = req.getSession();
+            User user = (User) session.getAttribute("user");
+            if (user == null || !urlAccessRole.toLowerCase()
+                    .equals(user.getRole().getRoleName().toLowerCase())) {
+                try {
+                    res.sendError(403);
+                } catch (IOException ex) {
+                    log.error(SEND_ERROR, ex);
+                    throw new ActionException(SEND_ERROR, ex);
+                }
+                return null;
+            }
+        }
+        return new JspForward(url);
     }
     
 }

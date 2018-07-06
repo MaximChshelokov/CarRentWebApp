@@ -17,9 +17,10 @@ import org.apache.log4j.Logger;
 public class Login implements Action {
     
     public static final Logger log = Logger.getLogger(Login.class);
+    private static final int ADMIN_ROLE = 1;
 
     @Override
-    public JspRedirect execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+    public JspForward execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
         UserService userService = new UserService();
         String login = req.getParameter("email");
         String password = req.getParameter("pass");
@@ -33,14 +34,18 @@ public class Login implements Action {
                 session.setAttribute("user", user);
                 req.setAttribute("login", login);
                 log.debug("Parameters has been written");
-            } else
-                log.debug(String.format("userList.size = %d", userList.size()));
+                if (user.getRole().getId() == ADMIN_ROLE)
+                    return new JspForward("action/admin_actions", true);
+                else
+                    return new JspForward("action/welcome", true);
+            } else {
+                req.setAttribute("errorLogin", 1);
+                return new JspForward("login.jsp");
+            }
         } catch (ServiceException ex) {
             log.error("Failed to login", ex);
             throw new ActionException("Failed to login", ex);
         }
-        return new JspRedirect("/view/welcome.jsp");
-                
     }
 
     
