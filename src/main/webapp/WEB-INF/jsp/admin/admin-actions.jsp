@@ -9,17 +9,19 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <t:generic>
     <jsp:attribute name="content">
-        <div class="3u 12u medium">
-            <a href="action/car_list" class="button" >Car list</a>
-        </div>
-        <div class="3u 12u medium">
-            <a href="action/user_list" class="button" >User list</a>
-        </div>
-        <div class="3u 12u medium">
-            <a href="action/overdue" class="button" >Overdue payments</a>
-        </div>
-        <div class="3u 12u medium">
-            <a href="action/application" class="button" >Rent orders</a>
+        <div class="row">
+            <div class="3u 12u medium">
+                <a href="action/car_list" class="button" >Car list</a>
+            </div>
+            <div class="3u 12u medium">
+                <a href="action/user_list" class="button" >User list</a>
+            </div>
+            <div class="3u 12u medium">
+                <a href="action/overdue" class="button" >Overdue payments</a>
+            </div>
+            <div class="3u 12u medium">
+                <a href="action/application" class="button" >Rent orders</a>
+            </div>
         </div>
     </jsp:attribute>
 </t:generic>

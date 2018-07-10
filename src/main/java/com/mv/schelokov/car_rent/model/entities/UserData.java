@@ -12,6 +12,7 @@ public class UserData implements Entity {
     private String name;
     private String address;
     private String phone;
+    private User user;
 
     /**
      * @return the id
@@ -70,13 +71,33 @@ public class UserData implements Entity {
         this.phone = phone;
     }
 
+    /**
+     * @return the user
+     */
+    public User getUser() {
+        return user;
+    }
+
+    /**
+     * @param user the user to set
+     */
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "UserData{" + "id=" + id + ", name=" + name + ", address=" + address + ", phone=" + phone + ", user=" + user + '}';
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 67 * hash + this.id;
-        hash = 67 * hash + Objects.hashCode(this.name);
-        hash = 67 * hash + Objects.hashCode(this.address);
-        hash = 67 * hash + Objects.hashCode(this.phone);
+        hash = 71 * hash + this.id;
+        hash = 71 * hash + Objects.hashCode(this.name);
+        hash = 71 * hash + Objects.hashCode(this.address);
+        hash = 71 * hash + Objects.hashCode(this.phone);
+        hash = 71 * hash + Objects.hashCode(this.user);
         return hash;
     }
 
@@ -104,12 +125,9 @@ public class UserData implements Entity {
         if (!Objects.equals(this.phone, other.phone)) {
             return false;
         }
+        if (!Objects.equals(this.user, other.user)) {
+            return false;
+        }
         return true;
     }
-
-    @Override
-    public String toString() {
-        return "UserData{" + "id=" + id + ", name=" + name + ", address=" + address + ", phone=" + phone + '}';
-    }
-    
 }

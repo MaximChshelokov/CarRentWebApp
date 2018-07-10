@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee  http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>/action/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>locale</filter-name>
+        <url-pattern>/action/*</url-pattern>
+    </filter-mapping>
     <listener>
         <listener-class>
             com.mv.schelokov.car_rent.controller.listeners.WebAppListener
@@ -20,15 +28,14 @@
         <servlet-name>Controller</servlet-name>
         <url-pattern>/action/*</url-pattern>
     </servlet-mapping>
-    
     <filter>
         <filter-name>locale</filter-name>
         <filter-class>com.mv.schelokov.car_rent.controller.filters.LocaleFilter</filter-class>
     </filter>
-    <filter-mapping>
-        <filter-name>locale</filter-name>
-        <url-pattern>/action/*</url-pattern>
-    </filter-mapping>
+    <filter>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>com.mv.schelokov.car_rent.controller.filters.EncodingFilter</filter-class>
+    </filter>
     <session-config>
         <session-timeout>
             30

@@ -7,6 +7,7 @@ import com.mv.schelokov.car_rent.model.db.repository.factories.RepositoryFactory
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.Criteria;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.Repository;
 import com.mv.schelokov.car_rent.model.entities.User;
+import com.mv.schelokov.car_rent.model.entities.UserData;
 import com.mv.schelokov.car_rent.model.services.exceptions.ServiceException;
 import com.mv.schelokov.car_rent.model.utils.ShaHash;
 import java.security.NoSuchAlgorithmException;
@@ -22,21 +23,22 @@ public class UserService {
     public static final Logger log = Logger.getLogger(UserService.class);
     private static final String SALT = "NuiF9cD32Kaw3";
     
-    private static final String NEW_USER_ERROR = "Failed to create new user";
-    private static final String CHECK_USER_ERROR = "Failed to check if the user"
-            + " does exist";
+    private static final String USER_REPOSITORY_ERROR = "Failed to write the user";
+    private static final String USER_CRITERIA_ERROR = "Failed to get user list"
+            + " from the repository by the criteria";
+    private static final String USER_DATA_REPOSITORY_ERROR = "Failed to get user"
+            + " data from the repository by the criteria";
+    private static final String ROLE_REPOSITORY_ERROR = "Failed to get roles "
+            + "list from the repository";
+    private static final String USER_REPOSITORY_ADD = "Failed to write the user data";
     private static final String HASH_ERROR = "Hash algorithm SHA-512 not found";
     
-    public void RegisterNewUser(User user) throws ServiceException {
-        try(RepositoryFactory repositoryFactory = new RepositoryFactory()) {
-            user.setPassword(hashPassword(user.getPassword()));
-            Repository userRepository = repositoryFactory.getUserRepository();
-            userRepository.add(user);
-        }
-        catch (RepositoryException | DbException ex) {
-            log.error(NEW_USER_ERROR, ex);
-            throw new ServiceException(NEW_USER_ERROR, ex);
-        }
+    public void registerNewUser(User user) throws ServiceException {
+        addUpdateUser(user, false);
+    }
+    
+    public void updateUser(User user) throws ServiceException {
+        addUpdateUser(user, true);
     }
     
     public List getUserByCredentials(String login, String password) 
@@ -51,16 +53,96 @@ public class UserService {
         return getUsersByCriteria(criteria);
     }
     
+    public int getUserNumber() throws ServiceException {
+        return getAllUsers().size();
+    }
+    
+    public List getAllUsers() throws ServiceException {
+        Criteria criteria = CriteriaFactory.getAllUsersData();
+        return getUserDataByCriteria(criteria);       
+    }
+    
+    public UserData getUserDataById(int id) throws ServiceException {
+        Criteria criteria = CriteriaFactory.getUserDataById(id);
+        return (UserData) getUserDataByCriteria(criteria).get(0);
+    }
+    
+    public void addUserData(UserData userData) throws ServiceException {
+        addUpdateUserData(userData, false);
+        updateUser(userData.getUser());
+    }
+    
+    public void updateUserData(UserData userData) throws ServiceException {
+        addUpdateUserData(userData, true);
+        updateUser(userData.getUser());
+    }
+    
+    public List getAllRoles() throws ServiceException {
+        try (RepositoryFactory repositoryFactory = new RepositoryFactory()) {
+            Repository roleRepository = repositoryFactory.getRoleRepository();
+            Criteria criteria = CriteriaFactory.getAllRoles();
+            return roleRepository.read(criteria);
+        }
+        catch (RepositoryException | DbException ex) {
+            log.error(ROLE_REPOSITORY_ERROR, ex);
+            throw new ServiceException(ROLE_REPOSITORY_ERROR, ex);
+        }    
+    }
+    
+    private void addUpdateUser(User user, boolean update)
+            throws ServiceException {
+        try(RepositoryFactory repositoryFactory = new RepositoryFactory()) {
+            Repository userRepository = repositoryFactory.getUserRepository();
+            if (update)
+                userRepository.update(user);
+            else {
+                user.setPassword(hashPassword(user.getPassword()));
+                userRepository.add(user);
+            }
+        }
+        catch (RepositoryException | DbException ex) {
+            log.error(USER_REPOSITORY_ERROR, ex);
+            throw new ServiceException(USER_REPOSITORY_ERROR, ex);
+        }
+    } 
+    
+    private void addUpdateUserData(UserData userData, boolean update) 
+            throws ServiceException {
+        try (RepositoryFactory repositoryFactory = new RepositoryFactory()) {
+            Repository userDataRepository = repositoryFactory.getUserDataRepository();
+            if (update)
+                userDataRepository.update(userData);
+            else
+                userDataRepository.add(userData);
+        }
+        catch (RepositoryException | DbException ex) {
+            log.error(USER_REPOSITORY_ADD, ex);
+            throw new ServiceException(USER_REPOSITORY_ADD, ex);
+        }   
+    }
+    
     private List getUsersByCriteria(Criteria criteria) throws ServiceException {
         try(RepositoryFactory repositoryFactory = new RepositoryFactory()) {
             Repository userRepository = repositoryFactory.getUserRepository();
             return userRepository.read(criteria);
         }
         catch (RepositoryException | DbException ex) {
-            log.error(CHECK_USER_ERROR, ex);
-            throw new ServiceException(CHECK_USER_ERROR, ex);
+            log.error(USER_CRITERIA_ERROR, ex);
+            throw new ServiceException(USER_CRITERIA_ERROR, ex);
         }
-    }   
+    }
+    
+    private List getUserDataByCriteria(Criteria criteria)
+            throws ServiceException {
+        try (RepositoryFactory repositoryFactory = new RepositoryFactory()) {
+            Repository userDataRepository = 
+                    repositoryFactory.getUserDataRepository();
+            return userDataRepository.read(criteria);
+        } catch (RepositoryException | DbException ex) {
+            log.error(USER_DATA_REPOSITORY_ERROR, ex);
+            throw new ServiceException(USER_DATA_REPOSITORY_ERROR, ex);
+        }
+    }
     
     private String hashPassword(String password) throws ServiceException {
         try {

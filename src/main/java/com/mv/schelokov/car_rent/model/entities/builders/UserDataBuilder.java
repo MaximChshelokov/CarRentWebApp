@@ -1,5 +1,6 @@
 package com.mv.schelokov.car_rent.model.entities.builders;
 
+import com.mv.schelokov.car_rent.model.entities.User;
 import com.mv.schelokov.car_rent.model.entities.UserData;
 
 /**
@@ -31,6 +32,11 @@ public class UserDataBuilder {
     
     public UserDataBuilder setPhone(String phone) {
         this.userData.setPhone(phone);
+        return this;
+    }
+    
+    public UserDataBuilder setUser(User user) {
+        this.userData.setUser(user);
         return this;
     }
     

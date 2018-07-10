@@ -38,7 +38,7 @@ public class UserServiceTest {
         User user = new UserBuilder().setLogin("admin").setPassword("admin")
                 .setRole(new RoleBuilder().setId(1).getRole())
                 .getUser();
-        userService.RegisterNewUser(user);
+        userService.registerNewUser(user);
         assertTrue(true);
     }
 

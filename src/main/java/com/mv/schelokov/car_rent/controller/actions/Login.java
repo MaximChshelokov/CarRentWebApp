@@ -14,10 +14,9 @@ import org.apache.log4j.Logger;
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
-public class Login implements Action {
+public class Login extends AbstractAction {
     
     public static final Logger log = Logger.getLogger(Login.class);
-    private static final int ADMIN_ROLE = 1;
 
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
@@ -34,20 +33,18 @@ public class Login implements Action {
                 session.setAttribute("user", user);
                 req.setAttribute("login", login);
                 log.debug("Parameters has been written");
-                if (user.getRole().getId() == ADMIN_ROLE)
+                if (isAdmin(req))
                     return new JspForward("action/admin_actions", true);
                 else
                     return new JspForward("action/welcome", true);
             } else {
                 req.setAttribute("errorLogin", 1);
-                return new JspForward("login.jsp");
+                return new JspForward("action/home", true);
             }
         } catch (ServiceException ex) {
             log.error("Failed to login", ex);
             throw new ActionException("Failed to login", ex);
         }
     }
-
-    
     
 }

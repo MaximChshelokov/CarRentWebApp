@@ -1,11 +1,12 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
-import com.mv.schelokov.car_rent.model.db.repository.exceptions.CriteriaMismatchException;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.AbstractSqlRepository;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.Criteria;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.SqlCriteria;
 import com.mv.schelokov.car_rent.model.entities.User;
 import com.mv.schelokov.car_rent.model.entities.UserData;
+import com.mv.schelokov.car_rent.model.entities.builders.RoleBuilder;
+import com.mv.schelokov.car_rent.model.entities.builders.UserBuilder;
 import com.mv.schelokov.car_rent.model.entities.builders.UserDataBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,10 +22,24 @@ public class UserDataRepository extends AbstractSqlRepository<UserData> {
     public interface ReadCriteria extends SqlCriteria {}
 
     public interface DeleteCriteria extends SqlCriteria {}
+    
+    public static final SelectAll SELECT_ALL = new SelectAll();
+    
+    public static class SelectAll implements ReadCriteria {
+        private static final String QUERY = "SELECT login,password,userdata_id,"
+                + "name,address,phone,role,role_name,user_id FROM users_data_full";
+        
+        @Override
+        public String toSqlQuery() {
+            return QUERY;
+        }
 
-    public static class FindByUser implements ReadCriteria {
-        private static final String QUERY = "SELECT * FROM users_data "
-                + "WHERE userdata_id=?";
+        @Override
+        public void setStatement(PreparedStatement ps) throws SQLException {}
+    }
+
+    public static class FindByUser extends SelectAll {
+        private static final String QUERY = " WHERE user_id=?";
         private final int userId;
         private static final int USER_ID_COLUMN = 1;
 
@@ -38,7 +53,7 @@ public class UserDataRepository extends AbstractSqlRepository<UserData> {
 
         @Override
         public String toSqlQuery() {
-            return QUERY;
+            return super.toSqlQuery() + QUERY;
         }
 
         @Override
@@ -60,7 +75,8 @@ public class UserDataRepository extends AbstractSqlRepository<UserData> {
      * INSERT attribute)
      */
     enum Fields {
-        USERDATA_ID(1, 4), NAME(2, 1), ADDRESS(3, 2), PHONE(4, 3);
+        USERDATA_ID(1, 4),  NAME(2, 1), ADDRESS(3, 2), PHONE(4, 3), ROLE,
+        ROLE_NAME, USER_ID, LOGIN, PASSWORD;
         
         int INSERT, UPDATE;
         
@@ -68,6 +84,8 @@ public class UserDataRepository extends AbstractSqlRepository<UserData> {
             this.INSERT = insert;
             this.UPDATE = update;
         }
+        
+        Fields() {}
     }
     
     public UserDataRepository(Connection connection) {
@@ -96,6 +114,15 @@ public class UserDataRepository extends AbstractSqlRepository<UserData> {
                 .setName(rs.getString(Fields.NAME.name()))
                 .setAddress(rs.getString(Fields.ADDRESS.name()))
                 .setPhone(rs.getString(Fields.PHONE.name()))
+                .setUser(new UserBuilder()
+                        .setId(rs.getInt(Fields.USER_ID.name()))
+                        .setLogin(rs.getString(Fields.LOGIN.name()))
+                        .setPassword(rs.getString(Fields.PASSWORD.name()))
+                        .setRole(new RoleBuilder()
+                                .setId(rs.getInt(Fields.ROLE.name()))
+                                .setRoleName(rs.getString(Fields.ROLE_NAME.name()))
+                                .getRole())
+                        .getUser())
                 .getUserData();
     }
 
