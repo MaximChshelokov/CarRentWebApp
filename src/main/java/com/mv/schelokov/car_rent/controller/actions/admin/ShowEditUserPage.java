@@ -13,9 +13,9 @@ import org.apache.log4j.Logger;
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
-public class EditUser extends AbstractAction {
+public class ShowEditUserPage extends AbstractAction {
     
-    private static final Logger log = Logger.getLogger(EditUser.class);
+    private static final Logger log = Logger.getLogger(ShowEditUserPage.class);
     private static final String ERROR = "Unable to prepare an edit page for user";
 
     @Override
@@ -24,7 +24,7 @@ public class EditUser extends AbstractAction {
         if (isAdmin(req)) {
             UserService userService = new UserService();
             try {
-                int id = Integer.parseInt(req.getParameter("id"));
+                int id = getIntParam(req, "id");
                 req.getSession().setAttribute("user_data", userService.getUserDataById(id));
                 return new JspForward("WEB-INF/jsp/admin/edit_user.jsp");
             }

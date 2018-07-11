@@ -39,6 +39,14 @@ public abstract class AbstractAction implements Action {
         return null;
     }
     
+    public int getIntParam(HttpServletRequest req, String name) {
+        String param = req.getParameter(name);
+        if (param != null && param.length() > 0)
+            return Integer.parseInt(param);
+        else
+            return 0;
+    }
+    
     public boolean isUserLogged(HttpServletRequest req, int roleId) {
         HttpSession session = req.getSession(false);
         if (session != null) {

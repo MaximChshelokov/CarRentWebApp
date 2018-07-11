@@ -9,13 +9,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  * @param <T> - the entity class
  */
-public abstract class AbstractSqlRepository <T extends Entity> implements Repository <T> {
+public abstract class AbstractSqlRepository <T extends Entity> 
+        implements Repository <T> {
+    
+    private static final Logger LOG = 
+            Logger.getLogger(AbstractSqlRepository.class);
+    private static final String RESULTSER_ERROR = "ResultSet error occurred";
+    private static final String PREPAREDSTAT_ERROR = 
+            "PreparedStatement error occurred";
+    private static final String CRITERIA_MISTMATCH = 
+            "Criteria class mistmatches";
     
     private final Connection connection;
     
@@ -36,14 +46,18 @@ public abstract class AbstractSqlRepository <T extends Entity> implements Reposi
                         result.add(createItem(rs));
                     }
                 } catch (SQLException ex) {
-                    throw new DbException ("Error while creating ResultSet", ex);
+                    LOG.error(RESULTSER_ERROR);
+                    throw new DbException (RESULTSER_ERROR, ex);
                 }
             } catch (SQLException ex) {
-                throw new DbException("Error while creating PreparedStatement", 
-                        ex); // Change to constant
+                LOG.error(PREPAREDSTAT_ERROR);
+                throw new DbException(PREPAREDSTAT_ERROR, ex);
             }
             return result;
-        } else throw new CriteriaMismatchException("Criteria class mistmatches");
+        } else {
+            LOG.error(CRITERIA_MISTMATCH);
+            throw new CriteriaMismatchException(CRITERIA_MISTMATCH);
+        }
     }
 
     @Override
@@ -55,9 +69,13 @@ public abstract class AbstractSqlRepository <T extends Entity> implements Reposi
                 sqlCriteria.setStatement(ps);
                 return ps.executeUpdate() > 0;                
             } catch (SQLException ex) {
-                throw new DbException("Error while creating PreparedStatement", ex); // Change to constant
+                LOG.error(PREPAREDSTAT_ERROR);
+                throw new DbException(PREPAREDSTAT_ERROR, ex);
             }
-        } else throw new CriteriaMismatchException("Criteria class mistmatches");
+        } else {
+            LOG.error(CRITERIA_MISTMATCH);
+            throw new CriteriaMismatchException(CRITERIA_MISTMATCH);
+        }
     }
 
     /**
@@ -68,31 +86,37 @@ public abstract class AbstractSqlRepository <T extends Entity> implements Reposi
      */
     @Override
     public boolean remove(T item) throws DbException {
-        try (PreparedStatement ps = connection.prepareStatement(getRemoveQuery())) {
+        try (PreparedStatement ps = connection
+                .prepareStatement(getRemoveQuery())) {
             ps.setInt(1, item.getId());
             return ps.executeUpdate() > 0;
         } catch (SQLException ex) {
-                throw new DbException("Error while creating PreparedStatement", ex); // Change to constant
+            LOG.error(PREPAREDSTAT_ERROR);
+            throw new DbException(PREPAREDSTAT_ERROR, ex);
         }
     }
 
     @Override
     public boolean update(T item) throws DbException {
-        try (PreparedStatement ps = connection.prepareStatement(getUpdateQuery())) {
+        try (PreparedStatement ps = connection
+                .prepareStatement(getUpdateQuery())) {
             setStatement(ps, item, true);
             return ps.executeUpdate() > 0;
         } catch (SQLException ex) {
-            throw new DbException("Error while creating PreparedStatement", ex); // Change to constant
+            LOG.error(PREPAREDSTAT_ERROR);
+            throw new DbException(PREPAREDSTAT_ERROR, ex);
         }
     }
     
     @Override
     public boolean add(T item) throws DbException {
-        try (PreparedStatement ps = connection.prepareStatement(getCreateQuery())) {
+        try (PreparedStatement ps = connection
+                .prepareStatement(getCreateQuery())) {
             setStatement(ps, item, false);
             return ps.executeUpdate() > 0;
         } catch (SQLException ex) {
-            throw new DbException("Error while creating PreparedStatement", ex); // Change to constant
+            LOG.error(PREPAREDSTAT_ERROR);
+            throw new DbException(PREPAREDSTAT_ERROR, ex);
         }
     }
     
@@ -109,5 +133,4 @@ public abstract class AbstractSqlRepository <T extends Entity> implements Reposi
     
     protected abstract boolean checkCriteriaInstance(Criteria criteria, 
             boolean isDeleteCriteria);
-    
 }

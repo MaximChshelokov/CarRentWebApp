@@ -28,7 +28,7 @@
                                 <td><c:out value="${data.address}"/></td>
                                 <td><c:out value="${data.phone}"/></td>
                                 <td><c:out value="${data.user.role.roleName}"/></td>
-                                <td><a href="#" class="button special small">Delete</a></td>
+                                <td><a href="action/delete_user?id=${data.user.id}&uid=${data.id}" onclick="return confirm('Are you sure you want to delete this item?');" class="button special small">Delete</a></td>
                                 <td><a href="action/edit_user?id=${data.user.id}" class="button small">Edit</a></td>
                             </tr>                                   
                         </c:forEach>

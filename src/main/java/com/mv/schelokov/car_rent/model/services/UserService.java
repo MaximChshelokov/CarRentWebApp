@@ -33,12 +33,18 @@ public class UserService {
     private static final String USER_REPOSITORY_ADD = "Failed to write the user data";
     private static final String HASH_ERROR = "Hash algorithm SHA-512 not found";
     
+    private enum Operation { CREATE, UPDATE, DELETE }
+    
     public void registerNewUser(User user) throws ServiceException {
-        addUpdateUser(user, false);
+        operateUser(user, Operation.CREATE);
     }
     
     public void updateUser(User user) throws ServiceException {
-        addUpdateUser(user, true);
+        operateUser(user, Operation.UPDATE);
+    }
+    
+    public void deleteUser(User user) throws ServiceException {
+        operateUser(user, Operation.DELETE);
     }
     
     public List getUserByCredentials(String login, String password) 
@@ -68,13 +74,18 @@ public class UserService {
     }
     
     public void addUserData(UserData userData) throws ServiceException {
-        addUpdateUserData(userData, false);
+        operateUserData(userData, Operation.CREATE);
         updateUser(userData.getUser());
     }
     
     public void updateUserData(UserData userData) throws ServiceException {
-        addUpdateUserData(userData, true);
+        operateUserData(userData, Operation.UPDATE);
         updateUser(userData.getUser());
+    }
+    
+    public void deleteUserData(UserData userData) throws ServiceException {
+        operateUserData(userData, Operation.DELETE);
+        deleteUser(userData.getUser());
     }
     
     public List getAllRoles() throws ServiceException {
@@ -89,33 +100,43 @@ public class UserService {
         }    
     }
     
-    private void addUpdateUser(User user, boolean update)
+    private void operateUser(User user, Operation operation)
             throws ServiceException {
         try(RepositoryFactory repositoryFactory = new RepositoryFactory()) {
             Repository userRepository = repositoryFactory.getUserRepository();
-            if (update)
-                userRepository.update(user);
-            else {
-                user.setPassword(hashPassword(user.getPassword()));
-                userRepository.add(user);
+            switch (operation) {
+                case UPDATE:
+                    userRepository.update(user);
+                    break;
+                case CREATE:
+                    user.setPassword(hashPassword(user.getPassword()));
+                    userRepository.add(user);
+                    break;
+                case DELETE:
+                    userRepository.remove(user);
             }
-        }
-        catch (RepositoryException | DbException ex) {
+        } catch (RepositoryException | DbException ex) {
             log.error(USER_REPOSITORY_ERROR, ex);
             throw new ServiceException(USER_REPOSITORY_ERROR, ex);
         }
     } 
     
-    private void addUpdateUserData(UserData userData, boolean update) 
+    private void operateUserData(UserData userData, Operation operation) 
             throws ServiceException {
         try (RepositoryFactory repositoryFactory = new RepositoryFactory()) {
             Repository userDataRepository = repositoryFactory.getUserDataRepository();
-            if (update)
-                userDataRepository.update(userData);
-            else
-                userDataRepository.add(userData);
-        }
-        catch (RepositoryException | DbException ex) {
+            switch(operation) {
+                case UPDATE:   
+                    userDataRepository.update(userData);
+                    break;
+                case CREATE:
+                    userData.setId(userData.getUser().getId());
+                    userDataRepository.add(userData);
+                    break;
+                case DELETE:
+                    userDataRepository.remove(userData);
+            }
+        } catch (RepositoryException | DbException ex) {
             log.error(USER_REPOSITORY_ADD, ex);
             throw new ServiceException(USER_REPOSITORY_ADD, ex);
         }   

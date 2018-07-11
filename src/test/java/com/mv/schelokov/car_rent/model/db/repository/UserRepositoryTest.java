@@ -39,7 +39,7 @@ public class UserRepositoryTest {
     @Test
     public void findLoginPasswordUser() throws DbException {
         
-        List<User> ul = ur.read(new UserRepository.FindLoginPassword("admin", 
+        List<User> ul = ur.read(new UserRepository.FindLoginPassword("boss", 
                 "admin"));
         assertEquals(ul.size(), 1);
     }

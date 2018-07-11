@@ -1,7 +1,8 @@
 package com.mv.schelokov.car_rent.controller.actions;
 
 import com.mv.schelokov.car_rent.controller.Urls;
-import com.mv.schelokov.car_rent.controller.actions.admin.EditUser;
+import com.mv.schelokov.car_rent.controller.actions.admin.DeleteUser;
+import com.mv.schelokov.car_rent.controller.actions.admin.ShowEditUserPage;
 import com.mv.schelokov.car_rent.controller.actions.admin.ShowUsersList;
 import com.mv.schelokov.car_rent.controller.actions.admin.UpdateUser;
 import javax.servlet.http.HttpServletRequest;
@@ -31,9 +32,11 @@ public class ActionFactory {
             case USER_LIST:
                 return new ShowUsersList();
             case EDIT_USER:
-                return new EditUser();
+                return new ShowEditUserPage();
             case UPDATE_USER:
                 return new UpdateUser();
+            case DELETE_USER:
+                return new DeleteUser();
             default:
                 return new ShowPage("WEB-INF/jsp/home.jsp");                
         }
