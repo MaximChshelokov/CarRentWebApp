@@ -11,7 +11,17 @@
 <fmt:bundle basename="i18n">
     <fmt:message key="admin-car-edit.caption" var="caption"/>
     <fmt:message key="application.form.submit" var="submit"/>
-    <fmt:message key="admin-car-edit.error" var="error_msg"/>
+    <c:choose>
+        <c:when test="${errParam == 1}">
+            <fmt:message key="admin-car-edit.error-year" var="error_msg"/>
+        </c:when>
+        <c:when test="${errParam == 2}">
+            <fmt:message key="admin-car-edit.error-empty" var="error_msg"/>
+        </c:when>
+        <c:when test="${errParam == 3}">
+            <fmt:message key="admin-car-edit.error-price" var="error_msg"/>
+        </c:when>
+    </c:choose>
 </fmt:bundle>
 <fmt:bundle basename="i18n" prefix="admin-car-list.">
     <t:generic>
@@ -20,6 +30,11 @@
                 <h3><c:out value="${caption}"/></h3>
             </header>
             <div class="row">
+                <div class="12u">
+                    <c:if test="${errParam!=0}">
+                        <p style="color:#ff0000"><c:out value="${error_msg}"/>
+                        </c:if>
+                </div>
                 <form method="post" action="action/update_car">
                     <div class="row uniform">
                         <div class="field half first">
@@ -49,11 +64,6 @@
                         </div>
                     </div>
                 </form>
-                <div class="12u">
-                    <c:if test="${errParam==1}">
-                        <p style="color:#ff0000"><c:out value="${error_msg}"/>
-                    </c:if>
-                </div>
             </div>
 
         </jsp:attribute>

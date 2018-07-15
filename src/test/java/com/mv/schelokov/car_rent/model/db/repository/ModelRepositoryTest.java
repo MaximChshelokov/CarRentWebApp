@@ -61,7 +61,11 @@ public class ModelRepositoryTest {
     @Test
     public void selectAllAndDeleteLast() throws DbException {
         List<Model> ml = mr.read(ModelRepository.SELECT_ALL);
-        assertTrue(mr.remove(ml.get(ml.size()-1)));
+        Model modelToDelete = new Model();
+        for (Model model : ml)
+            if (model.getId() > modelToDelete.getId())
+                modelToDelete = model;
+        assertTrue(mr.remove(modelToDelete));
     }
     
 }

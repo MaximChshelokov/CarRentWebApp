@@ -7,6 +7,7 @@ import com.mv.schelokov.car_rent.model.entities.builders.ModelBuilder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Comparator;
 import java.util.List;
 import org.junit.After;
 import org.junit.Before;
@@ -56,7 +57,11 @@ public class CarRepositoryTest {
     @Test
     public void selectAllAndDeleteLast() throws DbException {
         List<Car> cl = cr.read(CarRepository.SELECT_ALL);
-        assertTrue(cr.remove(cl.get(cl.size() - 1)));        
+        Car carToDelete = new Car();
+        for (Car car : cl)
+            if (car.getId() > carToDelete.getId())
+                carToDelete = car;
+        assertTrue(cr.remove(carToDelete));        
     }
     
     @Test

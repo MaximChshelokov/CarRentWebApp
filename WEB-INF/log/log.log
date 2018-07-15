@@ -90,3 +90,8 @@ Caused by: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Da
 	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdate(ClientPreparedStatement.java:1051)
 	at com.mv.schelokov.car_rent.model.db.repository.interfaces.AbstractSqlRepository.add(AbstractSqlRepository.java:93)
 	... 34 more
+2018-07-15 11:32:36 ERROR AbstractSqlRepository:94 - PreparedStatement error occurred
+2018-07-15 11:32:37 ERROR AbstractSqlRepository:94 - PreparedStatement error occurred
+2018-07-15 11:33:55 ERROR AbstractSqlRepository:94 - PreparedStatement error occurred
+2018-07-15 11:33:56 ERROR AbstractSqlRepository:94 - PreparedStatement error occurred
+2018-07-15 11:50:28 ERROR AbstractSqlRepository:94 - PreparedStatement error occurred
