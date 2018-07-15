@@ -26,12 +26,6 @@
                 </ul>
             </div>
             <div class="12u">
-                <input type="checkbox" id="remember" name="remember">
-                <label for="remember">
-                    <fmt:message key="remember"/>
-                </label>
-            </div>
-            <div class="12u">
                 <a href="action/signup" class="button special">Sign up</a>
             </div>
         </div>

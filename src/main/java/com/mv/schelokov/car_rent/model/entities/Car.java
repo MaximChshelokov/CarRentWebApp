@@ -13,6 +13,7 @@ public class Car implements Entity {
     private int yearOfMake;
     private int price;
     private String licensePlate;
+    private boolean available;
 
     /**
      * @return the id
@@ -71,11 +72,6 @@ public class Car implements Entity {
         this.licensePlate = licensePlate;
     }
 
-    @Override
-    public String toString() {
-        return "Car{" + "id=" + id + ", model=" + model + ", yearOfMake=" + yearOfMake + ", price=" + price + ", licensePlate=" + licensePlate + '}';
-    }
-
     /**
      * @return the model
      */
@@ -91,13 +87,19 @@ public class Car implements Entity {
     }
 
     @Override
+    public String toString() {
+        return "Car{" + "id=" + id + ", model=" + model + ", yearOfMake=" + yearOfMake + ", price=" + price + ", licensePlate=" + licensePlate + ", available=" + available + '}';
+    }
+
+    @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 29 * hash + this.id;
-        hash = 29 * hash + Objects.hashCode(this.model);
-        hash = 29 * hash + this.yearOfMake;
-        hash = 29 * hash + this.price;
-        hash = 29 * hash + Objects.hashCode(this.licensePlate);
+        int hash = 3;
+        hash = 89 * hash + this.id;
+        hash = 89 * hash + Objects.hashCode(this.model);
+        hash = 89 * hash + this.yearOfMake;
+        hash = 89 * hash + this.price;
+        hash = 89 * hash + Objects.hashCode(this.licensePlate);
+        hash = 89 * hash + (this.available ? 1 : 0);
         return hash;
     }
 
@@ -122,6 +124,9 @@ public class Car implements Entity {
         if (this.price != other.price) {
             return false;
         }
+        if (this.available != other.available) {
+            return false;
+        }
         if (!Objects.equals(this.licensePlate, other.licensePlate)) {
             return false;
         }
@@ -129,6 +134,20 @@ public class Car implements Entity {
             return false;
         }
         return true;
+    }
+
+    /**
+     * @return the available
+     */
+    public boolean isAvailable() {
+        return available;
+    }
+
+    /**
+     * @param available the available to set
+     */
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 
 }

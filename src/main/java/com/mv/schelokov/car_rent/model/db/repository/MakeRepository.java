@@ -34,6 +34,27 @@ public class MakeRepository extends AbstractSqlRepository<Make> {
         public void setStatement(PreparedStatement ps) throws SQLException {}
     }
     
+    public static class FindName extends SelectAll {
+
+        private static final String QUERY = " WHERE name=?";
+        private static final int NAME_INDEX = 1;
+        private final String name;
+
+        public FindName(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String toSqlQuery() {
+            return super.toSqlQuery() + QUERY;
+        }
+
+        @Override
+        public void setStatement(PreparedStatement ps) throws SQLException {
+            ps.setString(NAME_INDEX, this.name);
+        }
+    }
+    
     private static final String CREATE_QUERY = "INSERT INTO makes (name) "
             + "VALUES (?)";
     private static final String REMOVE_QUERY = "DELETE FROM makes WHERE"

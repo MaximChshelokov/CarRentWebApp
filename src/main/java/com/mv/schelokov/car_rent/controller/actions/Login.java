@@ -1,5 +1,6 @@
 package com.mv.schelokov.car_rent.controller.actions;
 
+import com.mv.schelokov.car_rent.controller.consts.SessionAttr;
 import com.mv.schelokov.car_rent.controller.exceptions.ActionException;
 import com.mv.schelokov.car_rent.model.entities.User;
 import com.mv.schelokov.car_rent.model.services.UserService;
@@ -16,23 +17,19 @@ import org.apache.log4j.Logger;
  */
 public class Login extends AbstractAction {
     
-    public static final Logger log = Logger.getLogger(Login.class);
+    public static final Logger LOG = Logger.getLogger(Login.class);
 
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
         UserService userService = new UserService();
         String login = req.getParameter("email");
         String password = req.getParameter("pass");
-        String remember = req.getParameter("remember");
-        log.debug(String.format("Login = '%s', password = '%s', remember = '%s'", login, password, remember));
         try {
             List userList = userService.getUserByCredentials(login, password);
             if (userList.size() == 1) {
                 User user = (User) userList.get(0);
                 HttpSession session = req.getSession();
-                session.setAttribute("user", user);
-                req.setAttribute("login", login);
-                log.debug("Parameters has been written");
+                session.setAttribute(SessionAttr.USER, user);
                 if (isAdmin(req))
                     return new JspForward("action/admin_actions", true);
                 else
@@ -42,7 +39,7 @@ public class Login extends AbstractAction {
                 return new JspForward("action/home", true);
             }
         } catch (ServiceException ex) {
-            log.error("Failed to login", ex);
+            LOG.error("Failed to login", ex);
             throw new ActionException("Failed to login", ex);
         }
     }

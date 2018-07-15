@@ -9,8 +9,7 @@ import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -18,7 +17,17 @@ import java.util.logging.Logger;
  */
 public class ConnectionPool {
     
+    private static final Logger LOG = Logger.getLogger(ConnectionPool.class);
     private static final String DB_PROPERTIES_NAME = "db_params.properties";
+    private static final String DRIVER_ERROR = "Failed to load MySQL JDBC driver";
+    private static final String CREATE_CONNECTIOIN_ERROR = "Failed to create a"
+            + " connection";
+    private static final String ERROR_SETUP_CONNECTION = "Can't set up connection";
+    private static final String ERROR_TAKE_CONNECTION = "Unable to take a "
+            + "connection from the pool";
+    private static final String ERROR_COMMIT = "Failed to commit";
+    private static final String ERROR_CLOSE = "Failed to close connections";
+
     private BlockingQueue<Connection> freeConnections;
     private Set<Connection> allConnections;
     private ParametersLoader params;
@@ -44,7 +53,7 @@ public class ConnectionPool {
             establishPool();
         }
         catch (DataSourceException ex) {
-            ex.printStackTrace();
+            LOG.error("Failed to initialize connection pool", ex);
         }
 
     }
@@ -59,12 +68,15 @@ public class ConnectionPool {
                 allConnections.add(connection);
             }
         } catch(SQLException ex) {
-            throw new DataSourceException("Failed to create a connection", ex);
+            LOG.error(CREATE_CONNECTIOIN_ERROR, ex);
+            throw new DataSourceException(CREATE_CONNECTIOIN_ERROR, ex);
         } catch(InstantiationException | ClassNotFoundException 
                 | IllegalAccessException ex) {
-            throw new DataSourceException("Failed to load MySQL JDBC driver", ex);
+            LOG.error(DRIVER_ERROR, ex);
+            throw new DataSourceException(DRIVER_ERROR, ex);
         }
     }
+
     
     public Connection getConnection() throws DataSourceException {
         try {
@@ -73,21 +85,29 @@ public class ConnectionPool {
             result.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             return result;
         } catch (InterruptedException ex) {
-            throw new DataSourceException("Unable to take a connection from the"
-                    + " pool", ex);
+            LOG.error(ERROR_TAKE_CONNECTION, ex);
+            throw new DataSourceException(ERROR_TAKE_CONNECTION, ex);
         }
         catch (SQLException ex) {
-            throw new DataSourceException("Can't set up connection", ex);
+            LOG.error(ERROR_SETUP_CONNECTION, ex);
+            throw new DataSourceException(ERROR_SETUP_CONNECTION, ex);
         }
     }
+
     
     public void freeConnection(Connection connection) throws DataSourceException {
+        commit(connection);
+        freeConnections.offer(connection);
+    }
+    
+    public void commit(Connection connection) throws DataSourceException {
         try {
             connection.commit();
-        } catch (SQLException ex) {
-            throw new DataSourceException("Failed to commit", ex);
         }
-        freeConnections.offer(connection);
+        catch (SQLException ex) {
+            LOG.error(ERROR_COMMIT, ex);
+            throw new DataSourceException(ERROR_COMMIT, ex);
+        }
     }
     
     public void closeAll() throws DataSourceException {
@@ -98,7 +118,8 @@ public class ConnectionPool {
                 connection.close();
             }
         } catch(SQLException ex) {
-            throw new DataSourceException("Failed to close connections");
+            LOG.error(ERROR_CLOSE, ex);
+            throw new DataSourceException(ERROR_CLOSE);
         }
     }
 }

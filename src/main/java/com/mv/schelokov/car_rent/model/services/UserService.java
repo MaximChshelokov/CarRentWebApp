@@ -20,7 +20,7 @@ import org.apache.log4j.Logger;
  */
 public class UserService {
     
-    public static final Logger log = Logger.getLogger(UserService.class);
+    private static final Logger LOG = Logger.getLogger(UserService.class);
     private static final String SALT = "NuiF9cD32Kaw3";
     
     private static final String USER_REPOSITORY_ERROR = "Failed to write the user";
@@ -70,7 +70,11 @@ public class UserService {
     
     public UserData getUserDataById(int id) throws ServiceException {
         Criteria criteria = CriteriaFactory.getUserDataById(id);
-        return (UserData) getUserDataByCriteria(criteria).get(0);
+        List result = getUserDataByCriteria(criteria);
+        if (result.isEmpty())
+            return new UserData();
+        else
+            return (UserData) result.get(0);
     }
     
     public void addUserData(UserData userData) throws ServiceException {
@@ -95,7 +99,7 @@ public class UserService {
             return roleRepository.read(criteria);
         }
         catch (RepositoryException | DbException ex) {
-            log.error(ROLE_REPOSITORY_ERROR, ex);
+            LOG.error(ROLE_REPOSITORY_ERROR, ex);
             throw new ServiceException(ROLE_REPOSITORY_ERROR, ex);
         }    
     }
@@ -116,7 +120,7 @@ public class UserService {
                     userRepository.remove(user);
             }
         } catch (RepositoryException | DbException ex) {
-            log.error(USER_REPOSITORY_ERROR, ex);
+            LOG.error(USER_REPOSITORY_ERROR, ex);
             throw new ServiceException(USER_REPOSITORY_ERROR, ex);
         }
     } 
@@ -137,7 +141,7 @@ public class UserService {
                     userDataRepository.remove(userData);
             }
         } catch (RepositoryException | DbException ex) {
-            log.error(USER_REPOSITORY_ADD, ex);
+            LOG.error(USER_REPOSITORY_ADD, ex);
             throw new ServiceException(USER_REPOSITORY_ADD, ex);
         }   
     }
@@ -148,7 +152,7 @@ public class UserService {
             return userRepository.read(criteria);
         }
         catch (RepositoryException | DbException ex) {
-            log.error(USER_CRITERIA_ERROR, ex);
+            LOG.error(USER_CRITERIA_ERROR, ex);
             throw new ServiceException(USER_CRITERIA_ERROR, ex);
         }
     }
@@ -160,7 +164,7 @@ public class UserService {
                     repositoryFactory.getUserDataRepository();
             return userDataRepository.read(criteria);
         } catch (RepositoryException | DbException ex) {
-            log.error(USER_DATA_REPOSITORY_ERROR, ex);
+            LOG.error(USER_DATA_REPOSITORY_ERROR, ex);
             throw new ServiceException(USER_DATA_REPOSITORY_ERROR, ex);
         }
     }
@@ -169,7 +173,7 @@ public class UserService {
         try {
             return ShaHash.getSHA512Hash(password, SALT);
         } catch(NoSuchAlgorithmException ex) {
-            log.error(HASH_ERROR, ex);
+            LOG.error(HASH_ERROR, ex);
             throw new ServiceException(HASH_ERROR, ex);
         }
     }

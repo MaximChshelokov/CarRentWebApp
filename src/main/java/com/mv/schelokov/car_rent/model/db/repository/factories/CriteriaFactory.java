@@ -1,9 +1,13 @@
 package com.mv.schelokov.car_rent.model.db.repository.factories;
 
+import com.mv.schelokov.car_rent.model.db.repository.CarRepository;
+import com.mv.schelokov.car_rent.model.db.repository.MakeRepository;
+import com.mv.schelokov.car_rent.model.db.repository.ModelRepository;
 import com.mv.schelokov.car_rent.model.db.repository.RoleRepository;
 import com.mv.schelokov.car_rent.model.db.repository.UserDataRepository;
 import com.mv.schelokov.car_rent.model.db.repository.UserRepository;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.Criteria;
+import com.mv.schelokov.car_rent.model.entities.Model;
 import com.mv.schelokov.car_rent.model.entities.User;
 
 /**
@@ -39,6 +43,22 @@ public class CriteriaFactory {
     
     public static Criteria getAllRoles() {
         return RoleRepository.SELECT_ALL;
+    }
+    
+    public static Criteria getAllCars() {
+        return CarRepository.SELECT_ALL;
+    }
+    
+    public static Criteria getCarById(int id) {
+        return new CarRepository.FindById(id);
+    }
+    
+    public static Criteria findModel(Model model) {
+        return new ModelRepository.FindModel(model);
+    }
+    
+    public static Criteria getMakeByName(String name) {
+        return new MakeRepository.FindName(name);
     }
     
 }

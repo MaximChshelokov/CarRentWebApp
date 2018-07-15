@@ -2,6 +2,7 @@ package com.mv.schelokov.car_rent.controller.actions.admin;
 
 import com.mv.schelokov.car_rent.controller.actions.AbstractAction;
 import com.mv.schelokov.car_rent.controller.actions.JspForward;
+import com.mv.schelokov.car_rent.controller.consts.Jsps;
 import com.mv.schelokov.car_rent.controller.exceptions.ActionException;
 import com.mv.schelokov.car_rent.model.entities.UserData;
 import com.mv.schelokov.car_rent.model.services.UserService;
@@ -39,11 +40,11 @@ public class UpdateUser extends AbstractAction {
                     if (userData.getId() != 0) {
                         req.setAttribute("errEmptyParam", 1);
                         req.getSession().setAttribute("user_data", userData);
-                        return new JspForward("WEB-INF/jsp/admin/edit_user.jsp");
+                        return new JspForward(Jsps.ADMIN_EDIT_USER);
                     } else
                         userService.updateUser(userData.getUser());
                 }
-                return new JspForward("action/user_list");
+                return new JspForward("action/user_list", true);
             }
             catch (ServiceException ex) {
                 LOG.error(ERROR, ex);

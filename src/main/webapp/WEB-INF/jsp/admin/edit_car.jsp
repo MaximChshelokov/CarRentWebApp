@@ -1,0 +1,61 @@
+<%-- 
+    Document   : edit_car
+    Created on : Jul 12, 2018, 2:41:48 PM
+    Author     : Maxim Chshelokov <schelokov.mv@gmail.com>
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:bundle basename="i18n">
+    <fmt:message key="admin-car-edit.caption" var="caption"/>
+    <fmt:message key="application.form.submit" var="submit"/>
+    <fmt:message key="admin-car-edit.error" var="error_msg"/>
+</fmt:bundle>
+<fmt:bundle basename="i18n" prefix="admin-car-list.">
+    <t:generic>
+        <jsp:attribute name="content">
+            <header class="align-center">
+                <h3><c:out value="${caption}"/></h3>
+            </header>
+            <div class="row">
+                <form method="post" action="action/update_car">
+                    <div class="row uniform">
+                        <div class="field half first">
+                            <label for="make"><fmt:message key="make"/></label>
+                            <input type="text" name="make" placeholder="<fmt:message key="make"/>" value="${car.model.make.name}"/>
+                        </div>
+                        <div class="field half">
+                            <label for="model"><fmt:message key="model"/></label>
+                            <input type="text" name="model" placeholder="<fmt:message key="model"/>" value="${car.model.name}"/>
+                        </div>
+                        <div class="field half first">
+                            <label for="year"><fmt:message key="year"/></label>
+                            <input type="text" name="year" placeholder="<fmt:message key="yhear"/>" value="${car.yearOfMake}"/>
+                        </div>
+                        <div class="field half">
+                            <label for="plate"><fmt:message key="plate"/></label>
+                            <input type="text" name="plate" placeholder="<fmt:message key="plate"/>" value="${car.licensePlate}"/>
+                        </div>
+                        <div class="field half first">
+                            <label for="price"><fmt:message key="price"/></label>
+                            <input type="text" name="price" placeholder="<fmt:message key="price"/>" value="${car.price}"/>
+                        </div>
+                        <div class="12u">
+                            <ul class="actions">
+                                <input type="submit" value="${submit}"/>
+                            </ul>
+                        </div>
+                    </div>
+                </form>
+                <div class="12u">
+                    <c:if test="${errParam==1}">
+                        <p style="color:#ff0000"><c:out value="${error_msg}"/>
+                    </c:if>
+                </div>
+            </div>
+
+        </jsp:attribute>
+    </t:generic>
+</fmt:bundle>

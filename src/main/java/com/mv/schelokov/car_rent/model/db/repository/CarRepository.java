@@ -27,7 +27,8 @@ public class CarRepository extends AbstractSqlRepository<Car> {
     public static class SelectAll implements ReadCriteria {
 
         private static final String QUERY = "SELECT car_id,license_plate,"
-                + "year_of_make,price,model,name,make,make_name FROM cars_full";
+                + "year_of_make,price,model,name,make,make_name,available "
+                + "FROM cars_full";
 
         @Override
         public String toSqlQuery() {
@@ -62,19 +63,20 @@ public class CarRepository extends AbstractSqlRepository<Car> {
     }
     
     private static final String CREATE_QUERY = "INSERT INTO cars (model,"
-            + "license_plate,year_of_make,price) VALUES (?,?,?,?)";
+            + "license_plate,year_of_make,price,available) VALUES (?,?,?,?,?)";
     private static final String REMOVE_QUERY = "DELETE FROM cars WHERE"
             + " car_id=?";
     private static final String UPDATE_QUERY = "UPDATE cars SET model=?,"
-            + "license_plate=?,year_of_make=?,price=? WHERE car_id=?";
+            + "license_plate=?,year_of_make=?,price=?,available=? "
+            + "WHERE car_id=?";
     
     /**
      * The Field enum has column names for read methods and number of column for
      * the update method and the add method (in the NUMBER attribute)
      */
     enum Fields {
-        CAR_ID(5), LICENSE_PLATE(2), YEAR_OF_MAKE(3), PRICE(4), MODEL(1), NAME, 
-        MAKE, MAKE_NAME;
+        CAR_ID(6), LICENSE_PLATE(2), YEAR_OF_MAKE(3), PRICE(4), MODEL(1), NAME, 
+        MAKE, MAKE_NAME, AVAILABLE(5);
         
         int NUMBER;
         
@@ -111,6 +113,7 @@ public class CarRepository extends AbstractSqlRepository<Car> {
                 .setLicensePlate(rs.getString(Fields.LICENSE_PLATE.name()))
                 .setYearOfMake(rs.getInt(Fields.YEAR_OF_MAKE.name()))
                 .setPrice(rs.getInt(Fields.PRICE.name()))
+                .setAvailable(rs.getBoolean(Fields.AVAILABLE.name()))
                 .setModel(new ModelBuilder()
                         .setId(rs.getInt(Fields.MODEL.name()))
                         .setName(rs.getString(Fields.NAME.name()))
@@ -129,6 +132,7 @@ public class CarRepository extends AbstractSqlRepository<Car> {
         ps.setString(Fields.LICENSE_PLATE.NUMBER, item.getLicensePlate());
         ps.setInt(Fields.YEAR_OF_MAKE.NUMBER, item.getYearOfMake());
         ps.setInt(Fields.PRICE.NUMBER, item.getPrice());
+        ps.setBoolean(Fields.AVAILABLE.NUMBER, item.isAvailable());
         if (isUpdateStatement)
             ps.setInt(Fields.CAR_ID.NUMBER, item.getId());
     }

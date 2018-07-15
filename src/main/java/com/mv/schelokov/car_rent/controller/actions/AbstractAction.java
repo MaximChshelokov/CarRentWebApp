@@ -1,5 +1,6 @@
 package com.mv.schelokov.car_rent.controller.actions;
 
+import com.mv.schelokov.car_rent.controller.consts.SessionAttr;
 import com.mv.schelokov.car_rent.controller.exceptions.ActionException;
 import com.mv.schelokov.car_rent.model.entities.User;
 import java.io.IOException;
@@ -14,7 +15,7 @@ import org.apache.log4j.Logger;
  */
 public abstract class AbstractAction implements Action {
     
-    private static final Logger log = Logger.getLogger(AbstractAction.class);
+    private static final Logger LOG = Logger.getLogger(AbstractAction.class);
     private static final String SEND_ERROR = "Failed to send an HTTP error";
     private static final int ADMIN_ID = 1;
     private static final int USER_ID = 2;
@@ -42,7 +43,11 @@ public abstract class AbstractAction implements Action {
     public int getIntParam(HttpServletRequest req, String name) {
         String param = req.getParameter(name);
         if (param != null && param.length() > 0)
-            return Integer.parseInt(param);
+            try {
+                return Integer.parseInt(param);
+            } catch (NumberFormatException ex) {
+                return -1;
+            }
         else
             return 0;
     }
@@ -50,7 +55,7 @@ public abstract class AbstractAction implements Action {
     public boolean isUserLogged(HttpServletRequest req, int roleId) {
         HttpSession session = req.getSession(false);
         if (session != null) {
-            User user = (User)session.getAttribute("user");
+            User user = (User)session.getAttribute(SessionAttr.USER);
             return user != null && user.getRole().getId() == roleId;
         }
         return false;
@@ -61,7 +66,7 @@ public abstract class AbstractAction implements Action {
             res.sendError(403);
         }
         catch (IOException ex) {
-            log.error(SEND_ERROR, ex);
+            LOG.error(SEND_ERROR, ex);
             throw new ActionException(SEND_ERROR, ex);
         }
     }

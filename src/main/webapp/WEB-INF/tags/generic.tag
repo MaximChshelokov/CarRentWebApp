@@ -63,7 +63,7 @@
         <footer id="footer">
             <div class="inner">
                 <div class="copyright">
-                    Education project by Maxim Chshelokov: <a href="https://github.com/MaximChshelokov/CarRentWebApp">GitHub</a>.<br/>
+                    Educational project by Maxim Chshelokov: <a href="https://github.com/MaximChshelokov/CarRentWebApp">GitHub</a>.<br/>
                     &copy; CSS Design free template: <a href="https://templated.co">TEMPLATED</a>.
                 </div>
 

@@ -36,6 +36,30 @@ public class ModelRepository extends AbstractSqlRepository<Model> {
         public void setStatement(PreparedStatement ps) throws SQLException {}
     }
     
+    public static class FindModel extends SelectAll {
+        private static final String QUERY = " WHERE name=? AND make=?";
+        private static final int NAME_INDEX = 1;
+        private static final int MAKE_INDEX = 2;
+        private final String name;
+        private final int make;
+        
+        public FindModel(Model model) {
+            this.name = model.getName();
+            this.make = model.getMake().getId();
+        }
+        
+        @Override
+        public String toSqlQuery() {
+            return super.toSqlQuery() + QUERY;
+        }
+        
+        @Override
+        public void setStatement(PreparedStatement ps) throws SQLException {
+            ps.setString(NAME_INDEX, this.name);
+            ps.setInt(MAKE_INDEX, this.make);
+        }
+    }
+    
     private static final String CREATE_QUERY = "INSERT INTO models (name,"
             + "make) VALUES (?,?)";
     private static final String REMOVE_QUERY = "DELETE FROM models WHERE"

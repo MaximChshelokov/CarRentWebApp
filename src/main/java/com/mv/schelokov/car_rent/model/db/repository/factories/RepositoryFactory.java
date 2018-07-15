@@ -17,9 +17,7 @@ import com.mv.schelokov.car_rent.model.db.repository.UserRepository;
 import com.mv.schelokov.car_rent.model.db.repository.exceptions.RepositoryException;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.Repository;
 import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -27,6 +25,9 @@ import java.util.logging.Logger;
  */
 public class RepositoryFactory implements AutoCloseable {
     
+    private static final Logger LOG = Logger.getLogger(RepositoryFactory.class);
+    private static final String ERROR_CLOSE_CONNECTION = "Failed to close the connection";
+    private static final String ERROR_COMMIT = "Failed to commit to database";
     private final ConnectionPool connectionPool;
     private final Connection connection;
     
@@ -88,13 +89,22 @@ public class RepositoryFactory implements AutoCloseable {
         return new UserRepository(connection);
     }
     
+    public void commit() throws RepositoryException {
+        try {
+            connectionPool.commit(connection);
+        } catch (DataSourceException ex) {
+            LOG.error(ERROR_COMMIT, ex);
+            throw new RepositoryException(ERROR_COMMIT, ex);
+        }
+    }
+    
     @Override
     public void close() throws RepositoryException {
         try {
             connectionPool.freeConnection(connection);
         } catch (DataSourceException ex) {
-            throw new RepositoryException("Failed to close the connection", ex);
+            LOG.error(ERROR_CLOSE_CONNECTION, ex);
+            throw new RepositoryException(ERROR_CLOSE_CONNECTION, ex);
         }
     }
-    
 }

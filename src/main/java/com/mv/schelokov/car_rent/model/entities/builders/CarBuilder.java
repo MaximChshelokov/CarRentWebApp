@@ -40,6 +40,11 @@ public class CarBuilder {
         return this;
     }
     
+    public CarBuilder setAvailable(boolean available) {
+        this.car.setAvailable(available);
+        return this;
+    }
+    
     public Car getCar() {
         return this.car;
     }
