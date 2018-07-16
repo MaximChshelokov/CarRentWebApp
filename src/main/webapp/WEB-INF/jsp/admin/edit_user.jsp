@@ -11,7 +11,6 @@
 <fmt:bundle basename="i18n">
     <fmt:message key="application.form.submit" var="submit"/>
     <fmt:message key="admin-user-edit.error" var="error_msg"/>
-    <fmt:message key="admin-user-edit.caption" var="caption"/>
 </fmt:bundle>
 <fmt:bundle basename="i18n" prefix="admin-user-list.">
 <t:generic>

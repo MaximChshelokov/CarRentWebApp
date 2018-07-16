@@ -79,7 +79,10 @@ public class UserService {
     
     public void addUserData(UserData userData) throws ServiceException {
         operateUserData(userData, Operation.CREATE);
-        updateUser(userData.getUser());
+        if (userData.getUser().getId() == 0)
+            registerNewUser(userData.getUser());
+        else
+            updateUser(userData.getUser());
     }
     
     public void updateUserData(UserData userData) throws ServiceException {

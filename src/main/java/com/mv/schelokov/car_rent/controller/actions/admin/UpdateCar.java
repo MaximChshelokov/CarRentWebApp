@@ -74,7 +74,6 @@ public class UpdateCar extends AbstractAction {
                 .setName(modelName)
                 .setMake(getMake(makeName))
                 .getModel();
-        LOG.debug(model.getMake());
         List modelList = CAR_SERVICE.getModel(model);
         if (modelList.isEmpty())
             modelList = CAR_SERVICE.createModel(model);

@@ -19,6 +19,8 @@ public class UpdateUser extends AbstractAction {
     
     private static final Logger LOG = Logger.getLogger(AbstractAction.class);
     private static final String ERROR = "Unable to write data to base.";
+    private static final UserService USER_SERVICE = new UserService();
+
 
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
@@ -29,20 +31,19 @@ public class UpdateUser extends AbstractAction {
             userData.setName(req.getParameter("name"));
             userData.setAddress(req.getParameter("address"));
             userData.setPhone(req.getParameter("phone"));
-            UserService userService = new UserService();
             try {
                 if (isUserDataNotEmpty(userData)) {
                     if (userData.getId() == 0) {
-                        userService.addUserData(userData);
+                        USER_SERVICE.addUserData(userData);
                     } else
-                        userService.updateUserData(userData);
+                        USER_SERVICE.updateUserData(userData);
                 } else {
                     if (userData.getId() != 0) {
                         req.setAttribute("errEmptyParam", 1);
                         req.getSession().setAttribute("user_data", userData);
                         return new JspForward(Jsps.ADMIN_EDIT_USER);
                     } else
-                        userService.updateUser(userData.getUser());
+                        USER_SERVICE.updateUser(userData.getUser());
                 }
                 return new JspForward("action/user_list", true);
             }

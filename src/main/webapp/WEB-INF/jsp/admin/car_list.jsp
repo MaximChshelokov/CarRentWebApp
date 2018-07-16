@@ -46,7 +46,7 @@
                     </table>
                 </div>
                 <div class="align-center">
-                    <a href="#" class="button special"><fmt:message key="add"/></a>
+                    <a href="action/create_car" class="button special"><fmt:message key="add"/></a>
                 </div>
             </div>
 

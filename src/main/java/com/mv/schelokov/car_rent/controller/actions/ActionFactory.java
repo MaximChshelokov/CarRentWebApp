@@ -1,8 +1,9 @@
 package com.mv.schelokov.car_rent.controller.actions;
 
 import com.mv.schelokov.car_rent.controller.actions.admin.DeleteCar;
-import com.mv.schelokov.car_rent.controller.consts.Urls;
 import com.mv.schelokov.car_rent.controller.actions.admin.DeleteUser;
+import com.mv.schelokov.car_rent.controller.actions.admin.ShowAddCarPage;
+import com.mv.schelokov.car_rent.controller.actions.admin.ShowAddUserPage;
 import com.mv.schelokov.car_rent.controller.actions.admin.ShowCarList;
 import com.mv.schelokov.car_rent.controller.actions.admin.ShowEditCarPage;
 import com.mv.schelokov.car_rent.controller.actions.admin.ShowEditUserPage;
@@ -30,10 +31,12 @@ public class ActionFactory {
         ACTIONS.put("edit_user", new ShowEditUserPage());
         ACTIONS.put("update_user", new UpdateUser());
         ACTIONS.put("delete_user", new DeleteUser());
+        ACTIONS.put("create_user", new ShowAddUserPage());
         ACTIONS.put("car_list", new ShowCarList());
         ACTIONS.put("edit_car", new ShowEditCarPage());
         ACTIONS.put("update_car", new UpdateCar());
         ACTIONS.put("delete_car", new DeleteCar());
+        ACTIONS.put("create_car", new ShowAddCarPage());
     }
     
     public static Action action(HttpServletRequest req) {

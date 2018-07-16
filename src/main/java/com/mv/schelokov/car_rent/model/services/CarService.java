@@ -28,7 +28,7 @@ public class CarService {
             + "name from the repository";
     private static final String MODEL_CREATE_ERROR = "Failed to create new model";
     private static final String MAKE_CREATE_ERROR =  "Failed to create new make";
-    
+    private enum Operation { CREATE, UPDATE, DELETE }
     
     public List getAllCars() throws ServiceException {
         Criteria criteria = CriteriaFactory.getAllCars();
@@ -44,15 +44,37 @@ public class CarService {
             return (Car) result.get(0);
     }
     
+    public void deleteCar(Car car) throws ServiceException {
+        operateCar(car, Operation.DELETE);
+    }
+    
     public void updateCar(Car car) throws ServiceException {
+        operateCar(car, Operation.UPDATE);
+    }
+    
+    public void createCar(Car car) throws ServiceException {
+        operateCar(car, Operation.CREATE);
+    }
+    
+    private void operateCar(Car car, Operation operation)
+            throws ServiceException {
         try (RepositoryFactory repositoryFactory = new RepositoryFactory()) {
             Repository carRepository = repositoryFactory.getCarRepository();
-            carRepository.update(car);
+            switch (operation) {
+                case CREATE:
+                    carRepository.add(car);
+                    break;
+                case UPDATE:
+                    carRepository.update(car);
+                    break;
+                case DELETE:
+                    carRepository.remove(car);
+            }
         }
         catch (RepositoryException | DbException ex) {
             LOG.error(MODEL_NAME_ERROR, ex);
             throw new ServiceException(MODEL_NAME_ERROR, ex);
-        }
+        }   
     }
     
     public List getModel(Model model) throws ServiceException {
