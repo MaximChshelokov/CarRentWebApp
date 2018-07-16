@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mv.schelokov.car_rent.controller.actions.admin;
 
 import com.mv.schelokov.car_rent.controller.actions.AbstractAction;
@@ -32,7 +27,7 @@ import org.apache.log4j.Logger;
 public class UpdateCar extends AbstractAction {
     private static final Logger LOG = Logger.getLogger(UpdateCar.class);
     private static final String ERROR = "Unable to write car to database.";
-    private static final CarService carService = new CarService();
+    private static final CarService CAR_SERVICE = new CarService();
     private static final int OK = 0;
     private static final int WRONG_YEAR = 1;
     private static final int EMPTY_FIELD = 2;
@@ -54,9 +49,13 @@ public class UpdateCar extends AbstractAction {
                     req.getSession().setAttribute(SessionAttr.CAR, car);
                     req.setAttribute("errParam", validationResult);
                     return new JspForward(Jsps.ADMIN_EDIT_CAR);
+                }
+                if (car.getId() == 0) {
+                    car.setAvailable(true);
+                    CAR_SERVICE.createCar(car);
                 } else
-                    carService.updateCar(car);
-                    return new JspForward("action/car_list", true);
+                    CAR_SERVICE.updateCar(car);
+                return new JspForward("action/car_list", true);
             }
             catch (ServiceException ex) {
                 LOG.error(ERROR, ex);
@@ -76,18 +75,18 @@ public class UpdateCar extends AbstractAction {
                 .setMake(getMake(makeName))
                 .getModel();
         LOG.debug(model.getMake());
-        List modelList = carService.getModel(model);
+        List modelList = CAR_SERVICE.getModel(model);
         if (modelList.isEmpty())
-            modelList = carService.createModel(model);
+            modelList = CAR_SERVICE.createModel(model);
         return (Model) modelList.get(0);
     }
     
     private Make getMake(String makeName) throws ServiceException {
         if (makeName == null || makeName.isEmpty())
             return new MakeBuilder().setId(0).getMake();
-        List makeList = carService.getMakeByName(makeName);
+        List makeList = CAR_SERVICE.getMakeByName(makeName);
         if (makeList.isEmpty())
-            makeList = carService.createMake(new MakeBuilder()
+            makeList = CAR_SERVICE.createMake(new MakeBuilder()
                     .setName(makeName)
                     .getMake());
         return (Make) makeList.get(0);
