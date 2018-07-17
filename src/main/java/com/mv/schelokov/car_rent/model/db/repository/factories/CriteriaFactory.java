@@ -3,6 +3,7 @@ package com.mv.schelokov.car_rent.model.db.repository.factories;
 import com.mv.schelokov.car_rent.model.db.repository.CarRepository;
 import com.mv.schelokov.car_rent.model.db.repository.MakeRepository;
 import com.mv.schelokov.car_rent.model.db.repository.ModelRepository;
+import com.mv.schelokov.car_rent.model.db.repository.RentOrderRepository;
 import com.mv.schelokov.car_rent.model.db.repository.RoleRepository;
 import com.mv.schelokov.car_rent.model.db.repository.UserDataRepository;
 import com.mv.schelokov.car_rent.model.db.repository.UserRepository;
@@ -59,6 +60,10 @@ public class CriteriaFactory {
     
     public static Criteria getMakeByName(String name) {
         return new MakeRepository.FindName(name);
+    }
+    
+    public static Criteria getAllRentOrders() {
+        return RentOrderRepository.SELECT_ALL;
     }
     
 }

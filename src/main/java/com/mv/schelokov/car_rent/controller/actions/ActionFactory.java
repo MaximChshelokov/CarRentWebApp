@@ -8,6 +8,7 @@ import com.mv.schelokov.car_rent.controller.actions.admin.ShowAddUserPage;
 import com.mv.schelokov.car_rent.controller.actions.admin.ShowCarList;
 import com.mv.schelokov.car_rent.controller.actions.admin.ShowEditCarPage;
 import com.mv.schelokov.car_rent.controller.actions.admin.ShowEditUserPage;
+import com.mv.schelokov.car_rent.controller.actions.admin.ShowOrderList;
 import com.mv.schelokov.car_rent.controller.actions.admin.ShowUsersList;
 import com.mv.schelokov.car_rent.controller.actions.admin.UpdateCar;
 import com.mv.schelokov.car_rent.controller.actions.admin.UpdateUser;
@@ -40,6 +41,7 @@ public class ActionFactory {
         ACTIONS.put("update_car", new UpdateCar());
         ACTIONS.put("delete_car", new DeleteCar());
         ACTIONS.put("create_car", new ShowAddCarPage());
+        ACTIONS.put("order_list", new ShowOrderList());
     }
     
     public static Action action(HttpServletRequest req) {

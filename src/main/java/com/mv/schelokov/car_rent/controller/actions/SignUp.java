@@ -1,5 +1,7 @@
 package com.mv.schelokov.car_rent.controller.actions;
 
+import com.mv.schelokov.car_rent.controller.consts.Jsps;
+import com.mv.schelokov.car_rent.controller.consts.SessionAttr;
 import com.mv.schelokov.car_rent.controller.exceptions.ActionException;
 import com.mv.schelokov.car_rent.model.entities.builders.RoleBuilder;
 import com.mv.schelokov.car_rent.model.entities.builders.UserBuilder;
@@ -27,7 +29,7 @@ public class SignUp implements Action {
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
         String login = req.getParameter("email");
-        String password = req.getParameter("password");
+        String password = req.getParameter("pass");
         String repeat = req.getParameter("repeat");
         UserService userService = new UserService();
         try {
@@ -42,10 +44,13 @@ public class SignUp implements Action {
                         .setPassword(password)
                         .setRole(new RoleBuilder().setId(USER_ROLE).getRole())
                         .getUser());
+                req.getSession().setAttribute(SessionAttr.USER, 
+                        userService.getUserByCredentials(login, password).get(0));
             }
             req.setAttribute("errorSignup", validationResult);
-            req.setAttribute("logn", false);
-            return new JspForward("#", true);
+            req.setAttribute("sign", true);
+            req.setAttribute("email",login);
+            return new JspForward(Jsps.HOME);
         } catch (ServiceException ex) {
             LOG.error(ERROR, ex);
             throw new ActionException(ERROR, ex);

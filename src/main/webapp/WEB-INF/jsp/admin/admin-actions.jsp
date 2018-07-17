@@ -28,7 +28,7 @@
 
                 </li>
                 <li>
-                    <a href="action/application" class="button" ><fmt:message key="orders"/></a>
+                    <a href="action/order_list" class="button" ><fmt:message key="orders"/></a>
                     <label>3 orders awaiting to approve</label>
                 </li>
             </ul>

@@ -21,7 +21,7 @@
     </c:choose>
 </fmt:bundle>
 <fmt:bundle basename="i18n" prefix="login.">
-    <div id="login" style="${logn?'':'display:none'}">
+    <div id="login" style="${sign?'display:none':''}">
         <h3><fmt:message key="login"/></h3>
         <c:if test="${errorLogin==1}">
             <p style="color:#ff0000"><fmt:message key="err_login"/></p>
@@ -29,7 +29,7 @@
         <form method="post" action="action/login">
             <div class="row uniform">
                 <div class="12u">
-                    <input type="text" name="email" placeholder="<fmt:message key="email"/>" />
+                    <input type="text" name="email" placeholder="<fmt:message key="email"/>" value="${email}"/>
                 </div>
                 <div class="12u">
                     <input type="password" name="pass" placeholder="<fmt:message key="password"/>" />
@@ -46,7 +46,7 @@
             </div>
         </form>
     </div>
-    <div id="signup" style="${logn?'display:none':''}">
+    <div id="signup" style="${sign?'':'display:none'}">
         <h3><fmt:message key="signup"/></h3>
         <c:if test="${errorSignup!=0}">
             <p style="color:#ff0000"><c:out value="${error_msg}"/></p>
@@ -54,7 +54,7 @@
         <form method="post" action="action/sign_up">
             <div class="row uniform">
                 <div class="12u">
-                    <input type="text" name="email" placeholder="<fmt:message key="email"/>" />
+                    <input type="text" name="email" placeholder="<fmt:message key="email"/>" value="${email}"/>
                 </div>
                 <div class="12u">
                     <input type="password" name="pass" placeholder="<fmt:message key="password"/>" />
