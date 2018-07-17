@@ -2,6 +2,7 @@ package com.mv.schelokov.car_rent.controller.actions;
 
 import com.mv.schelokov.car_rent.controller.actions.admin.DeleteCar;
 import com.mv.schelokov.car_rent.controller.actions.admin.DeleteUser;
+import com.mv.schelokov.car_rent.controller.actions.admin.SaveUser;
 import com.mv.schelokov.car_rent.controller.actions.admin.ShowAddCarPage;
 import com.mv.schelokov.car_rent.controller.actions.admin.ShowAddUserPage;
 import com.mv.schelokov.car_rent.controller.actions.admin.ShowCarList;
@@ -32,6 +33,7 @@ public class ActionFactory {
         ACTIONS.put("update_user", new UpdateUser());
         ACTIONS.put("delete_user", new DeleteUser());
         ACTIONS.put("create_user", new ShowAddUserPage());
+        ACTIONS.put("save_user", new SaveUser());
         ACTIONS.put("car_list", new ShowCarList());
         ACTIONS.put("edit_car", new ShowEditCarPage());
         ACTIONS.put("update_car", new UpdateCar());

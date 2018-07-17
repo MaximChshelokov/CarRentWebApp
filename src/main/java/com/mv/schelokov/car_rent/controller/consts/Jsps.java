@@ -11,4 +11,5 @@ public class Jsps {
     public static final String ADMIN_USERS_LIST = "WEB-INF/jsp/admin/user_list.jsp";
     public static final String ADMIN_CARS_LIST = "WEB-INF/jsp/admin/car_list.jsp";
     public static final String ADMIN_EDIT_CAR = "WEB-INF/jsp/admin/edit_car.jsp";
+    public static final String ADMIN_ADD_USER = "WEB-INF/jsp/admin/add_user.jsp";
 }

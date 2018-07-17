@@ -54,8 +54,8 @@ public class UserService {
         return getUsersByCriteria(criteria);
     }
     
-    public List getUserByLogin(User user) throws ServiceException {
-        Criteria criteria = CriteriaFactory.getUserFindLogin(user.getLogin());
+    public List getUserByLogin(String login) throws ServiceException {
+        Criteria criteria = CriteriaFactory.getUserFindLogin(login);
         return getUsersByCriteria(criteria);
     }
     
