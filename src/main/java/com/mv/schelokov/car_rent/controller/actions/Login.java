@@ -33,9 +33,10 @@ public class Login extends AbstractAction {
                 if (isAdmin(req))
                     return new JspForward("action/admin_actions", true);
                 else
-                    return new JspForward("action/welcome", true);
+                    return new JspForward("action/home", true);
             } else {
                 req.setAttribute("errorLogin", 1);
+                req.setAttribute("logn", true);
                 return new JspForward("action/home", true);
             }
         } catch (ServiceException ex) {

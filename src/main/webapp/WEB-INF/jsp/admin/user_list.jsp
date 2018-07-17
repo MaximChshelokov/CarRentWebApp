@@ -16,6 +16,9 @@
 <fmt:bundle basename="i18n" prefix="admin-user-list.">
 <t:generic>
     <jsp:attribute name="content">
+        <header class="align-center">
+            <h3><fmt:message key="caption"/></h3>
+        </header>
         <div class="row">
             <div class="table-wrapper">
                 <table class="alt">

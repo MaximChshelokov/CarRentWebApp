@@ -27,6 +27,7 @@ public class ActionFactory {
     static {
         ACTIONS.put("home", new ShowPage(Jsps.HOME));
         ACTIONS.put("login", new Login());
+        ACTIONS.put("sign_up", new SignUp());
         ACTIONS.put("admin_actions", new ShowPage(Jsps.ADMIN_ACTIONS));
         ACTIONS.put("user_list", new ShowUsersList());
         ACTIONS.put("edit_user", new ShowEditUserPage());
