@@ -10,21 +10,29 @@
 <fmt:bundle basename="i18n">
     <c:choose>
         <c:when test="${errorSignup==1}">
-            <fmt:message key="admin-user-edit.error" var="error_msg"/>
+            <fmt:message key="admin-user-edit.error" var="sign_error_msg"/>
         </c:when>
         <c:when test="${errorSignup==2}">
-            <fmt:message key="admin-user-add.error" var="error_msg"/>
+            <fmt:message key="admin-user-add.error" var="sign_error_msg"/>
         </c:when>
         <c:when test="${errorSignup==3}">
-            <fmt:message key="admin-user-add.error-login" var="error_msg"/>
-        </c:when>   
+            <fmt:message key="admin-user-add.error-login" var="sign_error_msg"/>
+        </c:when>
+    </c:choose>
+    <c:choose>
+        <c:when test="${errorLogin==1}">
+            <fmt:message key="admin-user-edit.error" var="logn_error_msg"/>
+        </c:when>
+        <c:when test="${errorLogin==2}">
+            <fmt:message key="login.err-login" var="logn_error_msg"/>
+        </c:when>
     </c:choose>
 </fmt:bundle>
 <fmt:bundle basename="i18n" prefix="login.">
     <div id="login" style="${sign?'display:none':''}">
         <h3><fmt:message key="login"/></h3>
-        <c:if test="${errorLogin==1}">
-            <p style="color:#ff0000"><fmt:message key="err_login"/></p>
+        <c:if test="${errorLogin!=0}">
+            <p style="color:#ff0000"><c:out value="${logn_error_msg}"/></p>
         </c:if>
         <form method="post" action="action/login">
             <div class="row uniform">
@@ -49,7 +57,7 @@
     <div id="signup" style="${sign?'':'display:none'}">
         <h3><fmt:message key="signup"/></h3>
         <c:if test="${errorSignup!=0}">
-            <p style="color:#ff0000"><c:out value="${error_msg}"/></p>
+            <p style="color:#ff0000"><c:out value="${sign_error_msg}"/></p>
         </c:if>
         <form method="post" action="action/sign_up">
             <div class="row uniform">
