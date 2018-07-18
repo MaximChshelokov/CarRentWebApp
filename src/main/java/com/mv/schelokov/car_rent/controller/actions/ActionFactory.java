@@ -42,6 +42,7 @@ public class ActionFactory {
         ACTIONS.put("delete_car", new DeleteCar());
         ACTIONS.put("create_car", new ShowAddCarPage());
         ACTIONS.put("order_list", new ShowOrderList());
+        ACTIONS.put("log_out", new LogOut());
     }
     
     public static Action action(HttpServletRequest req) {
