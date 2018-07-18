@@ -33,6 +33,13 @@ public abstract class AbstractSqlRepository <T extends Entity>
         this.connection = connection;
     }
 
+    /**
+     * Reads records from a database table that match up to the criteria.
+     * 
+     * @param criteria a special object implementing the criteria interface.
+     * @return a list of objects (entities) that match up th the criteria.
+     * @throws DbException
+     */
     @Override
     public List<T> read(Criteria criteria) throws DbException {
         if (checkCriteriaInstance(criteria, false)) {
@@ -59,7 +66,14 @@ public abstract class AbstractSqlRepository <T extends Entity>
             throw new CriteriaMismatchException(CRITERIA_MISTMATCH);
         }
     }
-
+    
+    /**
+     * Removes records from a database table that match up to the criteria.
+     *
+     * @param criteria a special object implementing the criteria interface.
+     * @return true if at least one record was removed.
+     * @throws DbException
+     */
     @Override
     public boolean remove(Criteria criteria) throws DbException {
         if (checkCriteriaInstance(criteria, true)) {
@@ -79,9 +93,10 @@ public abstract class AbstractSqlRepository <T extends Entity>
     }
 
     /**
-     *
-     * @param item
-     * @return
+     *  Removes a specified item from a database table.
+     * 
+     * @param item - some entity to be removed.
+     * @return true if entity was successfully deleted.
      * @throws DbException
      */
     @Override
@@ -96,6 +111,12 @@ public abstract class AbstractSqlRepository <T extends Entity>
         }
     }
 
+    /**
+     *  Updates a specified item in a database table.
+     * @param item - some entity to be updated.
+     * @return true if entity was successfully updated.
+     * @throws DbException
+     */
     @Override
     public boolean update(T item) throws DbException {
         try (PreparedStatement ps = connection
@@ -108,6 +129,12 @@ public abstract class AbstractSqlRepository <T extends Entity>
         }
     }
     
+    /**
+     *  Creates a new item in a database table.
+     * @param item - some entity to be added.
+     * @return true, if the entity was successfully created.
+     * @throws DbException
+     */
     @Override
     public boolean add(T item) throws DbException {
         try (PreparedStatement ps = connection
@@ -120,17 +147,49 @@ public abstract class AbstractSqlRepository <T extends Entity>
         }
     }
     
+    /**
+     *
+     * @return the SQL query to create item in a database table.
+     */
     protected abstract String getCreateQuery();
     
+    /**
+     *
+     * @return the SQL query to remove item from a database table.
+     */
     protected abstract String getRemoveQuery();
     
+    /**
+     *
+     * @return the SQL query to update item in a database table.
+     */
     protected abstract String getUpdateQuery();
     
+    /**
+     *  Creates an entity object of type T with a data from ResultSet object.
+     * @param rs a source ResultSet object.
+     * @return an entity object of type T.
+     * @throws SQLException
+     */
     protected abstract T createItem(ResultSet rs) throws SQLException;
     
+    /**
+     *  Puts the necessary data from entity to PreparedStatement object.
+     * @param ps a target PreparedStatement object.
+     * @param item a source entity object.
+     * @param isUpdateStatement must be set true if the update operation
+     * performed, due the different property order.
+     * @throws SQLException
+     */
     protected abstract void setStatement(PreparedStatement ps, T item,
             boolean isUpdateStatement) throws SQLException;
     
+    /**
+     * 
+     * @param criteria an object of class, implementing Criteria interface.
+     * @param isDeleteCriteria true, if delete criteria needs to be checked.
+     * @return true, if criteria instance matches.
+     */
     protected abstract boolean checkCriteriaInstance(Criteria criteria, 
             boolean isDeleteCriteria);
 }
