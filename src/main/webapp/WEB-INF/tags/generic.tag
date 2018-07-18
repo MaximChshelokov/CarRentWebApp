@@ -51,7 +51,7 @@
                                 <t:login-panel/>
                             </c:when>
                             <c:otherwise>
-
+                                <t:user-panel/>
                             </c:otherwise>
                         </c:choose>
                     </section>

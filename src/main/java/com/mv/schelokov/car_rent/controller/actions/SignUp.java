@@ -7,6 +7,7 @@ import com.mv.schelokov.car_rent.model.entities.builders.RoleBuilder;
 import com.mv.schelokov.car_rent.model.entities.builders.UserBuilder;
 import com.mv.schelokov.car_rent.model.services.UserService;
 import com.mv.schelokov.car_rent.model.services.exceptions.ServiceException;
+import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
@@ -23,7 +24,12 @@ public class SignUp implements Action {
     private static final int EMPTY_FIELD = 1;
     private static final int PASSWORDS_NOT_MATCH = 2;
     private static final int SAME_LOGIN = 3;
+    private static final int INVALID_EMAIL = 4;
+
     private static final int USER_ROLE = 2;
+    public static final Pattern VALID_EMAIL_ADDRESS_REGEX
+            = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", 
+                    Pattern.CASE_INSENSITIVE);
     
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
@@ -46,6 +52,7 @@ public class SignUp implements Action {
                         .getUser());
                 req.getSession().setAttribute(SessionAttr.USER, 
                         userService.getUserByCredentials(login, password).get(0));
+                return new JspForward("action/home", true);
             }
             req.setAttribute("errorSignup", validationResult);
             req.setAttribute("sign", true);
@@ -65,6 +72,8 @@ public class SignUp implements Action {
         if (!password.equals(repeat)) {
             return PASSWORDS_NOT_MATCH;
         }
+        if (!VALID_EMAIL_ADDRESS_REGEX.matcher(login).find())
+            return INVALID_EMAIL;
         return OK;
     }
 }

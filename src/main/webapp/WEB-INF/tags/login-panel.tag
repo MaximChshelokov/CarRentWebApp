@@ -18,6 +18,9 @@
         <c:when test="${errorSignup==3}">
             <fmt:message key="admin-user-add.error-login" var="sign_error_msg"/>
         </c:when>
+        <c:when test="${errorSignup==4}">
+            <fmt:message key="login.invalid-email" var="sign_error_msg"/>
+        </c:when>
     </c:choose>
     <c:choose>
         <c:when test="${errorLogin==1}">
