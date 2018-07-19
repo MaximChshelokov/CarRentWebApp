@@ -66,4 +66,12 @@ public class CriteriaFactory {
         return RentOrderRepository.SELECT_ALL;
     }
     
+    public static Criteria getAllOrdersOrderByApproved() {
+        return RentOrderRepository.ORDER_BY_APPROVED;
+    }
+    
+    public static Criteria findOrderById(int id) {
+        return new RentOrderRepository.FindById(id);
+    }
+    
 }

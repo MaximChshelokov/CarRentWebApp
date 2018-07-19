@@ -8,5 +8,9 @@ public class ActionException extends Exception {
     public ActionException(String err, Throwable ex) {
         super(err, ex);
     }
+
+    public ActionException(String err) {
+        super(err);
+    }
     
 }

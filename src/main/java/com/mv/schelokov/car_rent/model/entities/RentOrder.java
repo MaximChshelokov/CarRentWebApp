@@ -15,6 +15,7 @@ public class RentOrder implements Entity {
     private User approvedBy;
     private Date startDate;
     private Date endDate;
+    private int sum;
 
     /**
      * @return the id
@@ -99,6 +100,20 @@ public class RentOrder implements Entity {
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
+    
+    /**
+     * @return the sum
+     */
+    public int getSum() {
+        return sum;
+    }
+
+    /**
+     * @param sum the sum to set
+     */
+    public void setSum(int sum) {
+        this.sum = sum;
+    }
 
     @Override
     public int hashCode() {
@@ -149,4 +164,5 @@ public class RentOrder implements Entity {
     public String toString() {
         return "RentOrder{" + "id=" + id + ", car=" + car + ", user=" + user + ", approvedBy=" + approvedBy + ", startDate=" + startDate + ", endDate=" + endDate + '}';
     }    
+
 }

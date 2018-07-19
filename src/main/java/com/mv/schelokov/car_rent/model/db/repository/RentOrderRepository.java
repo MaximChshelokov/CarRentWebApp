@@ -28,6 +28,7 @@ public class RentOrderRepository extends AbstractSqlRepository<RentOrder> {
     public interface DeleteCriteria extends SqlCriteria {}
 
     public static final Criteria SELECT_ALL = new SelectAll();
+    public static final Criteria ORDER_BY_APPROVED = new OrderedByApproved();
 
     public static class SelectAll implements ReadCriteria {
         private static final String QUERY = "SELECT rent_id,start_date,"
@@ -42,6 +43,35 @@ public class RentOrderRepository extends AbstractSqlRepository<RentOrder> {
 
         @Override
         public void setStatement(PreparedStatement ps) throws SQLException {}
+    }
+    
+    public static class OrderedByApproved extends SelectAll {
+        private static final String QUERY = " ORDER BY approved_by";
+        
+        @Override
+        public String toSqlQuery() {
+            return super.toSqlQuery() + QUERY;
+        }
+    }
+    
+    public static class FindById extends SelectAll {
+        private static final String QUERY = " WHERE rent_id=?";
+        private static final int RENT_ID_INDEX = 1;
+        private final int rentId;
+        
+        public FindById(int rentId) {
+            this.rentId = rentId;
+        }
+        
+        @Override
+        public String toSqlQuery() {
+            return super.toSqlQuery() + QUERY;
+        }
+        
+        @Override
+        public void setStatement(PreparedStatement ps) throws SQLException {
+            ps.setInt(RENT_ID_INDEX, this.rentId);
+        }
     }
     
     private static final String CREATE_QUERY = "INSERT INTO rent_orders (car,"

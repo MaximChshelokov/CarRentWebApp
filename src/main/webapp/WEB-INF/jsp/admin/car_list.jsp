@@ -21,16 +21,18 @@
             <header class="align-center">
                 <h3><fmt:message key="caption"/></h3>
             </header>
-            <div class="row">
+            <div class="12u">
                 <div class="table-wrapper">
                     <table class="alt">
                         <thead>
+                            <tr>
                         <th><fmt:message key="make"/></th>
                         <th><fmt:message key="model"/></th>
                         <th><fmt:message key="year"/></th>
                         <th><fmt:message key="plate"/></th>
                         <th><fmt:message key="price"/></th>
                         <th><fmt:message key="available"/></th>
+                            </tr>
                         </thead>
                         <tbody>
                             <c:forEach items="${car_list}" var="car">

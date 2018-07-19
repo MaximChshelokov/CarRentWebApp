@@ -19,15 +19,17 @@
         <header class="align-center">
             <h3><fmt:message key="caption"/></h3>
         </header>
-        <div class="row">
+        <div class="12u">
             <div class="table-wrapper">
                 <table class="alt">
                     <thead>
+                        <tr>
                     <th><fmt:message key="login"/></th>
                     <th><fmt:message key="name"/></th>
                     <th><fmt:message key="address"/></th>
                     <th><fmt:message key="phone"/></th>
                     <th><fmt:message key="role"/></th>
+                        </tr>
                     </thead>
                     <tbody>
                         <c:forEach items="${user_data}" var="data">

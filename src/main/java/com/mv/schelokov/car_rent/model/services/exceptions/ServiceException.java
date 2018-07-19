@@ -9,5 +9,9 @@ public class ServiceException extends Exception {
     public ServiceException(String err, Throwable ex) {
         super(err, ex);
     }
+
+    public ServiceException(String err) {
+        super(err);
+    }
     
 }
