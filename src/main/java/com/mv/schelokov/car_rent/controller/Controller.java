@@ -8,6 +8,7 @@ package com.mv.schelokov.car_rent.controller;
 import com.mv.schelokov.car_rent.controller.actions.Action;
 import com.mv.schelokov.car_rent.controller.actions.ActionFactory;
 import com.mv.schelokov.car_rent.controller.actions.JspForward;
+import com.mv.schelokov.car_rent.controller.exceptions.ActionException;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,6 +22,8 @@ import org.apache.log4j.Logger;
  */
 public class Controller extends HttpServlet {
 
+    public static final Logger log = Logger.getLogger(Controller.class);
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -31,15 +34,17 @@ public class Controller extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     
-    public static final Logger log = Logger.getLogger(Controller.class);
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Action action = ActionFactory.action(request);
+        if (action == null) {
+            response.sendError(404);
+            return;
+        }
         JspForward forward = null;
         try {
             forward = action.execute(request, response);
-        } catch (Exception ex) {
+        } catch (ActionException ex) {
             log.error("Failed to redirect", ex);
         }
         if (forward != null) {

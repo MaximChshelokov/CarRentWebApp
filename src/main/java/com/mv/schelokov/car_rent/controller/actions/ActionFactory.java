@@ -54,8 +54,6 @@ public class ActionFactory {
         String actionName = req.getPathInfo().replaceAll("/", "").toLowerCase();
         LOG.debug(String.format("Forward to %s", actionName));
         Action result = ACTIONS.get(actionName);
-        if (result == null)
-            return ACTIONS.get("home");     // Change to 404 page
         return result;
     }
 }
