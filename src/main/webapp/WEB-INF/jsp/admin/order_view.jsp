@@ -100,7 +100,7 @@
                             <a href="action/delete_order&id=${order.id}" class="button special" onclick="return confirm('${confirm}');"><c:out value="${delete}"/></a>
                         </li>
                         <li>
-                            <a href="action/approve_order&id=${order.id}" class="button"><c:out value="${approve}"/></a>
+                            <a href="action/approve_order?id=${order.id}" class="button"><c:out value="${approve}"/></a>
                         </li>
                     </ul>
                 </div>

@@ -18,8 +18,6 @@
                 <h3><fmt:message key="caption"/></h3>
             </header>
             <div class="12u">
-                    <a href="/action/order_list#" onclick="$('approved').show();" class="button">Show all orders</a>
-                    <a href="/action/order_list#" onclick="$('approved').hide();" class="button">Hide approved orders</a>                    
                 <div class="table-wrapper">
                     <table class="alt">
                         <thead>
@@ -34,7 +32,7 @@
                         </thead>
                         <tbody>
                             <c:forEach items="${order_list}" var="order">
-                                <tr ${order.approvedBy.id>0?'class="approved" style="display:none"':''}>
+                                <tr>
                                     <td><fmt:formatDate value="${order.startDate}" dateStyle="SHORT"/></td>
                                     <td><fmt:formatDate value="${order.endDate}" dateStyle="SHORT"/></td>
                                     <td><c:out value="${order.car.model.make.name}"/> <c:out value="${order.car.model.name}"/> (<c:out value="${order.car.yearOfMake}"/>)</td>
@@ -48,7 +46,7 @@
                     </table>
                 </div>
                 <div class="align-center">
-                    <a href="action/create_car" class="button special"><fmt:message key="add"/></a>
+                    <a href="action/create_order" class="button special"><fmt:message key="add"/></a>
                 </div>
             </div>
 

@@ -25,7 +25,8 @@ public class Login extends AbstractAction {
     private static final int USER_NOT_FOUND = 2;
 
     @Override
-    public JspForward execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+    public JspForward execute(HttpServletRequest req, HttpServletResponse res)
+            throws ActionException {
         UserService userService = new UserService();
         String login = req.getParameter("email");
         String password = req.getParameter("pass");
