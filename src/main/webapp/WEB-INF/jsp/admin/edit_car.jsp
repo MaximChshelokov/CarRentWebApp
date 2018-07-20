@@ -24,7 +24,7 @@
             <fmt:message key="admin-car-edit.error-year" var="error_msg"/>
         </c:when>
         <c:when test="${errParam == 2}">
-            <fmt:message key="admin-car-edit.error-empty" var="error_msg"/>
+            <fmt:message key="editor.error-empty" var="error_msg"/>
         </c:when>
         <c:when test="${errParam == 3}">
             <fmt:message key="admin-car-edit.error-price" var="error_msg"/>

@@ -32,7 +32,7 @@
                 <a href="#" class="button special"><fmt:message key="invoices"/></a>
             </li>
             <li>
-                <a href="#" class="button special"><fmt:message key="account"/></a>
+                <a href="action/edit_profile" class="button special"><fmt:message key="account"/></a>
             </li>
         </c:otherwise>
     </c:choose>

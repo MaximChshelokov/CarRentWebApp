@@ -1,6 +1,6 @@
 <%-- 
-    Document   : edit_user
-    Created on : Jul 9, 2018, 2:21:41 PM
+    Document   : edit_profile
+    Created on : Jul 20, 2018, 10:57:28 AM
     Author     : Maxim Chshelokov <schelokov.mv@gmail.com>
 --%>
 
@@ -11,7 +11,7 @@
 <fmt:bundle basename="i18n">
     <fmt:message key="application.form.submit" var="submit"/>
     <fmt:message key="error" var="error_msg"/>
-    <fmt:message key="admin-user-edit.caption" var="caption"/>
+    <fmt:message key="user-edit-profile.caption" var="caption"/>
     <c:choose>
         <c:when test="${errParam == 1}">
             <fmt:message key="editor.error-empty" var="error_msg"/>
@@ -27,12 +27,12 @@
         <header class="align-center">
             <h3><c:out value="${caption}"/></h3>
         </header>
-        <div class="row">
-            <form method="post" action="action/update_user?id=${user_data.user.id}">
+        <div class="12u">
+            <form method="post" action="action/update_profile">
                 <div class="row uniform">
                     <div class="field half first">
                         <label for="login"><fmt:message key="login"/></label>
-                        <input type="text" name="login" placeholder="<fmt:message key="login"/>" value="${user_data.user.login}"/>
+                        <input type="text" name="login" placeholder="<fmt:message key="login"/>" value="${user_data.user.login}" disabled/>
                     </div>
                     <div class="field half">
                         <label for="name"><fmt:message key="name"/></label>
@@ -45,10 +45,6 @@
                     <div class="field half first">
                         <label for="phone"><fmt:message key="phone"/></label>
                         <input type="text" name="phone" placeholder="<fmt:message key="phone"/>" value="${user_data.phone}"/>
-                    </div>
-                    <div class="field half">
-                        <label for="role"><fmt:message key="role"/></label>
-                        <input type="text" name="role" placeholder="<fmt:message key="role"/>" value="${user_data.user.role.roleName}" disabled/>
                     </div>
                     <div class="12u">
                         <ul class="actions">

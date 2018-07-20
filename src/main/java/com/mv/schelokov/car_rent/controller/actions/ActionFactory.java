@@ -14,6 +14,8 @@ import com.mv.schelokov.car_rent.controller.actions.admin.ShowOrderViewPage;
 import com.mv.schelokov.car_rent.controller.actions.admin.ShowUsersList;
 import com.mv.schelokov.car_rent.controller.actions.admin.UpdateCar;
 import com.mv.schelokov.car_rent.controller.actions.admin.UpdateUser;
+import com.mv.schelokov.car_rent.controller.actions.user.ShowEditProfilePage;
+import com.mv.schelokov.car_rent.controller.actions.user.UpdateProfile;
 import com.mv.schelokov.car_rent.controller.consts.Jsps;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,6 +49,8 @@ public class ActionFactory {
         ACTIONS.put("order_list", new ShowOrderList());
         ACTIONS.put("view_order", new ShowOrderViewPage());
         ACTIONS.put("approve_order", new ApproveOrder());
+        ACTIONS.put("edit_profile", new ShowEditProfilePage());
+        ACTIONS.put("update_profile", new UpdateProfile());
         ACTIONS.put("error_page", new ShowPage(Jsps.ERROR_PAGE));
     }
     
