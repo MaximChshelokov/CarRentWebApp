@@ -23,6 +23,7 @@ public class CarRepository extends AbstractSqlRepository<Car> {
     public interface DeleteCriteria extends SqlCriteria {}
     
     public static final Criteria SELECT_ALL = new SelectAll();
+    public static final Criteria SELECT_AVAILABLE = new SelectAvailable();
     
     public static class SelectAll implements ReadCriteria {
 
@@ -37,6 +38,14 @@ public class CarRepository extends AbstractSqlRepository<Car> {
 
         @Override
         public void setStatement(PreparedStatement ps) throws SQLException {}
+    }
+    
+    public static class SelectAvailable extends SelectAll {
+        private static final String QUERY = " WHERE available=b'1'";
+        @Override
+        public String toSqlQuery() {
+            return super.toSqlQuery() + QUERY;
+        }
     }
     
     public static class FindById extends SelectAll {

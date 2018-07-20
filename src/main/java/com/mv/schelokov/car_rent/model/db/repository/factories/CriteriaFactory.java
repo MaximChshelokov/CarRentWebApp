@@ -50,6 +50,10 @@ public class CriteriaFactory {
         return CarRepository.SELECT_ALL;
     }
     
+    public static Criteria getAvailableCars() {
+        return CarRepository.SELECT_AVAILABLE;
+    }
+    
     public static Criteria getCarById(int id) {
         return new CarRepository.FindById(id);
     }

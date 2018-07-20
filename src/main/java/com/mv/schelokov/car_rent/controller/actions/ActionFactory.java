@@ -14,7 +14,9 @@ import com.mv.schelokov.car_rent.controller.actions.admin.ShowOrderViewPage;
 import com.mv.schelokov.car_rent.controller.actions.admin.ShowUsersList;
 import com.mv.schelokov.car_rent.controller.actions.admin.UpdateCar;
 import com.mv.schelokov.car_rent.controller.actions.admin.UpdateUser;
+import com.mv.schelokov.car_rent.controller.actions.user.CreateOrder;
 import com.mv.schelokov.car_rent.controller.actions.user.ShowEditProfilePage;
+import com.mv.schelokov.car_rent.controller.actions.user.ShowSelectCarPage;
 import com.mv.schelokov.car_rent.controller.actions.user.UpdateProfile;
 import com.mv.schelokov.car_rent.controller.consts.Jsps;
 import java.util.HashMap;
@@ -51,6 +53,9 @@ public class ActionFactory {
         ACTIONS.put("approve_order", new ApproveOrder());
         ACTIONS.put("edit_profile", new ShowEditProfilePage());
         ACTIONS.put("update_profile", new UpdateProfile());
+        ACTIONS.put("select_car", new ShowSelectCarPage());
+        ACTIONS.put("create_order", new CreateOrder());
+        ACTIONS.put("order_completed", new ShowPage(Jsps.USER_ORDER_COMPLETED));
         ACTIONS.put("error_page", new ShowPage(Jsps.ERROR_PAGE));
     }
     

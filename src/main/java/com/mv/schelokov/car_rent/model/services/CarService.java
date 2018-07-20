@@ -35,6 +35,11 @@ public class CarService {
         return getCarsByCriteria(criteria);
     }
     
+    public List getAvailableCars() throws ServiceException {
+        Criteria criteria = CriteriaFactory.getAvailableCars();
+        return getCarsByCriteria(criteria);
+    }
+    
     public Car getCarById(int id) throws ServiceException {
         Criteria criteria = CriteriaFactory.getCarById(id);
         List result = getCarsByCriteria(criteria);
