@@ -18,7 +18,7 @@ public class UserDataValidator extends Validator {
             + "А-ЯA-Z\\-]{0,}\\s[А-ЯA-Z][а-яёa-zА-ЯA-Z\\-]{1,}(\\s[А-ЯA-Z][а-яёa-"
             + "zА-ЯA-Z\\-]{1,})?$");
     private static final Pattern VALID_ADDRESS
-            = Pattern.compile("^[а-яa-zА-ЯA-Z0-9,\\.\\s]{10,}$");
+            = Pattern.compile("^[а-яa-zА-ЯA-Z0-9,\\.\\s/]{10,}$");
     
     public static int validate(UserData userData) {
 

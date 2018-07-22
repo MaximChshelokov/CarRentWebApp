@@ -10,7 +10,9 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:bundle basename="i18n">
     <fmt:message key="application.form.submit" var="submit"/>
-    <fmt:message key="admin-user-edit.error" var="error_msg"/>
+    <c:if test="${not empty error_message}">
+        <fmt:message key="${error_message}" var="error_msg"/>
+    </c:if>
     <fmt:message key="admin-user-edit.caption" var="caption"/>
 </fmt:bundle>
 <fmt:bundle basename="i18n" prefix="admin-user-list.">
@@ -50,7 +52,7 @@
                     </div>
                 </form>
                 <div class="12u">
-                    <c:if test="${errEmptyParam==1}">
+                    <c:if test="${not empty error_msg}">
                         <p style="color:#ff0000"><c:out value="${error_msg}"/>
                     </c:if>
                 </div>

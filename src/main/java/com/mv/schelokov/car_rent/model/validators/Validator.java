@@ -1,5 +1,7 @@
 package com.mv.schelokov.car_rent.model.validators;
 
+import com.mv.schelokov.car_rent.model.entities.interfaces.Entity;
+
 /**
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
@@ -24,4 +26,7 @@ public class Validator {
         return false;
     }
     
+    protected static boolean isValidEntity(Entity entity) {
+        return entity.getId() > 0;
+    }
 }

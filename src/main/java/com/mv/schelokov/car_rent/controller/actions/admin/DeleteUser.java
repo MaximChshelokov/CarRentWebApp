@@ -27,19 +27,22 @@ public class DeleteUser extends AbstractAction {
         if (isAdmin(req)) {
             int userId = getIntParam(req, "id");
             int userDataId = getIntParam(req, "uid");
-            
+
             UserData userData = new UserDataBuilder().setId(userDataId)
                     .setUser(new UserBuilder().setId(userId).getUser())
                     .getUserData();
-            UserService userService = new UserService();
             try {
-                if (userDataId > 0)
-                    userService.deleteUserData(userData);
-                else
-                    if (userId > 0)
-                        userService.deleteUser(userData.getUser());
+                if (userDataId > 0) {
+                    UserService.deleteUserData(userData);
+                } else if (userId > 0) {
+                    UserService.deleteUser(userData.getUser());
+                } else {
+                    throw new ActionException("Failed to delete user, wrong id");
+                }
+
                 return new JspForward("action/user_list");
-            } catch (ServiceException ex) {
+            }
+            catch (ServiceException ex) {
                 LOG.error(ERROR);
                 throw new ActionException(ERROR, ex);
             }

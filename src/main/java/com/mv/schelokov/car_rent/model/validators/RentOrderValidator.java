@@ -35,10 +35,6 @@ public class RentOrderValidator extends Validator {
                 order.getStartDate(), order.getEndDate());
     }
     
-    private static boolean isValidEntity(Entity entity) {
-        return entity.getId() > 0;
-    }
-    
     private static boolean isValidOrderDate(RentOrder order) {
         GregorianCalendar cal = new GregorianCalendar();
         cal.setTime(new Date());

@@ -26,12 +26,15 @@ public class UserValidator extends Validator {
         if (!isValidPassword(user.getPassword()))
             return ValidationResult.INVALID_PASSWORD;
         
+        if (!isValidEntity(user.getRole()))
+            return ValidationResult.INVALID_ROLE;
+        
         return ValidationResult.OK;
     }
     
     private static boolean hasEmptyFields(User user) {
         
-        return isNullField(user.getLogin(), user.getPassword())
+        return isNullField(user.getLogin(), user.getPassword(), user.getRole())
                 || isEmptyString(user.getLogin(), user.getPassword());
     }
     

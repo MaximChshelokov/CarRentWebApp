@@ -9,6 +9,8 @@ import com.mv.schelokov.car_rent.model.db.repository.interfaces.Repository;
 import com.mv.schelokov.car_rent.model.entities.Car;
 import com.mv.schelokov.car_rent.model.entities.Make;
 import com.mv.schelokov.car_rent.model.entities.Model;
+import com.mv.schelokov.car_rent.model.entities.builders.MakeBuilder;
+import com.mv.schelokov.car_rent.model.entities.builders.ModelBuilder;
 import com.mv.schelokov.car_rent.model.services.exceptions.ServiceException;
 import java.util.List;
 import org.apache.log4j.Logger;
@@ -28,19 +30,19 @@ public class CarService {
             + "name from the repository";
     private static final String MODEL_CREATE_ERROR = "Failed to create new model";
     private static final String MAKE_CREATE_ERROR =  "Failed to create new make";
-    private enum Operation { CREATE, UPDATE, DELETE }
+    private static enum Operation { CREATE, UPDATE, DELETE }
     
-    public List getAllCars() throws ServiceException {
+    public static List getAllCars() throws ServiceException {
         Criteria criteria = CriteriaFactory.getAllCars();
         return getCarsByCriteria(criteria);
     }
     
-    public List getAvailableCars() throws ServiceException {
+    public static List getAvailableCars() throws ServiceException {
         Criteria criteria = CriteriaFactory.getAvailableCars();
         return getCarsByCriteria(criteria);
     }
     
-    public Car getCarById(int id) throws ServiceException {
+    public static Car getCarById(int id) throws ServiceException {
         Criteria criteria = CriteriaFactory.getCarById(id);
         List result = getCarsByCriteria(criteria);
         if (result.isEmpty())
@@ -49,19 +51,19 @@ public class CarService {
             return (Car) result.get(0);
     }
     
-    public void deleteCar(Car car) throws ServiceException {
+    public static void deleteCar(Car car) throws ServiceException {
         operateCar(car, Operation.DELETE);
     }
     
-    public void updateCar(Car car) throws ServiceException {
+    public static void updateCar(Car car) throws ServiceException {
         operateCar(car, Operation.UPDATE);
     }
     
-    public void createCar(Car car) throws ServiceException {
+    public static void createCar(Car car) throws ServiceException {
         operateCar(car, Operation.CREATE);
     }
     
-    private void operateCar(Car car, Operation operation)
+    private static void operateCar(Car car, Operation operation)
             throws ServiceException {
         try (RepositoryFactory repositoryFactory = new RepositoryFactory()) {
             Repository carRepository = repositoryFactory.getCarRepository();
@@ -82,7 +84,37 @@ public class CarService {
         }   
     }
     
-    public List getModel(Model model) throws ServiceException {
+    public static Model getModelByNameOrCreate(String modelName, String makeName)
+            throws ServiceException {
+        if (modelName == null || modelName.isEmpty()) {
+            return new ModelBuilder().setId(0).getModel();
+        }
+        Model model = new ModelBuilder()
+                .setName(modelName)
+                .setMake(getMakeByNameOrCreate(makeName))
+                .getModel();
+        List modelList = getModel(model);
+        if (modelList.isEmpty()) {
+            modelList = createModel(model);
+        }
+        return (Model) modelList.get(0);
+    }
+
+    private static Make getMakeByNameOrCreate(String makeName)
+            throws ServiceException {
+        if (makeName == null || makeName.isEmpty()) {
+            return new MakeBuilder().setId(0).getMake();
+        }
+        List makeList = getMakeByName(makeName);
+        if (makeList.isEmpty()) {
+            makeList = createMake(new MakeBuilder()
+                    .setName(makeName)
+                    .getMake());
+        }
+        return (Make) makeList.get(0);
+    }
+    
+    public static List getModel(Model model) throws ServiceException {
         Criteria criteria = CriteriaFactory.findModel(model);
         try (RepositoryFactory repositoryFactory = new RepositoryFactory()) {
             Repository modelRepository = repositoryFactory.getModelRepository();
@@ -94,7 +126,7 @@ public class CarService {
         }
     }
     
-    public List createModel(Model model) throws ServiceException {
+    public static List createModel(Model model) throws ServiceException {
         try (RepositoryFactory repositoryFactory = new RepositoryFactory()) {
             Repository modelRepository = repositoryFactory.getModelRepository();
             modelRepository.add(model);
@@ -106,7 +138,7 @@ public class CarService {
         }
     }
     
-    public List getMakeByName(String name) throws ServiceException {
+    public static List getMakeByName(String name) throws ServiceException {
         Criteria criteria = CriteriaFactory.getMakeByName(name);
         try (RepositoryFactory repositoryFactory = new RepositoryFactory()) {
             Repository makeRepository = repositoryFactory.getMakeRepository();
@@ -118,7 +150,7 @@ public class CarService {
         }
     }
     
-    public List createMake(Make make) throws ServiceException {
+    public static List createMake(Make make) throws ServiceException {
         try (RepositoryFactory repositoryFactory = new RepositoryFactory()) {
             Repository makeRepository = repositoryFactory.getMakeRepository();
             makeRepository.add(make);
@@ -130,7 +162,7 @@ public class CarService {
         }
     }
     
-    private List getCarsByCriteria(Criteria criteria) throws ServiceException {
+    private static List getCarsByCriteria(Criteria criteria) throws ServiceException {
         try (RepositoryFactory repositoryFactory = new RepositoryFactory()) {
             Repository carRepository = repositoryFactory.getCarRepository();
             return carRepository.read(criteria);

@@ -25,11 +25,10 @@ public class ShowAddUserPage extends AbstractAction {
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
         if (isAdmin(req)) {
-            req.getSession().setAttribute(SessionAttr.USER_DATA,
+            req.setAttribute("user_data",
                     new UserDataBuilder().setUser(new User()).getUserData());
-            UserService userSerivce = new UserService();
             try {
-                req.setAttribute("roles", userSerivce.getAllRoles());
+                req.setAttribute("roles", UserService.getAllRoles());
                 return new JspForward(Jsps.ADMIN_ADD_USER);
             } catch (ServiceException ex) {
                 LOG.error(ERROR, ex);

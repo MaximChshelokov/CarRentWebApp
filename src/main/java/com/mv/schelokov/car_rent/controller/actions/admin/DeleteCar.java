@@ -17,20 +17,22 @@ import org.apache.log4j.Logger;
 public class DeleteCar extends AbstractAction {
     private static final Logger LOG = Logger.getLogger(DeleteCar.class);
     private static final String ERROR = "Unable to delete car";
-    private static final CarService CAR_SERVICE = new CarService();
     
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
         if (isAdmin(req)) {
             int carId = getIntParam(req, "id");
+            if (carId > 0)
             try {
-                CAR_SERVICE.deleteCar(new CarBuilder().setId(carId).getCar());
+                CarService.deleteCar(new CarBuilder().setId(carId).getCar());
                 return new JspForward("action/car_list", true);
             } catch (ServiceException ex) {
                 LOG.error(ERROR, ex);
                 throw new ActionException(ERROR, ex);
             }
+            else
+                throw new ActionException("Failed to delete car, wrong id");
         } else {
             sendForbidden(res);
             return null;            

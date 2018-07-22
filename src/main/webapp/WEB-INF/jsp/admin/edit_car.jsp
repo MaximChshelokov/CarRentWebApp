@@ -19,17 +19,9 @@
     </c:choose>
     
     <fmt:message key="application.form.submit" var="submit"/>
-    <c:choose>
-        <c:when test="${errParam == 1}">
-            <fmt:message key="admin-car-edit.error-year" var="error_msg"/>
-        </c:when>
-        <c:when test="${errParam == 2}">
-            <fmt:message key="editor.error-empty" var="error_msg"/>
-        </c:when>
-        <c:when test="${errParam == 3}">
-            <fmt:message key="admin-car-edit.error-price" var="error_msg"/>
-        </c:when>
-    </c:choose>
+    <c:if test="${not empty error_message}">
+        <fmt:message key="${error_message}" var="error_msg"/>
+    </c:if>
 </fmt:bundle>
 <fmt:bundle basename="i18n" prefix="admin-car-list.">
     <t:generic>
@@ -39,11 +31,11 @@
             </header>
             <div class="row">
                 <div class="12u">
-                    <c:if test="${errParam!=0}">
+                    <c:if test="${not empty error_msg}">
                         <p style="color:#ff0000"><c:out value="${error_msg}"/>
                         </c:if>
                 </div>
-                <form method="post" action="action/update_car">
+                <form method="post" action="action/update_car?id=${car.id}">
                     <div class="row uniform">
                         <div class="field half first">
                             <label for="make"><fmt:message key="make"/></label>

@@ -33,51 +33,51 @@ public class UserService {
     private static final String USER_REPOSITORY_ADD = "Failed to write the user data";
     private static final String HASH_ERROR = "Hash algorithm SHA-512 not found";
     
-    private enum Operation { CREATE, UPDATE, DELETE }
+    private static enum Operation { CREATE, UPDATE, DELETE }
     
-    public void registerNewUser(User user) throws ServiceException {
+    public static void registerNewUser(User user) throws ServiceException {
         operateUser(user, Operation.CREATE);
     }
     
-    public void updateUser(User user) throws ServiceException {
+    public static void updateUser(User user) throws ServiceException {
         operateUser(user, Operation.UPDATE);
     }
     
-    public void deleteUser(User user) throws ServiceException {
+    public static void deleteUser(User user) throws ServiceException {
         operateUser(user, Operation.DELETE);
     }
     
-    public List getUserByCredentials(String login, String password) 
+    public static List getUserByCredentials(User user) 
             throws ServiceException {
-        Criteria criteria = CriteriaFactory.getUserFindLoginPassword(login, 
-                hashPassword(password));
+        Criteria criteria = CriteriaFactory.getUserFindLoginPassword(
+                user.getLogin(), hashPassword(user.getPassword()));
         return getUsersByCriteria(criteria);
     }
     
-    public List getUserByLogin(String login) throws ServiceException {
+    public static List getUserByLogin(String login) throws ServiceException {
         Criteria criteria = CriteriaFactory.getUserFindLogin(login);
         return getUsersByCriteria(criteria);
     }
     
-    public int getUserNumber() throws ServiceException {
+    public static int getUserNumber() throws ServiceException {
         return getAllUsers().size();
     }
     
-    public List getAllUsers() throws ServiceException {
+    public static List getAllUsers() throws ServiceException {
         Criteria criteria = CriteriaFactory.getAllUsersData();
         return getUserDataByCriteria(criteria);       
     }
     
-    public UserData getUserDataById(int id) throws ServiceException {
+    public static UserData getUserDataById(int id) throws ServiceException {
         Criteria criteria = CriteriaFactory.getUserDataById(id);
         List result = getUserDataByCriteria(criteria);
         if (result.isEmpty())
-            return new UserData();
+            throw new ServiceException("Unable to find UserData by the id");
         else
             return (UserData) result.get(0);
     }
     
-    public void addUserData(UserData userData) throws ServiceException {
+    public static void addUserData(UserData userData) throws ServiceException {
         operateUserData(userData, Operation.CREATE);
         if (userData.getUser().getId() == 0)
             registerNewUser(userData.getUser());
@@ -85,17 +85,17 @@ public class UserService {
             updateUser(userData.getUser());
     }
     
-    public void updateUserData(UserData userData) throws ServiceException {
+    public static void updateUserData(UserData userData) throws ServiceException {
         operateUserData(userData, Operation.UPDATE);
         updateUser(userData.getUser());
     }
     
-    public void deleteUserData(UserData userData) throws ServiceException {
+    public static void deleteUserData(UserData userData) throws ServiceException {
         operateUserData(userData, Operation.DELETE);
         deleteUser(userData.getUser());
     }
     
-    public List getAllRoles() throws ServiceException {
+    public static List getAllRoles() throws ServiceException {
         try (RepositoryFactory repositoryFactory = new RepositoryFactory()) {
             Repository roleRepository = repositoryFactory.getRoleRepository();
             Criteria criteria = CriteriaFactory.getAllRoles();
@@ -107,49 +107,56 @@ public class UserService {
         }    
     }
     
-    private void operateUser(User user, Operation operation)
+    private static void operateUser(User user, Operation operation)
             throws ServiceException {
         try(RepositoryFactory repositoryFactory = new RepositoryFactory()) {
             Repository userRepository = repositoryFactory.getUserRepository();
+            boolean result = false;
             switch (operation) {
                 case UPDATE:
-                    userRepository.update(user);
+                    result = userRepository.update(user);
                     break;
                 case CREATE:
                     user.setPassword(hashPassword(user.getPassword()));
-                    userRepository.add(user);
+                    result = userRepository.add(user);
                     break;
                 case DELETE:
-                    userRepository.remove(user);
+                    result = userRepository.remove(user);
             }
+            if (!result)
+                throw new ServiceException("Failed to operate UserRepository");
         } catch (RepositoryException | DbException ex) {
             LOG.error(USER_REPOSITORY_ERROR, ex);
             throw new ServiceException(USER_REPOSITORY_ERROR, ex);
         }
     } 
     
-    private void operateUserData(UserData userData, Operation operation) 
+    private static void operateUserData(UserData userData, Operation operation) 
             throws ServiceException {
         try (RepositoryFactory repositoryFactory = new RepositoryFactory()) {
             Repository userDataRepository = repositoryFactory.getUserDataRepository();
+            boolean result = false;
             switch(operation) {
                 case UPDATE:   
-                    userDataRepository.update(userData);
+                    result = userDataRepository.update(userData);
                     break;
                 case CREATE:
                     userData.setId(userData.getUser().getId());
-                    userDataRepository.add(userData);
+                    result = userDataRepository.add(userData);
                     break;
                 case DELETE:
-                    userDataRepository.remove(userData);
+                    result = userDataRepository.remove(userData);
             }
+            if (!result) {
+                throw new ServiceException("Failed to operate UserDataRepository");
+            }  
         } catch (RepositoryException | DbException ex) {
             LOG.error(USER_REPOSITORY_ADD, ex);
             throw new ServiceException(USER_REPOSITORY_ADD, ex);
         }   
     }
     
-    private List getUsersByCriteria(Criteria criteria) throws ServiceException {
+    private static List getUsersByCriteria(Criteria criteria) throws ServiceException {
         try(RepositoryFactory repositoryFactory = new RepositoryFactory()) {
             Repository userRepository = repositoryFactory.getUserRepository();
             return userRepository.read(criteria);
@@ -160,7 +167,7 @@ public class UserService {
         }
     }
     
-    private List getUserDataByCriteria(Criteria criteria)
+    private static List getUserDataByCriteria(Criteria criteria)
             throws ServiceException {
         try (RepositoryFactory repositoryFactory = new RepositoryFactory()) {
             Repository userDataRepository = 
@@ -172,7 +179,7 @@ public class UserService {
         }
     }
     
-    private String hashPassword(String password) throws ServiceException {
+    private static String hashPassword(String password) throws ServiceException {
         try {
             return ShaHash.getSHA512Hash(password, SALT);
         } catch(NoSuchAlgorithmException ex) {

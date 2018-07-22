@@ -18,7 +18,6 @@ import org.apache.log4j.Logger;
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
 public class LocaleFilter implements Filter {
-    public static final Logger log = Logger.getLogger(LocaleFilter.class);
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {}
@@ -43,7 +42,6 @@ public class LocaleFilter implements Filter {
         }
         Locale locale = new Locale.Builder().setLanguage(localeString).setRegion("US").build();
         Config.set(req.getSession(), Config.FMT_LOCALE, locale);
-        log.debug(String.format("Locale was set, %s", locale.toString()));
         chain.doFilter(request, response);
     }
 

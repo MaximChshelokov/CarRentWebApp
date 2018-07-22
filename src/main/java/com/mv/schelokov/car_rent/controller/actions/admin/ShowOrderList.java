@@ -24,9 +24,8 @@ public class ShowOrderList extends AbstractAction {
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
         if (isAdmin(req)) {
-            OrderService orderService = new OrderService();
             try {
-                req.setAttribute("order_list", orderService.getAllOrders());
+                req.setAttribute("order_list", OrderService.getAllOrders());
                 return new JspForward(Jsps.ADMIN_ORDER_LIST);
             } catch (ServiceException ex) {
                 LOG.error(ERROR, ex);

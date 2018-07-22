@@ -23,20 +23,21 @@ public class OrderService {
             + "list form the repository by the criteria";
     private static final String ORDER_OPERATION_ERROR = "Failed to write an order";
     
-    private enum Operation {
-        CREATE, UPDATE, DELETE
-    }
+    private static enum Operation {CREATE, UPDATE, DELETE}
 
     
-    public List getAllOrders() throws ServiceException {
+    public static List getAllOrders() throws ServiceException {
         Criteria criteria = CriteriaFactory.getAllOrdersOrderByApproved();
         List<RentOrder> orders = getOrdersByCriteria(criteria);
+        if (orders.isEmpty())
+            throw new ServiceException("Unable to get all orders from the"
+                    + " repository");
         for (RentOrder order : orders)
             calculateSum(order);
         return orders;
     }
     
-    public RentOrder getOrderById(int id) throws ServiceException {
+    public static RentOrder getOrderById(int id) throws ServiceException {
         Criteria criteria = CriteriaFactory.findOrderById(id);
         List resultList = getOrdersByCriteria(criteria);
         if (resultList.isEmpty())
@@ -47,33 +48,36 @@ public class OrderService {
         return result;
     }
     
-    public void addOrder(RentOrder order) throws ServiceException {
+    public static void addOrder(RentOrder order) throws ServiceException {
         operateOrder(order, Operation.CREATE);
     }
     
-    public void updateOrder(RentOrder order) throws ServiceException {
+    public static void updateOrder(RentOrder order) throws ServiceException {
         operateOrder(order, Operation.UPDATE);
     }
     
-    public void deleteOrder(RentOrder order) throws ServiceException {
+    public static void deleteOrder(RentOrder order) throws ServiceException {
         operateOrder(order, Operation.DELETE);
     }
     
-    private void operateOrder(RentOrder order, Operation operation)
+    private static void operateOrder(RentOrder order, Operation operation)
             throws ServiceException {
         try (RepositoryFactory repositoryFactory = new RepositoryFactory()) {
             Repository orderRepository = repositoryFactory
                     .getRentOrderRepository();
+            boolean result = false;
             switch (operation) {
                 case CREATE:
-                    orderRepository.add(order);
+                    result = orderRepository.add(order);
                     break;
                 case UPDATE:
-                    orderRepository.update(order);
+                    result = orderRepository.update(order);
                     break;
                 case DELETE:
-                    orderRepository.remove(order);
+                    result = orderRepository.remove(order);
             }
+            if (!result)
+                throw new ServiceException("Unable to operate to OrderRepository");
         }
         catch (RepositoryException | DbException ex) {
             LOG.error(ORDER_OPERATION_ERROR, ex);
@@ -81,13 +85,13 @@ public class OrderService {
         } 
     }
     
-    private void calculateSum(RentOrder order) {
+    private static void calculateSum(RentOrder order) {
         order.setSum(order.getCar().getPrice() * (int) TimeUnit.MILLISECONDS
                     .toDays(order.getEndDate().getTime()
                             - order.getStartDate().getTime()));
     }
     
-    private List getOrdersByCriteria(Criteria criteria)
+    private static List getOrdersByCriteria(Criteria criteria)
             throws ServiceException {
         try(RepositoryFactory repositoryFactory = new RepositoryFactory()) {
             Repository orderRepository = repositoryFactory

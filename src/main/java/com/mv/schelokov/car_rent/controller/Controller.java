@@ -22,7 +22,7 @@ import org.apache.log4j.Logger;
  */
 public class Controller extends HttpServlet {
 
-    public static final Logger log = Logger.getLogger(Controller.class);
+    public static final Logger LOG = Logger.getLogger(Controller.class);
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,13 +45,15 @@ public class Controller extends HttpServlet {
         try {
             forward = action.execute(request, response);
         } catch (ActionException ex) {
-            log.error("Failed to redirect", ex);
+            LOG.error("Failed to redirect", ex);
         }
         if (forward != null) {
             String path = "/" + forward.getUrl();
             if (forward.isRedirect()) {
+                LOG.debug(String.format("redirection to %s", path));
                 response.sendRedirect(path);
             } else {
+                LOG.debug(String.format("forward to %s", path));
                 request.getRequestDispatcher(path).forward(request, response);
             }
         }

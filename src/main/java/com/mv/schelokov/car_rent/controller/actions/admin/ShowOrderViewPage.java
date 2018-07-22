@@ -26,19 +26,14 @@ public class ShowOrderViewPage extends AbstractAction {
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
         if (isAdmin(req)) {
-            UserService userService = new UserService();
-            CarService carService = new CarService();
-            OrderService orderService = new OrderService();
             int orderId = getIntParam(req, "id");
-            if (orderId < 1)
-                throw new ActionException("Wrong id parameter for order entity");
             try {
-                RentOrder order = orderService.getOrderById(orderId);
+                RentOrder order = OrderService.getOrderById(orderId);
                 req.setAttribute("order", order);
                 req.setAttribute("user_data", 
-                        userService.getUserDataById(order.getUser().getId()));
+                        UserService.getUserDataById(order.getUser().getId()));
                 req.setAttribute("car",
-                        carService.getCarById(order.getCar().getId()));
+                        CarService.getCarById(order.getCar().getId()));
                 return new JspForward(Jsps.ADMIN_ORDER_VIEW);
                 
             } catch (ServiceException ex) {

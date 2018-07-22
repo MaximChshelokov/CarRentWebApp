@@ -8,39 +8,20 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:bundle basename="i18n">
-    <c:choose>
-        <c:when test="${errorSignup==1}">
-            <fmt:message key="editor.error-empty" var="sign_error_msg"/>
-        </c:when>
-        <c:when test="${errorSignup==2}">
-            <fmt:message key="admin-user-add.error" var="sign_error_msg"/>
-        </c:when>
-        <c:when test="${errorSignup==3}">
-            <fmt:message key="admin-user-add.error-login" var="sign_error_msg"/>
-        </c:when>
-        <c:when test="${errorSignup==4}">
-            <fmt:message key="editor.error-email" var="sign_error_msg"/>
-        </c:when>
-    </c:choose>
-    <c:choose>
-        <c:when test="${errorLogin==1}">
-            <fmt:message key="editor.error-empty" var="logn_error_msg"/>
-        </c:when>
-        <c:when test="${errorLogin==2}">
-            <fmt:message key="login.err-login" var="logn_error_msg"/>
-        </c:when>
-    </c:choose>
+    <c:if test="${not empty error_message}">
+        <fmt:message key="${error_message}" var="error_msg"/>
+    </c:if>
 </fmt:bundle>
 <fmt:bundle basename="i18n" prefix="login.">
     <div id="login" style="${sign?'display:none':''}">
         <h3><fmt:message key="login"/></h3>
-        <c:if test="${errorLogin!=0}">
-            <p style="color:#ff0000"><c:out value="${logn_error_msg}"/></p>
+        <c:if test="${not empty error_msg and not sign}">
+            <p style="color:#ff0000"><c:out value="${error_msg}"/></p>
         </c:if>
         <form method="post" action="action/login">
             <div class="row uniform">
                 <div class="12u">
-                    <input type="text" name="email" placeholder="<fmt:message key="email"/>" value="${email}"/>
+                    <input type="text" name="email" placeholder="<fmt:message key="email"/>" value="${user_edit.login}"/>
                 </div>
                 <div class="12u">
                     <input type="password" name="pass" placeholder="<fmt:message key="password"/>" />
@@ -59,13 +40,13 @@
     </div>
     <div id="signup" style="${sign?'':'display:none'}">
         <h3><fmt:message key="signup"/></h3>
-        <c:if test="${errorSignup!=0}">
-            <p style="color:#ff0000"><c:out value="${sign_error_msg}"/></p>
+        <c:if test="${not empty error_msg and sign}">
+            <p style="color:#ff0000"><c:out value="${error_msg}"/></p>
         </c:if>
         <form method="post" action="action/sign_up">
             <div class="row uniform">
                 <div class="12u">
-                    <input type="text" name="email" placeholder="<fmt:message key="email"/>" value="${email}"/>
+                    <input type="text" name="email" placeholder="<fmt:message key="email"/>" value="${user_edit.login}"/>
                 </div>
                 <div class="12u">
                     <input type="password" name="pass" placeholder="<fmt:message key="password"/>" />

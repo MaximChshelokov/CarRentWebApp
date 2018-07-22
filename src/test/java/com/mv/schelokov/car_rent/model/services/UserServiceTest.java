@@ -48,9 +48,10 @@ public class UserServiceTest {
     @Test
     public void testGetUserByCredentials() throws Exception {
         System.out.println("getUserByCredentials");
-        String login = "admin";
-        String password = "admin";
-        List result = userService.getUserByCredentials(login, password);
+        User user = new UserBuilder().setLogin("admin").setPassword("admin")
+                .setRole(new RoleBuilder().setId(1).getRole())
+                .getUser();
+        List result = userService.getUserByCredentials(user);
         assertEquals(1, result.size());
     }
 }

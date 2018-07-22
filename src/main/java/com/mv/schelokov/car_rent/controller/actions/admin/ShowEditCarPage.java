@@ -24,11 +24,10 @@ public class ShowEditCarPage extends AbstractAction {
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
         if (isAdmin(req)) {
-            CarService carService = new CarService();
+            int id = getIntParam(req, "id");
             try {
-                int id = getIntParam(req, "id");
                 req.getSession().setAttribute(SessionAttr.CAR,
-                        carService.getCarById(id));
+                        CarService.getCarById(id));
                 return new JspForward(Jsps.ADMIN_EDIT_CAR);
             }
             catch (ServiceException ex) {

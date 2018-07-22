@@ -20,4 +20,8 @@ public class ValidationResult {
     public static final int INVALID_PRICE = 12;
     public static final int INVALID_CAR = 13;
     public static final int INVALID_USER = 14;
+    public static final int INVALID_ROLE = 15;
+    public static final int PASSWORDS_NOT_MATCH = 16;
+    public static final int SAME_LOGIN = 17;
+    public static final int USER_NOT_FOUND = 18;
 }

@@ -1,6 +1,7 @@
 package com.mv.schelokov.car_rent.model.validators;
 
 import com.mv.schelokov.car_rent.model.entities.User;
+import com.mv.schelokov.car_rent.model.entities.builders.RoleBuilder;
 import com.mv.schelokov.car_rent.model.entities.builders.UserBuilder;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -22,6 +23,7 @@ public class UserValidatorTest {
         User user = new UserBuilder()
                 .setLogin("podkova@mail.ru")
                 .setPassword("1337228")
+                .setRole(new RoleBuilder().setId(1).getRole())
                 .getUser();
         int expResult = ValidationResult.OK;
         int result = UserValidator.validate(user);
@@ -33,6 +35,7 @@ public class UserValidatorTest {
         User user = new UserBuilder()
                 .setLogin("podkovapail.ru")
                 .setPassword("Sfv@341v_1")
+                .setRole(new RoleBuilder().setId(1).getRole())
                 .getUser();
         int expResult = ValidationResult.INVALID_EMAIL;
         int result = UserValidator.validate(user);
@@ -44,6 +47,7 @@ public class UserValidatorTest {
         User user = new UserBuilder()
                 .setLogin("podkova@mail.ru")
                 .setPassword("мой пароль")
+                .setRole(new RoleBuilder().setId(1).getRole())
                 .getUser();
         int expResult = ValidationResult.INVALID_PASSWORD;
         int result = UserValidator.validate(user);

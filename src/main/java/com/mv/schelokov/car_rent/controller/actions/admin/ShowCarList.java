@@ -24,9 +24,8 @@ public class ShowCarList extends AbstractAction {
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
         if (isAdmin(req)) {
-            CarService carService = new CarService();
             try {
-                req.setAttribute("car_list", carService.getAllCars());
+                req.setAttribute("car_list", CarService.getAllCars());
                 return new JspForward(Jsps.ADMIN_CARS_LIST);
             } catch (ServiceException ex) {
                 LOG.error(ERROR, ex);
