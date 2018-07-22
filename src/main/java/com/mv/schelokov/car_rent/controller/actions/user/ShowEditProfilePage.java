@@ -20,7 +20,6 @@ public class ShowEditProfilePage extends AbstractAction {
     
     private static final Logger LOG = Logger.getLogger(ShowEditProfilePage.class);
     private static final String ERROR = "Failed to read user data from database";
-    private static final UserService USER_SERVICE = new UserService();
 
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
@@ -30,7 +29,7 @@ public class ShowEditProfilePage extends AbstractAction {
                 User user = (User) req.getSession()
                         .getAttribute(SessionAttr.USER);
                 req.setAttribute("user_data",
-                        USER_SERVICE.getUserDataById(user.getId()));
+                        UserService.getUserDataById(user.getId()));
                 return new JspForward(Jsps.USER_EDIT_PROFILE);
             } catch (ServiceException ex) {
                 LOG.error(ERROR, ex);

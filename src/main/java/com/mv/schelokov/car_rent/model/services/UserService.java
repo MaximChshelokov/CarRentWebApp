@@ -114,6 +114,7 @@ public class UserService {
             boolean result = false;
             switch (operation) {
                 case UPDATE:
+                    user.setPassword(hashPassword(user.getPassword()));
                     result = userRepository.update(user);
                     break;
                 case CREATE:

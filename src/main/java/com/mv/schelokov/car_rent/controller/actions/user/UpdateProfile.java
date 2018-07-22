@@ -9,7 +9,8 @@ import com.mv.schelokov.car_rent.model.entities.User;
 import com.mv.schelokov.car_rent.model.entities.UserData;
 import com.mv.schelokov.car_rent.model.services.UserService;
 import com.mv.schelokov.car_rent.model.services.exceptions.ServiceException;
-import java.util.regex.Pattern;
+import com.mv.schelokov.car_rent.model.validators.UserDataValidator;
+import com.mv.schelokov.car_rent.model.validators.ValidationResult;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
@@ -22,33 +23,33 @@ public class UpdateProfile extends AbstractAction {
 
     private static final Logger LOG = Logger.getLogger(UpdateProfile.class);
     private static final String ERROR = "Unable to write data to database.";
-    private static final UserService USER_SERVICE = new UserService();
-    private static final int OK = 0;
-    private static final int EMPTY_FIELD = 1;
-    private static final int WRONG_PHONE = 2;
-    private static final Pattern VALID_PHONE_NUMBER
-            = Pattern.compile("^[0-9]{11}$");
     
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
         if (isUser(req) || isAdmin(req)) {
-            String name = req.getParameter("name");
-            String address = req.getParameter("address");
-            String phone = req.getParameter("phone").replaceAll("[^0-9]+", "");
-            int validationResult = validate(name, address, phone);
             try {
                 User user = (User) req.getSession()
                         .getAttribute(SessionAttr.USER);
-                UserData userData = USER_SERVICE.getUserDataById(user.getId());
-                userData.setName(name);
-                userData.setAddress(address);
-                userData.setPhone(phone);
-                if (validationResult == OK) {
+                UserData userData = UserService.getUserDataById(user.getId());
+                
+                userData.setName(req.getParameter("name"));
+                userData.setAddress(req.getParameter("address"));
+                userData.setPhone(req.getParameter("phone")
+                        .replaceAll("[^0-9]+", ""));
+                String hashedPass = userData.getUser().getPassword();
+                userData.getUser().setPassword(req.getParameter("password"));
+                
+                int validationResult = UserDataValidator.validate(userData);
+                
+                if ("password".equals(userData.getUser().getPassword()))
+                    userData.getUser().setPassword(hashedPass);
+                
+                if (validationResult == ValidationResult.OK) {
                     if (userData.getId() > 0)
-                        USER_SERVICE.updateUserData(userData);
+                        UserService.updateUserData(userData);
                     else
-                        USER_SERVICE.addUserData(userData);
+                        UserService.addUserData(userData);
                     return new JspForward("action/home", true);
                 }
                 req.setAttribute("user_data", userData);
@@ -64,16 +65,4 @@ public class UpdateProfile extends AbstractAction {
             return null;
         }
     }
-    
-    private int validate(String name, String address, String phone) {
-        if (name == null || name.isEmpty() || address == null 
-                || address.isEmpty() || phone == null || phone.isEmpty()) {
-            return EMPTY_FIELD;
-        }
-        if (!VALID_PHONE_NUMBER.matcher(phone).find()) {
-            return WRONG_PHONE;
-        }
-        return OK;
-    }
-    
 }

@@ -13,14 +13,9 @@
     <fmt:message key="user-select-car.start-date" var="start"/>
     <fmt:message key="user-select-car.end-date" var="end"/>
     <fmt:message key="user-select-car.caption" var="caption"/>
-    <c:choose>
-        <c:when test="${errParam==1}">
-            <fmt:message key="editor.error-empty" var="error_msg"/>
-        </c:when>
-        <c:when test="${errParam==2}">
-            <fmt:message key="editor.error-date" var="error_msg"/>
-        </c:when>
-    </c:choose>
+    <c:if test="${not empty error_message}">
+        <fmt:message key="${error_message}" var="error_msg"/>
+    </c:if>
 </fmt:bundle>
 <fmt:bundle basename="i18n" prefix="admin-car-list.">
     <t:generic>
@@ -30,9 +25,9 @@
             </header>
             <form method="post" action="action/create_order">
             <div class="12u">
-                <c:if test="${errParam>0}">
-                    <p style="color:#ff0000"><c:out value="${error_msg}"/></p>
-                </c:if>
+                    <c:if test="${not empty error_msg}">
+                        <p style="color:#ff0000"><c:out value="${error_msg}"/>
+                        </c:if>
                 <div class="table-wrapper">
                     <table class="alt">
                         <thead>
@@ -52,7 +47,7 @@
                             <td><c:out value="${car.yearOfMake}"/></td>
                             <td><c:out value="${car.licensePlate}"/></td>
                             <td><c:out value="${car.price}"/></td>
-                            <td><input type="radio" name="selected_car" value="${car.id}" id="check${s.index}"/>
+                            <td><input type="radio" name="selected_car" value="${car.id}" id="check${s.index}" ${car.id==order.car.id?'checked':''}/>
                             <label for="check${s.index}"/></td>
                             </tr>                                   
                         </c:forEach>
@@ -62,11 +57,11 @@
                         <div class="6u 12u">
                 <div class="field half first">
                     <label for="start_date"><c:out value="${start}"/></label>
-                    <input type="date" name="start_date" id="start_date">
+                    <input type="date" name="start_date" id="start_date" value="${start_date}">
                 </div>
                 <div class="field half">
                     <label for="end_date"><c:out value="${end}"/></label>
-                    <input type="date" name="end_date" id="end_date"">
+                    <input type="date" name="end_date" id="end_date" value="${end_date}">
                 </div>
                         </div>
                 <div class="align-center">

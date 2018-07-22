@@ -9,9 +9,13 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:bundle basename="i18n" prefix="user-order-complete.">
+    <t:generic>
+        <jsp:attribute name="content">
     <div class="align-center">
-        <fmt:message key="message"/>
+        <p><fmt:message key="message"/></p>
         <a href="action/home" class="button"><fmt:message key="return"/></a>
     </div>
+        </jsp:attribute>
+    </t:generic>
 </fmt:bundle>
 

@@ -24,9 +24,8 @@ public class ShowSelectCarPage extends AbstractAction {
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
         if (isUser(req) || isAdmin(req)) {
-            CarService carService = new CarService();
             try {
-                req.setAttribute("car_list", carService.getAvailableCars());
+                req.setAttribute("car_list", CarService.getAvailableCars());
                 return new JspForward(Jsps.USER_SELECT_CAR);
             }
             catch (ServiceException ex) {
