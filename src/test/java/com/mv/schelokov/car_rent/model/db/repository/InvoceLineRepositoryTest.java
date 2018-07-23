@@ -46,7 +46,6 @@ public class InvoceLineRepositoryTest {
         assertTrue(ilr.add(new InvoiceLineBuilder()
                 .setInvoiceId(1)
                 .setDetails("Штраф за царапину")
-                .setType(new InvoiceTypeBuilder().setId(2).getInvoceType())
                 .setAmount(3000)
                 .getInvoiceLine()));
     }

@@ -26,6 +26,7 @@ public class ShowSelectCarPage extends AbstractAction {
         if (isUser(req) || isAdmin(req)) {
             try {
                 req.setAttribute("car_list", CarService.getAvailableCars());
+                req.setAttribute("action", "create_order");
                 return new JspForward(Jsps.USER_SELECT_CAR);
             }
             catch (ServiceException ex) {

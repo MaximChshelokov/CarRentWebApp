@@ -1,9 +1,8 @@
 package com.mv.schelokov.car_rent.model.validators;
 
 import com.mv.schelokov.car_rent.model.entities.RentOrder;
-import com.mv.schelokov.car_rent.model.entities.interfaces.Entity;
+import com.mv.schelokov.car_rent.model.utils.DateUtils;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 /**
  *
@@ -36,13 +35,7 @@ public class RentOrderValidator extends Validator {
     }
     
     private static boolean isValidOrderDate(RentOrder order) {
-        GregorianCalendar cal = new GregorianCalendar();
-        cal.setTime(new Date());
-        cal.set(GregorianCalendar.HOUR_OF_DAY, 0);
-        cal.set(GregorianCalendar.MINUTE, 0);
-        cal.set(GregorianCalendar.SECOND, 0);
-        cal.set(GregorianCalendar.MILLISECOND, 0);
-        Date today = cal.getTime();
+        Date today = DateUtils.onlyDate(new Date());
         return !order.getStartDate().before(today)
                 && order.getEndDate().after(order.getStartDate());
     }

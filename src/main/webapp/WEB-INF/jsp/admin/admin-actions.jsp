@@ -23,7 +23,7 @@
 
                 </li>
                 <li>
-                    <a href="action/overdue" class="button" ><fmt:message key="overdue"/></a>
+                    <a href="action/opened_orders" class="button" ><fmt:message key="opened"/></a>
                     <label>1 rent is overdue</label>
 
                 </li>

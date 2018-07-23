@@ -1,6 +1,8 @@
 package com.mv.schelokov.car_rent.model.db.repository.factories;
 
 import com.mv.schelokov.car_rent.model.db.repository.CarRepository;
+import com.mv.schelokov.car_rent.model.db.repository.InvoiceLineRepository;
+import com.mv.schelokov.car_rent.model.db.repository.InvoiceRepository;
 import com.mv.schelokov.car_rent.model.db.repository.MakeRepository;
 import com.mv.schelokov.car_rent.model.db.repository.ModelRepository;
 import com.mv.schelokov.car_rent.model.db.repository.RentOrderRepository;
@@ -74,8 +76,20 @@ public class CriteriaFactory {
         return RentOrderRepository.ORDER_BY_APPROVED;
     }
     
+    public static Criteria getAllOpenedOrders() {
+        return RentOrderRepository.OPENED_ORDERS;
+    }
+    
     public static Criteria findOrderById(int id) {
         return new RentOrderRepository.FindById(id);
+    }
+    
+    public static Criteria findInvoiceById(int id) {
+        return new InvoiceRepository.FindById(id);
+    }
+    
+    public static Criteria findInvoiceLinesByInvoiceId(int id) {
+        return new InvoiceLineRepository.FindByInvoiceId(id);
     }
     
 }

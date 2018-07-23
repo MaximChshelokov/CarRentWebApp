@@ -72,7 +72,7 @@ public class UserService {
         Criteria criteria = CriteriaFactory.getUserDataById(id);
         List result = getUserDataByCriteria(criteria);
         if (result.isEmpty())
-            throw new ServiceException("Unable to find UserData by the id");
+            return null;
         else
             return (UserData) result.get(0);
     }

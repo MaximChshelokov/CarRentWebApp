@@ -11,6 +11,7 @@
 <fmt:bundle basename="i18n">
     <fmt:message key="application.form.submit" var="submit"/>
     <fmt:message key="user-edit-profile.caption" var="caption"/>
+    <fmt:message key="login.password" var="password"/>
     <c:if test="${not empty error_message}">
         <fmt:message key="${error_message}" var="error_msg"/>
     </c:if>
@@ -32,8 +33,8 @@
                         <input type="text" name="login" placeholder="<fmt:message key="login"/>" value="${user_data.user.login}" disabled/>
                     </div>
                     <div class="field half">
-                        <label for="password"><fmt:message key="password"/></label>
-                        <input type="password" name="password" placeholder="<fmt:message key="password"/>" value="password"/>
+                        <label for="password"><c:out value="${password}"/></label>
+                        <input type="password" name="password" placeholder="${password}" value="password"/>
                     </div>
                     <div class="12u">
                         <label for="address"><fmt:message key="address"/></label>

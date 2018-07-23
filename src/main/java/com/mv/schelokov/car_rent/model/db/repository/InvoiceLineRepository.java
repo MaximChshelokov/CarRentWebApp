@@ -23,7 +23,7 @@ public class InvoiceLineRepository extends AbstractSqlRepository<InvoiceLine> {
 
     public static class FindByInvoiceId implements ReadCriteria {
         private static final String QUERY = "SELECT line_id,invoice_id,details,"
-                + "type,name,amount FROM invoice_lines_full WHERE invoice_id=?";
+                + "amount FROM invoice_lines WHERE invoice_id=?";
         private static final int INVOICE_ID_COLUMN = 1;
         private final int invoiceId;
 
@@ -43,18 +43,18 @@ public class InvoiceLineRepository extends AbstractSqlRepository<InvoiceLine> {
     }
     
     private static final String CREATE_QUERY = "INSERT INTO invoice_lines ("
-            + "invoice_id,details,type,amount) VALUES (?,?,?,?)";
+            + "invoice_id,details,amount) VALUES (?,?,?)";
     private static final String REMOVE_QUERY = "DELETE FROM invoice_lines WHERE"
             + " line_id=?";
     private static final String UPDATE_QUERY = "UPDATE invoice_lines SET "
-            + "invoice_id=?,details=?,type=?,amount=? WHERE line_id=?";
+            + "invoice_id=?,details=?,amount=? WHERE line_id=?";
 
     /**
      * The Field enum has column names for read methods and number of column for
      * the update method and the add method (in the NUMBER attribute)
      */
     enum Fields {
-        LINE_ID(5), INVOICE_ID(1), DETAILS(2), TYPE(3), NAME, AMOUNT(4);
+        LINE_ID(4), INVOICE_ID(1), DETAILS(2), AMOUNT(3);
         
         int NUMBER;
         
@@ -91,10 +91,6 @@ public class InvoiceLineRepository extends AbstractSqlRepository<InvoiceLine> {
                 .setId(rs.getInt(Fields.LINE_ID.name()))
                 .setInvoiceId(rs.getInt(Fields.INVOICE_ID.name()))
                 .setDetails(rs.getString(Fields.DETAILS.name()))
-                .setType(new InvoiceTypeBuilder()
-                    .setId(rs.getInt(Fields.TYPE.name()))
-                    .setName(rs.getString(Fields.NAME.name()))
-                    .getInvoceType())
                 .setAmount(rs.getInt(Fields.AMOUNT.name()))
                 .getInvoiceLine();
     }
@@ -104,7 +100,6 @@ public class InvoiceLineRepository extends AbstractSqlRepository<InvoiceLine> {
             boolean isUpdateStatement) throws SQLException {
         ps.setInt(Fields.INVOICE_ID.NUMBER, item.getInvoiceId());
         ps.setString(Fields.DETAILS.NUMBER, item.getDetails());
-        ps.setInt(Fields.TYPE.NUMBER, item.getType().getId());
         ps.setInt(Fields.AMOUNT.NUMBER, item.getAmount());
 
         if (isUpdateStatement)

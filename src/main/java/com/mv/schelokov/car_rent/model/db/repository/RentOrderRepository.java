@@ -29,6 +29,7 @@ public class RentOrderRepository extends AbstractSqlRepository<RentOrder> {
 
     public static final Criteria SELECT_ALL = new SelectAll();
     public static final Criteria ORDER_BY_APPROVED = new OrderedByApproved();
+    public static final Criteria OPENED_ORDERS = new OpenedOrders();
 
     public static class SelectAll implements ReadCriteria {
         private static final String QUERY = "SELECT rent_id,start_date,"
@@ -48,6 +49,16 @@ public class RentOrderRepository extends AbstractSqlRepository<RentOrder> {
     public static class OrderedByApproved extends SelectAll {
         private static final String QUERY = " ORDER BY approved_by";
         
+        @Override
+        public String toSqlQuery() {
+            return super.toSqlQuery() + QUERY;
+        }
+    }
+    
+    public static class OpenedOrders extends SelectAll {
+        private static final String QUERY = " WHERE available=b'0' AND"
+                + " approved_by IS NOT NULL";
+
         @Override
         public String toSqlQuery() {
             return super.toSqlQuery() + QUERY;

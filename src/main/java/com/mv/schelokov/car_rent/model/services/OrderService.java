@@ -8,8 +8,8 @@ import com.mv.schelokov.car_rent.model.db.repository.interfaces.Criteria;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.Repository;
 import com.mv.schelokov.car_rent.model.entities.RentOrder;
 import com.mv.schelokov.car_rent.model.services.exceptions.ServiceException;
+import com.mv.schelokov.car_rent.model.utils.DateUtils;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import org.apache.log4j.Logger;
 
 /**
@@ -29,11 +29,21 @@ public class OrderService {
     public static List getAllOrders() throws ServiceException {
         Criteria criteria = CriteriaFactory.getAllOrdersOrderByApproved();
         List<RentOrder> orders = getOrdersByCriteria(criteria);
-        if (orders.isEmpty())
-            throw new ServiceException("Unable to get all orders from the"
-                    + " repository");
-        for (RentOrder order : orders)
-            calculateSum(order);
+        if (!orders.isEmpty()) {
+            for (RentOrder order : orders)
+                calculateSum(order);
+        }
+        return orders;
+    }
+    
+    public static List getOpenedOrders() throws ServiceException {
+        Criteria criteria = CriteriaFactory.getAllOpenedOrders();
+        List<RentOrder> orders = getOrdersByCriteria(criteria);
+        if (!orders.isEmpty()) {
+            for (RentOrder order : orders) {
+                calculateSum(order);
+            }
+        }
         return orders;
     }
     
@@ -41,10 +51,9 @@ public class OrderService {
         Criteria criteria = CriteriaFactory.findOrderById(id);
         List resultList = getOrdersByCriteria(criteria);
         if (resultList.isEmpty())
-            throw new ServiceException(
-                    String.format("There is no rent order having id = %d", id));
+            return null;
         RentOrder result = (RentOrder) resultList.get(0);
-        calculateSum(result);
+        result.setSum(id);
         return result;
     }
     
@@ -86,10 +95,10 @@ public class OrderService {
     }
     
     private static void calculateSum(RentOrder order) {
-        order.setSum(order.getCar().getPrice() * (int) TimeUnit.MILLISECONDS
-                    .toDays(order.getEndDate().getTime()
-                            - order.getStartDate().getTime()));
+        order.setSum(order.getCar().getPrice() * DateUtils.days(order.getStartDate(),
+                order.getEndDate()));
     }
+    
     
     private static List getOrdersByCriteria(Criteria criteria)
             throws ServiceException {

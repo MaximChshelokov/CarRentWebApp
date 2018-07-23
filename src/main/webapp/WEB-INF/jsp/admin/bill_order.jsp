@@ -1,6 +1,6 @@
 <%-- 
-    Document   : order_view
-    Created on : Jul 19, 2018, 10:12:41 AM
+    Document   : bill_order
+    Created on : Jul 22, 2018, 7:28:30 PM
     Author     : Maxim Chshelokov <schelokov.mv@gmail.com>
 --%>
 
@@ -9,11 +9,9 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:bundle basename="i18n">
-    <fmt:message key="application.table.edit" var="edit"/>
-    <fmt:message key="application.table.delete" var="delete"/>
-    <fmt:message key="application.table.confirm" var="confirm"/>
-    <fmt:message key="admin-order-view.approve" var="approve"/>
-    <fmt:message key="admin-order-view.caption" var="caption"/>
+    <fmt:message key="admin-bill-order.caption" var="caption"/>
+    <fmt:message key="admin-bill-order.surcharge" var="surcharge"/>
+    <fmt:message key="admin-bill-order.paid" var="paid"/>
 </fmt:bundle>
 <t:generic>
     <jsp:attribute name="content">
@@ -83,45 +81,45 @@
             </c:choose>
             <h4>Rent order details</h4>
             <c:choose>
-                <c:when test="${empty order}">
-                    <p>There is no information about the order</p>
+                <c:when test="${empty invoice_lines or empty invoice}">
+                    <p>There is no information about the invoice</p>
                 </c:when>
                 <c:otherwise>
+                    <fmt:bundle basename="i18n" prefix="admin-bill-order.">
                     <div class="table-wrapper">
                         <table>
                             <thead>
                                 <tr>
-                                    <fmt:bundle basename="i18n" prefix="admin-order-list.">
-                                        <th><fmt:message key="start"/></th>
-                                        <th><fmt:message key="end"/></th>
-                                        <th><fmt:message key="sum"/></th>
-                                        <th><fmt:message key="approved"/></th>
-                                        </fmt:bundle>
+                                        <th><fmt:message key="details"/></th>
+                                        <th><fmt:message key="amount"/></th>
                                 </tr>
                             </thead>
                             <tbody>
+                                <c:forEach items="${invoice_lines}" var="invoice_line">
                                 <tr>
-                                    <td><c:out value="${order.startDate}"/></td>
-                                    <td><c:out value="${order.endDate}"/></td>
-                                    <td><c:out value="${order.sum}"/></td>
-                                    <td><c:out value="${order.approvedBy.login}" default="None"/></td>
+                                    <td><c:out value="${invoice_line.details}"/></td>
+                                    <td><c:out value="${invoice_line.amount}"/></td>
                                 </tr>
+                                </c:forEach>
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td><fmt:message key="total"/></td><td><c:out value="${invoice.total}"/></td>
+                                </tr>
+                                <tr>
+                                    <td><fmt:message key="paid"/></td><td><c:out value="${invoice.paid}"/></td>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
+                    </fmt:bundle>
                 </c:otherwise>
             </c:choose>
             <div class="align-center">
 
                 <ul class="actions">
                     <li>
-                        <a href="action/edit_order?id=${order.id}" class="button special"><c:out value="${edit}"/></a>
-                    </li>
-                    <li>
-                        <a href="action/delete_order?id=${order.id}" class="button special" onclick="return confirm('${confirm}');"><c:out value="${delete}"/></a>
-                    </li>
-                    <li>
-                        <a href="action/approve_order?id=${order.id}" class="button"><c:out value="${approve}"/></a>
+                        <a href="action/close_order?id=${invoice.id}" class="button special"><c:out value="${close}"/></a>
                     </li>
                 </ul>
             </div>

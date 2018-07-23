@@ -36,6 +36,27 @@ public class InvoiceRepository extends AbstractSqlRepository<Invoice> {
         @Override
         public void setStatement(PreparedStatement ps) throws SQLException {}
     }
+    
+    public static class FindById extends SelectAll {
+
+        private static final String QUERY = " WHERE invoice_id=?";
+        private static final int INVOICE_ID_INDEX = 1;
+        private final int invoiceId;
+
+        public FindById(int invoiceId) {
+            this.invoiceId = invoiceId;
+        }
+
+        @Override
+        public String toSqlQuery() {
+            return super.toSqlQuery() + QUERY;
+        }
+
+        @Override
+        public void setStatement(PreparedStatement ps) throws SQLException {
+            ps.setInt(INVOICE_ID_INDEX, this.invoiceId);
+        }
+    }
 
     private static final String CREATE_QUERY = "INSERT INTO invoices ("
             + "invoice_id,date,paid) VALUES (?,?,?)";

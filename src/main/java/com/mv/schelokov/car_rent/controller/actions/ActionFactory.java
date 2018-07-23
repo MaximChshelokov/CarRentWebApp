@@ -2,17 +2,22 @@ package com.mv.schelokov.car_rent.controller.actions;
 
 import com.mv.schelokov.car_rent.controller.actions.admin.ApproveOrder;
 import com.mv.schelokov.car_rent.controller.actions.admin.DeleteCar;
+import com.mv.schelokov.car_rent.controller.actions.admin.DeleteOrder;
 import com.mv.schelokov.car_rent.controller.actions.admin.DeleteUser;
+import com.mv.schelokov.car_rent.controller.actions.admin.EditOrder;
 import com.mv.schelokov.car_rent.controller.actions.admin.SaveUser;
 import com.mv.schelokov.car_rent.controller.actions.admin.ShowAddCarPage;
 import com.mv.schelokov.car_rent.controller.actions.admin.ShowAddUserPage;
+import com.mv.schelokov.car_rent.controller.actions.admin.ShowBillOrderPage;
 import com.mv.schelokov.car_rent.controller.actions.admin.ShowCarList;
 import com.mv.schelokov.car_rent.controller.actions.admin.ShowEditCarPage;
 import com.mv.schelokov.car_rent.controller.actions.admin.ShowEditUserPage;
+import com.mv.schelokov.car_rent.controller.actions.admin.ShowOpenedOrdersPage;
 import com.mv.schelokov.car_rent.controller.actions.admin.ShowOrderList;
 import com.mv.schelokov.car_rent.controller.actions.admin.ShowOrderViewPage;
 import com.mv.schelokov.car_rent.controller.actions.admin.ShowUsersList;
 import com.mv.schelokov.car_rent.controller.actions.admin.UpdateCar;
+import com.mv.schelokov.car_rent.controller.actions.admin.UpdateOrder;
 import com.mv.schelokov.car_rent.controller.actions.admin.UpdateUser;
 import com.mv.schelokov.car_rent.controller.actions.user.CreateOrder;
 import com.mv.schelokov.car_rent.controller.actions.user.ShowEditProfilePage;
@@ -57,6 +62,11 @@ public class ActionFactory {
         ACTIONS.put("create_order", new CreateOrder());
         ACTIONS.put("order_completed", new ShowPage(Jsps.USER_ORDER_COMPLETED));
         ACTIONS.put("error_page", new ShowPage(Jsps.ERROR_PAGE));
+        ACTIONS.put("delete_order", new DeleteOrder());
+        ACTIONS.put("edit_order", new EditOrder());
+        ACTIONS.put("update_order", new UpdateOrder());
+        ACTIONS.put("opened_orders", new ShowOpenedOrdersPage());
+        ACTIONS.put("bill_order", new ShowBillOrderPage());
     }
     
     public static Action action(HttpServletRequest req) {

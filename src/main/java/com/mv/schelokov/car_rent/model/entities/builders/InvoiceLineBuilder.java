@@ -30,11 +30,6 @@ public class InvoiceLineBuilder {
         return this;
     }
     
-    public InvoiceLineBuilder setType(InvoiceType type) {
-        this.invoceLine.setType(type);
-        return this;
-    }
-    
     public InvoiceLineBuilder setAmount(int amount) {
         this.invoceLine.setAmount(amount);
         return this;

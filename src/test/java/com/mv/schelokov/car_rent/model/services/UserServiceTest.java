@@ -48,7 +48,7 @@ public class UserServiceTest {
     @Test
     public void testGetUserByCredentials() throws Exception {
         System.out.println("getUserByCredentials");
-        User user = new UserBuilder().setLogin("admin").setPassword("admin")
+        User user = new UserBuilder().setLogin("admin@mail.com").setPassword("administrator")
                 .setRole(new RoleBuilder().setId(1).getRole())
                 .getUser();
         List result = userService.getUserByCredentials(user);

@@ -11,7 +11,6 @@ public class InvoiceLine implements Entity {
     private int id;
     private int invoiceId;
     private String details;
-    private InvoiceType type;
     private int amount;
 
     /**
@@ -43,19 +42,6 @@ public class InvoiceLine implements Entity {
         this.details = details;
     }
 
-    /**
-     * @return the type
-     */
-    public InvoiceType getType() {
-        return type;
-    }
-
-    /**
-     * @param type the type to set
-     */
-    public void setType(InvoiceType type) {
-        this.type = type;
-    }
 
     /**
      * @return the amount
@@ -91,7 +77,6 @@ public class InvoiceLine implements Entity {
         hash = 79 * hash + this.id;
         hash = 79 * hash + this.invoiceId;
         hash = 79 * hash + Objects.hashCode(this.details);
-        hash = 79 * hash + Objects.hashCode(this.type);
         hash = 79 * hash + this.amount;
         return hash;
     }
@@ -120,16 +105,13 @@ public class InvoiceLine implements Entity {
         if (!Objects.equals(this.details, other.details)) {
             return false;
         }
-        if (!Objects.equals(this.type, other.type)) {
-            return false;
-        }
         return true;
     }
 
     @Override
     public String toString() {
         return "InvoceLine{" + "id=" + id + ", invoice_id=" + invoiceId + 
-                ", details=" + details + ", type=" + type + ", amount=" + amount
+                ", details=" + details + ", amount=" + amount
                 + '}';
     }
     

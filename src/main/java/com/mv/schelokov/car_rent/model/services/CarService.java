@@ -46,7 +46,7 @@ public class CarService {
         Criteria criteria = CriteriaFactory.getCarById(id);
         List result = getCarsByCriteria(criteria);
         if (result.isEmpty())
-            return new Car();
+            return null;
         else
             return (Car) result.get(0);
     }

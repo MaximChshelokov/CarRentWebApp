@@ -68,6 +68,7 @@ public class CreateOrder extends AbstractAction {
                 req.setAttribute("order", order);
                 req.setAttribute("start_date", FORMAT.format(order.getStartDate()));
                 req.setAttribute("end_date", FORMAT.format(order.getEndDate()));
+                req.setAttribute("action", "create_order");
                 return new JspForward(Jsps.USER_SELECT_CAR);
             }
             catch (ServiceException ex) {
