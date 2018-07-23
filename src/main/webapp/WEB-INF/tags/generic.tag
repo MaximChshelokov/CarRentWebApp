@@ -26,9 +26,8 @@
             <div class="inner">
                 <a href="" class="logo"><strong>${title}</strong></a>
                 <nav id="nav">
-                    <a href="index.html">Sign in</a>
-                    <a href="generic.html">Login</a>
-                    <a href="elements.html">Elements</a>
+                    <a href="action/change_locale?locale=ru">Русский</a>
+                    <a href="action/change_locale?locale=en">English</a>
                 </nav>
                 <a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
             </div>

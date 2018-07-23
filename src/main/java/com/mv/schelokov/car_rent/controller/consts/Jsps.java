@@ -17,6 +17,7 @@ public class Jsps {
     public static final String USER_EDIT_PROFILE = "WEB-INF/jsp/user/edit_profile.jsp";
     public static final String USER_SELECT_CAR = "WEB-INF/jsp/user/car_select.jsp";
     public static final String USER_ORDER_COMPLETED = "WEB-INF/jsp/user/order_completed.jsp";
+    public static final String USER_INVOICE = "WEB-INF/jsp/user/invoice.jsp";
     public static final String ADMIN_OPENED_ORDERS = "WEB-INF/jsp/admin/opened_orders.jsp";
     public static final String ADMIN_BILL_ORDER = "WEB-INF/jsp/admin/bill_order.jsp";
     public static final String ERROR_PAGE = "WEB-INF/jsp/error_page.jsp";

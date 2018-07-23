@@ -26,10 +26,7 @@
         </c:when>
         <c:otherwise>
             <li>
-                <a href="#" class="button special"><fmt:message key="orders"/></a>
-            </li>
-            <li>
-                <a href="#" class="button special"><fmt:message key="invoices"/></a>
+                <a href="action/invoice" class="button special"><fmt:message key="invoices"/></a>
             </li>
             <li>
                 <a href="action/edit_profile" class="button special"><fmt:message key="account"/></a>

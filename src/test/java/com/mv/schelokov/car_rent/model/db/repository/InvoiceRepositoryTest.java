@@ -12,6 +12,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 
 /**
  *
@@ -44,6 +45,7 @@ public class InvoiceRepositoryTest {
     }
 
     @Test
+    @Ignore
     public void createNewInvoce() throws DbException {
         assertTrue(ir.add(new InvoiceBuilder()
                 .setId(2)

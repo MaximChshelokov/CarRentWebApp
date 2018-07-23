@@ -114,7 +114,8 @@ public class UserService {
             boolean result = false;
             switch (operation) {
                 case UPDATE:
-                    user.setPassword(hashPassword(user.getPassword()));
+                    if (user.getPassword().length() <=16)
+                        user.setPassword(hashPassword(user.getPassword()));
                     result = userRepository.update(user);
                     break;
                 case CREATE:
@@ -182,7 +183,10 @@ public class UserService {
     
     private static String hashPassword(String password) throws ServiceException {
         try {
-            return ShaHash.getSHA512Hash(password, SALT);
+            String result = ShaHash.getSHA512Hash(password, SALT);
+            if (result == null)
+                throw new ServiceException(HASH_ERROR);
+            return result;
         } catch(NoSuchAlgorithmException ex) {
             LOG.error(HASH_ERROR, ex);
             throw new ServiceException(HASH_ERROR, ex);

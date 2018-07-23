@@ -12,6 +12,7 @@
     <fmt:message key="admin-bill-order.caption" var="caption"/>
     <fmt:message key="admin-bill-order.surcharge" var="surcharge"/>
     <fmt:message key="admin-bill-order.paid" var="paid"/>
+    <fmt:message key="admin-bill-order.close" var="close"/>
 </fmt:bundle>
 <t:generic>
     <jsp:attribute name="content">

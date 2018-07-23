@@ -1,6 +1,7 @@
 package com.mv.schelokov.car_rent.controller.actions;
 
 import com.mv.schelokov.car_rent.controller.actions.admin.ApproveOrder;
+import com.mv.schelokov.car_rent.controller.actions.admin.CloseOrder;
 import com.mv.schelokov.car_rent.controller.actions.admin.DeleteCar;
 import com.mv.schelokov.car_rent.controller.actions.admin.DeleteOrder;
 import com.mv.schelokov.car_rent.controller.actions.admin.DeleteUser;
@@ -20,7 +21,9 @@ import com.mv.schelokov.car_rent.controller.actions.admin.UpdateCar;
 import com.mv.schelokov.car_rent.controller.actions.admin.UpdateOrder;
 import com.mv.schelokov.car_rent.controller.actions.admin.UpdateUser;
 import com.mv.schelokov.car_rent.controller.actions.user.CreateOrder;
+import com.mv.schelokov.car_rent.controller.actions.user.PayInvoice;
 import com.mv.schelokov.car_rent.controller.actions.user.ShowEditProfilePage;
+import com.mv.schelokov.car_rent.controller.actions.user.ShowInvoicePage;
 import com.mv.schelokov.car_rent.controller.actions.user.ShowSelectCarPage;
 import com.mv.schelokov.car_rent.controller.actions.user.UpdateProfile;
 import com.mv.schelokov.car_rent.controller.consts.Jsps;
@@ -67,6 +70,10 @@ public class ActionFactory {
         ACTIONS.put("update_order", new UpdateOrder());
         ACTIONS.put("opened_orders", new ShowOpenedOrdersPage());
         ACTIONS.put("bill_order", new ShowBillOrderPage());
+        ACTIONS.put("close_order", new CloseOrder());
+        ACTIONS.put("invoice", new ShowInvoicePage());
+        ACTIONS.put("pay_check", new PayInvoice());
+        ACTIONS.put("change_locale", new ChangeLocale());
     }
     
     public static Action action(HttpServletRequest req) {

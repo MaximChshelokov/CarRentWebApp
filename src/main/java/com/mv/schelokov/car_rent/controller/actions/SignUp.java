@@ -51,7 +51,7 @@ public class SignUp implements Action {
             if (validationResult == ValidationResult.OK) {
                 UserService.registerNewUser(user);
                 req.getSession().setAttribute(SessionAttr.USER, 
-                        UserService.getUserByCredentials(user).get(0));
+                        UserService.getUserByLogin(user.getLogin()).get(0));
                 return new JspForward("action/home", true);
             }
             req.setAttribute("errParam", validationResult);

@@ -85,6 +85,26 @@ public class RentOrderRepository extends AbstractSqlRepository<RentOrder> {
         }
     }
     
+    public static class FindByUserId extends SelectAll {
+        private static final String QUERY = " WHERE user=? ORDER BY start_date";
+        private static final int USER_ID_INDEX = 1;
+        private final int userId;
+
+        public FindByUserId(int userId) {
+            this.userId = userId;
+        }
+
+        @Override
+        public String toSqlQuery() {
+            return super.toSqlQuery() + QUERY;
+        }
+
+        @Override
+        public void setStatement(PreparedStatement ps) throws SQLException {
+            ps.setInt(USER_ID_INDEX, this.userId);
+        }
+    }
+    
     private static final String CREATE_QUERY = "INSERT INTO rent_orders (car,"
             + "user,start_date, end_date, approved_by) VALUES (?,?,?,?,?)";
     private static final String REMOVE_QUERY = "DELETE FROM rent_orders WHERE"

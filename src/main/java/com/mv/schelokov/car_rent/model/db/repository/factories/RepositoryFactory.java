@@ -2,12 +2,9 @@ package com.mv.schelokov.car_rent.model.db.repository.factories;
 
 import com.mv.schelokov.car_rent.model.db.datasource.ConnectionPool;
 import com.mv.schelokov.car_rent.model.db.datasource.exceptions.DataSourceException;
-import com.mv.schelokov.car_rent.model.db.repository.CarPartRepository;
 import com.mv.schelokov.car_rent.model.db.repository.CarRepository;
-import com.mv.schelokov.car_rent.model.db.repository.DefectRepository;
 import com.mv.schelokov.car_rent.model.db.repository.InvoiceLineRepository;
 import com.mv.schelokov.car_rent.model.db.repository.InvoiceRepository;
-import com.mv.schelokov.car_rent.model.db.repository.InvoiceTypeRepository;
 import com.mv.schelokov.car_rent.model.db.repository.MakeRepository;
 import com.mv.schelokov.car_rent.model.db.repository.ModelRepository;
 import com.mv.schelokov.car_rent.model.db.repository.RentOrderRepository;
@@ -41,16 +38,8 @@ public class RepositoryFactory implements AutoCloseable {
         }
     }
     
-    public Repository getCarPartRepositroy() {
-        return new CarPartRepository(connection);
-    }
-    
     public Repository getCarRepository() {
         return new CarRepository(connection);
-    }
-    
-    public Repository getDefectRepository() {
-        return new DefectRepository(connection);
     }
     
     public Repository getInvoiceLineRepository() {
@@ -60,11 +49,7 @@ public class RepositoryFactory implements AutoCloseable {
     public Repository getInvoiceRepository() {
         return new InvoiceRepository(connection);
     }
-    
-    public Repository getInvoiceTypeRepository() {
-        return new InvoiceTypeRepository(connection);
-    }
-    
+
     public Repository getMakeRepository() {
         return new MakeRepository(connection);
     }

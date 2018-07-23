@@ -84,6 +84,10 @@ public class CriteriaFactory {
         return new RentOrderRepository.FindById(id);
     }
     
+    public static Criteria findOrderByUserId(int id) {
+        return new RentOrderRepository.FindByUserId(id);
+    }
+    
     public static Criteria findInvoiceById(int id) {
         return new InvoiceRepository.FindById(id);
     }

@@ -12,6 +12,7 @@
     <fmt:message key="application.misc.no" var="no"/>
     <fmt:message key="admin-opened-view.close" var="close"/>
     <fmt:message key="admin-opened-view.caption" var="caption"/>
+    <fmt:message key="admin-opened-view.no-orders" var="no_orders"/>
 </fmt:bundle>
 <fmt:bundle basename="i18n" prefix="admin-order-list.">
     <t:generic>
@@ -22,7 +23,7 @@
             <div class="12u">
                 <c:choose>
                     <c:when test="${empty order_list}">
-                        <p>There isn't any opened order yet.</p>
+                        <p><c:out value="${no_orders}"/></p>
                     </c:when>
                     <c:otherwise>
                 <div class="table-wrapper">

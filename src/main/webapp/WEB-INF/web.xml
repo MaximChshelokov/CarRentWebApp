@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee  http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-    <dispatcher>FORWARD</dispatcher>
     <filter-mapping>
         <filter-name>EncodingFilter</filter-name>
         <url-pattern>/action/*</url-pattern>
@@ -53,6 +52,14 @@
     </session-config>
     <error-page>
         <exception-type>java.lang.Throwable</exception-type>
+        <location>/WEB-INF/jsp/error.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>403</error-code>
+        <location>/WEB-INF/jsp/error.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
         <location>/WEB-INF/jsp/error.jsp</location>
     </error-page>
 </web-app>

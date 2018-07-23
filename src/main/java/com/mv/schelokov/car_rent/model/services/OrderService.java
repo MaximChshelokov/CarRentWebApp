@@ -7,6 +7,7 @@ import com.mv.schelokov.car_rent.model.db.repository.factories.RepositoryFactory
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.Criteria;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.Repository;
 import com.mv.schelokov.car_rent.model.entities.RentOrder;
+import com.mv.schelokov.car_rent.model.entities.User;
 import com.mv.schelokov.car_rent.model.services.exceptions.ServiceException;
 import com.mv.schelokov.car_rent.model.utils.DateUtils;
 import java.util.List;
@@ -53,7 +54,17 @@ public class OrderService {
         if (resultList.isEmpty())
             return null;
         RentOrder result = (RentOrder) resultList.get(0);
-        result.setSum(id);
+        calculateSum(result);
+        return result;
+    }
+    
+    public static RentOrder getOrdersByUser(User user) throws ServiceException {
+        Criteria criteria = CriteriaFactory.findOrderByUserId(user.getId());
+        List resultList = getOrdersByCriteria(criteria);
+        if (resultList.isEmpty())
+            return null;
+        RentOrder result = (RentOrder) resultList.get(0);
+        calculateSum(result);
         return result;
     }
     
