@@ -1,15 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mv.schelokov.car_rent.controller;
 
 import com.mv.schelokov.car_rent.controller.actions.Action;
 import com.mv.schelokov.car_rent.controller.actions.ActionFactory;
 import com.mv.schelokov.car_rent.controller.actions.JspForward;
 import com.mv.schelokov.car_rent.controller.exceptions.ActionException;
+import java.io.File;
 import java.io.IOException;
+import java.rmi.ServerException;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -46,14 +44,13 @@ public class Controller extends HttpServlet {
             forward = action.execute(request, response);
         } catch (ActionException ex) {
             LOG.error("Failed to redirect", ex);
+            throw new ServerException("Redirection error");
         }
         if (forward != null) {
             String path = "/" + forward.getUrl();
             if (forward.isRedirect()) {
-                LOG.debug(String.format("redirection to %s", path));
                 response.sendRedirect(path);
             } else {
-                LOG.debug(String.format("forward to %s", path));
                 request.getRequestDispatcher(path).forward(request, response);
             }
         }

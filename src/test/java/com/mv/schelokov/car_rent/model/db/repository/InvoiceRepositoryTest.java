@@ -45,7 +45,6 @@ public class InvoiceRepositoryTest {
     }
 
     @Test
-    @Ignore
     public void createNewInvoce() throws DbException {
         assertTrue(ir.add(new InvoiceBuilder()
                 .setId(2)

@@ -4,6 +4,7 @@ import com.mv.schelokov.car_rent.model.db.datasource.exceptions.DataSourceExcept
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -11,6 +12,11 @@ import java.util.Properties;
  */
 public class ParametersLoader {
     
+    private static final Logger LOG = Logger.getLogger(ParametersLoader.class);
+    private static final String POOL_SIZE_ERROR = "Wrong pool size number is in"
+            + " the file";
+    private static final String PARAMETERS_LOAD_ERROR = "Load parameters from"
+            + " the file is failed";
     private Properties properties;
     
     public ParametersLoader(InputStream stream) throws DataSourceException {
@@ -18,8 +24,8 @@ public class ParametersLoader {
         try {
             properties.load(stream);
         } catch(IOException ex) {
-            throw new DataSourceException("Load parameters from the file is "
-                    + "failed", ex);
+            LOG.error(PARAMETERS_LOAD_ERROR, ex);
+            throw new DataSourceException(PARAMETERS_LOAD_ERROR, ex);
         }
     }
 
@@ -33,7 +39,7 @@ public class ParametersLoader {
     
     public String getUrl() {
         return properties.getProperty("URL", "jdbc:mysql://localhost/"
-                + "car_rent_test?autoReconnect=true&useSSL=false"
+                + "car_rent?autoReconnect=true&useSSL=false"
                 + "&characterEncoding=utf-8");
     }
     
@@ -48,8 +54,8 @@ public class ParametersLoader {
             try {
                 result = Integer.parseInt(poolSize);
             } catch(NumberFormatException ex) {
-                throw new DataSourceException("Wrong pool size number is in the"
-                        + " file", poolSize, ex);
+                LOG.error(POOL_SIZE_ERROR);
+                throw new DataSourceException(POOL_SIZE_ERROR, poolSize, ex);
             }
         return result;
     }

@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `car_rent` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `car_rent`;
 -- MySQL dump 10.13  Distrib 5.7.22, for Linux (x86_64)
 --
 -- Host: localhost    Database: car_rent
@@ -32,8 +34,18 @@ CREATE TABLE `cars` (
   PRIMARY KEY (`car_id`),
   KEY `fk_cars_1_idx` (`model`),
   CONSTRAINT `fk_cars_1` FOREIGN KEY (`model`) REFERENCES `models` (`model_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cars`
+--
+
+LOCK TABLES `cars` WRITE;
+/*!40000 ALTER TABLE `cars` DISABLE KEYS */;
+INSERT INTO `cars` VALUES (1,1,'235sum09',2010,5000,''),(2,2,'734cum09',2012,7000,'');
+/*!40000 ALTER TABLE `cars` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Temporary table structure for view `cars_full`
@@ -66,46 +78,19 @@ CREATE TABLE `invoice_lines` (
   `line_id` int(11) NOT NULL AUTO_INCREMENT,
   `invoice_id` int(11) NOT NULL,
   `details` varchar(100) NOT NULL,
-  `type` int(11) NOT NULL,
   `amount` int(11) NOT NULL,
-  `defect` int(11) DEFAULT NULL,
-  PRIMARY KEY (`line_id`),
-  KEY `fk_invoce_lines_1_idx` (`type`),
-  CONSTRAINT `fk_invoce_lines_1` FOREIGN KEY (`type`) REFERENCES `invoice_types` (`type_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`line_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Temporary table structure for view `invoice_lines_full`
+-- Dumping data for table `invoice_lines`
 --
 
-DROP TABLE IF EXISTS `invoice_lines_full`;
-/*!50001 DROP VIEW IF EXISTS `invoice_lines_full`*/;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-/*!50001 CREATE VIEW `invoice_lines_full` AS SELECT 
- 1 AS `line_id`,
- 1 AS `invoice_id`,
- 1 AS `details`,
- 1 AS `type`,
- 1 AS `name`,
- 1 AS `amount`,
- 1 AS `defect`*/;
-SET character_set_client = @saved_cs_client;
-
---
--- Table structure for table `invoice_types`
---
-
-DROP TABLE IF EXISTS `invoice_types`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `invoice_types` (
-  `type_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(20) NOT NULL,
-  PRIMARY KEY (`type_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `invoice_lines` WRITE;
+/*!40000 ALTER TABLE `invoice_lines` DISABLE KEYS */;
+/*!40000 ALTER TABLE `invoice_lines` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `invoices`
@@ -124,19 +109,13 @@ CREATE TABLE `invoices` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Temporary table structure for view `invoices_full`
+-- Dumping data for table `invoices`
 --
 
-DROP TABLE IF EXISTS `invoices_full`;
-/*!50001 DROP VIEW IF EXISTS `invoices_full`*/;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-/*!50001 CREATE VIEW `invoices_full` AS SELECT 
- 1 AS `invoice_id`,
- 1 AS `date`,
- 1 AS `paid`,
- 1 AS `total`*/;
-SET character_set_client = @saved_cs_client;
+LOCK TABLES `invoices` WRITE;
+/*!40000 ALTER TABLE `invoices` DISABLE KEYS */;
+/*!40000 ALTER TABLE `invoices` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `makes`
@@ -149,8 +128,18 @@ CREATE TABLE `makes` (
   `make_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(15) NOT NULL,
   PRIMARY KEY (`make_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `makes`
+--
+
+LOCK TABLES `makes` WRITE;
+/*!40000 ALTER TABLE `makes` DISABLE KEYS */;
+INSERT INTO `makes` VALUES (1,'Lada');
+/*!40000 ALTER TABLE `makes` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `models`
@@ -166,8 +155,18 @@ CREATE TABLE `models` (
   PRIMARY KEY (`model_id`),
   KEY `fk_models_1_idx` (`make`),
   CONSTRAINT `fk_models_1` FOREIGN KEY (`make`) REFERENCES `makes` (`make_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `models`
+--
+
+LOCK TABLES `models` WRITE;
+/*!40000 ALTER TABLE `models` DISABLE KEYS */;
+INSERT INTO `models` VALUES (1,'Granta',1),(2,'Kalina',1);
+/*!40000 ALTER TABLE `models` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Temporary table structure for view `models_full`
@@ -205,8 +204,18 @@ CREATE TABLE `rent_orders` (
   CONSTRAINT `fk_rent_orders_1` FOREIGN KEY (`car`) REFERENCES `cars` (`car_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_rent_orders_2` FOREIGN KEY (`user`) REFERENCES `users` (`user_id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   CONSTRAINT `fk_rent_orders_3` FOREIGN KEY (`approved_by`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `rent_orders`
+--
+
+LOCK TABLES `rent_orders` WRITE;
+/*!40000 ALTER TABLE `rent_orders` DISABLE KEYS */;
+INSERT INTO `rent_orders` VALUES (1,1,3,'2018-07-24','2018-07-26',NULL);
+/*!40000 ALTER TABLE `rent_orders` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Temporary table structure for view `rent_orders_full`
@@ -245,8 +254,18 @@ CREATE TABLE `roles` (
   `role_id` int(11) NOT NULL AUTO_INCREMENT,
   `role_name` varchar(10) NOT NULL,
   PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `roles`
+--
+
+LOCK TABLES `roles` WRITE;
+/*!40000 ALTER TABLE `roles` DISABLE KEYS */;
+INSERT INTO `roles` VALUES (1,'admin'),(2,'user');
+/*!40000 ALTER TABLE `roles` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `users`
@@ -263,8 +282,18 @@ CREATE TABLE `users` (
   PRIMARY KEY (`user_id`),
   KEY `fk_users_1_idx` (`role`),
   CONSTRAINT `fk_users_1` FOREIGN KEY (`role`) REFERENCES `roles` (`role_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (2,'admin@mail.com','f118d3bf958ddd3eff6d0f91242299e147bd101dc09a943afee1e83776a9cca71bac7d00393d56f4fba2db221eb0a8e74c6fd83b6a53db4c204366887fcbda76',1),(3,'client@mail.com','a81a840b05c3beb88384df56925f654705e025119c9f8adb20a50c4cbc82f4a9cf205e2f75cc5394bbfb432233791cd2f0c58e5e22a4f70cc378999ec5942968',2);
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `users_data`
@@ -282,6 +311,16 @@ CREATE TABLE `users_data` (
   CONSTRAINT `fk_users_data_1` FOREIGN KEY (`userdata_id`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users_data`
+--
+
+LOCK TABLES `users_data` WRITE;
+/*!40000 ALTER TABLE `users_data` DISABLE KEYS */;
+INSERT INTO `users_data` VALUES (3,'Иванов Иван Иванович','ул. Бассеитовой 23, кв. 15','77755352354');
+/*!40000 ALTER TABLE `users_data` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Temporary table structure for view `users_data_full`
@@ -333,42 +372,6 @@ SET character_set_client = @saved_cs_client;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `cars_full` AS select `cars`.`car_id` AS `car_id`,`cars`.`license_plate` AS `license_plate`,`cars`.`year_of_make` AS `year_of_make`,`cars`.`price` AS `price`,`cars`.`model` AS `model`,`models`.`name` AS `name`,`models`.`make` AS `make`,`makes`.`name` AS `make_name`,`cars`.`available` AS `available` from ((`cars` left join `models` on((`cars`.`model` = `models`.`model_id`))) left join `makes` on((`models`.`make` = `makes`.`make_id`))) */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
-
---
--- Final view structure for view `invoice_lines_full`
---
-
-/*!50001 DROP VIEW IF EXISTS `invoice_lines_full`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8 */;
-/*!50001 SET character_set_results     = utf8 */;
-/*!50001 SET collation_connection      = utf8_general_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `invoice_lines_full` AS select `invoice_lines`.`line_id` AS `line_id`,`invoice_lines`.`invoice_id` AS `invoice_id`,`invoice_lines`.`details` AS `details`,`invoice_lines`.`type` AS `type`,`invoice_types`.`name` AS `name`,`invoice_lines`.`amount` AS `amount`,`invoice_lines`.`defect` AS `defect` from (`invoice_lines` left join `invoice_types` on((`invoice_lines`.`type` = `invoice_types`.`type_id`))) */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
-
---
--- Final view structure for view `invoices_full`
---
-
-/*!50001 DROP VIEW IF EXISTS `invoices_full`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8 */;
-/*!50001 SET character_set_results     = utf8 */;
-/*!50001 SET collation_connection      = utf8_general_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `invoices_full` AS select `invoices`.`invoice_id` AS `invoice_id`,`invoices`.`date` AS `date`,`invoices`.`paid` AS `paid`,(select sum(`invoice_lines`.`amount`) from `invoice_lines` where (`invoices`.`invoice_id` = `invoice_lines`.`invoice_id`)) AS `total` from `invoices` */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -454,4 +457,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-19 14:29:59
+-- Dump completed on 2018-07-24  9:41:48

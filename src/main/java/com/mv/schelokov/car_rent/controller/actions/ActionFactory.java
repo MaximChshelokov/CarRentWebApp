@@ -9,6 +9,7 @@ import com.mv.schelokov.car_rent.controller.actions.admin.EditOrder;
 import com.mv.schelokov.car_rent.controller.actions.admin.SaveUser;
 import com.mv.schelokov.car_rent.controller.actions.admin.ShowAddCarPage;
 import com.mv.schelokov.car_rent.controller.actions.admin.ShowAddUserPage;
+import com.mv.schelokov.car_rent.controller.actions.admin.ShowAdminActionsPage;
 import com.mv.schelokov.car_rent.controller.actions.admin.ShowBillOrderPage;
 import com.mv.schelokov.car_rent.controller.actions.admin.ShowCarList;
 import com.mv.schelokov.car_rent.controller.actions.admin.ShowEditCarPage;
@@ -44,7 +45,7 @@ public class ActionFactory {
         ACTIONS.put("login", new Login());
         ACTIONS.put("sign_up", new SignUp());
         ACTIONS.put("log_out", new LogOut());
-        ACTIONS.put("admin_actions", new ShowPage(Jsps.ADMIN_ACTIONS));
+        ACTIONS.put("admin_actions", new ShowAdminActionsPage());
         ACTIONS.put("user_list", new ShowUsersList());
         ACTIONS.put("edit_user", new ShowEditUserPage());
         ACTIONS.put("update_user", new UpdateUser());

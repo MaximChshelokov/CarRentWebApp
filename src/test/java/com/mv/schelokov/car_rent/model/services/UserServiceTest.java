@@ -16,7 +16,6 @@ import org.junit.Ignore;
  */
 public class UserServiceTest {
     
-    private UserService userService = new UserService();
     
     public UserServiceTest() {
     }
@@ -32,13 +31,12 @@ public class UserServiceTest {
     /**
      * Test of RegisterNewUser method, of class UserService.
      */
-
-    public void testRegisterNewUser() throws Exception {
+     public void testRegisterNewUser() throws Exception {
         System.out.println("RegisterNewUser");
-        User user = new UserBuilder().setLogin("admin").setPassword("admin")
+        User user = new UserBuilder().setLogin("admin@mail.com").setPassword("admin1")
                 .setRole(new RoleBuilder().setId(1).getRole())
                 .getUser();
-        userService.registerNewUser(user);
+        UserService.registerNewUser(user);
         assertTrue(true);
     }
 
@@ -48,10 +46,10 @@ public class UserServiceTest {
     @Test
     public void testGetUserByCredentials() throws Exception {
         System.out.println("getUserByCredentials");
-        User user = new UserBuilder().setLogin("admin@mail.com").setPassword("administrator")
+        User user = new UserBuilder().setLogin("admin@mail.com").setPassword("admin1")
                 .setRole(new RoleBuilder().setId(1).getRole())
                 .getUser();
-        List result = userService.getUserByCredentials(user);
+        List result = UserService.getUserByCredentials(user);
         assertEquals(1, result.size());
     }
 }

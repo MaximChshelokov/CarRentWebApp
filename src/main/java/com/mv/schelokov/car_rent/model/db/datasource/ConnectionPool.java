@@ -27,6 +27,8 @@ public class ConnectionPool {
             + "connection from the pool";
     private static final String ERROR_COMMIT = "Failed to commit";
     private static final String ERROR_CLOSE = "Failed to close connections";
+    private static final String INSTANCE_ERROR = "Connection pool instance"
+            + " doesn't exist";
 
     private BlockingQueue<Connection> freeConnections;
     private Set<Connection> allConnections;
@@ -37,9 +39,10 @@ public class ConnectionPool {
     }
     
     public static ConnectionPool getInstance() throws DataSourceException {
-        if (SingletonHolder.INSTANCE == null)
-            throw new DataSourceException("Connection pool instance doesn't "
-                    + "exist");
+        if (SingletonHolder.INSTANCE == null) {
+            LOG.error(INSTANCE_ERROR);
+            throw new DataSourceException(INSTANCE_ERROR);
+        }
         return SingletonHolder.INSTANCE;
     }
     

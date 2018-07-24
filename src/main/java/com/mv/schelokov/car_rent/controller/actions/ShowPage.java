@@ -11,7 +11,6 @@ import org.apache.log4j.Logger;
  */
 public class ShowPage extends AbstractAction {
     
-    private static final Logger log = Logger.getLogger(ShowPage.class);
     private final String url;
     
     public ShowPage(String url) {
