@@ -115,12 +115,12 @@ public class UserService {
             boolean result = false;
             switch (operation) {
                 case UPDATE:
-                    user.setPassword(hashPassword(userCopy.getPassword()));
-                    result = userRepository.update(user);
+                    userCopy.setPassword(hashPassword(userCopy.getPassword()));
+                    result = userRepository.update(userCopy);
                     break;
                 case CREATE:
-                    user.setPassword(hashPassword(userCopy.getPassword()));
-                    result = userRepository.add(user);
+                    userCopy.setPassword(hashPassword(userCopy.getPassword()));
+                    result = userRepository.add(userCopy);
                     break;
                 case DELETE:
                     result = userRepository.remove(user);
