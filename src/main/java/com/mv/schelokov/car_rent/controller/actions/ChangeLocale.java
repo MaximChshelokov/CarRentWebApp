@@ -1,5 +1,6 @@
 package com.mv.schelokov.car_rent.controller.actions;
 
+import com.mv.schelokov.car_rent.controller.consts.Cookies;
 import com.mv.schelokov.car_rent.controller.exceptions.ActionException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -9,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
-public class ChangeLocale implements Action {
+public class ChangeLocale extends AbstractAction {
     private static final int ONE_MONTH = 60 * 60 * 24 * 30;
 
     @Override
@@ -17,10 +18,12 @@ public class ChangeLocale implements Action {
             throws ActionException {
         String localeString = req.getParameter("locale");
         if ("en".equals(localeString) || "ru".equals(localeString)) {
-            Cookie cookie = new Cookie("lang", localeString);
+            Cookie cookie = new Cookie(Cookies.LOCALE, localeString);
             cookie.setMaxAge(ONE_MONTH);
             res.addCookie(cookie);
         }
+        if (isUser(req) || isAdmin(req))
+            return new JspForward("action/welcome", true);
         return new JspForward("action/home", true);
     }
 }

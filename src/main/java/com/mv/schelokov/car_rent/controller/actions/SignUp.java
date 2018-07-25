@@ -52,7 +52,7 @@ public class SignUp implements Action {
                 UserService.registerNewUser(user);
                 req.getSession().setAttribute(SessionAttr.USER, 
                         UserService.getUserByLogin(user.getLogin()).get(0));
-                return new JspForward("action/home", true);
+                return new JspForward("action/welcome", true);
             }
             req.setAttribute("errParam", validationResult);
             req.setAttribute("sign", true);

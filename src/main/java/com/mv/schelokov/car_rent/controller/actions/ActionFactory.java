@@ -26,6 +26,7 @@ import com.mv.schelokov.car_rent.controller.actions.user.PayInvoice;
 import com.mv.schelokov.car_rent.controller.actions.user.ShowEditProfilePage;
 import com.mv.schelokov.car_rent.controller.actions.user.ShowInvoicePage;
 import com.mv.schelokov.car_rent.controller.actions.user.ShowSelectCarPage;
+import com.mv.schelokov.car_rent.controller.actions.user.ShowWelcomePage;
 import com.mv.schelokov.car_rent.controller.actions.user.UpdateProfile;
 import com.mv.schelokov.car_rent.controller.consts.Jsps;
 import java.util.HashMap;
@@ -75,6 +76,7 @@ public class ActionFactory {
         ACTIONS.put("invoice", new ShowInvoicePage());
         ACTIONS.put("pay_check", new PayInvoice());
         ACTIONS.put("change_locale", new ChangeLocale());
+        ACTIONS.put("welcome", new ShowWelcomePage());
     }
     
     public static Action action(HttpServletRequest req) {

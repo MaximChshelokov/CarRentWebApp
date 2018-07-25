@@ -15,21 +15,17 @@
             <ul class="actions vertical">
                 <li>
                     <a href="action/car_list" class="button" ><fmt:message key="car-list"/></a>
-                    <label>12 cars available, 10 cars in rent</label>
                 </li>
                 <li>
                     <a href="action/user_list" class="button" ><fmt:message key="user-list"/></a>
-                    <label>8 user accounts, 2 administrator accounts</label>
 
                 </li>
                 <li>
                     <a href="action/opened_orders" class="button" ><fmt:message key="opened"/></a>
-                    <label>1 rent is overdue</label>
 
                 </li>
                 <li>
                     <a href="action/order_list" class="button" ><fmt:message key="orders"/></a>
-                    <label>3 orders awaiting to approve</label>
                 </li>
             </ul>
         </div>

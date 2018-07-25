@@ -1,5 +1,6 @@
 package com.mv.schelokov.car_rent.controller.filters;
 
+import com.mv.schelokov.car_rent.controller.consts.Cookies;
 import java.io.IOException;
 import java.util.Locale;
 import javax.servlet.Filter;
@@ -11,14 +12,12 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.jstl.core.Config;
-import org.apache.log4j.Logger;
 
 /**
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
 public class LocaleFilter implements Filter {
-    private static final Logger LOG = Logger.getLogger(LocaleFilter.class);
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {}
@@ -32,7 +31,7 @@ public class LocaleFilter implements Filter {
         if (cookies != null)
         {
             for (Cookie cookie : cookies) {
-                if ("lang".equals(cookie.getName())) {
+                if (Cookies.LOCALE.equals(cookie.getName())) {
                     localeString = cookie.getValue();
                 }
             }
@@ -45,7 +44,6 @@ public class LocaleFilter implements Filter {
         String region = "US";
         if ("ru".equals(localeString))
             region = "RU";
-        LOG.debug(String.format("Locale set to %s",localeString));
         Locale locale = new Locale(localeString, region);
         Config.set(req.getSession(), Config.FMT_LOCALE, locale);
         chain.doFilter(request, response);

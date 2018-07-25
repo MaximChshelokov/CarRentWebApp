@@ -44,7 +44,7 @@ public class Login extends AbstractAction {
                     if (isAdmin(req)) {
                         return new JspForward("action/admin_actions", true);
                     } else {
-                        return new JspForward("action/home", true);
+                        return new JspForward("action/welcome", true);
                     }
                 } else
                     validationResult = ValidationResult.USER_NOT_FOUND;
