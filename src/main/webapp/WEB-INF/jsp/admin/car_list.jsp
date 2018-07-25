@@ -22,34 +22,41 @@
                 <h3><fmt:message key="caption"/></h3>
             </header>
             <div class="12u">
-                <div class="table-wrapper">
-                    <table class="alt">
-                        <thead>
-                            <tr>
-                        <th><fmt:message key="make"/></th>
-                        <th><fmt:message key="model"/></th>
-                        <th><fmt:message key="year"/></th>
-                        <th><fmt:message key="plate"/></th>
-                        <th><fmt:message key="price"/></th>
-                        <th><fmt:message key="available"/></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach items="${car_list}" var="car">
-                                <tr>
-                                    <td><c:out value="${car.model.make.name}"/></td>
-                                    <td><c:out value="${car.model.name}"/></td>
-                                    <td><c:out value="${car.yearOfMake}"/></td>
-                                    <td><c:out value="${car.licensePlate}"/></td>
-                                    <td><c:out value="${car.price}"/></td>
-                                    <td><c:out value="${car.available ? yes : no}"/></td>
-                                    <td><a href="action/delete_car?id=${car.id}"  onclick="return confirm('${confirm}');" class="table button special"><c:out value="${delete}"/></a></td>
-                                    <td><a href="action/edit_car?id=${car.id}" class="table button"><c:out value="${edit}"/></a></td>
-                                </tr>                                   
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                </div>
+                <c:choose>
+                    <c:when test="${empty car_list}">
+                        <p><fmt:message key="no-cars"/></p>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="table-wrapper">
+                            <table class="alt">
+                                <thead>
+                                    <tr>
+                                        <th><fmt:message key="make"/></th>
+                                        <th><fmt:message key="model"/></th>
+                                        <th><fmt:message key="year"/></th>
+                                        <th><fmt:message key="plate"/></th>
+                                        <th><fmt:message key="price"/></th>
+                                        <th><fmt:message key="available"/></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:forEach items="${car_list}" var="car">
+                                        <tr>
+                                            <td><c:out value="${car.model.make.name}"/></td>
+                                            <td><c:out value="${car.model.name}"/></td>
+                                            <td><c:out value="${car.yearOfMake}"/></td>
+                                            <td><c:out value="${car.licensePlate}"/></td>
+                                            <td><c:out value="${car.price}"/></td>
+                                            <td><c:out value="${car.available ? yes : no}"/></td>
+                                            <td><a href="action/delete_car?id=${car.id}"  onclick="return confirm('${confirm}');" class="table button special"><c:out value="${delete}"/></a></td>
+                                            <td><a href="action/edit_car?id=${car.id}" class="table button"><c:out value="${edit}"/></a></td>
+                                        </tr>                                   
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
                 <div class="align-center">
                     <a href="action/create_car" class="button special"><fmt:message key="add"/></a>
                 </div>

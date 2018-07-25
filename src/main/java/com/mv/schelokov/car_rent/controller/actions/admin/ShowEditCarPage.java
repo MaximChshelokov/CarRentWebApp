@@ -3,7 +3,6 @@ package com.mv.schelokov.car_rent.controller.actions.admin;
 import com.mv.schelokov.car_rent.controller.actions.AbstractAction;
 import com.mv.schelokov.car_rent.controller.actions.JspForward;
 import com.mv.schelokov.car_rent.controller.consts.Jsps;
-import com.mv.schelokov.car_rent.controller.consts.SessionAttr;
 import com.mv.schelokov.car_rent.controller.exceptions.ActionException;
 import com.mv.schelokov.car_rent.model.services.CarService;
 import com.mv.schelokov.car_rent.model.services.exceptions.ServiceException;
@@ -26,8 +25,7 @@ public class ShowEditCarPage extends AbstractAction {
         if (isAdmin(req)) {
             int id = getIntParam(req, "id");
             try {
-                req.getSession().setAttribute(SessionAttr.CAR,
-                        CarService.getCarById(id));
+                req.setAttribute("car", CarService.getCarById(id));
                 return new JspForward(Jsps.ADMIN_EDIT_CAR);
             }
             catch (ServiceException ex) {

@@ -20,40 +20,39 @@
             <div class="12u">
                 <c:choose>
                     <c:when test="${empty order_list}">
-                        <p>There isn't any opened order yet.</p>
+                        <p><fmt:message key="no-orders"/></p>
                     </c:when>
                     <c:otherwise>
-                <div class="table-wrapper">
-                    <table class="alt">
-                        <thead>
-                            <tr>
-                        <th><fmt:message key="start"/></th>
-                        <th><fmt:message key="end"/></th>
-                        <th><fmt:message key="car"/></th>
-                        <th><fmt:message key="user"/></th>
-                        <th><fmt:message key="sum"/></th>
-                        <th><fmt:message key="approved"/></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach items="${order_list}" var="order">
-                                <tr>
-                                    <td><fmt:formatDate value="${order.startDate}" dateStyle="SHORT"/></td>
-                                    <td><fmt:formatDate value="${order.endDate}" dateStyle="SHORT"/></td>
-                                    <td><c:out value="${order.car.model.make.name}"/> <c:out value="${order.car.model.name}"/> (<c:out value="${order.car.yearOfMake}"/>)</td>
-                                    <td><c:out value="${order.user.login}"/></td>
-                                    <td><c:out value="${order.sum}"/></td>
-                                    <td><c:out value="${order.approvedBy.login}" default="${no}"/></td>
-                                    <td><a href="action/view_order?id=${order.id}" class="table button special"><fmt:message key="view"/></a></td>
-                                </tr>                                   
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                </div>
+                        <div class="table-wrapper">
+                            <table class="alt">
+                                <thead>
+                                    <tr>
+                                        <th><fmt:message key="start"/></th>
+                                        <th><fmt:message key="end"/></th>
+                                        <th><fmt:message key="car"/></th>
+                                        <th><fmt:message key="user"/></th>
+                                        <th><fmt:message key="sum"/></th>
+                                        <th><fmt:message key="approved"/></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:forEach items="${order_list}" var="order">
+                                        <tr>
+                                            <td><fmt:formatDate value="${order.startDate}" dateStyle="SHORT"/></td>
+                                            <td><fmt:formatDate value="${order.endDate}" dateStyle="SHORT"/></td>
+                                            <td><c:out value="${order.car.model.make.name}"/> <c:out value="${order.car.model.name}"/> (<c:out value="${order.car.yearOfMake}"/>)</td>
+                                            <td><c:out value="${order.user.login}"/></td>
+                                            <td><c:out value="${order.sum}"/></td>
+                                            <td><c:out value="${order.approvedBy.login}" default="${no}"/></td>
+                                            <td><a href="action/view_order?id=${order.id}" class="table button special"><fmt:message key="view"/></a></td>
+                                        </tr>                                   
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
                     </c:otherwise>
                 </c:choose>
             </div>
-
         </jsp:attribute>
     </t:generic>
 </fmt:bundle>
