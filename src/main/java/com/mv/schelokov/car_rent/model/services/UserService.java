@@ -110,16 +110,16 @@ public class UserService {
     private static void operateUser(User user, Operation operation)
             throws ServiceException {
         try(RepositoryFactory repositoryFactory = new RepositoryFactory()) {
+            User userCopy = (User) user.clone();
             Repository userRepository = repositoryFactory.getUserRepository();
             boolean result = false;
             switch (operation) {
                 case UPDATE:
-                    if (user.getPassword().length() <=16)
-                        user.setPassword(hashPassword(user.getPassword()));
+                    user.setPassword(hashPassword(userCopy.getPassword()));
                     result = userRepository.update(user);
                     break;
                 case CREATE:
-                    user.setPassword(hashPassword(user.getPassword()));
+                    user.setPassword(hashPassword(userCopy.getPassword()));
                     result = userRepository.add(user);
                     break;
                 case DELETE:
@@ -127,7 +127,8 @@ public class UserService {
             }
             if (!result)
                 throw new ServiceException("Failed to operate UserRepository");
-        } catch (RepositoryException | DbException ex) {
+        } catch (RepositoryException | DbException | CloneNotSupportedException
+                ex) {
             LOG.error(USER_REPOSITORY_ERROR, ex);
             throw new ServiceException(USER_REPOSITORY_ERROR, ex);
         }

@@ -1,7 +1,6 @@
 package com.mv.schelokov.car_rent.model.entities.builders;
 
 import com.mv.schelokov.car_rent.model.entities.InvoiceLine;
-import com.mv.schelokov.car_rent.model.entities.InvoiceType;
 
 /**
  *

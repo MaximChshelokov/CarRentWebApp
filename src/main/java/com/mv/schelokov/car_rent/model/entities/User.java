@@ -7,7 +7,7 @@ import java.util.Objects;
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
-public class User implements Entity {
+public class User implements Entity, Cloneable {
     private int id;
     private String login;
     private String password;
@@ -106,5 +106,10 @@ public class User implements Entity {
             return false;
         }
         return true;
+    }
+    
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return (User) super.clone();
     }
 }

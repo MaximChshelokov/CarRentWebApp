@@ -3,7 +3,6 @@ package com.mv.schelokov.car_rent.model.db.repository;
 import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
 import com.mv.schelokov.car_rent.model.entities.InvoiceLine;
 import com.mv.schelokov.car_rent.model.entities.builders.InvoiceLineBuilder;
-import com.mv.schelokov.car_rent.model.entities.builders.InvoiceTypeBuilder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

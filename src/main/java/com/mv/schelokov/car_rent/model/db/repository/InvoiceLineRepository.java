@@ -4,7 +4,6 @@ import com.mv.schelokov.car_rent.model.db.repository.interfaces.AbstractSqlRepos
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.Criteria;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.SqlCriteria;
 import com.mv.schelokov.car_rent.model.entities.InvoiceLine;
-import com.mv.schelokov.car_rent.model.entities.builders.InvoiceTypeBuilder;
 import com.mv.schelokov.car_rent.model.entities.builders.InvoiceLineBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
