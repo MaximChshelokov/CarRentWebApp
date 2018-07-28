@@ -27,7 +27,7 @@
     </listener>
     <servlet>
         <servlet-name>Controller</servlet-name>
-        <servlet-class>com.mv.schelokov.car_rent.controller.Controller</servlet-class>
+        <servlet-class>com.mv.schelokov.car_rent.controller.FrontController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Controller</servlet-name>

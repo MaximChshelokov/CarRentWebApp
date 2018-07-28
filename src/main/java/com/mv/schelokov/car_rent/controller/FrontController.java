@@ -16,9 +16,9 @@ import org.apache.log4j.Logger;
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
-public class Controller extends HttpServlet {
+public class FrontController extends HttpServlet {
 
-    public static final Logger LOG = Logger.getLogger(Controller.class);
+    public static final Logger LOG = Logger.getLogger(FrontController.class);
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
