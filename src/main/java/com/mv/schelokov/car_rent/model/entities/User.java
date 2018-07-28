@@ -6,6 +6,8 @@ import java.util.Objects;
 /**
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
+ * 
+ * The user entity keeps the basic info about user.
  */
 public class User implements Entity, Cloneable {
     private int id;

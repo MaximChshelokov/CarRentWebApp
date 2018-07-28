@@ -3,7 +3,7 @@ package com.mv.schelokov.car_rent.model.db.repository;
 import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
 import com.mv.schelokov.car_rent.model.entities.Car;
 import com.mv.schelokov.car_rent.model.entities.builders.CarBuilder;
-import com.mv.schelokov.car_rent.model.entities.builders.ModelBuilder;
+import com.mv.schelokov.car_rent.model.entities.builders.CarModelBuilder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -48,9 +48,9 @@ public class CarRepositoryTest {
                 .setLicensePlate("228cum09")
                 .setYearOfMake(2009)
                 .setPrice(6000)
-                .setModel(new ModelBuilder()
+                .setModel(new CarModelBuilder()
                         .setId(1)
-                        .getModel())
+                        .getCarModel())
                 .getCar()));
     }
     

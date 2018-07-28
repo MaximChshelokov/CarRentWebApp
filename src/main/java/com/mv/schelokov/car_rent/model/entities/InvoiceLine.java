@@ -6,6 +6,9 @@ import java.util.Objects;
 /**
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
+ * 
+ * The InvoiceLine entity is the child entity of the Invoice entity. It keeps
+ * a line of some service or fine sum.
  */
 public class InvoiceLine implements Entity {
     private int id;

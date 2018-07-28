@@ -3,8 +3,8 @@ package com.mv.schelokov.car_rent.model.db.repository;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.AbstractSqlRepository;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.Criteria;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.SqlCriteria;
-import com.mv.schelokov.car_rent.model.entities.Make;
-import com.mv.schelokov.car_rent.model.entities.builders.MakeBuilder;
+import com.mv.schelokov.car_rent.model.entities.CarMake;
+import com.mv.schelokov.car_rent.model.entities.builders.CarMakeBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,7 +14,7 @@ import java.sql.SQLException;
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
-public class MakeRepository extends AbstractSqlRepository<Make> {
+public class MakeRepository extends AbstractSqlRepository<CarMake> {
     
     public interface ReadCriteria extends SqlCriteria {}
 
@@ -96,15 +96,15 @@ public class MakeRepository extends AbstractSqlRepository<Make> {
     }
 
     @Override
-    protected Make createItem(ResultSet rs) throws SQLException {
-        return new MakeBuilder()
+    protected CarMake createItem(ResultSet rs) throws SQLException {
+        return new CarMakeBuilder()
                 .setId(rs.getInt(Fields.MAKE_ID.name()))
                 .setName(rs.getString(Fields.NAME.name()))
-                .getMake();
+                .getCarMake();
     }
 
     @Override
-    protected void setStatement(PreparedStatement ps, Make item, 
+    protected void setStatement(PreparedStatement ps, CarMake item, 
             boolean isUpdateStatement) throws SQLException {
         ps.setString(Fields.NAME.NUMBER, item.getName());
         if (isUpdateStatement)

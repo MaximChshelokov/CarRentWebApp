@@ -6,8 +6,8 @@ import com.mv.schelokov.car_rent.model.db.repository.interfaces.SqlCriteria;
 import com.mv.schelokov.car_rent.model.entities.Car;
 import com.mv.schelokov.car_rent.model.entities.RentOrder;
 import com.mv.schelokov.car_rent.model.entities.builders.CarBuilder;
-import com.mv.schelokov.car_rent.model.entities.builders.MakeBuilder;
-import com.mv.schelokov.car_rent.model.entities.builders.ModelBuilder;
+import com.mv.schelokov.car_rent.model.entities.builders.CarMakeBuilder;
+import com.mv.schelokov.car_rent.model.entities.builders.CarModelBuilder;
 import com.mv.schelokov.car_rent.model.entities.builders.RentOrderBuilder;
 import com.mv.schelokov.car_rent.model.entities.builders.UserBuilder;
 import java.sql.Connection;
@@ -173,14 +173,14 @@ public class RentOrderRepository extends AbstractSqlRepository<RentOrder> {
                 .setLicensePlate(rs.getString(Fields.LICENSE_PLATE.name()))
                 .setYearOfMake(rs.getInt(Fields.YEAR_OF_MAKE.name()))
                 .setPrice(rs.getInt(Fields.PRICE.name()))
-                .setModel(new ModelBuilder()
+                .setModel(new CarModelBuilder()
                         .setId(rs.getInt(Fields.MODEL.name()))
                         .setName(rs.getString(Fields.MODEL_NAME.name()))
-                        .setMake(new MakeBuilder()
+                        .setCarMake(new CarMakeBuilder()
                                 .setId(rs.getInt(Fields.MAKE.name()))
                                 .setName(rs.getString(Fields.MAKE_NAME.name()))
-                                .getMake())
-                        .getModel())
+                                .getCarMake())
+                        .getCarModel())
                 .getCar();
     }
     

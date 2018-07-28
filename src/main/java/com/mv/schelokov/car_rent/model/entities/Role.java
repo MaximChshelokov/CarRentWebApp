@@ -6,6 +6,8 @@ import java.util.Objects;
 /**
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
+ * 
+ * The Role entity keeps user's role name and id.
  */
 public class Role implements Entity {
     private int id;

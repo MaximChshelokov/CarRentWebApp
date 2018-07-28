@@ -7,6 +7,9 @@ import java.util.Objects;
 /**
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
+ * 
+ * The RentOrder entity keeps information about the rent order, that was created
+ * by some user to rent a car.
  */
 public class RentOrder implements Entity {
     private int id;

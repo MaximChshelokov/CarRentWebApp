@@ -3,9 +3,9 @@ package com.mv.schelokov.car_rent.model.db.repository;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.AbstractSqlRepository;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.Criteria;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.SqlCriteria;
-import com.mv.schelokov.car_rent.model.entities.Model;
-import com.mv.schelokov.car_rent.model.entities.builders.MakeBuilder;
-import com.mv.schelokov.car_rent.model.entities.builders.ModelBuilder;
+import com.mv.schelokov.car_rent.model.entities.CarModel;
+import com.mv.schelokov.car_rent.model.entities.builders.CarMakeBuilder;
+import com.mv.schelokov.car_rent.model.entities.builders.CarModelBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,7 +15,7 @@ import java.sql.SQLException;
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
-public class ModelRepository extends AbstractSqlRepository<Model> {
+public class ModelRepository extends AbstractSqlRepository<CarModel> {
  
     public interface ReadCriteria extends SqlCriteria {}
 
@@ -43,9 +43,9 @@ public class ModelRepository extends AbstractSqlRepository<Model> {
         private final String name;
         private final int make;
         
-        public FindModel(Model model) {
+        public FindModel(CarModel model) {
             this.name = model.getName();
-            this.make = model.getMake().getId();
+            this.make = model.getCarMake().getId();
         }
         
         @Override
@@ -104,22 +104,22 @@ public class ModelRepository extends AbstractSqlRepository<Model> {
     }
 
     @Override
-    protected Model createItem(ResultSet rs) throws SQLException {
-        return new ModelBuilder()
+    protected CarModel createItem(ResultSet rs) throws SQLException {
+        return new CarModelBuilder()
                 .setId(rs.getInt(Fields.MODEL_ID.name()))
                 .setName(rs.getString(Fields.NAME.name()))
-                .setMake(new MakeBuilder()
+                .setCarMake(new CarMakeBuilder()
                         .setId(rs.getInt(Fields.MAKE.name()))
                         .setName(rs.getString(Fields.MAKE_NAME.name()))
-                        .getMake())
-                .getModel();
+                        .getCarMake())
+                .getCarModel();
     }
 
     @Override
-    protected void setStatement(PreparedStatement ps, Model item,
+    protected void setStatement(PreparedStatement ps, CarModel item,
             boolean isUpdateStatement) throws SQLException {
         ps.setString(Fields.NAME.NUMBER, item.getName());
-        ps.setInt(Fields.MAKE.NUMBER, item.getMake().getId());
+        ps.setInt(Fields.MAKE.NUMBER, item.getCarMake().getId());
         if (isUpdateStatement) {
             ps.setInt(Fields.MODEL_ID.NUMBER, item.getId());
         }

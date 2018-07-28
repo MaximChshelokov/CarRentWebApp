@@ -7,10 +7,10 @@ import com.mv.schelokov.car_rent.model.db.repository.factories.RepositoryFactory
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.Criteria;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.Repository;
 import com.mv.schelokov.car_rent.model.entities.Car;
-import com.mv.schelokov.car_rent.model.entities.Make;
-import com.mv.schelokov.car_rent.model.entities.Model;
-import com.mv.schelokov.car_rent.model.entities.builders.MakeBuilder;
-import com.mv.schelokov.car_rent.model.entities.builders.ModelBuilder;
+import com.mv.schelokov.car_rent.model.entities.CarMake;
+import com.mv.schelokov.car_rent.model.entities.CarModel;
+import com.mv.schelokov.car_rent.model.entities.builders.CarMakeBuilder;
+import com.mv.schelokov.car_rent.model.entities.builders.CarModelBuilder;
 import com.mv.schelokov.car_rent.model.services.exceptions.ServiceException;
 import java.util.List;
 import org.apache.log4j.Logger;
@@ -84,37 +84,37 @@ public class CarService {
         }   
     }
     
-    public static Model getModelByNameOrCreate(String modelName, String makeName)
+    public static CarModel getModelByNameOrCreate(String modelName, String makeName)
             throws ServiceException {
         if (modelName == null || modelName.isEmpty()) {
-            return new ModelBuilder().setId(0).getModel();
+            return new CarModelBuilder().setId(0).getCarModel();
         }
-        Model model = new ModelBuilder()
+        CarModel model = new CarModelBuilder()
                 .setName(modelName)
-                .setMake(getMakeByNameOrCreate(makeName))
-                .getModel();
+                .setCarMake(getMakeByNameOrCreate(makeName))
+                .getCarModel();
         List modelList = getModel(model);
         if (modelList.isEmpty()) {
             modelList = createModel(model);
         }
-        return (Model) modelList.get(0);
+        return (CarModel) modelList.get(0);
     }
 
-    private static Make getMakeByNameOrCreate(String makeName)
+    private static CarMake getMakeByNameOrCreate(String makeName)
             throws ServiceException {
         if (makeName == null || makeName.isEmpty()) {
-            return new MakeBuilder().setId(0).getMake();
+            return new CarMakeBuilder().setId(0).getCarMake();
         }
         List makeList = getMakeByName(makeName);
         if (makeList.isEmpty()) {
-            makeList = createMake(new MakeBuilder()
+            makeList = createMake(new CarMakeBuilder()
                     .setName(makeName)
-                    .getMake());
+                    .getCarMake());
         }
-        return (Make) makeList.get(0);
+        return (CarMake) makeList.get(0);
     }
     
-    public static List getModel(Model model) throws ServiceException {
+    public static List getModel(CarModel model) throws ServiceException {
         Criteria criteria = CriteriaFactory.findModel(model);
         try (RepositoryFactory repositoryFactory = new RepositoryFactory()) {
             Repository modelRepository = repositoryFactory.getModelRepository();
@@ -126,7 +126,7 @@ public class CarService {
         }
     }
     
-    public static List createModel(Model model) throws ServiceException {
+    public static List createModel(CarModel model) throws ServiceException {
         try (RepositoryFactory repositoryFactory = new RepositoryFactory()) {
             Repository modelRepository = repositoryFactory.getModelRepository();
             modelRepository.add(model);
@@ -150,7 +150,7 @@ public class CarService {
         }
     }
     
-    public static List createMake(Make make) throws ServiceException {
+    public static List createMake(CarMake make) throws ServiceException {
         try (RepositoryFactory repositoryFactory = new RepositoryFactory()) {
             Repository makeRepository = repositoryFactory.getMakeRepository();
             makeRepository.add(make);

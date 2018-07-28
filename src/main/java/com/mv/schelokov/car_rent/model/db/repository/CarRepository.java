@@ -5,8 +5,8 @@ import com.mv.schelokov.car_rent.model.db.repository.interfaces.Criteria;
 import com.mv.schelokov.car_rent.model.db.repository.interfaces.SqlCriteria;
 import com.mv.schelokov.car_rent.model.entities.Car;
 import com.mv.schelokov.car_rent.model.entities.builders.CarBuilder;
-import com.mv.schelokov.car_rent.model.entities.builders.MakeBuilder;
-import com.mv.schelokov.car_rent.model.entities.builders.ModelBuilder;
+import com.mv.schelokov.car_rent.model.entities.builders.CarMakeBuilder;
+import com.mv.schelokov.car_rent.model.entities.builders.CarModelBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -123,21 +123,21 @@ public class CarRepository extends AbstractSqlRepository<Car> {
                 .setYearOfMake(rs.getInt(Fields.YEAR_OF_MAKE.name()))
                 .setPrice(rs.getInt(Fields.PRICE.name()))
                 .setAvailable(rs.getBoolean(Fields.AVAILABLE.name()))
-                .setModel(new ModelBuilder()
+                .setModel(new CarModelBuilder()
                         .setId(rs.getInt(Fields.MODEL.name()))
                         .setName(rs.getString(Fields.NAME.name()))
-                        .setMake(new MakeBuilder()
+                        .setCarMake(new CarMakeBuilder()
                                 .setId(rs.getInt(Fields.MAKE.name()))
                                 .setName(rs.getString(Fields.MAKE_NAME.name()))
-                                .getMake())
-                        .getModel())
+                                .getCarMake())
+                        .getCarModel())
                 .getCar();
     }
 
     @Override
     protected void setStatement(PreparedStatement ps, Car item, 
             boolean isUpdateStatement) throws SQLException {
-        ps.setInt(Fields.MODEL.NUMBER, item.getModel().getId());
+        ps.setInt(Fields.MODEL.NUMBER, item.getCarModel().getId());
         ps.setString(Fields.LICENSE_PLATE.NUMBER, item.getLicensePlate());
         ps.setInt(Fields.YEAR_OF_MAKE.NUMBER, item.getYearOfMake());
         ps.setInt(Fields.PRICE.NUMBER, item.getPrice());

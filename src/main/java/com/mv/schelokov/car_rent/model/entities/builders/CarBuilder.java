@@ -1,7 +1,7 @@
 package com.mv.schelokov.car_rent.model.entities.builders;
 
 import com.mv.schelokov.car_rent.model.entities.Car;
-import com.mv.schelokov.car_rent.model.entities.Model;
+import com.mv.schelokov.car_rent.model.entities.CarModel;
 
 /**
  *
@@ -20,7 +20,7 @@ public class CarBuilder {
         return this;
     }
     
-    public CarBuilder setModel(Model model) {
+    public CarBuilder setModel(CarModel model) {
         this.car.setModel(model);
         return this;
     }

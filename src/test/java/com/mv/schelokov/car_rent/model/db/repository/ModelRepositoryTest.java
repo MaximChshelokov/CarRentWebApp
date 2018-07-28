@@ -1,9 +1,9 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
 import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
-import com.mv.schelokov.car_rent.model.entities.Model;
-import com.mv.schelokov.car_rent.model.entities.builders.MakeBuilder;
-import com.mv.schelokov.car_rent.model.entities.builders.ModelBuilder;
+import com.mv.schelokov.car_rent.model.entities.CarModel;
+import com.mv.schelokov.car_rent.model.entities.builders.CarMakeBuilder;
+import com.mv.schelokov.car_rent.model.entities.builders.CarModelBuilder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -43,26 +43,26 @@ public class ModelRepositoryTest {
 
     @Test
     public void createNewModel() throws DbException {
-        assertTrue(mr.add(new ModelBuilder()
+        assertTrue(mr.add(new CarModelBuilder()
                 .setName("Corola")
-                .setMake(new MakeBuilder()
+                .setCarMake(new CarMakeBuilder()
                         .setId(1)
-                        .getMake())
-                .getModel()));
+                        .getCarMake())
+                .getCarModel()));
     }
     
     @Test
     public void selectAllModelAndUpdateOne() throws DbException {
-        Model model = mr.read(ModelRepository.SELECT_ALL).get(2);
+        CarModel model = mr.read(ModelRepository.SELECT_ALL).get(2);
         model.setName("Corola");
         assertTrue(mr.update(model));
     }
     
     @Test
     public void selectAllAndDeleteLast() throws DbException {
-        List<Model> ml = mr.read(ModelRepository.SELECT_ALL);
-        Model modelToDelete = new Model();
-        for (Model model : ml)
+        List<CarModel> ml = mr.read(ModelRepository.SELECT_ALL);
+        CarModel modelToDelete = new CarModel();
+        for (CarModel model : ml)
             if (model.getId() > modelToDelete.getId())
                 modelToDelete = model;
         assertTrue(mr.remove(modelToDelete));

@@ -6,6 +6,9 @@ import java.util.Objects;
 /**
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
+ * 
+ * The UserData entity keeps additional info about user. The UserData entity is
+ * connected to User entity.
  */
 public class UserData implements Entity {
     private int id;

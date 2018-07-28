@@ -6,11 +6,13 @@ import java.util.Objects;
 /**
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
+ * 
+ * The CarMake entity is a child entity of CarModel entity. It keeps a brand
+ * name of the car manufacturer.
  */
-public class Model implements Entity {
+public class CarMake implements Entity {
     private int id;
     private String name;
-    private Make make;
 
     /**
      * @return the id
@@ -41,26 +43,11 @@ public class Model implements Entity {
         this.name = name;
     }
 
-    /**
-     * @return the make
-     */
-    public Make getMake() {
-        return make;
-    }
-
-    /**
-     * @param make the make to set
-     */
-    public void setMake(Make make) {
-        this.make = make;
-    }
-
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 37 * hash + this.id;
-        hash = 37 * hash + Objects.hashCode(this.name);
-        hash = 37 * hash + Objects.hashCode(this.make);
+        hash = 43 * hash + this.id;
+        hash = 43 * hash + Objects.hashCode(this.name);
         return hash;
     }
 
@@ -75,14 +62,11 @@ public class Model implements Entity {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Model other = (Model) obj;
+        final CarMake other = (CarMake) obj;
         if (this.id != other.id) {
             return false;
         }
         if (!Objects.equals(this.name, other.name)) {
-            return false;
-        }
-        if (!Objects.equals(this.make, other.make)) {
             return false;
         }
         return true;
@@ -90,7 +74,7 @@ public class Model implements Entity {
 
     @Override
     public String toString() {
-        return "Model{" + "id=" + id + ", name=" + name + ", make=" + make + '}';
+        return "Makes{" + "id=" + id + ", name=" + name + '}';
     }
     
 }

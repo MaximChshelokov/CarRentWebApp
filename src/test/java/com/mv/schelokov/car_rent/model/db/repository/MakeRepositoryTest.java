@@ -1,8 +1,8 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
 import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
-import com.mv.schelokov.car_rent.model.entities.Make;
-import com.mv.schelokov.car_rent.model.entities.builders.MakeBuilder;
+import com.mv.schelokov.car_rent.model.entities.CarMake;
+import com.mv.schelokov.car_rent.model.entities.builders.CarMakeBuilder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -42,21 +42,21 @@ public class MakeRepositoryTest {
     
     @Test
     public void createNewMake() throws DbException {
-        assertTrue(mr.add(new MakeBuilder()
+        assertTrue(mr.add(new CarMakeBuilder()
                 .setName("Shkoda")
-                .getMake()));
+                .getCarMake()));
     }
     
     @Test
     public void selectAllAndUpdateMake() throws DbException {
-        Make mk = mr.read(MakeRepository.SELECT_ALL).get(0);
+        CarMake mk = mr.read(MakeRepository.SELECT_ALL).get(0);
         mk.setName("Toyota");
         assertTrue(mr.update(mk));
     }
     
     @Test
     public void deleteLastMake() throws DbException {
-        List<Make> ml = mr.read(MakeRepository.SELECT_ALL);
+        List<CarMake> ml = mr.read(MakeRepository.SELECT_ALL);
         assertTrue(mr.remove(ml.get(ml.size()-1)));
     }
     

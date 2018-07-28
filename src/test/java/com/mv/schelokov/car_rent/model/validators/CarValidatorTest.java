@@ -2,8 +2,8 @@ package com.mv.schelokov.car_rent.model.validators;
 
 import com.mv.schelokov.car_rent.model.entities.Car;
 import com.mv.schelokov.car_rent.model.entities.builders.CarBuilder;
-import com.mv.schelokov.car_rent.model.entities.builders.MakeBuilder;
-import com.mv.schelokov.car_rent.model.entities.builders.ModelBuilder;
+import com.mv.schelokov.car_rent.model.entities.builders.CarMakeBuilder;
+import com.mv.schelokov.car_rent.model.entities.builders.CarModelBuilder;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -25,10 +25,10 @@ public class CarValidatorTest {
                 .setLicensePlate("123ASM09")
                 .setPrice(1500)
                 .setYearOfMake(2005)
-                .setModel(new ModelBuilder()
+                .setModel(new CarModelBuilder()
                         .setName("Granta")
-                        .setMake(new MakeBuilder().setName("Lada").getMake())
-                        .getModel())
+                        .setCarMake(new CarMakeBuilder().setName("Lada").getCarMake())
+                        .getCarModel())
                 .getCar();
         int expResult = ValidationResult.OK;
         int result = CarValidator.validate(car);
@@ -41,10 +41,10 @@ public class CarValidatorTest {
                 .setLicensePlate("KAZ228AK")
                 .setPrice(1500)
                 .setYearOfMake(2005)
-                .setModel(new ModelBuilder()
+                .setModel(new CarModelBuilder()
                         .setName("Granta")
-                        .setMake(new MakeBuilder().setName("Lada").getMake())
-                        .getModel())
+                        .setCarMake(new CarMakeBuilder().setName("Lada").getCarMake())
+                        .getCarModel())
                 .getCar();
         int expResult = ValidationResult.INVALID_LICENSE_PLATE;
         int result = CarValidator.validate(car);
@@ -57,10 +57,10 @@ public class CarValidatorTest {
                 .setLicensePlate("123ASM09")
                 .setPrice(300)
                 .setYearOfMake(2005)
-                .setModel(new ModelBuilder()
+                .setModel(new CarModelBuilder()
                         .setName("Granta")
-                        .setMake(new MakeBuilder().setName("Lada").getMake())
-                        .getModel())
+                        .setCarMake(new CarMakeBuilder().setName("Lada").getCarMake())
+                        .getCarModel())
                 .getCar();
         int expResult = ValidationResult.INVALID_PRICE;
         int result = CarValidator.validate(car);
@@ -73,10 +73,10 @@ public class CarValidatorTest {
                 .setLicensePlate("123ASM09")
                 .setPrice(1500)
                 .setYearOfMake(2050)
-                .setModel(new ModelBuilder()
+                .setModel(new CarModelBuilder()
                         .setName("Granta")
-                        .setMake(new MakeBuilder().setName("Lada").getMake())
-                        .getModel())
+                        .setCarMake(new CarMakeBuilder().setName("Lada").getCarMake())
+                        .getCarModel())
                 .getCar();
         int expResult = ValidationResult.INVALID_YEAR;
         int result = CarValidator.validate(car);
@@ -89,10 +89,10 @@ public class CarValidatorTest {
                 .setLicensePlate("123ASM09")
                 .setPrice(1500)
                 .setYearOfMake(2005)
-                .setModel(new ModelBuilder()
+                .setModel(new CarModelBuilder()
                         .setName("+%$Granta")
-                        .setMake(new MakeBuilder().setName("Lada").getMake())
-                        .getModel())
+                        .setCarMake(new CarMakeBuilder().setName("Lada").getCarMake())
+                        .getCarModel())
                 .getCar();
         int expResult = ValidationResult.INVALID_MODEL;
         int result = CarValidator.validate(car);
@@ -105,10 +105,10 @@ public class CarValidatorTest {
                 .setLicensePlate("123ASM09")
                 .setPrice(1500)
                 .setYearOfMake(2005)
-                .setModel(new ModelBuilder()
+                .setModel(new CarModelBuilder()
                         .setName("Granta")
-                        .setMake(new MakeBuilder().setName("@#$234").getMake())
-                        .getModel())
+                        .setCarMake(new CarMakeBuilder().setName("@#$234").getCarMake())
+                        .getCarModel())
                 .getCar();
         int expResult = ValidationResult.INVALID_MAKE;
         int result = CarValidator.validate(car);

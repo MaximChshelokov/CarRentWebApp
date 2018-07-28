@@ -6,10 +6,13 @@ import java.util.Objects;
 /**
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
+ * 
+ * The Car entity keeps information about a car, that in ownership of the
+ * car rent organization.
  */
 public class Car implements Entity {
     private int id;
-    private Model model;
+    private CarModel model;
     private int yearOfMake;
     private int price;
     private String licensePlate;
@@ -75,14 +78,14 @@ public class Car implements Entity {
     /**
      * @return the model
      */
-    public Model getModel() {
+    public CarModel getCarModel() {
         return model;
     }
 
     /**
      * @param model the model to set
      */
-    public void setModel(Model model) {
+    public void setModel(CarModel model) {
         this.model = model;
     }
 

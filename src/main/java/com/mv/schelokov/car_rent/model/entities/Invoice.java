@@ -7,6 +7,10 @@ import java.util.Objects;
 /**
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
+ * 
+ * The Invoice entity keeps information about the amount of money to be paid by
+ * the client for renting a car. The Invoice entity is connected to the RentOrder
+ * entity.
  */
 public class Invoice implements Entity {
     

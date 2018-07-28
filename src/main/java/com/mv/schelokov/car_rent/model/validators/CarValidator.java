@@ -31,10 +31,10 @@ public class CarValidator extends Validator {
         if (!isValidLicensePlate(car.getLicensePlate()))
             return ValidationResult.INVALID_LICENSE_PLATE;
 
-        if (!isValidModel(car.getModel().getName()))
+        if (!isValidModel(car.getCarModel().getName()))
             return ValidationResult.INVALID_MODEL;
         
-        if (!isValidMake(car.getModel().getMake().getName()))
+        if (!isValidMake(car.getCarModel().getCarMake().getName()))
             return ValidationResult.INVALID_MAKE;
         
         if (!isValidYear(car.getYearOfMake()))
@@ -48,11 +48,11 @@ public class CarValidator extends Validator {
 
     private static boolean hasEmptyFields(Car car) {
 
-        return isNullField(car.getLicensePlate(), car.getModel())
-                || isNullField(car.getModel().getName(), car.getModel().getMake())
-                || car.getModel().getMake().getName() == null
-                || isEmptyString(car.getLicensePlate(), car.getModel().getName(),
-                        car.getModel().getMake().getName());
+        return isNullField(car.getLicensePlate(), car.getCarModel())
+                || isNullField(car.getCarModel().getName(), car.getCarModel().getCarMake())
+                || car.getCarModel().getCarMake().getName() == null
+                || isEmptyString(car.getLicensePlate(), car.getCarModel().getName(),
+                        car.getCarModel().getCarMake().getName());
     }
     
     private static boolean isValidYear(int year) {
