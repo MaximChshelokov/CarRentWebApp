@@ -5,6 +5,7 @@ import com.mv.schelokov.car_rent.controller.actions.ActionFactory;
 import com.mv.schelokov.car_rent.controller.actions.JspForward;
 import com.mv.schelokov.car_rent.controller.exceptions.ActionException;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.rmi.ServerException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +19,7 @@ import org.apache.log4j.Logger;
  */
 public class FrontController extends HttpServlet {
 
-    public static final Logger LOG = Logger.getLogger(FrontController.class);
+    private static final Logger LOG = Logger.getLogger(FrontController.class);
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,7 +35,7 @@ public class FrontController extends HttpServlet {
             throws ServletException, IOException {
         Action action = ActionFactory.action(request);
         if (action == null) {
-            response.sendError(404);
+            response.sendError(HttpURLConnection.HTTP_NOT_FOUND);
             return;
         }
         JspForward forward = null;

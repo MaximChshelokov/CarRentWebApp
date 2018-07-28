@@ -4,6 +4,7 @@ import com.mv.schelokov.car_rent.controller.consts.SessionAttr;
 import com.mv.schelokov.car_rent.controller.exceptions.ActionException;
 import com.mv.schelokov.car_rent.model.entities.User;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -17,6 +18,8 @@ public abstract class AbstractAction implements Action {
     
     private static final Logger LOG = Logger.getLogger(AbstractAction.class);
     private static final String SEND_ERROR = "Failed to send an HTTP error";
+    private static final String NUMER_PARSE_ERROR = "Numeric parameter parse "
+            + "error";
     private static final int ADMIN_ID = 1;
     private static final int USER_ID = 2;
     
@@ -46,6 +49,7 @@ public abstract class AbstractAction implements Action {
             try {
                 return Integer.parseInt(param);
             } catch (NumberFormatException ex) {
+                LOG.warn(NUMER_PARSE_ERROR, ex);
                 return -1;
             }
         else
@@ -63,7 +67,7 @@ public abstract class AbstractAction implements Action {
     
     public void sendForbidden(HttpServletResponse res) throws ActionException {
         try {
-            res.sendError(403);
+            res.sendError(HttpURLConnection.HTTP_FORBIDDEN);
         }
         catch (IOException ex) {
             LOG.error(SEND_ERROR, ex);
