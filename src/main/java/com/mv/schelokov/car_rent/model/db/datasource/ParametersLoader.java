@@ -30,21 +30,19 @@ public class ParametersLoader {
     }
 
     public String getLogin() {
-        return properties.getProperty("LOGIN", "car_rent_app");
+        return properties.getProperty("LOGIN");
     }
     
     public String getPassword() {
-        return properties.getProperty("PASSWORD", "Un3L41NoewVA");
+        return properties.getProperty("PASSWORD");
     }
     
     public String getUrl() {
-        return properties.getProperty("URL", "jdbc:mysql://localhost/"
-                + "car_rent?autoReconnect=true&useSSL=false"
-                + "&characterEncoding=utf-8");
+        return properties.getProperty("URL");
     }
     
     public String getDriver() {
-        return properties.getProperty("DRIVER", "com.mysql.cj.jdbc.Driver");
+        return properties.getProperty("DRIVER");
     }
     
     public int getPoolSize() throws DataSourceException {
