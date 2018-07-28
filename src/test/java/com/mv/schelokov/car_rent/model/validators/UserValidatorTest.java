@@ -26,7 +26,7 @@ public class UserValidatorTest {
                 .setRole(new RoleBuilder().setId(1).getRole())
                 .getUser();
         int expResult = ValidationResult.OK;
-        int result = UserValidator.validate(user);
+        int result = new UserValidator(user).validate();
         assertEquals(expResult, result);
     }
     
@@ -38,7 +38,7 @@ public class UserValidatorTest {
                 .setRole(new RoleBuilder().setId(1).getRole())
                 .getUser();
         int expResult = ValidationResult.INVALID_EMAIL;
-        int result = UserValidator.validate(user);
+        int result = new UserValidator(user).validate();
         assertEquals(expResult, result);
     }
     
@@ -50,7 +50,7 @@ public class UserValidatorTest {
                 .setRole(new RoleBuilder().setId(1).getRole())
                 .getUser();
         int expResult = ValidationResult.INVALID_PASSWORD;
-        int result = UserValidator.validate(user);
+        int result = new UserValidator(user).validate();
         assertEquals(expResult, result);
     }
     
@@ -58,7 +58,7 @@ public class UserValidatorTest {
     public void testValidateReturnEmpty() {
         User user = new User();
         int expResult = ValidationResult.EMPTY_FIELD;
-        int result = UserValidator.validate(user);
+        int result = new UserValidator(user).validate();
         assertEquals(expResult, result);
     }
 }

@@ -40,7 +40,7 @@ public class UpdateProfile extends AbstractAction {
                 String hashedPass = userData.getUser().getPassword();
                 userData.getUser().setPassword(req.getParameter("password"));
                 
-                int validationResult = UserDataValidator.validate(userData);
+                int validationResult = new UserDataValidator(userData).validate();
                 
                 if ("password".equals(userData.getUser().getPassword()))
                     userData.getUser().setPassword(hashedPass);

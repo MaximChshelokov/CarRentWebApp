@@ -31,7 +31,7 @@ public class CarValidatorTest {
                         .getCarModel())
                 .getCar();
         int expResult = ValidationResult.OK;
-        int result = CarValidator.validate(car);
+        int result = new CarValidator(car).validate();
         assertEquals(expResult, result);
     }
     
@@ -47,7 +47,7 @@ public class CarValidatorTest {
                         .getCarModel())
                 .getCar();
         int expResult = ValidationResult.INVALID_LICENSE_PLATE;
-        int result = CarValidator.validate(car);
+        int result = new CarValidator(car).validate();
         assertEquals(expResult, result);
     }
     
@@ -63,7 +63,7 @@ public class CarValidatorTest {
                         .getCarModel())
                 .getCar();
         int expResult = ValidationResult.INVALID_PRICE;
-        int result = CarValidator.validate(car);
+        int result = new CarValidator(car).validate();
         assertEquals(expResult, result);
     }
     
@@ -79,7 +79,7 @@ public class CarValidatorTest {
                         .getCarModel())
                 .getCar();
         int expResult = ValidationResult.INVALID_YEAR;
-        int result = CarValidator.validate(car);
+        int result = new CarValidator(car).validate();
         assertEquals(expResult, result);
     }
     
@@ -95,7 +95,7 @@ public class CarValidatorTest {
                         .getCarModel())
                 .getCar();
         int expResult = ValidationResult.INVALID_MODEL;
-        int result = CarValidator.validate(car);
+        int result = new CarValidator(car).validate();
         assertEquals(expResult, result);
     }
     
@@ -111,7 +111,7 @@ public class CarValidatorTest {
                         .getCarModel())
                 .getCar();
         int expResult = ValidationResult.INVALID_MAKE;
-        int result = CarValidator.validate(car);
+        int result = new CarValidator(car).validate();
         assertEquals(expResult, result);
     }
     
@@ -119,7 +119,7 @@ public class CarValidatorTest {
     public void testValidateReturnEmpty() {
         Car car = new Car();
         int expResult = ValidationResult.EMPTY_FIELD;
-        int result = CarValidator.validate(car);
+        int result = new CarValidator(car).validate();
         assertEquals(expResult, result);
     }
     

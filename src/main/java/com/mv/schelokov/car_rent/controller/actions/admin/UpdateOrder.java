@@ -50,7 +50,7 @@ public class UpdateOrder extends AbstractAction {
                 }
                 
                 if (validationResult == ValidationResult.OK)
-                    validationResult = RentOrderValidator.validate(order);
+                    validationResult = new RentOrderValidator(order).validate();
                 if (validationResult == ValidationResult.OK) {
                     OrderService.updateOrder(order);
                     return new JspForward("action/order_list", true);

@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
  */
 public class CarValidator extends Validator {
     
+    private final Car car;
     private static final int MIN_YEAR = 1970;
     private static final int MIN_PRICE = 1000;
     private static final int MAX_PRICE = 1_000_000;
@@ -22,31 +23,35 @@ public class CarValidator extends Validator {
     private static final Pattern VALID_MAKE_NAME = Pattern.compile("^[A-Z0-9-]"
             + "{3,}$", Pattern.CASE_INSENSITIVE);
     
-    public static int validate(Car car) {
+    public CarValidator(Car car) {
+        this.car = car;
+    }
+    
+    public int validate() {
 
-        if (hasEmptyFields(car)) {
+        if (hasEmptyFields()) {
             return ValidationResult.EMPTY_FIELD;
         }
         
-        if (!isValidLicensePlate(car.getLicensePlate()))
+        if (!isValidLicensePlate())
             return ValidationResult.INVALID_LICENSE_PLATE;
 
-        if (!isValidModel(car.getCarModel().getName()))
+        if (!isValidModel())
             return ValidationResult.INVALID_MODEL;
         
-        if (!isValidMake(car.getCarModel().getCarMake().getName()))
+        if (!isValidMake())
             return ValidationResult.INVALID_MAKE;
         
-        if (!isValidYear(car.getYearOfMake()))
+        if (!isValidYear())
             return ValidationResult.INVALID_YEAR;
         
-        if (!isValidPrice(car.getPrice()))
+        if (!isValidPrice())
             return ValidationResult.INVALID_PRICE;
 
         return ValidationResult.OK;
     }
 
-    private static boolean hasEmptyFields(Car car) {
+    private boolean hasEmptyFields() {
 
         return isNullField(car.getLicensePlate(), car.getCarModel())
                 || isNullField(car.getCarModel().getName(), car.getCarModel().getCarMake())
@@ -55,27 +60,29 @@ public class CarValidator extends Validator {
                         car.getCarModel().getCarMake().getName());
     }
     
-    private static boolean isValidYear(int year) {
+    private boolean isValidYear() {
         Date date = new Date();
         Calendar cal = new GregorianCalendar();
         cal.setTime(date);
         int currentYear = cal.get(Calendar.YEAR);
-        return year >= MIN_YEAR && year <= currentYear;
+        return car.getYearOfMake() >= MIN_YEAR
+                && car.getYearOfMake() <= currentYear;
     }
     
-    private static boolean isValidPrice(int price) {
-        return price >= MIN_PRICE && price <= MAX_PRICE;
+    private boolean isValidPrice() {
+        return car.getPrice() >= MIN_PRICE && car.getPrice() <= MAX_PRICE;
     }
     
-    private static boolean isValidLicensePlate(String licensePlate) {
-        return VALID_LICENSE_PLATE.matcher(licensePlate).find();
+    private boolean isValidLicensePlate() {
+        return VALID_LICENSE_PLATE.matcher(car.getLicensePlate()).find();
     }
     
-    private static boolean isValidModel(String model) {
-        return VALID_MODEL_NAME.matcher(model).find();
+    private boolean isValidModel() {
+        return VALID_MODEL_NAME.matcher(car.getCarModel().getName()).find();
     }
     
-    private static boolean isValidMake(String makes) {
-        return VALID_MAKE_NAME.matcher(makes).find();
+    private boolean isValidMake() {
+        return VALID_MAKE_NAME.matcher(car.getCarModel().getCarMake()
+                .getName()).find();
     }
 }

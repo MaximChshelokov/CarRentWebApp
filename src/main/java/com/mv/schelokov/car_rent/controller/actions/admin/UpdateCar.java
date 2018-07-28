@@ -37,7 +37,7 @@ public class UpdateCar extends AbstractAction {
                                 req.getParameter("model"),
                                 req.getParameter("make")))
                         .getCar();
-                int validationResult = CarValidator.validate(car);
+                int validationResult = new CarValidator(car).validate();
                 if (validationResult != ValidationResult.OK) {
                     req.setAttribute("car", car);
                     req.setAttribute("errParam", validationResult);

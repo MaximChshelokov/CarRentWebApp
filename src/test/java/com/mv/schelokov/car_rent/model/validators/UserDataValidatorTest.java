@@ -28,7 +28,7 @@ public class UserDataValidatorTest {
                 .setUser(new UserBuilder().setLogin("semenitch@rambler.kz").getUser())
                 .getUserData();
         int expResult = ValidationResult.OK;
-        int result = UserDataValidator.validate(userData);
+        int result = new UserDataValidator(userData).validate();
         assertEquals(expResult, result);
     }
     
@@ -41,7 +41,7 @@ public class UserDataValidatorTest {
                 .setUser(new UserBuilder().setLogin("semenitch@rambler.kz").getUser())
                 .getUserData();
         int expResult = ValidationResult.INVALID_PHONE;
-        int result = UserDataValidator.validate(userData);
+        int result = new UserDataValidator(userData).validate();
         assertEquals(expResult, result);
     }
     
@@ -49,7 +49,7 @@ public class UserDataValidatorTest {
     public void testValidateReturnEmpty() {
         UserData userData = new UserData();
         int expResult = ValidationResult.EMPTY_FIELD;
-        int result = UserDataValidator.validate(userData);
+        int result = new UserDataValidator(userData).validate();
         assertEquals(expResult, result);
     }
     
@@ -62,7 +62,7 @@ public class UserDataValidatorTest {
                 .setUser(new UserBuilder().setLogin("semenitch@rambler.kz").getUser())
                 .getUserData();
         int expResult = ValidationResult.INVALID_NAME;
-        int result = UserDataValidator.validate(userData);
+        int result = new UserDataValidator(userData).validate();
         assertEquals(expResult, result);
     }
     
@@ -75,7 +75,7 @@ public class UserDataValidatorTest {
                 .setUser(new UserBuilder().setLogin("semenitch@rambler.kz").getUser())
                 .getUserData();
         int expResult = ValidationResult.INVALID_ADDRESS;
-        int result = UserDataValidator.validate(userData);
+        int result = new UserDataValidator(userData).validate();
         assertEquals(expResult, result);
     }
     
@@ -88,7 +88,7 @@ public class UserDataValidatorTest {
                 .setUser(new UserBuilder().setLogin("beysembet").getUser())
                 .getUserData();
         int expResult = ValidationResult.INVALID_EMAIL;
-        int result = UserDataValidator.validate(userData);
+        int result = new UserDataValidator(userData).validate();
         assertEquals(expResult, result);
     }
 }

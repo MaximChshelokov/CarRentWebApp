@@ -37,7 +37,7 @@ public class UpdateUser extends AbstractAction {
                 userData.setPhone(req.getParameter("phone").replaceAll("[^0-9]+", ""));
                 userData.getUser().setLogin(req.getParameter("login"));
                 
-                int validationResult = UserDataValidator.validate(userData);
+                int validationResult = new UserDataValidator(userData).validate();
                 if (validationResult == ValidationResult.OK && !UserService
                         .getUserByLogin(userData.getUser().getLogin()).isEmpty())
                     validationResult = ValidationResult.SAME_LOGIN;

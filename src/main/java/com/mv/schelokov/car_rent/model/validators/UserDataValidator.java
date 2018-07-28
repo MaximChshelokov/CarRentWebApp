@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
  */
 public class UserDataValidator extends Validator {
     
+    private final UserData userData;
     private static final Pattern VALID_EMAIL_ADDRESS
             = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$",
                     Pattern.CASE_INSENSITIVE);
@@ -20,30 +21,34 @@ public class UserDataValidator extends Validator {
     private static final Pattern VALID_ADDRESS
             = Pattern.compile("^[а-яa-zА-ЯA-Z0-9,\\.\\s/]{10,}$");
     
-    public static int validate(UserData userData) {
+    public UserDataValidator(UserData userData) {
+        this.userData = userData;
+    }
+    
+    public int validate() {
 
-        if (hasEmptyFields(userData)) {
+        if (hasEmptyFields()) {
             return ValidationResult.EMPTY_FIELD;
         }
 
-        if (!isValidPhone(userData.getPhone())) {
+        if (!isValidPhone()) {
             return ValidationResult.INVALID_PHONE;
         }
         
-        if (!isValidName(userData.getName())) {
+        if (!isValidName()) {
             return ValidationResult.INVALID_NAME;
         }
         
-        if (!isValidAddress(userData.getAddress()))
+        if (!isValidAddress())
             return ValidationResult.INVALID_ADDRESS;
         
-        if (!isValidEmail(userData.getUser().getLogin()))
+        if (!isValidEmail())
             return ValidationResult.INVALID_EMAIL;
 
         return ValidationResult.OK;
     }
 
-    private static boolean hasEmptyFields(UserData userData) {
+    private boolean hasEmptyFields() {
 
         return isNullField(userData.getName(), userData.getAddress(), 
                 userData.getPhone(), userData.getUser())
@@ -52,19 +57,20 @@ public class UserDataValidator extends Validator {
                 userData.getPhone(), userData.getUser().getLogin());
     }
 
-    private static boolean isValidPhone(String phone) {
-        return VALID_PHONE_NUMBER.matcher(phone).find();
+    private boolean isValidPhone() {
+        return VALID_PHONE_NUMBER.matcher(userData.getPhone()).find();
     }
     
-    private static boolean isValidName(String name) {
-        return VALID_NAME.matcher(name).find();
+    private boolean isValidName() {
+        return VALID_NAME.matcher(userData.getName()).find();
     }
     
-    private static boolean isValidAddress(String address) {
-        return VALID_ADDRESS.matcher(address).find();
+    private boolean isValidAddress() {
+        return VALID_ADDRESS.matcher(userData.getAddress()).find();
     }
     
-    private static boolean isValidEmail(String email) {
-        return VALID_EMAIL_ADDRESS.matcher(email).find();
+    private boolean isValidEmail() {
+        return VALID_EMAIL_ADDRESS.matcher(
+                userData.getUser().getLogin()).find();
     }
 }

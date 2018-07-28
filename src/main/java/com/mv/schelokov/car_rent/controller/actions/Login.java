@@ -34,7 +34,7 @@ public class Login extends AbstractAction {
                 .setRole(new RoleBuilder().setId(1).getRole())
                 .getUser();
         try {
-            int validationResult = UserValidator.validate(user);
+            int validationResult = new UserValidator(user).validate();
             if (validationResult == ValidationResult.OK) {
                 List userList = UserService.getUserByCredentials(user);
                 if (userList.size() == 1) {

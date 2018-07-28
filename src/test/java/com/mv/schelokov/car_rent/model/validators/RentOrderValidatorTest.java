@@ -30,7 +30,7 @@ public class RentOrderValidatorTest {
                 .setEndDate(new GregorianCalendar(2018, 7, 10).getTime())
                 .getRentOrder();
         int expResult = ValidationResult.OK;
-        int result = RentOrderValidator.validate(order);
+        int result = new RentOrderValidator(order).validate();
         assertEquals(expResult, result);
     }
     
@@ -43,7 +43,7 @@ public class RentOrderValidatorTest {
                 .setEndDate(new GregorianCalendar(2018, 7, 10).getTime())
                 .getRentOrder();
         int expResult = ValidationResult.INVALID_CAR;
-        int result = RentOrderValidator.validate(order);
+        int result = new RentOrderValidator(order).validate();
         assertEquals(expResult, result);
     }
     
@@ -56,7 +56,7 @@ public class RentOrderValidatorTest {
                 .setEndDate(new GregorianCalendar(2018, 7, 10).getTime())
                 .getRentOrder();
         int expResult = ValidationResult.INVALID_USER;
-        int result = RentOrderValidator.validate(order);
+        int result = new RentOrderValidator(order).validate();
         assertEquals(expResult, result);
     }
     
@@ -69,7 +69,7 @@ public class RentOrderValidatorTest {
                 .setEndDate(new GregorianCalendar(2018, 7, 10).getTime())
                 .getRentOrder();
         int expResult = ValidationResult.INVALID_DATE;
-        int result = RentOrderValidator.validate(order);
+        int result = new RentOrderValidator(order).validate();
         assertEquals(expResult, result);
     }
     
@@ -82,7 +82,7 @@ public class RentOrderValidatorTest {
                 .setEndDate(new GregorianCalendar(2018, 7, 10).getTime())
                 .getRentOrder();
         int expResult = ValidationResult.INVALID_DATE;
-        int result = RentOrderValidator.validate(order);
+        int result = new RentOrderValidator(order).validate();
         assertEquals(expResult, result);
     }
     

@@ -38,7 +38,7 @@ public class SaveUser extends AbstractAction {
                         .getUser();
                 String repeat = req.getParameter("repeat");
                 
-                int validationResult = UserValidator.validate(user);
+                int validationResult = new UserValidator(user).validate();
                 
                 if (validationResult == ValidationResult.OK && 
                         !user.getPassword().equals(repeat))

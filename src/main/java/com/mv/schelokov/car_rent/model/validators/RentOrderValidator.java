@@ -10,9 +10,15 @@ import java.util.Date;
  */
 public class RentOrderValidator extends Validator {
     
-    public static int validate(RentOrder order) {
+    private final RentOrder order;
+    
+    public RentOrderValidator(RentOrder order) {
+        this.order = order;
+    }
+    
+    public int validate() {
 
-        if (hasEmptyFields(order)) {
+        if (hasEmptyFields()) {
             return ValidationResult.EMPTY_FIELD;
         }
 
@@ -22,19 +28,19 @@ public class RentOrderValidator extends Validator {
         if (!isValidEntity(order.getUser()))
             return ValidationResult.INVALID_USER;
         
-        if (!isValidOrderDate(order))
+        if (!isValidOrderDate())
             return ValidationResult.INVALID_DATE;
 
         return ValidationResult.OK;
     }
     
-    private static boolean hasEmptyFields(RentOrder order) {
+    private boolean hasEmptyFields() {
 
         return isNullField(order.getCar(), order.getUser(),
                 order.getStartDate(), order.getEndDate());
     }
     
-    private static boolean isValidOrderDate(RentOrder order) {
+    private boolean isValidOrderDate() {
         Date today = DateUtils.onlyDate(new Date());
         return !order.getStartDate().before(today)
                 && order.getEndDate().after(order.getStartDate());

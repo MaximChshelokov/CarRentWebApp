@@ -8,7 +8,7 @@ import com.mv.schelokov.car_rent.model.entities.interfaces.Entity;
  */
 public class Validator {
     
-    protected static boolean isNullField(Object... fields) {
+    protected boolean isNullField(Object... fields) {
         for (Object field : fields) {
             if (field == null) {
                 return true;
@@ -17,7 +17,7 @@ public class Validator {
         return false;
     }
 
-    protected static boolean isEmptyString(String... fields) {
+    protected boolean isEmptyString(String... fields) {
         for (String field : fields) {
             if (field.isEmpty()) {
                 return true;
@@ -26,7 +26,7 @@ public class Validator {
         return false;
     }
     
-    protected static boolean isValidEntity(Entity entity) {
+    protected boolean isValidEntity(Entity entity) {
         return entity.getId() > 0;
     }
 }

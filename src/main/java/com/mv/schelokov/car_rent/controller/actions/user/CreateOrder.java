@@ -55,7 +55,7 @@ public class CreateOrder extends AbstractAction {
             }
             
             if (validationResult == ValidationResult.OK) 
-                validationResult = RentOrderValidator.validate(order);
+                validationResult = new RentOrderValidator(order).validate();
             
             try {
                 if (validationResult == ValidationResult.OK) {
