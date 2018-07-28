@@ -4,11 +4,8 @@ import com.mv.schelokov.car_rent.model.db.datasource.exceptions.DataSourceExcept
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Collections;
-import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ConcurrentHashMap;
 import org.apache.log4j.Logger;
 
 /**
@@ -26,12 +23,10 @@ public class ConnectionPool {
     private static final String ERROR_TAKE_CONNECTION = "Unable to take a "
             + "connection from the pool";
     private static final String ERROR_COMMIT = "Failed to commit";
-    private static final String ERROR_CLOSE = "Failed to close connections";
     private static final String INSTANCE_ERROR = "Connection pool instance"
             + " doesn't exist";
 
     private BlockingQueue<Connection> freeConnections;
-    private Set<Connection> allConnections;
     private ParametersLoader params;
     
     private static class SingletonHolder {
@@ -51,8 +46,6 @@ public class ConnectionPool {
             params = new ParametersLoader(this.getClass().getClassLoader()
                     .getResourceAsStream(DB_PROPERTIES_NAME));
             freeConnections = new ArrayBlockingQueue<>(params.getPoolSize());
-            allConnections = Collections.newSetFromMap(
-                    new ConcurrentHashMap<Connection, Boolean>());
             establishPool();
         }
         catch (DataSourceException ex) {
@@ -68,7 +61,6 @@ public class ConnectionPool {
                 Connection connection = DriverManager.getConnection(params.getUrl(),
                         params.getLogin(), params.getPassword());
                 freeConnections.offer(connection);
-                allConnections.add(connection);
             }
         } catch(SQLException ex) {
             LOG.error(CREATE_CONNECTIOIN_ERROR, ex);
@@ -110,19 +102,6 @@ public class ConnectionPool {
         catch (SQLException ex) {
             LOG.error(ERROR_COMMIT, ex);
             throw new DataSourceException(ERROR_COMMIT, ex);
-        }
-    }
-    
-    public void closeAll() throws DataSourceException {
-        try {
-        for(Connection connection : allConnections)
-            if (!connection.isClosed()) {
-                connection.commit();
-                connection.close();
-            }
-        } catch(SQLException ex) {
-            LOG.error(ERROR_CLOSE, ex);
-            throw new DataSourceException(ERROR_CLOSE);
         }
     }
 }
