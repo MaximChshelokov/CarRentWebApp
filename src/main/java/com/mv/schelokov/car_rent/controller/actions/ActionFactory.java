@@ -32,14 +32,12 @@ import com.mv.schelokov.car_rent.controller.consts.Jsps;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
-import org.apache.log4j.Logger;
 
 /**
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
 public class ActionFactory {
-    private static final Logger LOG = Logger.getLogger(ActionFactory.class);
     private static final Map<String, Action> ACTIONS = new HashMap<>();
     static {
         ACTIONS.put("home", new ShowPage(Jsps.HOME));
@@ -81,7 +79,6 @@ public class ActionFactory {
     
     public static Action action(HttpServletRequest req) {
         String actionName = req.getPathInfo().replaceAll("/", "").toLowerCase();
-        LOG.debug(String.format("Forward to %s", actionName));
         Action result = ACTIONS.get(actionName);
         return result;
     }

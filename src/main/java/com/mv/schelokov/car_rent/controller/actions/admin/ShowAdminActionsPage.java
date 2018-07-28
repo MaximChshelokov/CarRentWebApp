@@ -15,10 +15,15 @@ public class ShowAdminActionsPage extends AbstractAction {
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
-        if (isAdmin(req))
-            return new JspForward(Jsps.ADMIN_ACTIONS);
+        
+        JspForward forward = new JspForward();
+        
+        if (isAdmin(req)) {
+            forward.setUrl(Jsps.ADMIN_ACTIONS);
+            return forward;
+        }
         sendForbidden(res);
-        return null;
+        return forward;
     }
     
 }

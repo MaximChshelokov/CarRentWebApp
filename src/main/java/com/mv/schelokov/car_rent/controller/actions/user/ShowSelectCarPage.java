@@ -23,11 +23,17 @@ public class ShowSelectCarPage extends AbstractAction {
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
+        
+        JspForward forward = new JspForward();
+        
         if (isUser(req) || isAdmin(req)) {
             try {
                 req.setAttribute("car_list", CarService.getAvailableCars());
                 req.setAttribute("action", "create_order");
-                return new JspForward(Jsps.USER_SELECT_CAR);
+                
+                forward.setUrl(Jsps.USER_SELECT_CAR);
+                
+                return forward;
             }
             catch (ServiceException ex) {
                 LOG.error(ERROR, ex);
@@ -35,7 +41,7 @@ public class ShowSelectCarPage extends AbstractAction {
             }
         } else {
             sendForbidden(res);
-            return null;
+            return forward;
         }
     }
 }

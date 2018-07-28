@@ -27,17 +27,21 @@ public class ShowInvoicePage extends AbstractAction {
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
+        
+        JspForward forward = new JspForward();
+        
         if (isUser(req)) {
             User user = (User) req.getSession().getAttribute(SessionAttr.USER);
             try {
                 RentOrder order = OrderService.getOrdersByUser(user);
-                if (order == null)
-                    return new JspForward(Jsps.USER_INVOICE);
+                if (order == null) {
+                    forward.setUrl(Jsps.USER_INVOICE);
+                    return forward;
+                }
 
                 Invoice invoice = InvoiceService.getInvoiceById(order.getId());
                 
                 if (invoice.getTotal() != invoice.getPaid()) {
-                    
                 
                     req.setAttribute("car",
                         CarService.getCarById(order.getCar().getId()));
@@ -48,7 +52,9 @@ public class ShowInvoicePage extends AbstractAction {
                         .getInvoiceLinesByInvoiceId(invoice.getId()));
                 }
 
-                return new JspForward(Jsps.USER_INVOICE);
+                forward.setUrl(Jsps.USER_INVOICE);
+                
+                return forward;
 
             }
             catch (ServiceException ex) {
@@ -57,7 +63,7 @@ public class ShowInvoicePage extends AbstractAction {
             }
         } else {
             sendForbidden(res);
-            return null;
+            return forward;
         }
     }
 }

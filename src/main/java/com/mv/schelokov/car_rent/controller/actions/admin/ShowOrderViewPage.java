@@ -25,6 +25,9 @@ public class ShowOrderViewPage extends AbstractAction {
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
+        
+        JspForward forward = new JspForward();
+                
         if (isAdmin(req)) {
             int orderId = getIntParam(req, "id");
             try {
@@ -34,7 +37,10 @@ public class ShowOrderViewPage extends AbstractAction {
                         UserService.getUserDataById(order.getUser().getId()));
                 req.setAttribute("car",
                         CarService.getCarById(order.getCar().getId()));
-                return new JspForward(Jsps.ADMIN_ORDER_VIEW);
+                
+                forward.setUrl(Jsps.ADMIN_ORDER_VIEW);
+                
+                return forward;
                 
             } catch (ServiceException ex) {
                 LOG.error(ERROR, ex);
@@ -42,7 +48,7 @@ public class ShowOrderViewPage extends AbstractAction {
             }
         } else {
             sendForbidden(res);
-            return null;
+            return forward;
         }
     }
     

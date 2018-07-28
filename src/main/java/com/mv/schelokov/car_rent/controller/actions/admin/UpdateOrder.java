@@ -30,6 +30,9 @@ public class UpdateOrder extends AbstractAction {
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
+        
+        JspForward forward = new JspForward();
+        
         if (isAdmin(req)) {
 
             int orderId = getIntParam(req, "id");
@@ -53,16 +56,24 @@ public class UpdateOrder extends AbstractAction {
                     validationResult = new RentOrderValidator(order).validate();
                 if (validationResult == ValidationResult.OK) {
                     OrderService.updateOrder(order);
-                    return new JspForward("action/order_list", true);
+                    
+                    forward.setUrl("action/order_list");
+                    forward.setRedirect(true);
+                    
+                    return forward;
                 }
                 req.setAttribute("errParam", validationResult);
                 req.setAttribute("car_list", CarService.getAvailableCars());
                 req.setAttribute("order", order);
-                req.setAttribute("start_date", FORMAT.format(order.getStartDate()));
+                req.setAttribute("start_date",
+                        FORMAT.format(order.getStartDate()));
                 req.setAttribute("end_date", FORMAT.format(order.getEndDate()));
                 req.setAttribute("action", String.format("update_order?id=%d",
                         order.getId()));
-                return new JspForward(Jsps.USER_SELECT_CAR);
+                
+                forward.setUrl(Jsps.USER_SELECT_CAR);
+                
+                return forward;
             } catch (ServiceException ex) {
                 LOG.error(ERROR, ex);
                 throw new ActionException(ERROR, ex);
@@ -70,7 +81,7 @@ public class UpdateOrder extends AbstractAction {
 
         } else {
             sendForbidden(res);
-            return null;
+            return forward;
         }
     }
 }

@@ -21,10 +21,16 @@ public class ShowOpenedOrdersPage extends AbstractAction {
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
+        
+        JspForward forward = new JspForward();
+        
         if (isAdmin(req)) {
             try {
                 req.setAttribute("order_list", OrderService.getOpenedOrders());
-                return new JspForward(Jsps.ADMIN_OPENED_ORDERS);
+                
+                forward.setUrl(Jsps.ADMIN_OPENED_ORDERS);
+                
+                return forward;
             } catch (ServiceException ex) {
                 LOG.error(ERROR, ex);
                 throw new ActionException(ERROR, ex);
@@ -32,7 +38,7 @@ public class ShowOpenedOrdersPage extends AbstractAction {
 
         } else {
             sendForbidden(res);
-            return null;
+            return forward;
         }
     }
 }

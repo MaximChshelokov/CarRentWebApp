@@ -24,12 +24,18 @@ public class DeleteUser extends AbstractAction {
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
+        
+        JspForward forward = new JspForward();
+        
         if (isAdmin(req)) {
             int userId = getIntParam(req, "id");
             int userDataId = getIntParam(req, "uid");
 
-            UserData userData = new UserDataBuilder().setId(userDataId)
-                    .setUser(new UserBuilder().setId(userId).getUser())
+            UserData userData = new UserDataBuilder()
+                    .setId(userDataId)
+                    .setUser(new UserBuilder()
+                            .setId(userId)
+                            .getUser())
                     .getUserData();
             try {
                 if (userDataId > 0) {
@@ -40,7 +46,10 @@ public class DeleteUser extends AbstractAction {
                     throw new ActionException("Failed to delete user, wrong id");
                 }
 
-                return new JspForward("action/user_list");
+                forward.setUrl("action/user_list");
+                forward.setRedirect(true);
+                
+                return forward;
             }
             catch (ServiceException ex) {
                 LOG.error(ERROR);
@@ -48,7 +57,7 @@ public class DeleteUser extends AbstractAction {
             }
         } else {
             sendForbidden(res);
-            return null;
+            return forward;
         }
     }
 }

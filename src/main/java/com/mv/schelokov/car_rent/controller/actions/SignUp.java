@@ -10,7 +10,6 @@ import com.mv.schelokov.car_rent.model.services.UserService;
 import com.mv.schelokov.car_rent.model.services.exceptions.ServiceException;
 import com.mv.schelokov.car_rent.model.validators.UserValidator;
 import com.mv.schelokov.car_rent.model.validators.ValidationResult;
-import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
@@ -28,7 +27,10 @@ public class SignUp implements Action {
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
-    try {
+
+        JspForward forward = new JspForward();
+
+        try {
             User user = new UserBuilder()
                     .setLogin(req.getParameter("email"))
                     .setPassword(req.getParameter("pass"))
@@ -45,20 +47,28 @@ public class SignUp implements Action {
                 validationResult = ValidationResult.PASSWORDS_NOT_MATCH;
             }
             if (validationResult == ValidationResult.OK && !UserService
-                .getUserByLogin(user.getLogin()).isEmpty()) {
+                    .getUserByLogin(user.getLogin()).isEmpty()) {
                 validationResult = ValidationResult.SAME_LOGIN;
-            }   
+            }
             if (validationResult == ValidationResult.OK) {
                 UserService.registerNewUser(user);
-                req.getSession().setAttribute(SessionAttr.USER, 
+                req.getSession().setAttribute(SessionAttr.USER,
                         UserService.getUserByLogin(user.getLogin()).get(0));
-                return new JspForward("action/welcome", true);
+
+                forward.setUrl("action/welcome");
+                forward.setRedirect(true);
+
+                return forward;
             }
             req.setAttribute("errParam", validationResult);
             req.setAttribute("sign", true);
             req.setAttribute("user_edit", user);
-            return new JspForward(Jsps.HOME);
-        } catch (ServiceException ex) {
+
+            forward.setUrl(Jsps.HOME);
+
+            return forward;
+        }
+        catch (ServiceException ex) {
             LOG.error(ERROR, ex);
             throw new ActionException(ERROR, ex);
         }

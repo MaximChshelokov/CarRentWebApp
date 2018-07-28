@@ -16,6 +16,10 @@ public class JspForward {
         this(url);
         this.redirect = redirect;
     }
+    
+    public JspForward() {
+        this.url = new String();
+    }
 
     /**
      * @return the url

@@ -27,6 +27,9 @@ public class SaveUser extends AbstractAction {
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
+        
+        JspForward forward = new JspForward();
+        
         if (isAdmin(req)) {
             try {
                 User user = new UserBuilder()
@@ -54,7 +57,10 @@ public class SaveUser extends AbstractAction {
                 req.setAttribute("errParam", validationResult);
                 req.setAttribute("user_edit", user);
                 req.setAttribute("roles", UserService.getAllRoles());
-                return new JspForward(Jsps.ADMIN_ADD_USER);
+                
+                forward.setUrl(Jsps.ADMIN_ADD_USER);
+                
+                return forward;
                 
             } catch (ServiceException ex) {
                 LOG.error(ERROR, ex);
@@ -62,7 +68,7 @@ public class SaveUser extends AbstractAction {
             }
         } else {
             sendForbidden(res);
-            return null;
+            return forward;
         }
     }
 }

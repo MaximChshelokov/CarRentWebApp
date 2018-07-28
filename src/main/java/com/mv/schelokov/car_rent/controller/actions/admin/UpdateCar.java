@@ -25,6 +25,9 @@ public class UpdateCar extends AbstractAction {
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
+        
+        JspForward forward = new JspForward();
+        
         if (isAdmin(req)) {
             try {
                 int carId = getIntParam(req, "id");
@@ -41,14 +44,21 @@ public class UpdateCar extends AbstractAction {
                 if (validationResult != ValidationResult.OK) {
                     req.setAttribute("car", car);
                     req.setAttribute("errParam", validationResult);
-                    return new JspForward(Jsps.ADMIN_EDIT_CAR);
+                    
+                    forward.setUrl(Jsps.ADMIN_EDIT_CAR);
+                    
+                    return forward;
                 }
                 if (car.getId() == 0) {
                     car.setAvailable(true);
                     CarService.createCar(car);
                 } else
                     CarService.updateCar(car);
-                return new JspForward("action/car_list", true);
+                
+                forward.setUrl("action/car_list");
+                forward.setRedirect(true);
+                
+                return forward;
             }
             catch (ServiceException ex) {
                 LOG.error(ERROR, ex);
@@ -56,6 +66,6 @@ public class UpdateCar extends AbstractAction {
             }
         }
         sendForbidden(res);
-        return null;
+        return forward;
     }
 }

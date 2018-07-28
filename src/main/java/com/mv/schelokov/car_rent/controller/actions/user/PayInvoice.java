@@ -27,6 +27,9 @@ public class PayInvoice extends AbstractAction {
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
+        
+        JspForward forward = new JspForward();
+        
         if (isUser(req)) {
             User user = (User) req.getSession().getAttribute(SessionAttr.USER);
             try {
@@ -36,8 +39,11 @@ public class PayInvoice extends AbstractAction {
                 invoice.setPaid(invoice.getTotal());
                 
                 InvoiceService.updateInvoice(invoice);
+                
+                forward.setUrl("action/home");
+                forward.setRedirect(true);
 
-                return new JspForward("action/home", true);
+                return forward;
 
             }
             catch (ServiceException ex) {
@@ -46,7 +52,7 @@ public class PayInvoice extends AbstractAction {
             }
         } else {
             sendForbidden(res);
-            return null;
+            return forward;
         }
     }
 }

@@ -24,6 +24,9 @@ public class ShowWelcomePage extends AbstractAction {
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
+        
+        JspForward forward = new JspForward();
+        
         if (isUser(req)) {
             User user = (User) req.getSession().getAttribute(SessionAttr.USER);
             try {
@@ -33,7 +36,10 @@ public class ShowWelcomePage extends AbstractAction {
                     showButton = false;
                 }
                 req.setAttribute("show_button", showButton);
-                return new JspForward(Jsps.USER_WELCOME);
+                
+                forward.setUrl(Jsps.USER_WELCOME);
+                
+                return forward;
             }
             catch (ServiceException ex) {
                 LOG.error(ERROR, ex);
@@ -41,7 +47,7 @@ public class ShowWelcomePage extends AbstractAction {
             }
         } else {
             sendForbidden(res);
-            return null;
+            return forward;
         }
     }
     

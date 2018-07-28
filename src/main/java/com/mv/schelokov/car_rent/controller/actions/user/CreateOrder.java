@@ -33,6 +33,9 @@ public class CreateOrder extends AbstractAction {
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
+        
+        JspForward forward = new JspForward();
+        
         if (isUser(req) || isAdmin(req)) {
             User user = (User) req.getSession().getAttribute(SessionAttr.USER);
             
@@ -61,7 +64,11 @@ public class CreateOrder extends AbstractAction {
                 if (validationResult == ValidationResult.OK) {
 
                     OrderService.addOrder(order);
-                    return new JspForward("action/order_completed", true);
+                    
+                    forward.setUrl("action/order_completed");
+                    forward.setRedirect(true);
+                    
+                    return forward;
                 }
                 req.setAttribute("errParam", validationResult);
                 req.setAttribute("car_list", CarService.getAvailableCars());
@@ -69,7 +76,10 @@ public class CreateOrder extends AbstractAction {
                 req.setAttribute("start_date", FORMAT.format(order.getStartDate()));
                 req.setAttribute("end_date", FORMAT.format(order.getEndDate()));
                 req.setAttribute("action", "create_order");
-                return new JspForward(Jsps.USER_SELECT_CAR);
+                
+                forward.setUrl(Jsps.USER_SELECT_CAR);
+                
+                return forward;
             }
             catch (ServiceException ex) {
                 LOG.error(ERROR, ex);
@@ -78,7 +88,7 @@ public class CreateOrder extends AbstractAction {
 
         } else {
             sendForbidden(res);
-            return null;
+            return forward;
         }
     }
 }

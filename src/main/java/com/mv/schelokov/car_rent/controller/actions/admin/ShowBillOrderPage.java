@@ -26,6 +26,9 @@ public class ShowBillOrderPage extends AbstractAction {
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
+        
+        JspForward forward = new JspForward();
+        
         if (isAdmin(req)) {
             int orderId = getIntParam(req, "id");
             if (orderId < 1)
@@ -44,8 +47,10 @@ public class ShowBillOrderPage extends AbstractAction {
                 
                 req.setAttribute("invoice_lines", InvoiceService
                         .getInvoiceLinesByInvoiceId(invoice.getId()));
+                
+                forward.setUrl(Jsps.ADMIN_BILL_ORDER);
 
-                return new JspForward(Jsps.ADMIN_BILL_ORDER);
+                return forward;
 
             } catch (ServiceException ex) {
                 LOG.error(ERROR, ex);
@@ -53,7 +58,7 @@ public class ShowBillOrderPage extends AbstractAction {
             }
         } else {
             sendForbidden(res);
-            return null;
+            return forward;
         }
     }
 }

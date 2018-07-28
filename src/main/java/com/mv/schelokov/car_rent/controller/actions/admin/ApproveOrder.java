@@ -28,6 +28,7 @@ public class ApproveOrder extends AbstractAction {
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
         
+        JspForward forward = new JspForward();
         if (isAdmin(req)) {
             int orderId = getIntParam(req, "id");
             if (orderId < 1) {
@@ -44,15 +45,18 @@ public class ApproveOrder extends AbstractAction {
                 CarService.updateCar(car);
                 
                 InvoiceService.openNewInvoice(order);
-                        
-                return new JspForward("action/order_list", true);
+                
+                forward.setUrl("action/order_list");
+                forward.setRedirect(true);
+                
+                return forward;
             } catch (ServiceException ex) {
                 LOG.error(ERROR, ex);
                 throw new ActionException(ERROR, ex);
             }
         } else {
             sendForbidden(res);
-            return null;
+            return forward;
         }
     }
 }

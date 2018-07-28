@@ -22,11 +22,17 @@ public class ShowEditUserPage extends AbstractAction {
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
+        
+        JspForward forward = new JspForward();
+        
         if (isAdmin(req)) {
             try {
                 int id = getIntParam(req, "id");
                 req.setAttribute("user_data", UserService.getUserDataById(id));
-                return new JspForward(Jsps.ADMIN_EDIT_USER);
+                
+                forward.setUrl(Jsps.ADMIN_EDIT_USER);
+                
+                return forward;
             }
             catch (ServiceException ex) {
                 LOG.error(ERROR, ex);
@@ -34,6 +40,6 @@ public class ShowEditUserPage extends AbstractAction {
             }
         }
         sendForbidden(res);
-        return null;
+        return forward;
     }
 }

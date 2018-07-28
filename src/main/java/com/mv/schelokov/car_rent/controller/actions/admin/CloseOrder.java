@@ -25,6 +25,7 @@ public class CloseOrder extends AbstractAction {
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
         
+        JspForward forward = new JspForward();
         if (isAdmin(req)) {
             int invoiceId = getIntParam(req, "id");
             if (invoiceId < 1) {
@@ -36,16 +37,18 @@ public class CloseOrder extends AbstractAction {
                 Car car = CarService.getCarById(order.getCar().getId());
                 car.setAvailable(true);
                 CarService.updateCar(car);
+                
+                forward.setUrl("action/opened_orders");
+                forward.setRedirect(true);
                         
-                return new JspForward("action/opened_orders", true);
+                return forward;
             } catch (ServiceException ex) {
                 LOG.error(ERROR, ex);
                 throw new ActionException(ERROR, ex);
             }
         } else {
             sendForbidden(res);
-            return null;
+            return forward;
         }
     }
-    
 }

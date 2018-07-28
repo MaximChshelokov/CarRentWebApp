@@ -26,6 +26,9 @@ public class EditOrder extends AbstractAction {
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
+        
+        JspForward forward = new JspForward();
+        
         if (isAdmin(req)) {
             int id = getIntParam(req, "id");
             if (id < 1)
@@ -34,12 +37,15 @@ public class EditOrder extends AbstractAction {
                 RentOrder order = OrderService.getOrderById(id);
                 req.setAttribute("car_list", CarService.getAvailableCars());
                 req.setAttribute("order", order);
-                req.setAttribute("start_date", FORMAT.format(order.getStartDate()));
+                req.setAttribute("start_date", 
+                        FORMAT.format(order.getStartDate()));
                 req.setAttribute("end_date", FORMAT.format(order.getEndDate()));
                 req.setAttribute("action", String.format("update_order?id=%d",
                         order.getId()));
+                
+                forward.setUrl(Jsps.USER_SELECT_CAR);
 
-                return new JspForward(Jsps.USER_SELECT_CAR);
+                return forward;
             }
             catch (ServiceException ex) {
                 LOG.error(ERROR, ex);
@@ -48,7 +54,7 @@ public class EditOrder extends AbstractAction {
 
         } else {
             sendForbidden(res);
-            return null;
+            return forward;
         }
     }
 }

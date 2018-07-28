@@ -21,20 +21,26 @@ public class DeleteCar extends AbstractAction {
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
+        
+        JspForward forward = new JspForward();
         if (isAdmin(req)) {
             int carId = getIntParam(req, "id");
             if (carId < 1)
                 throw new ActionException("Failed to delete car, wrong id");
             try {
                 CarService.deleteCar(new CarBuilder().setId(carId).getCar());
-                return new JspForward("action/car_list", true);
+                
+                forward.setUrl("action/car_list");
+                forward.setRedirect(true);
+                
+                return forward;
             } catch (ServiceException ex) {
                 LOG.error(ERROR, ex);
                 throw new ActionException(ERROR, ex);
             }
         } else {
             sendForbidden(res);
-            return null;            
+            return forward;            
         }
     }
 }

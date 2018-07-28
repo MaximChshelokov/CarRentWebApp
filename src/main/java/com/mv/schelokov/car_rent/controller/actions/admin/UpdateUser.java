@@ -25,6 +25,9 @@ public class UpdateUser extends AbstractAction {
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
+        
+        JspForward forward = new JspForward();
+        
         if (isAdmin(req)) {
             int userDataId = getIntParam(req, "id");
             if (userDataId < 1) {
@@ -48,11 +51,18 @@ public class UpdateUser extends AbstractAction {
                     } else {
                         UserService.updateUserData(userData);
                     }
-                    return new JspForward("action/user_list", true);
+                    
+                    forward.setUrl("action/user_list");
+                    forward.setRedirect(true);
+                    
+                    return forward;
                 }
                 req.setAttribute("user_data", userData);
                 req.setAttribute("errParam", validationResult);
-                return new JspForward(Jsps.ADMIN_EDIT_USER);
+                
+                forward.setUrl(Jsps.ADMIN_EDIT_USER);
+                
+                return forward;
             }
             catch (ServiceException ex) {
                 LOG.error(ERROR, ex);
@@ -61,7 +71,7 @@ public class UpdateUser extends AbstractAction {
 
         } else {
             sendForbidden(res);
-            return null;
+            return forward;
         }
     }
 }

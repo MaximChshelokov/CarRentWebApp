@@ -24,20 +24,26 @@ public class ShowEditProfilePage extends AbstractAction {
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
+        
+        JspForward forward = new JspForward();
+        
         if (isUser(req) || isAdmin(req)) {
             try {
                 User user = (User) req.getSession()
                         .getAttribute(SessionAttr.USER);
                 req.setAttribute("user_data",
                         UserService.getUserDataById(user.getId()));
-                return new JspForward(Jsps.USER_EDIT_PROFILE);
+                
+                forward.setUrl(Jsps.USER_EDIT_PROFILE);
+                
+                return forward;
             } catch (ServiceException ex) {
                 LOG.error(ERROR, ex);
                 throw new ActionException(ERROR, ex);
             }
         } else {
             sendForbidden(res);
-            return null;
+            return forward;
         }
     }
 }

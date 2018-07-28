@@ -27,6 +27,9 @@ public class UpdateProfile extends AbstractAction {
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
+        
+        JspForward forward = new JspForward();
+        
         if (isUser(req) || isAdmin(req)) {
             try {
                 User user = (User) req.getSession()
@@ -50,11 +53,18 @@ public class UpdateProfile extends AbstractAction {
                         UserService.updateUserData(userData);
                     else
                         UserService.addUserData(userData);
-                    return new JspForward("action/home", true);
+                    
+                    forward.setUrl("action/home");
+                    forward.setRedirect(true);
+                    
+                    return forward;
                 }
                 req.setAttribute("user_data", userData);
                 req.setAttribute("errParam", validationResult);
-                return new JspForward(Jsps.USER_EDIT_PROFILE);
+                
+                forward.setUrl(Jsps.USER_EDIT_PROFILE);
+                
+                return forward;
             }
             catch (ServiceException ex) {
                 LOG.error(ERROR, ex);
@@ -62,7 +72,7 @@ public class UpdateProfile extends AbstractAction {
             }
         } else {
             sendForbidden(res);
-            return null;
+            return forward;
         }
     }
 }

@@ -17,11 +17,17 @@ public class ShowAddCarPage extends AbstractAction {
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
+        
+        JspForward forward = new JspForward();
+        
         if (isAdmin(req)) {
             req.setAttribute("car", new Car());
-            return new JspForward(Jsps.ADMIN_EDIT_CAR);
+            
+            forward.setUrl(Jsps.ADMIN_EDIT_CAR);
+            
+            return forward;
         }
         sendForbidden(res);
-        return null;
+        return forward;
     }
 }

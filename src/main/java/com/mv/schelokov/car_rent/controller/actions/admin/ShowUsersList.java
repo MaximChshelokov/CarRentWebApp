@@ -22,10 +22,16 @@ public class ShowUsersList extends AbstractAction {
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res) 
             throws ActionException {
+        
+        JspForward forward = new JspForward();
+        
         if (isAdmin(req)) {
             try {
                 req.setAttribute("user_data", UserService.getAllUsers());
-                return new JspForward(Jsps.ADMIN_USERS_LIST);
+                
+                forward.setUrl(Jsps.ADMIN_USERS_LIST);
+                
+                return forward;
             } catch (ServiceException ex) {
                 LOG.error(ERROR, ex);
                 throw new ActionException(ERROR, ex);
@@ -33,7 +39,7 @@ public class ShowUsersList extends AbstractAction {
 
         } else {
             sendForbidden(res);
-            return null;
+            return forward;
         }
     }
 

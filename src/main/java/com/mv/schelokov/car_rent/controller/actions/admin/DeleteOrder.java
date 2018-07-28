@@ -21,6 +21,9 @@ public class DeleteOrder extends AbstractAction {
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
+        
+        JspForward forward = new JspForward();
+        
         if (isAdmin(req)) {
             int orderId = getIntParam(req, "id");
             if (orderId < 1) {
@@ -30,14 +33,18 @@ public class DeleteOrder extends AbstractAction {
                 OrderService.deleteOrder(new RentOrderBuilder()
                         .setId(orderId)
                         .getRentOrder());
-                return new JspForward("action/order_list", true);
+                
+                forward.setUrl("action/order_list");
+                forward.setRedirect(true);
+                
+                return forward;
             } catch (ServiceException ex) {
                 LOG.error(ERROR, ex);
                 throw new ActionException(ERROR, ex);
             }
         } else {
             sendForbidden(res);
-            return null;
+            return forward;
         }
     }
 }
