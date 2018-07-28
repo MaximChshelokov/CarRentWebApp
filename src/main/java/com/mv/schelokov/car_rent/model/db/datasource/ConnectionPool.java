@@ -29,16 +29,23 @@ public class ConnectionPool {
     private BlockingQueue<Connection> freeConnections;
     private ParametersLoader params;
     
-    private static class SingletonHolder {
-        private static final ConnectionPool INSTANCE = new ConnectionPool();
-    }
+    private static volatile ConnectionPool instance;
     
     public static ConnectionPool getInstance() throws DataSourceException {
-        if (SingletonHolder.INSTANCE == null) {
+        ConnectionPool localInstance = instance;
+        if (localInstance == null) {
+            synchronized (ConnectionPool.class) {
+                localInstance = instance;
+                if (localInstance == null) {
+                    instance = localInstance = new ConnectionPool();
+                }
+            }
+        }
+        if (localInstance == null) {
             LOG.error(INSTANCE_ERROR);
             throw new DataSourceException(INSTANCE_ERROR);
         }
-        return SingletonHolder.INSTANCE;
+        return localInstance;
     }
     
     private ConnectionPool() {
