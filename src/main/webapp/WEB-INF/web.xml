@@ -23,7 +23,7 @@
     </welcome-file-list>
     <listener>
         <description>ServletContextListener</description>
-        <listener-class>com.mv.schelokov.car_rent.controller.listeners.WebAppListener</listener-class>
+        <listener-class>com.mv.schelokov.car_rent.listeners.WebAppListener</listener-class>
     </listener>
     <servlet>
         <servlet-name>Controller</servlet-name>

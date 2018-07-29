@@ -1,9 +1,9 @@
 package com.mv.schelokov.car_rent.controller;
 
-import com.mv.schelokov.car_rent.controller.actions.Action;
-import com.mv.schelokov.car_rent.controller.actions.ActionFactory;
-import com.mv.schelokov.car_rent.controller.actions.JspForward;
-import com.mv.schelokov.car_rent.controller.exceptions.ActionException;
+import com.mv.schelokov.car_rent.actions.Action;
+import com.mv.schelokov.car_rent.actions.ActionFactory;
+import com.mv.schelokov.car_rent.actions.JspForward;
+import com.mv.schelokov.car_rent.exceptions.ActionException;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.rmi.ServerException;
