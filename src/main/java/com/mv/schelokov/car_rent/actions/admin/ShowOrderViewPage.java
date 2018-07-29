@@ -4,7 +4,7 @@ import com.mv.schelokov.car_rent.actions.AbstractAction;
 import com.mv.schelokov.car_rent.actions.JspForward;
 import com.mv.schelokov.car_rent.consts.Jsps;
 import com.mv.schelokov.car_rent.exceptions.ActionException;
-import com.mv.schelokov.car_rent.model.entities.RentOrder;
+import com.mv.schelokov.car_rent.model.entity.RentOrder;
 import com.mv.schelokov.car_rent.model.services.CarService;
 import com.mv.schelokov.car_rent.model.services.OrderService;
 import com.mv.schelokov.car_rent.model.services.UserService;

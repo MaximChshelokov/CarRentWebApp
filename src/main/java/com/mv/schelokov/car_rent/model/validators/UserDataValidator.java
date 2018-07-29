@@ -1,6 +1,6 @@
 package com.mv.schelokov.car_rent.model.validators;
 
-import com.mv.schelokov.car_rent.model.entities.UserData;
+import com.mv.schelokov.car_rent.model.entity.UserData;
 import java.util.regex.Pattern;
 
 /**

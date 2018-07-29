@@ -1,19 +1,19 @@
 package com.mv.schelokov.car_rent.model.services;
 
-import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
-import com.mv.schelokov.car_rent.model.db.repository.exceptions.RepositoryException;
-import com.mv.schelokov.car_rent.model.db.repository.factories.CriteriaFactory;
-import com.mv.schelokov.car_rent.model.db.repository.factories.RepositoryFactory;
-import com.mv.schelokov.car_rent.model.db.repository.interfaces.Criteria;
-import com.mv.schelokov.car_rent.model.db.repository.interfaces.Repository;
-import com.mv.schelokov.car_rent.model.entities.Car;
-import com.mv.schelokov.car_rent.model.entities.CarMake;
-import com.mv.schelokov.car_rent.model.entities.CarModel;
-import com.mv.schelokov.car_rent.model.entities.builders.CarMakeBuilder;
-import com.mv.schelokov.car_rent.model.entities.builders.CarModelBuilder;
+import com.mv.schelokov.car_rent.model.db.dao.exceptions.DbException;
+import com.mv.schelokov.car_rent.model.db.dao.exceptions.DaoException;
+import com.mv.schelokov.car_rent.model.db.dao.factories.CriteriaFactory;
+import com.mv.schelokov.car_rent.model.db.dao.factories.DaoFactory;
+import com.mv.schelokov.car_rent.model.db.dao.interfaces.Criteria;
+import com.mv.schelokov.car_rent.model.entity.Car;
+import com.mv.schelokov.car_rent.model.entity.CarMake;
+import com.mv.schelokov.car_rent.model.entity.CarModel;
+import com.mv.schelokov.car_rent.model.entity.builders.CarMakeBuilder;
+import com.mv.schelokov.car_rent.model.entity.builders.CarModelBuilder;
 import com.mv.schelokov.car_rent.model.services.exceptions.ServiceException;
 import java.util.List;
 import org.apache.log4j.Logger;
+import com.mv.schelokov.car_rent.model.db.dao.interfaces.Dao;
 
 /**
  *
@@ -65,8 +65,8 @@ public class CarService {
     
     private static void operateCar(Car car, Operation operation)
             throws ServiceException {
-        try (RepositoryFactory repositoryFactory = new RepositoryFactory()) {
-            Repository carRepository = repositoryFactory.getCarRepository();
+        try (DaoFactory repositoryFactory = new DaoFactory()) {
+            Dao carRepository = repositoryFactory.getCarDao();
             switch (operation) {
                 case CREATE:
                     carRepository.add(car);
@@ -78,7 +78,7 @@ public class CarService {
                     carRepository.remove(car);
             }
         }
-        catch (RepositoryException | DbException ex) {
+        catch (DaoException | DbException ex) {
             LOG.error(MODEL_NAME_ERROR, ex);
             throw new ServiceException(MODEL_NAME_ERROR, ex);
         }   
@@ -116,23 +116,23 @@ public class CarService {
     
     public static List getModel(CarModel model) throws ServiceException {
         Criteria criteria = CriteriaFactory.findModel(model);
-        try (RepositoryFactory repositoryFactory = new RepositoryFactory()) {
-            Repository modelRepository = repositoryFactory.getModelRepository();
+        try (DaoFactory repositoryFactory = new DaoFactory()) {
+            Dao modelRepository = repositoryFactory.getModelDao();
             return modelRepository.read(criteria);
         }
-        catch (RepositoryException | DbException ex) {
+        catch (DaoException | DbException ex) {
             LOG.error(MODEL_NAME_ERROR, ex);
             throw new ServiceException(MODEL_NAME_ERROR, ex);
         }
     }
     
     public static List createModel(CarModel model) throws ServiceException {
-        try (RepositoryFactory repositoryFactory = new RepositoryFactory()) {
-            Repository modelRepository = repositoryFactory.getModelRepository();
+        try (DaoFactory repositoryFactory = new DaoFactory()) {
+            Dao modelRepository = repositoryFactory.getModelDao();
             modelRepository.add(model);
             repositoryFactory.commit();
             return getModel(model);
-        } catch (RepositoryException | DbException ex) {
+        } catch (DaoException | DbException ex) {
             LOG.error(MODEL_CREATE_ERROR, ex);
             throw new ServiceException(MODEL_CREATE_ERROR, ex);
         }
@@ -140,33 +140,33 @@ public class CarService {
     
     public static List getMakeByName(String name) throws ServiceException {
         Criteria criteria = CriteriaFactory.getMakeByName(name);
-        try (RepositoryFactory repositoryFactory = new RepositoryFactory()) {
-            Repository makeRepository = repositoryFactory.getMakeRepository();
+        try (DaoFactory repositoryFactory = new DaoFactory()) {
+            Dao makeRepository = repositoryFactory.getMakeDao();
             return makeRepository.read(criteria);
         }
-        catch (RepositoryException | DbException ex) {
+        catch (DaoException | DbException ex) {
             LOG.error(MAKE_NAME_ERROR, ex);
             throw new ServiceException(MAKE_NAME_ERROR, ex);
         }
     }
     
     public static List createMake(CarMake make) throws ServiceException {
-        try (RepositoryFactory repositoryFactory = new RepositoryFactory()) {
-            Repository makeRepository = repositoryFactory.getMakeRepository();
+        try (DaoFactory repositoryFactory = new DaoFactory()) {
+            Dao makeRepository = repositoryFactory.getMakeDao();
             makeRepository.add(make);
             repositoryFactory.commit();
             return getMakeByName(make.getName());
-        } catch (RepositoryException | DbException ex) {
+        } catch (DaoException | DbException ex) {
             LOG.error(MAKE_CREATE_ERROR, ex);
             throw new ServiceException(MAKE_CREATE_ERROR, ex);
         }
     }
     
     private static List getCarsByCriteria(Criteria criteria) throws ServiceException {
-        try (RepositoryFactory repositoryFactory = new RepositoryFactory()) {
-            Repository carRepository = repositoryFactory.getCarRepository();
+        try (DaoFactory repositoryFactory = new DaoFactory()) {
+            Dao carRepository = repositoryFactory.getCarDao();
             return carRepository.read(criteria);
-        } catch (RepositoryException | DbException ex) {
+        } catch (DaoException | DbException ex) {
             LOG.error(CAR_CRITERIA_ERROR, ex);
             throw new ServiceException(CAR_CRITERIA_ERROR, ex);
         }

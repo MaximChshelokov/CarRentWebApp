@@ -3,7 +3,7 @@ package com.mv.schelokov.car_rent.actions.admin;
 import com.mv.schelokov.car_rent.actions.AbstractAction;
 import com.mv.schelokov.car_rent.actions.JspForward;
 import com.mv.schelokov.car_rent.exceptions.ActionException;
-import com.mv.schelokov.car_rent.model.entities.builders.CarBuilder;
+import com.mv.schelokov.car_rent.model.entity.builders.CarBuilder;
 import com.mv.schelokov.car_rent.model.services.CarService;
 import com.mv.schelokov.car_rent.model.services.exceptions.ServiceException;
 import javax.servlet.http.HttpServletRequest;

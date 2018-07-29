@@ -1,9 +1,10 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
-import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
-import com.mv.schelokov.car_rent.model.entities.User;
-import com.mv.schelokov.car_rent.model.entities.builders.RoleBuilder;
-import com.mv.schelokov.car_rent.model.entities.builders.UserBuilder;
+import com.mv.schelokov.car_rent.model.db.dao.UserDao;
+import com.mv.schelokov.car_rent.model.db.dao.exceptions.DbException;
+import com.mv.schelokov.car_rent.model.entity.User;
+import com.mv.schelokov.car_rent.model.entity.builders.RoleBuilder;
+import com.mv.schelokov.car_rent.model.entity.builders.UserBuilder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -20,7 +21,7 @@ import static org.junit.Assert.*;
 public class UserRepositoryTest {
     
     private Connection connection;
-    private UserRepository ur;
+    private UserDao ur;
     
     public UserRepositoryTest() {
     }
@@ -33,13 +34,13 @@ public class UserRepositoryTest {
                 "jdbc:mysql://localhost/car_rent_test?autoReconnect=true"
                         + "&useSSL=false&characterEncoding=utf-8",
                 "car_rent_app", "Un3L41NoewVA");
-        ur = new UserRepository(connection);
+        ur = new UserDao(connection);
     }
 
     @Test
     public void findLoginPasswordUser() throws DbException {
         
-        List<User> ul = ur.read(new UserRepository.FindLoginPassword("boss@mail.com", 
+        List<User> ul = ur.read(new UserDao.FindLoginPassword("boss@mail.com", 
                 "admin"));
         assertEquals(ul.size(), 1);
     }
@@ -56,20 +57,20 @@ public class UserRepositoryTest {
     
     @Test
     public void findAndRemoveUser() throws DbException {
-        List<User> ul = ur.read(UserRepository.SELECT_ALL);
+        List<User> ul = ur.read(UserDao.SELECT_ALL);
         assertTrue(ur.remove(ul.get(ul.size()-1)));
     }
     
     @Test
     public void findLoginPasswordUserNotFount() throws DbException {
-        List<User> ul = ur.read(new UserRepository.FindLoginPassword("bogdan", 
+        List<User> ul = ur.read(new UserDao.FindLoginPassword("bogdan", 
                 "admin"));
         assertEquals(ul.size(), 0);
     }
     
     @Test
     public void findLoginAndUpdateUser() throws DbException {
-        User user = ur.read(new UserRepository.FindLogin("Dronchik")).get(0);
+        User user = ur.read(new UserDao.FindLogin("Dronchik")).get(0);
         user.setPassword(Integer.toString(Integer.parseInt(user.getPassword()) + 1));
         assertTrue(ur.update(user));
     }

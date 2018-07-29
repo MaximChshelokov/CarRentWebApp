@@ -1,9 +1,9 @@
 package com.mv.schelokov.car_rent.model.validators;
 
-import com.mv.schelokov.car_rent.model.entities.RentOrder;
-import com.mv.schelokov.car_rent.model.entities.builders.CarBuilder;
-import com.mv.schelokov.car_rent.model.entities.builders.RentOrderBuilder;
-import com.mv.schelokov.car_rent.model.entities.builders.UserBuilder;
+import com.mv.schelokov.car_rent.model.entity.RentOrder;
+import com.mv.schelokov.car_rent.model.entity.builders.CarBuilder;
+import com.mv.schelokov.car_rent.model.entity.builders.RentOrderBuilder;
+import com.mv.schelokov.car_rent.model.entity.builders.UserBuilder;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import org.junit.Test;

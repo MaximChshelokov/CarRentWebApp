@@ -1,8 +1,9 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
-import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
-import com.mv.schelokov.car_rent.model.entities.Role;
-import com.mv.schelokov.car_rent.model.entities.builders.RoleBuilder;
+import com.mv.schelokov.car_rent.model.db.dao.RoleDao;
+import com.mv.schelokov.car_rent.model.db.dao.exceptions.DbException;
+import com.mv.schelokov.car_rent.model.entity.Role;
+import com.mv.schelokov.car_rent.model.entity.builders.RoleBuilder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -19,7 +20,7 @@ import static org.junit.Assert.*;
 public class RoleRepositoryTest {
     
     private Connection connection;
-    private RoleRepository rr;
+    private RoleDao rr;
     
     public RoleRepositoryTest() {
     }
@@ -32,7 +33,7 @@ public class RoleRepositoryTest {
                 "jdbc:mysql://localhost/car_rent_test?autoReconnect=true"
                         + "&useSSL=false&characterEncoding=utf-8",
                 "car_rent_app", "Un3L41NoewVA");
-        rr = new RoleRepository(connection);
+        rr = new RoleDao(connection);
     }
     
     @After
@@ -49,13 +50,13 @@ public class RoleRepositoryTest {
     
     @Test
     public void findAllAndDeleteLast() throws DbException {
-        List<Role> rl = rr.read(RoleRepository.SELECT_ALL);
+        List<Role> rl = rr.read(RoleDao.SELECT_ALL);
         assertTrue(rr.remove(rl.get(rl.size()-1)));
     }
     
     @Test
     public void findAllAndUpdateSecond() throws DbException {
-        Role role = rr.read(RoleRepository.SELECT_ALL).get(1);
+        Role role = rr.read(RoleDao.SELECT_ALL).get(1);
         role.setRoleName("guest");
         assertTrue(rr.update(role));
     }

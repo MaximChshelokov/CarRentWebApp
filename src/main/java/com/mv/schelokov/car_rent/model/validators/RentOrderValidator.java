@@ -1,6 +1,6 @@
 package com.mv.schelokov.car_rent.model.validators;
 
-import com.mv.schelokov.car_rent.model.entities.RentOrder;
+import com.mv.schelokov.car_rent.model.entity.RentOrder;
 import com.mv.schelokov.car_rent.model.utils.DateUtils;
 import java.util.Date;
 

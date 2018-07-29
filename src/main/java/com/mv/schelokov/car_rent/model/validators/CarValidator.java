@@ -1,6 +1,6 @@
 package com.mv.schelokov.car_rent.model.validators;
 
-import com.mv.schelokov.car_rent.model.entities.Car;
+import com.mv.schelokov.car_rent.model.entity.Car;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;

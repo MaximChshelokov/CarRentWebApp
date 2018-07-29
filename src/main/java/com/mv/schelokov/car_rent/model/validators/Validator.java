@@ -1,6 +1,6 @@
 package com.mv.schelokov.car_rent.model.validators;
 
-import com.mv.schelokov.car_rent.model.entities.interfaces.Entity;
+import com.mv.schelokov.car_rent.model.entity.interfaces.Entity;
 
 /**
  *

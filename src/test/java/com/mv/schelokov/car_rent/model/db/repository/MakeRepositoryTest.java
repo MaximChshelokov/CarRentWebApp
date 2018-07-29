@@ -1,8 +1,9 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
-import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
-import com.mv.schelokov.car_rent.model.entities.CarMake;
-import com.mv.schelokov.car_rent.model.entities.builders.CarMakeBuilder;
+import com.mv.schelokov.car_rent.model.db.dao.MakeDao;
+import com.mv.schelokov.car_rent.model.db.dao.exceptions.DbException;
+import com.mv.schelokov.car_rent.model.entity.CarMake;
+import com.mv.schelokov.car_rent.model.entity.builders.CarMakeBuilder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -19,7 +20,7 @@ import static org.junit.Assert.*;
 public class MakeRepositoryTest {
     
     private Connection connection;
-    private MakeRepository mr;
+    private MakeDao mr;
     
     public MakeRepositoryTest() {
     }
@@ -32,7 +33,7 @@ public class MakeRepositoryTest {
                 "jdbc:mysql://localhost/car_rent_test?autoReconnect=true"
                         + "&useSSL=false&characterEncoding=utf-8",
                 "car_rent_app", "Un3L41NoewVA");
-        mr = new MakeRepository(connection);
+        mr = new MakeDao(connection);
     }
     
     @After
@@ -49,14 +50,14 @@ public class MakeRepositoryTest {
     
     @Test
     public void selectAllAndUpdateMake() throws DbException {
-        CarMake mk = mr.read(MakeRepository.SELECT_ALL).get(0);
+        CarMake mk = mr.read(MakeDao.SELECT_ALL).get(0);
         mk.setName("Toyota");
         assertTrue(mr.update(mk));
     }
     
     @Test
     public void deleteLastMake() throws DbException {
-        List<CarMake> ml = mr.read(MakeRepository.SELECT_ALL);
+        List<CarMake> ml = mr.read(MakeDao.SELECT_ALL);
         assertTrue(mr.remove(ml.get(ml.size()-1)));
     }
     

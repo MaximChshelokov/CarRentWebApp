@@ -1,8 +1,9 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
-import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
-import com.mv.schelokov.car_rent.model.entities.Invoice;
-import com.mv.schelokov.car_rent.model.entities.builders.InvoiceBuilder;
+import com.mv.schelokov.car_rent.model.db.dao.InvoiceDao;
+import com.mv.schelokov.car_rent.model.db.dao.exceptions.DbException;
+import com.mv.schelokov.car_rent.model.entity.Invoice;
+import com.mv.schelokov.car_rent.model.entity.builders.InvoiceBuilder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -21,7 +22,7 @@ import org.junit.Ignore;
 public class InvoiceRepositoryTest {
     
     private Connection connection;
-    private InvoiceRepository ir;
+    private InvoiceDao ir;
 
     
     public InvoiceRepositoryTest() {
@@ -35,7 +36,7 @@ public class InvoiceRepositoryTest {
                 "jdbc:mysql://localhost/car_rent_test?autoReconnect=true"
                 + "&useSSL=false&characterEncoding=utf-8",
                 "car_rent_app", "Un3L41NoewVA");
-        ir = new InvoiceRepository(connection);
+        ir = new InvoiceDao(connection);
     }
     
     @After
@@ -55,13 +56,13 @@ public class InvoiceRepositoryTest {
     
     @Test
     public void findAllAndDeleteLast() throws DbException {
-        List<Invoice> il = ir.read(InvoiceRepository.SELECT_ALL);
+        List<Invoice> il = ir.read(InvoiceDao.SELECT_ALL);
         assertTrue(ir.remove(il.get(il.size() - 1)));
     }
 
     @Test
     public void findAllAndUpdateFirst() throws DbException {
-        Invoice invoice = ir.read(InvoiceRepository.SELECT_ALL).get(0);
+        Invoice invoice = ir.read(InvoiceDao.SELECT_ALL).get(0);
         invoice.setPaid(invoice.getPaid() + 1);
 
         assertTrue(ir.update(invoice));

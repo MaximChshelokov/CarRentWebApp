@@ -1,8 +1,8 @@
 package com.mv.schelokov.car_rent.model.validators;
 
-import com.mv.schelokov.car_rent.model.entities.User;
-import com.mv.schelokov.car_rent.model.entities.builders.RoleBuilder;
-import com.mv.schelokov.car_rent.model.entities.builders.UserBuilder;
+import com.mv.schelokov.car_rent.model.entity.User;
+import com.mv.schelokov.car_rent.model.entity.builders.RoleBuilder;
+import com.mv.schelokov.car_rent.model.entity.builders.UserBuilder;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

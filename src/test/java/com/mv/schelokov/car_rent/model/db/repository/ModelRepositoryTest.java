@@ -1,9 +1,10 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
-import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
-import com.mv.schelokov.car_rent.model.entities.CarModel;
-import com.mv.schelokov.car_rent.model.entities.builders.CarMakeBuilder;
-import com.mv.schelokov.car_rent.model.entities.builders.CarModelBuilder;
+import com.mv.schelokov.car_rent.model.db.dao.ModelDao;
+import com.mv.schelokov.car_rent.model.db.dao.exceptions.DbException;
+import com.mv.schelokov.car_rent.model.entity.CarModel;
+import com.mv.schelokov.car_rent.model.entity.builders.CarMakeBuilder;
+import com.mv.schelokov.car_rent.model.entity.builders.CarModelBuilder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -20,7 +21,7 @@ import static org.junit.Assert.*;
 public class ModelRepositoryTest {
     
     private Connection connection;
-    private ModelRepository mr;
+    private ModelDao mr;
     
     public ModelRepositoryTest() {
     }
@@ -33,7 +34,7 @@ public class ModelRepositoryTest {
                 "jdbc:mysql://localhost/car_rent_test?autoReconnect=true"
                         + "&useSSL=false&characterEncoding=utf-8",
                 "car_rent_app", "Un3L41NoewVA");
-        mr = new ModelRepository(connection);
+        mr = new ModelDao(connection);
     }
     
     @After
@@ -53,14 +54,14 @@ public class ModelRepositoryTest {
     
     @Test
     public void selectAllModelAndUpdateOne() throws DbException {
-        CarModel model = mr.read(ModelRepository.SELECT_ALL).get(2);
+        CarModel model = mr.read(ModelDao.SELECT_ALL).get(2);
         model.setName("Corola");
         assertTrue(mr.update(model));
     }
     
     @Test
     public void selectAllAndDeleteLast() throws DbException {
-        List<CarModel> ml = mr.read(ModelRepository.SELECT_ALL);
+        List<CarModel> ml = mr.read(ModelDao.SELECT_ALL);
         CarModel modelToDelete = new CarModel();
         for (CarModel model : ml)
             if (model.getId() > modelToDelete.getId())

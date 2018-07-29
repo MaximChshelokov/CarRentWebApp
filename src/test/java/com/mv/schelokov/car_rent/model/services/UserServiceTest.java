@@ -1,8 +1,8 @@
 package com.mv.schelokov.car_rent.model.services;
 
-import com.mv.schelokov.car_rent.model.entities.User;
-import com.mv.schelokov.car_rent.model.entities.builders.RoleBuilder;
-import com.mv.schelokov.car_rent.model.entities.builders.UserBuilder;
+import com.mv.schelokov.car_rent.model.entity.User;
+import com.mv.schelokov.car_rent.model.entity.builders.RoleBuilder;
+import com.mv.schelokov.car_rent.model.entity.builders.UserBuilder;
 import java.util.List;
 import org.junit.After;
 import org.junit.Before;

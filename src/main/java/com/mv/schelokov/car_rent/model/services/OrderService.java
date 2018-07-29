@@ -1,17 +1,17 @@
 package com.mv.schelokov.car_rent.model.services;
 
-import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
-import com.mv.schelokov.car_rent.model.db.repository.exceptions.RepositoryException;
-import com.mv.schelokov.car_rent.model.db.repository.factories.CriteriaFactory;
-import com.mv.schelokov.car_rent.model.db.repository.factories.RepositoryFactory;
-import com.mv.schelokov.car_rent.model.db.repository.interfaces.Criteria;
-import com.mv.schelokov.car_rent.model.db.repository.interfaces.Repository;
-import com.mv.schelokov.car_rent.model.entities.RentOrder;
-import com.mv.schelokov.car_rent.model.entities.User;
+import com.mv.schelokov.car_rent.model.db.dao.exceptions.DbException;
+import com.mv.schelokov.car_rent.model.db.dao.exceptions.DaoException;
+import com.mv.schelokov.car_rent.model.db.dao.factories.CriteriaFactory;
+import com.mv.schelokov.car_rent.model.db.dao.factories.DaoFactory;
+import com.mv.schelokov.car_rent.model.db.dao.interfaces.Criteria;
+import com.mv.schelokov.car_rent.model.entity.RentOrder;
+import com.mv.schelokov.car_rent.model.entity.User;
 import com.mv.schelokov.car_rent.model.services.exceptions.ServiceException;
 import com.mv.schelokov.car_rent.model.utils.DateUtils;
 import java.util.List;
 import org.apache.log4j.Logger;
+import com.mv.schelokov.car_rent.model.db.dao.interfaces.Dao;
 
 /**
  *
@@ -82,9 +82,9 @@ public class OrderService {
     
     private static void operateOrder(RentOrder order, Operation operation)
             throws ServiceException {
-        try (RepositoryFactory repositoryFactory = new RepositoryFactory()) {
-            Repository orderRepository = repositoryFactory
-                    .getRentOrderRepository();
+        try (DaoFactory repositoryFactory = new DaoFactory()) {
+            Dao orderRepository = repositoryFactory
+                    .getRentOrderDao();
             boolean result = false;
             switch (operation) {
                 case CREATE:
@@ -99,7 +99,7 @@ public class OrderService {
             if (!result)
                 throw new ServiceException("Unable to operate to OrderRepository");
         }
-        catch (RepositoryException | DbException ex) {
+        catch (DaoException | DbException ex) {
             LOG.error(ORDER_OPERATION_ERROR, ex);
             throw new ServiceException(ORDER_OPERATION_ERROR, ex);
         } 
@@ -113,11 +113,11 @@ public class OrderService {
     
     private static List getOrdersByCriteria(Criteria criteria)
             throws ServiceException {
-        try(RepositoryFactory repositoryFactory = new RepositoryFactory()) {
-            Repository orderRepository = repositoryFactory
-                    .getRentOrderRepository();
+        try(DaoFactory repositoryFactory = new DaoFactory()) {
+            Dao orderRepository = repositoryFactory
+                    .getRentOrderDao();
             return orderRepository.read(criteria);
-        } catch (RepositoryException | DbException ex) {
+        } catch (DaoException | DbException ex) {
             LOG.error(ORDER_REPOSITORY_ERROR, ex);
             throw new ServiceException(ORDER_REPOSITORY_ERROR, ex);
         }

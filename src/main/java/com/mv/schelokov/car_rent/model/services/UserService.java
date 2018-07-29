@@ -1,18 +1,18 @@
 package com.mv.schelokov.car_rent.model.services;
 
-import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
-import com.mv.schelokov.car_rent.model.db.repository.exceptions.RepositoryException;
-import com.mv.schelokov.car_rent.model.db.repository.factories.CriteriaFactory;
-import com.mv.schelokov.car_rent.model.db.repository.factories.RepositoryFactory;
-import com.mv.schelokov.car_rent.model.db.repository.interfaces.Criteria;
-import com.mv.schelokov.car_rent.model.db.repository.interfaces.Repository;
-import com.mv.schelokov.car_rent.model.entities.User;
-import com.mv.schelokov.car_rent.model.entities.UserData;
+import com.mv.schelokov.car_rent.model.db.dao.exceptions.DbException;
+import com.mv.schelokov.car_rent.model.db.dao.exceptions.DaoException;
+import com.mv.schelokov.car_rent.model.db.dao.factories.CriteriaFactory;
+import com.mv.schelokov.car_rent.model.db.dao.factories.DaoFactory;
+import com.mv.schelokov.car_rent.model.db.dao.interfaces.Criteria;
+import com.mv.schelokov.car_rent.model.entity.User;
+import com.mv.schelokov.car_rent.model.entity.UserData;
 import com.mv.schelokov.car_rent.model.services.exceptions.ServiceException;
 import com.mv.schelokov.car_rent.model.utils.ShaHash;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import org.apache.log4j.Logger;
+import com.mv.schelokov.car_rent.model.db.dao.interfaces.Dao;
 
 /**
  *
@@ -96,12 +96,12 @@ public class UserService {
     }
     
     public static List getAllRoles() throws ServiceException {
-        try (RepositoryFactory repositoryFactory = new RepositoryFactory()) {
-            Repository roleRepository = repositoryFactory.getRoleRepository();
+        try (DaoFactory repositoryFactory = new DaoFactory()) {
+            Dao roleRepository = repositoryFactory.getRoleDao();
             Criteria criteria = CriteriaFactory.getAllRoles();
             return roleRepository.read(criteria);
         }
-        catch (RepositoryException | DbException ex) {
+        catch (DaoException | DbException ex) {
             LOG.error(ROLE_REPOSITORY_ERROR, ex);
             throw new ServiceException(ROLE_REPOSITORY_ERROR, ex);
         }    
@@ -109,9 +109,9 @@ public class UserService {
     
     private static void operateUser(User user, Operation operation)
             throws ServiceException {
-        try(RepositoryFactory repositoryFactory = new RepositoryFactory()) {
+        try(DaoFactory repositoryFactory = new DaoFactory()) {
             User userCopy = (User) user.clone();
-            Repository userRepository = repositoryFactory.getUserRepository();
+            Dao userRepository = repositoryFactory.getUserDao();
             boolean result = false;
             switch (operation) {
                 case UPDATE:
@@ -127,7 +127,7 @@ public class UserService {
             }
             if (!result)
                 throw new ServiceException("Failed to operate UserRepository");
-        } catch (RepositoryException | DbException | CloneNotSupportedException
+        } catch (DaoException | DbException | CloneNotSupportedException
                 ex) {
             LOG.error(USER_REPOSITORY_ERROR, ex);
             throw new ServiceException(USER_REPOSITORY_ERROR, ex);
@@ -136,8 +136,8 @@ public class UserService {
     
     private static void operateUserData(UserData userData, Operation operation) 
             throws ServiceException {
-        try (RepositoryFactory repositoryFactory = new RepositoryFactory()) {
-            Repository userDataRepository = repositoryFactory.getUserDataRepository();
+        try (DaoFactory repositoryFactory = new DaoFactory()) {
+            Dao userDataRepository = repositoryFactory.getUserDataDao();
             boolean result = false;
             switch(operation) {
                 case UPDATE:   
@@ -153,18 +153,18 @@ public class UserService {
             if (!result) {
                 throw new ServiceException("Failed to operate UserDataRepository");
             }  
-        } catch (RepositoryException | DbException ex) {
+        } catch (DaoException | DbException ex) {
             LOG.error(USER_REPOSITORY_ADD, ex);
             throw new ServiceException(USER_REPOSITORY_ADD, ex);
         }   
     }
     
     private static List getUsersByCriteria(Criteria criteria) throws ServiceException {
-        try(RepositoryFactory repositoryFactory = new RepositoryFactory()) {
-            Repository userRepository = repositoryFactory.getUserRepository();
+        try(DaoFactory repositoryFactory = new DaoFactory()) {
+            Dao userRepository = repositoryFactory.getUserDao();
             return userRepository.read(criteria);
         }
-        catch (RepositoryException | DbException ex) {
+        catch (DaoException | DbException ex) {
             LOG.error(USER_CRITERIA_ERROR, ex);
             throw new ServiceException(USER_CRITERIA_ERROR, ex);
         }
@@ -172,11 +172,11 @@ public class UserService {
     
     private static List getUserDataByCriteria(Criteria criteria)
             throws ServiceException {
-        try (RepositoryFactory repositoryFactory = new RepositoryFactory()) {
-            Repository userDataRepository = 
-                    repositoryFactory.getUserDataRepository();
+        try (DaoFactory repositoryFactory = new DaoFactory()) {
+            Dao userDataRepository = 
+                    repositoryFactory.getUserDataDao();
             return userDataRepository.read(criteria);
-        } catch (RepositoryException | DbException ex) {
+        } catch (DaoException | DbException ex) {
             LOG.error(USER_DATA_REPOSITORY_ERROR, ex);
             throw new ServiceException(USER_DATA_REPOSITORY_ERROR, ex);
         }

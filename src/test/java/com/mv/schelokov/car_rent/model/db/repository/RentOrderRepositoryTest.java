@@ -1,10 +1,11 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
-import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
-import com.mv.schelokov.car_rent.model.entities.RentOrder;
-import com.mv.schelokov.car_rent.model.entities.builders.CarBuilder;
-import com.mv.schelokov.car_rent.model.entities.builders.RentOrderBuilder;
-import com.mv.schelokov.car_rent.model.entities.builders.UserBuilder;
+import com.mv.schelokov.car_rent.model.db.dao.RentOrderDao;
+import com.mv.schelokov.car_rent.model.db.dao.exceptions.DbException;
+import com.mv.schelokov.car_rent.model.entity.RentOrder;
+import com.mv.schelokov.car_rent.model.entity.builders.CarBuilder;
+import com.mv.schelokov.car_rent.model.entity.builders.RentOrderBuilder;
+import com.mv.schelokov.car_rent.model.entity.builders.UserBuilder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -22,7 +23,7 @@ import static org.junit.Assert.*;
 public class RentOrderRepositoryTest {
     
     private Connection connection;
-    private RentOrderRepository ror;
+    private RentOrderDao ror;
 
     
     public RentOrderRepositoryTest() {
@@ -36,7 +37,7 @@ public class RentOrderRepositoryTest {
                 "jdbc:mysql://localhost/car_rent_test?autoReconnect=true"
                         + "&useSSL=false&characterEncoding=utf-8",
                 "car_rent_app", "Un3L41NoewVA");
-        ror = new RentOrderRepository(connection);
+        ror = new RentOrderDao(connection);
     }
     
     @After
@@ -46,7 +47,7 @@ public class RentOrderRepositoryTest {
 
     @Test
     public void findAllRentOrders() throws DbException {
-        assertNotEquals(0,ror.read(RentOrderRepository.SELECT_ALL).size());
+        assertNotEquals(0,ror.read(RentOrderDao.SELECT_ALL).size());
     }
     
     @Test
@@ -61,13 +62,13 @@ public class RentOrderRepositoryTest {
     
     @Test 
     public void findAllAndDeleteLast() throws DbException {
-        List<RentOrder> rol = ror.read(RentOrderRepository.SELECT_ALL);
+        List<RentOrder> rol = ror.read(RentOrderDao.SELECT_ALL);
         assertTrue(ror.remove(rol.get(rol.size()-1)));
     }
     
     @Test
     public void findAllAndUpdateFirst() throws DbException {
-        RentOrder order = ror.read(RentOrderRepository.SELECT_ALL).get(0);
+        RentOrder order = ror.read(RentOrderDao.SELECT_ALL).get(0);
         order.setApprovedBy(new UserBuilder().setId(1).getUser());
         assertTrue(ror.update(order));
     }

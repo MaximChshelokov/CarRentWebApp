@@ -1,9 +1,9 @@
 package com.mv.schelokov.car_rent.model.validators;
 
-import com.mv.schelokov.car_rent.model.entities.Car;
-import com.mv.schelokov.car_rent.model.entities.builders.CarBuilder;
-import com.mv.schelokov.car_rent.model.entities.builders.CarMakeBuilder;
-import com.mv.schelokov.car_rent.model.entities.builders.CarModelBuilder;
+import com.mv.schelokov.car_rent.model.entity.Car;
+import com.mv.schelokov.car_rent.model.entity.builders.CarBuilder;
+import com.mv.schelokov.car_rent.model.entity.builders.CarMakeBuilder;
+import com.mv.schelokov.car_rent.model.entity.builders.CarModelBuilder;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

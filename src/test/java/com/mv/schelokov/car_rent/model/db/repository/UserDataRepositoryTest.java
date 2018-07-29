@@ -1,10 +1,11 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
-import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
-import com.mv.schelokov.car_rent.model.entities.User;
-import com.mv.schelokov.car_rent.model.entities.UserData;
-import com.mv.schelokov.car_rent.model.entities.builders.UserBuilder;
-import com.mv.schelokov.car_rent.model.entities.builders.UserDataBuilder;
+import com.mv.schelokov.car_rent.model.db.dao.UserDataDao;
+import com.mv.schelokov.car_rent.model.db.dao.exceptions.DbException;
+import com.mv.schelokov.car_rent.model.entity.User;
+import com.mv.schelokov.car_rent.model.entity.UserData;
+import com.mv.schelokov.car_rent.model.entity.builders.UserBuilder;
+import com.mv.schelokov.car_rent.model.entity.builders.UserDataBuilder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -21,7 +22,7 @@ import static org.junit.Assert.*;
 public class UserDataRepositoryTest {
     
     private Connection connection;
-    private UserDataRepository udr;
+    private UserDataDao udr;
     
     public UserDataRepositoryTest() {
     }
@@ -34,7 +35,7 @@ public class UserDataRepositoryTest {
                 "jdbc:mysql://localhost/car_rent_test?autoReconnect=true"
                         + "&useSSL=false&characterEncoding=utf-8",
                 "car_rent_app", "Un3L41NoewVA");
-        udr = new UserDataRepository(connection);
+        udr = new UserDataDao(connection);
     }
 
     @Test
@@ -50,20 +51,20 @@ public class UserDataRepositoryTest {
     @Test
     public void findByUserEntity() throws DbException {
         User user = new UserBuilder().setId(4).getUser();
-        List<UserData> udl = udr.read(new UserDataRepository.FindByUser(user));
+        List<UserData> udl = udr.read(new UserDataDao.FindByUser(user));
         assertEquals(1, udl.size());
     }
     
     @Test
     public void findAndUpdate() throws DbException {
-        UserData ud = udr.read(new UserDataRepository.FindByUser(3)).get(0);
+        UserData ud = udr.read(new UserDataDao.FindByUser(3)).get(0);
         ud.setPhone(Long.toString(Long.parseLong(ud.getPhone()) - 1L));
         assertTrue(udr.update(ud));        
     }
     
     @Test
     public void findAndDeleteById() throws DbException {
-        List<UserData> udl = udr.read(new UserDataRepository.FindByUser(19));
+        List<UserData> udl = udr.read(new UserDataDao.FindByUser(19));
         assertTrue(udr.remove(udl.get(0)));
     }
     

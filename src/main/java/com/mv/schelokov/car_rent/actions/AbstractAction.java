@@ -2,7 +2,7 @@ package com.mv.schelokov.car_rent.actions;
 
 import com.mv.schelokov.car_rent.consts.SessionAttr;
 import com.mv.schelokov.car_rent.exceptions.ActionException;
-import com.mv.schelokov.car_rent.model.entities.User;
+import com.mv.schelokov.car_rent.model.entity.User;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.servlet.http.HttpServletRequest;

@@ -1,21 +1,21 @@
 package com.mv.schelokov.car_rent.model.services;
 
-import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
-import com.mv.schelokov.car_rent.model.db.repository.exceptions.RepositoryException;
-import com.mv.schelokov.car_rent.model.db.repository.factories.CriteriaFactory;
-import com.mv.schelokov.car_rent.model.db.repository.factories.RepositoryFactory;
-import com.mv.schelokov.car_rent.model.db.repository.interfaces.Criteria;
-import com.mv.schelokov.car_rent.model.db.repository.interfaces.Repository;
-import com.mv.schelokov.car_rent.model.entities.Invoice;
-import com.mv.schelokov.car_rent.model.entities.InvoiceLine;
-import com.mv.schelokov.car_rent.model.entities.RentOrder;
-import com.mv.schelokov.car_rent.model.entities.builders.InvoiceBuilder;
-import com.mv.schelokov.car_rent.model.entities.builders.InvoiceLineBuilder;
+import com.mv.schelokov.car_rent.model.db.dao.exceptions.DbException;
+import com.mv.schelokov.car_rent.model.db.dao.exceptions.DaoException;
+import com.mv.schelokov.car_rent.model.db.dao.factories.CriteriaFactory;
+import com.mv.schelokov.car_rent.model.db.dao.factories.DaoFactory;
+import com.mv.schelokov.car_rent.model.db.dao.interfaces.Criteria;
+import com.mv.schelokov.car_rent.model.entity.Invoice;
+import com.mv.schelokov.car_rent.model.entity.InvoiceLine;
+import com.mv.schelokov.car_rent.model.entity.RentOrder;
+import com.mv.schelokov.car_rent.model.entity.builders.InvoiceBuilder;
+import com.mv.schelokov.car_rent.model.entity.builders.InvoiceLineBuilder;
 import com.mv.schelokov.car_rent.model.services.exceptions.ServiceException;
 import com.mv.schelokov.car_rent.model.utils.DateUtils;
 import java.util.Date;
 import java.util.List;
 import org.apache.log4j.Logger;
+import com.mv.schelokov.car_rent.model.db.dao.interfaces.Dao;
 
 /**
  *
@@ -112,9 +112,9 @@ public class InvoiceService {
     
     private static void operateInvoice(Invoice invoice, Operation operation)
             throws ServiceException {
-        try (RepositoryFactory repositoryFactory = new RepositoryFactory()) {
-            Repository invoiceRepository = repositoryFactory
-                    .getInvoiceRepository();
+        try (DaoFactory repositoryFactory = new DaoFactory()) {
+            Dao invoiceRepository = repositoryFactory
+                    .getInvoiceDao();
             boolean result = false;
             switch (operation) {
                 case CREATE:
@@ -130,7 +130,7 @@ public class InvoiceService {
                 throw new ServiceException("Unable to operate to InvoiceRepository");
             }
         }
-        catch (RepositoryException | DbException ex) {
+        catch (DaoException | DbException ex) {
             LOG.error(INVOICE_OPERATION_ERROR, ex);
             throw new ServiceException(INVOICE_OPERATION_ERROR, ex);
         }
@@ -138,9 +138,9 @@ public class InvoiceService {
     
     private static void operateInvoiceLine(InvoiceLine invoiceLine, 
             Operation operation) throws ServiceException {
-        try (RepositoryFactory repositoryFactory = new RepositoryFactory()) {
-            Repository invoiceLineRepository = repositoryFactory
-                    .getInvoiceLineRepository();
+        try (DaoFactory repositoryFactory = new DaoFactory()) {
+            Dao invoiceLineRepository = repositoryFactory
+                    .getInvoiceLineDao();
             boolean result = false;
             switch (operation) {
                 case CREATE:
@@ -157,7 +157,7 @@ public class InvoiceService {
                         + "InvoiceLineRepository");
             }
         }
-        catch (RepositoryException | DbException ex) {
+        catch (DaoException | DbException ex) {
             LOG.error(INVOICE_LINE_OPERATION_ERROR, ex);
             throw new ServiceException(INVOICE_LINE_OPERATION_ERROR, ex);
         }
@@ -165,12 +165,12 @@ public class InvoiceService {
     
     private static List getInvoiceByCriteria(Criteria criteria)
             throws ServiceException {
-        try (RepositoryFactory repositoryFactory = new RepositoryFactory()) {
-            Repository invoiceRepository = repositoryFactory
-                    .getInvoiceRepository();
+        try (DaoFactory repositoryFactory = new DaoFactory()) {
+            Dao invoiceRepository = repositoryFactory
+                    .getInvoiceDao();
             return invoiceRepository.read(criteria);
         }
-        catch (RepositoryException | DbException ex) {
+        catch (DaoException | DbException ex) {
             LOG.error(INVOICE_REPOSITORY_ERROR, ex);
             throw new ServiceException(INVOICE_REPOSITORY_ERROR, ex);
         }
@@ -178,12 +178,12 @@ public class InvoiceService {
     
     private static List getInvoiceLinesByCriteria(Criteria criteria)
             throws ServiceException {
-        try (RepositoryFactory repositoryFactory = new RepositoryFactory()) {
-            Repository invoiceLineRepository = repositoryFactory
-                    .getInvoiceLineRepository();
+        try (DaoFactory repositoryFactory = new DaoFactory()) {
+            Dao invoiceLineRepository = repositoryFactory
+                    .getInvoiceLineDao();
             return invoiceLineRepository.read(criteria);
         }
-        catch (RepositoryException | DbException ex) {
+        catch (DaoException | DbException ex) {
             LOG.error(INVOICE_LINE_REPOSITORY_ERROR, ex);
             throw new ServiceException(INVOICE_LINE_REPOSITORY_ERROR, ex);
         }

@@ -1,9 +1,10 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
-import com.mv.schelokov.car_rent.model.db.repository.exceptions.DbException;
-import com.mv.schelokov.car_rent.model.entities.Car;
-import com.mv.schelokov.car_rent.model.entities.builders.CarBuilder;
-import com.mv.schelokov.car_rent.model.entities.builders.CarModelBuilder;
+import com.mv.schelokov.car_rent.model.db.dao.CarDao;
+import com.mv.schelokov.car_rent.model.db.dao.exceptions.DbException;
+import com.mv.schelokov.car_rent.model.entity.Car;
+import com.mv.schelokov.car_rent.model.entity.builders.CarBuilder;
+import com.mv.schelokov.car_rent.model.entity.builders.CarModelBuilder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -21,7 +22,7 @@ import static org.junit.Assert.*;
 public class CarRepositoryTest {
     
     private Connection connection;
-    private CarRepository cr;
+    private CarDao cr;
     
     public CarRepositoryTest() {
     }
@@ -34,7 +35,7 @@ public class CarRepositoryTest {
                 "jdbc:mysql://localhost/car_rent_test?autoReconnect=true"
                         + "&useSSL=false&characterEncoding=utf-8",
                 "car_rent_app", "Un3L41NoewVA");
-        cr = new CarRepository(connection);
+        cr = new CarDao(connection);
     }
     
     @After
@@ -56,7 +57,7 @@ public class CarRepositoryTest {
     
     @Test
     public void selectAllAndDeleteLast() throws DbException {
-        List<Car> cl = cr.read(CarRepository.SELECT_ALL);
+        List<Car> cl = cr.read(CarDao.SELECT_ALL);
         Car carToDelete = new Car();
         for (Car car : cl)
             if (car.getId() > carToDelete.getId())
@@ -66,13 +67,13 @@ public class CarRepositoryTest {
     
     @Test
     public void updateCar() throws DbException {
-        Car car = cr.read(CarRepository.SELECT_ALL).get(0);
+        Car car = cr.read(CarDao.SELECT_ALL).get(0);
         car.setPrice(car.getPrice() + 1);
         assertTrue(cr.update(car));                
     }
     
     @Test
     public void findCarById() throws DbException {
-        assertEquals(1, cr.read(new CarRepository.FindById(1)).size());
+        assertEquals(1, cr.read(new CarDao.FindById(1)).size());
     }
 }
