@@ -6,8 +6,10 @@
 ##### <a name="database"></a>	Подготовка базы данных
 ###### <a name="mysql"></a>	Установка MySQL
 
-Для корректной работы приложения требуется MySQL Community Edition версии не ниже 5.7
+Для корректной работы приложения требуется MySQL версии не ниже 5.7
+
 [Дистрибутив СУБД MySQL](https://dev.mysql.com/downloads/mysql/)
+
 [Инструкция по установке СУБД MySQL](https://dev.mysql.com/doc/refman/8.0/en/installing.html)
 
 ###### <a name="setup_db"><a/>	Создание пользователя базы данных
@@ -40,7 +42,9 @@
 ##### <a name="jre"></a>	Установка среды Java
 
 Для корректной работы приложения требуется установить Java Development Kit версии 8 (1.8)
+
 [Страница для скачивания JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+
 [Инструкция по установке JDK](https://docs.oracle.com/javase/8/docs/technotes/guides/install/index.html)
 
 ##### <a name="tomcat"></a>	Установка контейнера Tomcat
