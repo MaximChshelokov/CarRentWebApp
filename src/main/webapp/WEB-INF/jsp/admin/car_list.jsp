@@ -48,8 +48,12 @@
                                             <td><c:out value="${car.licensePlate}"/></td>
                                             <td><c:out value="${car.price}"/></td>
                                             <td><c:out value="${car.available ? yes : no}"/></td>
-                                            <td><a href="action/delete_car?id=${car.id}"  onclick="return confirm('${confirm}');" class="table button special"><c:out value="${delete}"/></a></td>
-                                            <td><a href="action/edit_car?id=${car.id}" class="table button"><c:out value="${edit}"/></a></td>
+                                            <td><a href="<c:url value="action/delete_car">
+                                                       <c:param name="id" value="${car.id}"/>
+                                                   </c:url>"  onclick="return confirm('${confirm}');" class="table button special"><c:out value="${delete}"/></a></td>
+                                            <td><a href="<c:url value="action/edit_car">
+                                                       <c:param name="id" value="${car.id}"/>
+                                                   </c:url>" class="table button"><c:out value="${edit}"/></a></td>
                                         </tr>                                   
                                     </c:forEach>
                                 </tbody>
@@ -58,7 +62,7 @@
                     </c:otherwise>
                 </c:choose>
                 <div class="align-center">
-                    <a href="action/create_car" class="button special"><fmt:message key="add"/></a>
+                    <a href="<c:url value="action/create_car"/>" class="button special"><fmt:message key="add"/></a>
                 </div>
             </div>
 

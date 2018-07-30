@@ -1,9 +1,9 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
-import com.mv.schelokov.car_rent.model.db.dao.MakeDao;
-import com.mv.schelokov.car_rent.model.db.dao.exceptions.DbException;
-import com.mv.schelokov.car_rent.model.entity.CarMake;
-import com.mv.schelokov.car_rent.model.entity.builders.CarMakeBuilder;
+import com.mv.schelokov.carent.model.db.dao.MakeDao;
+import com.mv.schelokov.carent.model.db.dao.exceptions.DbException;
+import com.mv.schelokov.carent.model.entity.CarMake;
+import com.mv.schelokov.carent.model.entity.builders.CarMakeBuilder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

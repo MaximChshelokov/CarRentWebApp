@@ -27,7 +27,9 @@
                 <p style="color:#ff0000"><c:out value="${error_msg}"/>
                 </c:if>
             </div>
-            <form method="post" action="action/update_user?id=${user_data.user.id}">
+            <form method="post" action="<c:url value="action/update_user">
+                      <c:param name="id" value="${user_data.user.id}"/>
+            </c:url>">
                 <div class="row uniform">
                     <div class="field half first">
                         <label for="login"><fmt:message key="login"/></label>

@@ -19,22 +19,22 @@
         <c:when test="${user.role.id == 1}">
 
             <li>
-                <a href="action/admin_actions" class="button special"><fmt:message key="admin-actions"/></a>
+                <a href="<c:url value="action/admin_actions"/>" class="button special"><fmt:message key="admin-actions"/></a>
             </li>
 
 
         </c:when>
         <c:otherwise>
             <li>
-                <a href="action/invoice" class="button special"><fmt:message key="invoices"/></a>
+                <a href="<c:url value="action/invoice"/>" class="button special"><fmt:message key="invoices"/></a>
             </li>
             <li>
-                <a href="action/edit_profile" class="button special"><fmt:message key="account"/></a>
+                <a href="<c:url value="action/edit_profile"/>" class="button special"><fmt:message key="account"/></a>
             </li>
         </c:otherwise>
     </c:choose>
     <li>
-        <a href="action/log_out" class="button"><fmt:message key="logout"/></a>
+        <a href="<c:url value="action/log_out"/>" class="button"><fmt:message key="logout"/></a>
     </li>
 </ul>
 </fmt:bundle>

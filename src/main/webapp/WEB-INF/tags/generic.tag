@@ -26,8 +26,12 @@
             <div class="inner">
                 <a href="" class="logo"><strong>${title}</strong></a>
                 <nav id="nav">
-                    <a href="action/change_locale?locale=ru">Русский</a>
-                    <a href="action/change_locale?locale=en">English</a>
+                    <a href="<c:url value = "action/change_locale">
+                           <c:param name="locale" value="ru"/>
+                        </c:url>">Русский</a>
+                    <a href="<c:url value = "action/change_locale">
+                           <c:param name="locale" value="en"/>
+                        </c:url>">English</a>
                 </nav>
                 <a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
             </div>

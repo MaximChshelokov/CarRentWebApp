@@ -115,13 +115,19 @@
 
                 <ul class="actions">
                     <li>
-                        <a href="action/edit_order?id=${order.id}" class="button special"><c:out value="${edit}"/></a>
+                        <a href="<c:url value="action/edit_order">
+                               <c:param name="id" value="${order.id}"/>
+                           </c:url>" class="button special"><c:out value="${edit}"/></a>
                     </li>
                     <li>
-                        <a href="action/delete_order?id=${order.id}" class="button special" onclick="return confirm('${confirm}');"><c:out value="${delete}"/></a>
+                        <a href="<c:url value="action/delete_order">
+                               <c:param name="id" value="${order.id}"/>
+                           </c:url>" class="button special" onclick="return confirm('${confirm}');"><c:out value="${delete}"/></a>
                     </li>
                     <li>
-                        <a href="action/approve_order?id=${order.id}" class="button"><c:out value="${approve}"/></a>
+                        <a href="<c:url value="action/approve_order">
+                               <c:param name="id" value="${order.id}"/>
+                           </c:url>" class="button"><c:out value="${approve}"/></a>
                     </li>
                 </ul>
             </div>

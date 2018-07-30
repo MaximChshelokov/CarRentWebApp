@@ -35,7 +35,7 @@
                         <p style="color:#ff0000"><c:out value="${error_msg}"/>
                         </c:if>
                 </div>
-                <form method="post" action="action/save_user">
+                <form method="post" action="<c:url value="action/save_user"/>">
                     <div class="row uniform">
                         <div class="field half first">
                             <label for="login"><fmt:message key="email"/></label>

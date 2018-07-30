@@ -92,12 +92,12 @@
                             <c:choose>
                                 <c:when test="${empty invoice}">
                                     <li>
-                                        <a href="action/home" class="button special"><c:out value="${home}"/></a>
+                                        <a href="<c:url value="action/home"/>" class="button special"><c:out value="${home}"/></a>
                                     </li>                    
                                 </c:when>
                                 <c:otherwise>
                                     <li>
-                                        <a href="action/pay_check" class="button special"><c:out value="${pay}"/></a>
+                                        <a href="<c:url value="action/pay_check"/>" class="button special"><c:out value="${pay}"/></a>
                                     </li>
                                 </ul>
                             </c:otherwise>

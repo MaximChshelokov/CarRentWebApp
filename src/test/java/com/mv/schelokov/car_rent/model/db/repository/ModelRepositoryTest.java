@@ -1,10 +1,10 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
-import com.mv.schelokov.car_rent.model.db.dao.ModelDao;
-import com.mv.schelokov.car_rent.model.db.dao.exceptions.DbException;
-import com.mv.schelokov.car_rent.model.entity.CarModel;
-import com.mv.schelokov.car_rent.model.entity.builders.CarMakeBuilder;
-import com.mv.schelokov.car_rent.model.entity.builders.CarModelBuilder;
+import com.mv.schelokov.carent.model.db.dao.ModelDao;
+import com.mv.schelokov.carent.model.db.dao.exceptions.DbException;
+import com.mv.schelokov.carent.model.entity.CarModel;
+import com.mv.schelokov.carent.model.entity.builders.CarMakeBuilder;
+import com.mv.schelokov.carent.model.entity.builders.CarModelBuilder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

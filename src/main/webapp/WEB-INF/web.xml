@@ -13,21 +13,16 @@
         <url-pattern>/WEB-INF/jsp/*</url-pattern>
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
-    <listener>
-        <listener-class>
-            com.mv.schelokov.car_rent.controller.listeners.WebAppListener
-        </listener-class>
-    </listener>
     <welcome-file-list>
         <welcome-file>action/home</welcome-file>
     </welcome-file-list>
     <listener>
         <description>ServletContextListener</description>
-        <listener-class>com.mv.schelokov.car_rent.listeners.WebAppListener</listener-class>
+        <listener-class>com.mv.schelokov.carent.listeners.WebAppListener</listener-class>
     </listener>
     <servlet>
         <servlet-name>Controller</servlet-name>
-        <servlet-class>com.mv.schelokov.car_rent.controller.FrontController</servlet-class>
+        <servlet-class>com.mv.schelokov.carent.controller.CarRentAppFrontController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Controller</servlet-name>
@@ -35,15 +30,15 @@
     </servlet-mapping>
     <filter>
         <filter-name>locale</filter-name>
-        <filter-class>com.mv.schelokov.car_rent.controller.filters.LocaleFilter</filter-class>
+        <filter-class>com.mv.schelokov.carent.filters.LocaleFilter</filter-class>
     </filter>
     <filter>
         <filter-name>EncodingFilter</filter-name>
-        <filter-class>com.mv.schelokov.car_rent.controller.filters.EncodingFilter</filter-class>
+        <filter-class>com.mv.schelokov.carent.filters.EncodingFilter</filter-class>
     </filter>
     <filter>
         <filter-name>errorFilter</filter-name>
-        <filter-class>com.mv.schelokov.car_rent.controller.filters.ErrorFilter</filter-class>
+        <filter-class>com.mv.schelokov.carent.filters.ErrorFilter</filter-class>
     </filter>
     <session-config>
         <session-timeout>
@@ -56,10 +51,10 @@
     </error-page>
     <error-page>
         <error-code>403</error-code>
-        <location>/error_page.jsp</location>
+        <location>/WEB-INF/jsp/error_page.jsp</location>
     </error-page>
     <error-page>
         <error-code>404</error-code>
-        <location>/error_page.jsp</location>
+        <location>/WEB-INF/jsp/error_page.jsp</location>
     </error-page>
 </web-app>

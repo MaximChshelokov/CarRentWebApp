@@ -35,7 +35,9 @@
                         <p style="color:#ff0000"><c:out value="${error_msg}"/>
                         </c:if>
                 </div>
-                <form method="post" action="action/update_car?id=${car.id}">
+                <form method="post" action="<c:url value="action/update_car">
+                          <c:param name="id" value="${car.id}"/>
+                </c:url>">
                     <div class="row uniform">
                         <div class="field half first">
                             <label for="make"><fmt:message key="make"/></label>

@@ -13,6 +13,9 @@
     <fmt:message key="admin-bill-order.surcharge" var="surcharge"/>
     <fmt:message key="admin-bill-order.paid" var="paid"/>
     <fmt:message key="admin-bill-order.close" var="close"/>
+    <fmt:message key="admin-bill-order.no-userdata" var="no_user_data"/>
+    <fmt:message key="admin-bill-order.no-car" var="no_car"/>
+    <fmt:message key="admin-bill-order.no-invoice" var="no_invoice"/>
 </fmt:bundle>
 <t:generic>
     <jsp:attribute name="content">
@@ -23,7 +26,7 @@
             <h4>User</h4>
             <c:choose>
                 <c:when test="${empty user_data}">
-                    <p>The user hasn't provided any data</p>
+                    <p><c:out value="${no_user_data}"/></p>
                 </c:when>
                 <c:otherwise>
                     <div class="table-wrapper">
@@ -53,7 +56,7 @@
             <h4>Car</h4>
             <c:choose>
                 <c:when test="${empty car}">
-                    <p>There is no information about the car</p>
+                    <p><c:out value="no_car"/></p>
                 </c:when>
                 <c:otherwise>
                     <div class="table-wrapper">
@@ -83,7 +86,7 @@
             <h4>Rent order details</h4>
             <c:choose>
                 <c:when test="${empty invoice_lines or empty invoice}">
-                    <p>There is no information about the invoice</p>
+                    <p><c:out value="no_invoice"/></p>
                 </c:when>
                 <c:otherwise>
                     <fmt:bundle basename="i18n" prefix="admin-bill-order.">
@@ -120,7 +123,9 @@
 
                 <ul class="actions">
                     <li>
-                        <a href="action/close_order?id=${invoice.id}" class="button special"><c:out value="${close}"/></a>
+                        <a href="<c:url value="action/close_order">
+                               <c:param name="id" value="${invoice.id}"/>
+                        </c:url>" class="button special"><c:out value="${close}"/></a>
                     </li>
                 </ul>
             </div>

@@ -18,7 +18,7 @@
         <c:if test="${not empty error_msg and not sign}">
             <p style="color:#ff0000"><c:out value="${error_msg}"/></p>
         </c:if>
-        <form method="post" action="action/login">
+            <form method="post" action="<c:url value="action/login"/>">
             <div class="row uniform">
                 <div class="12u">
                     <input type="text" name="email" placeholder="<fmt:message key="email"/>" value="${user_edit.login}"/>
@@ -43,7 +43,7 @@
         <c:if test="${not empty error_msg and sign}">
             <p style="color:#ff0000"><c:out value="${error_msg}"/></p>
         </c:if>
-        <form method="post" action="action/sign_up">
+            <form method="post" action="<c:url value="action/sign_up"/>">
             <div class="row uniform">
                 <div class="12u">
                     <input type="text" name="email" placeholder="<fmt:message key="email"/>" value="${user_edit.login}"/>

@@ -23,7 +23,7 @@
             <header class="align-center">
                 <h3><c:out value="${caption}"/></h3>
             </header>
-            <form method="post" action="action/${action}">
+            <form method="post" action="<c:url value="action/${action}"/>">
             <div class="12u">
                     <c:if test="${not empty error_msg}">
                         <p style="color:#ff0000"><c:out value="${error_msg}"/>

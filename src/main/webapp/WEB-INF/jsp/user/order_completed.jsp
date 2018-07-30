@@ -13,7 +13,7 @@
         <jsp:attribute name="content">
     <div class="align-center">
         <p><fmt:message key="message"/></p>
-        <a href="action/home" class="button"><fmt:message key="return"/></a>
+        <a href="<c:url value="action/home"/>" class="button"><fmt:message key="return"/></a>
     </div>
         </jsp:attribute>
     </t:generic>

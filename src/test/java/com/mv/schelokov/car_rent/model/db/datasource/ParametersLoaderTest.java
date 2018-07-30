@@ -1,6 +1,7 @@
 package com.mv.schelokov.car_rent.model.db.datasource;
 
-import com.mv.schelokov.car_rent.model.db.datasource.exceptions.DataSourceException;
+import com.mv.schelokov.carent.model.db.datasource.ParametersLoader;
+import com.mv.schelokov.carent.model.db.datasource.exceptions.DataSourceException;
 import java.io.InputStream;
 import org.junit.After;
 import org.junit.Before;

@@ -14,18 +14,18 @@
         <div class="row">
             <ul class="actions vertical">
                 <li>
-                    <a href="action/car_list" class="button" ><fmt:message key="car-list"/></a>
+                    <a href="<c:url value="action/car_list"/>" class="button" ><fmt:message key="car-list"/></a>
                 </li>
                 <li>
-                    <a href="action/user_list" class="button" ><fmt:message key="user-list"/></a>
+                    <a href="<c:url value="action/user_list"/>" class="button" ><fmt:message key="user-list"/></a>
 
                 </li>
                 <li>
-                    <a href="action/opened_orders" class="button" ><fmt:message key="opened"/></a>
+                    <a href="<c:url value="action/opened_orders"/>" class="button" ><fmt:message key="opened"/></a>
 
                 </li>
                 <li>
-                    <a href="action/order_list" class="button" ><fmt:message key="orders"/></a>
+                    <a href="<c:url value="action/order_list"/>" class="button" ><fmt:message key="orders"/></a>
                 </li>
             </ul>
         </div>

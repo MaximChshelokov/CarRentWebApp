@@ -39,15 +39,20 @@
                                 <td><c:out value="${data.address}"/></td>
                                 <td><c:out value="${data.phone}"/></td>
                                 <td><c:out value="${data.user.role.roleName}"/></td>
-                                <td><a href="action/delete_user?id=${data.user.id}&uid=${data.id}" onclick="return confirm('${confirm}');" class="table button special"><c:out value="${delete}"/></a></td>
-                                <td><a href="action/edit_user?id=${data.user.id}" class="table button"><c:out value="${edit}"/></a></td>
+                                <td><a href="<c:url value="action/delete_user">
+                               <c:param name="id" value="${data.user.id}"/>
+                               <c:param name="uid" value="${data.id}"/>
+                           </c:url>" onclick="return confirm('${confirm}');" class="table button special"><c:out value="${delete}"/></a></td>
+                                <td><a href="<c:url value="action/edit_user">
+                               <c:param name="id" value="${data.user.id}"/>
+                           </c:url>" class="table button"><c:out value="${edit}"/></a></td>
                             </tr>                                   
                         </c:forEach>
                     </tbody>
                 </table>
             </div>
             <div class="align-center">
-                <a href="action/create_user" class="button special"><fmt:message key="add"/></a>
+                <a href="<c:url value="action/create_user"/>" class="button special"><fmt:message key="add"/></a>
             </div>
         </div>
         

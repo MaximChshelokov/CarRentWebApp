@@ -44,7 +44,9 @@
                                             <td><c:out value="${order.user.login}"/></td>
                                             <td><c:out value="${order.sum}"/></td>
                                             <td><c:out value="${order.approvedBy.login}" default="${no}"/></td>
-                                            <td><a href="action/view_order?id=${order.id}" class="table button special"><fmt:message key="view"/></a></td>
+                                            <td><a href="<c:url value="action/view_order">
+                                                       <c:param name="id" value="${order.id}"/>
+                                            </c:url>" class="table button special"><fmt:message key="view"/></a></td>
                                         </tr>                                   
                                     </c:forEach>
                                 </tbody>

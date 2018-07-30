@@ -1,0 +1,25 @@
+package com.mv.schelokov.carent.actions;
+
+import com.mv.schelokov.carent.exceptions.ActionException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ *
+ * @author Maxim Chshelokov <schelokov.mv@gmail.com>
+ */
+public class ShowPage extends AbstractAction {
+    
+    private final String url;
+    
+    public ShowPage(String url) {
+        this.url = url;
+    }
+
+    @Override
+    public JspForward execute(HttpServletRequest req, HttpServletResponse res)
+            throws ActionException {
+        return new JspForward(url);
+    }
+    
+}

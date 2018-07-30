@@ -26,7 +26,7 @@
             <c:if test="${not empty error_msg}">
                 <p style="color:#ff0000"><c:out value="${error_msg}"/>
                 </c:if>
-            <form method="post" action="action/update_profile">
+                <form method="post" action="<c:url value="action/update_profile"/>">
                 <div class="row uniform">
                     <div class="field half first">
                         <label for="login"><fmt:message key="login"/></label>

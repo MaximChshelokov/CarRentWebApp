@@ -22,7 +22,7 @@
                 <h3><c:out value="${caption}"/></h3>
             </header>
             <div class="row">
-                <form method="post" action="action/update_user">
+                <form method="post" action="<c:url value="action/update_user"/>">
                     <div class="row uniform">
                         <div class="field half first">
                             <label for="login"><fmt:message key="login"/></label>

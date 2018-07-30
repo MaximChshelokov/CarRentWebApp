@@ -1,9 +1,9 @@
 package com.mv.schelokov.car_rent.model.db.repository;
 
-import com.mv.schelokov.car_rent.model.db.dao.InvoiceLineDao;
-import com.mv.schelokov.car_rent.model.db.dao.exceptions.DbException;
-import com.mv.schelokov.car_rent.model.entity.InvoiceLine;
-import com.mv.schelokov.car_rent.model.entity.builders.InvoiceLineBuilder;
+import com.mv.schelokov.carent.model.db.dao.InvoiceLineDao;
+import com.mv.schelokov.carent.model.db.dao.exceptions.DbException;
+import com.mv.schelokov.carent.model.entity.InvoiceLine;
+import com.mv.schelokov.carent.model.entity.builders.InvoiceLineBuilder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
