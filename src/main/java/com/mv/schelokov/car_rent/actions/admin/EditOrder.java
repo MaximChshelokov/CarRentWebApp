@@ -34,7 +34,7 @@ public class EditOrder extends AbstractAction {
             if (id < 1)
                 throw new ActionException("Invalid order id");
             try {
-                RentOrder order = OrderService.getOrderById(id);
+                RentOrder order = OrderService.getInstance().getOrderById(id);
                 
                 CarService carService = CarService.getInstance();
                 

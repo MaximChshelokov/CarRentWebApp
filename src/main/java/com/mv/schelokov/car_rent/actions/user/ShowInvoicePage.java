@@ -34,7 +34,8 @@ public class ShowInvoicePage extends AbstractAction {
         if (isUser(req)) {
             User user = (User) req.getSession().getAttribute(SessionAttr.USER);
             try {
-                RentOrder order = OrderService.getOrdersByUser(user);
+                RentOrder order = OrderService.getInstance()
+                        .getOrdersByUser(user);
                 if (order == null) {
                     forward.setUrl(Jsps.USER_INVOICE);
                     return forward;

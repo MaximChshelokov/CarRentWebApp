@@ -30,7 +30,7 @@ public class DeleteOrder extends AbstractAction {
                 throw new ActionException("Failed to delete order, wrong id");
             }
             try {
-                OrderService.deleteOrder(new RentOrderBuilder()
+                OrderService.getInstance().deleteOrder(new RentOrderBuilder()
                         .setId(orderId)
                         .getRentOrder());
                 

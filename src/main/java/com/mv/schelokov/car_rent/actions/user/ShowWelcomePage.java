@@ -31,7 +31,8 @@ public class ShowWelcomePage extends AbstractAction {
             User user = (User) req.getSession().getAttribute(SessionAttr.USER);
             try {
                 boolean showButton = true;
-                RentOrder order = OrderService.getOrdersByUser(user);
+                RentOrder order = OrderService.getInstance()
+                        .getOrdersByUser(user);
                 if (order != null && !order.getCar().isAvailable()) {
                     showButton = false;
                 }

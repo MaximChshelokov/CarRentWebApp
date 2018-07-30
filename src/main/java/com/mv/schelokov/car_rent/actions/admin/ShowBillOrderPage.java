@@ -36,7 +36,8 @@ public class ShowBillOrderPage extends AbstractAction {
             if (orderId < 1)
                 throw new ActionException("Incorrect order id");
             try {
-                RentOrder order = OrderService.getOrderById(orderId);
+                RentOrder order = OrderService.getInstance()
+                        .getOrderById(orderId);
                 InvoiceService invoiceService = InvoiceService.getInstance();
                 invoiceService.recalculateInvoice(order);
                 

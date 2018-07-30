@@ -63,7 +63,7 @@ public class CreateOrder extends AbstractAction {
             try {
                 if (validationResult == ValidationResult.OK) {
 
-                    OrderService.addOrder(order);
+                    OrderService.getInstance().addOrder(order);
                     
                     forward.setUrl("action/order_completed");
                     forward.setRedirect(true);

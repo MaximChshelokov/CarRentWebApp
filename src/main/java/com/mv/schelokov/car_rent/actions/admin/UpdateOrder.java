@@ -39,7 +39,8 @@ public class UpdateOrder extends AbstractAction {
             if (orderId < 1)
                 throw new ActionException("Incorrect rent order id");
             try {
-                RentOrder order = OrderService.getOrderById(orderId);
+                OrderService orderService = OrderService.getInstance();
+                RentOrder order = orderService.getOrderById(orderId);
                 order.getCar().setId(getIntParam(req, "selected_car"));
 
                 int validationResult = ValidationResult.OK;
@@ -55,7 +56,7 @@ public class UpdateOrder extends AbstractAction {
                 if (validationResult == ValidationResult.OK)
                     validationResult = new RentOrderValidator(order).validate();
                 if (validationResult == ValidationResult.OK) {
-                    OrderService.updateOrder(order);
+                    orderService.updateOrder(order);
                     
                     forward.setUrl("action/order_list");
                     forward.setRedirect(true);

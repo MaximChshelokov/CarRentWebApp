@@ -28,7 +28,8 @@ public class ShowOrderList extends AbstractAction {
         
         if (isAdmin(req)) {
             try {
-                req.setAttribute("order_list", OrderService.getAllOrders());
+                req.setAttribute("order_list", OrderService.getInstance()
+                        .getAllOrders());
                 
                 forward.setUrl(Jsps.ADMIN_ORDER_LIST);
                 

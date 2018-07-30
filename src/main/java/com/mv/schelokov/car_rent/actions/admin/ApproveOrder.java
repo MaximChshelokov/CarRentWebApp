@@ -35,10 +35,11 @@ public class ApproveOrder extends AbstractAction {
                 throw new ActionException("Wrong id parameter for order entity");
             }
             try {
-                RentOrder order = (RentOrder) OrderService.getOrderById(orderId);
+                OrderService orderService = OrderService.getInstance();
+                RentOrder order = (RentOrder) orderService.getOrderById(orderId);
                 order.setApprovedBy((User) req.getSession()
                         .getAttribute(SessionAttr.USER));
-                OrderService.updateOrder(order);
+                orderService.updateOrder(order);
                 
                 CarService carService = CarService.getInstance();
 

@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
  */
 public class CloseOrder extends AbstractAction {
     
-    private static final Logger LOG = Logger.getLogger(ApproveOrder.class);
+    private static final Logger LOG = Logger.getLogger(CloseOrder.class);
     private static final String ERROR = "Failed to close order";
 
     @Override
@@ -32,7 +32,8 @@ public class CloseOrder extends AbstractAction {
                 throw new ActionException("Wrong id parameter for invoice entity");
             }
             try {
-                RentOrder order = (RentOrder) OrderService.getOrderById(invoiceId);
+                RentOrder order = (RentOrder) OrderService.getInstance()
+                        .getOrderById(invoiceId);
                 
                 CarService carService = CarService.getInstance();
                 

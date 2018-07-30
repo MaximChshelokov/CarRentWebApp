@@ -22,12 +22,30 @@ public class OrderService {
     private static final Logger LOG = Logger.getLogger(OrderService.class);
     private static final String ORDER_DAO_ERROR = "Failed to get an order "
             + "list form the dao by the criteria";
-    private static final String ORDER_OPERATION_ERROR = "Failed to write an order";
-    
-    private static enum Operation {CREATE, UPDATE, DELETE}
+    private static final String CREATE_ERROR = "Failed to create an order";
+    private static final String UPDATE_ERROR = "Failed to update an order";
+    private static final String DELETE_ERROR = "Failed to delete an order";
+    private static final String INSTANCE_ERROR = "Failed to get instance";
+    private static volatile OrderService instance;
 
+    public static OrderService getInstance() throws ServiceException {
+        OrderService localInstance = instance;
+        if (localInstance == null) {
+            synchronized (OrderService.class) {
+                localInstance = instance;
+                if (localInstance == null) {
+                    instance = localInstance = new OrderService();
+                }
+            }
+        }
+        if (localInstance == null) {
+            LOG.error(INSTANCE_ERROR);
+            throw new ServiceException(INSTANCE_ERROR);
+        }
+        return localInstance;
+    }
     
-    public static List getAllOrders() throws ServiceException {
+    public List getAllOrders() throws ServiceException {
         Criteria criteria = CriteriaFactory.getAllOrdersOrderByApproved();
         List<RentOrder> orders = getOrdersByCriteria(criteria);
         if (!orders.isEmpty()) {
@@ -37,7 +55,7 @@ public class OrderService {
         return orders;
     }
     
-    public static List getOpenedOrders() throws ServiceException {
+    public List getOpenedOrders() throws ServiceException {
         Criteria criteria = CriteriaFactory.getAllOpenedOrders();
         List<RentOrder> orders = getOrdersByCriteria(criteria);
         if (!orders.isEmpty()) {
@@ -48,7 +66,7 @@ public class OrderService {
         return orders;
     }
     
-    public static RentOrder getOrderById(int id) throws ServiceException {
+    public RentOrder getOrderById(int id) throws ServiceException {
         Criteria criteria = CriteriaFactory.findOrderById(id);
         List resultList = getOrdersByCriteria(criteria);
         if (resultList.isEmpty())
@@ -58,7 +76,7 @@ public class OrderService {
         return result;
     }
     
-    public static RentOrder getOrdersByUser(User user) throws ServiceException {
+    public RentOrder getOrdersByUser(User user) throws ServiceException {
         Criteria criteria = CriteriaFactory.findOrderByUserId(user.getId());
         List resultList = getOrdersByCriteria(criteria);
         if (resultList.isEmpty())
@@ -68,50 +86,55 @@ public class OrderService {
         return result;
     }
     
-    public static void addOrder(RentOrder order) throws ServiceException {
-        operateOrder(order, Operation.CREATE);
-    }
-    
-    public static void updateOrder(RentOrder order) throws ServiceException {
-        operateOrder(order, Operation.UPDATE);
-    }
-    
-    public static void deleteOrder(RentOrder order) throws ServiceException {
-        operateOrder(order, Operation.DELETE);
-    }
-    
-    private static void operateOrder(RentOrder order, Operation operation)
-            throws ServiceException {
+    public void addOrder(RentOrder order) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
-            Dao orderDao = daoFactory
-                    .getRentOrderDao();
-            boolean result = false;
-            switch (operation) {
-                case CREATE:
-                    result = orderDao.add(order);
-                    break;
-                case UPDATE:
-                    result = orderDao.update(order);
-                    break;
-                case DELETE:
-                    result = orderDao.remove(order);
+            Dao orderDao = daoFactory.getRentOrderDao();
+            if (!orderDao.add(order)) {
+                LOG.error(CREATE_ERROR);
+                throw new ServiceException(CREATE_ERROR);
             }
-            if (!result)
-                throw new ServiceException("Unable to operate to OrderDao");
         }
         catch (DaoException | DbException ex) {
-            LOG.error(ORDER_OPERATION_ERROR, ex);
-            throw new ServiceException(ORDER_OPERATION_ERROR, ex);
-        } 
+            LOG.error(CREATE_ERROR, ex);
+            throw new ServiceException(CREATE_ERROR, ex);
+        }
     }
     
-    private static void calculateSum(RentOrder order) {
+    public void updateOrder(RentOrder order) throws ServiceException {
+        try (DaoFactory daoFactory = new DaoFactory()) {
+            Dao orderDao = daoFactory.getRentOrderDao();
+            if (!orderDao.update(order)) {
+                LOG.error(UPDATE_ERROR);
+                throw new ServiceException(UPDATE_ERROR);
+            }
+        }
+        catch (DaoException | DbException ex) {
+            LOG.error(UPDATE_ERROR, ex);
+            throw new ServiceException(UPDATE_ERROR, ex);
+        }
+    }
+    
+    public void deleteOrder(RentOrder order) throws ServiceException {
+        try (DaoFactory daoFactory = new DaoFactory()) {
+            Dao orderDao = daoFactory.getRentOrderDao();
+            if (!orderDao.remove(order)) {
+                LOG.error(DELETE_ERROR);
+                throw new ServiceException(DELETE_ERROR);
+            }
+        }
+        catch (DaoException | DbException ex) {
+            LOG.error(DELETE_ERROR, ex);
+            throw new ServiceException(DELETE_ERROR, ex);
+        }
+    }
+
+    private void calculateSum(RentOrder order) {
         order.setSum(order.getCar().getPrice() * DateUtils.days(order.getStartDate(),
                 order.getEndDate()));
     }
     
     
-    private static List getOrdersByCriteria(Criteria criteria)
+    private List getOrdersByCriteria(Criteria criteria)
             throws ServiceException {
         try(DaoFactory daoFactory = new DaoFactory()) {
             Dao orderDao = daoFactory
@@ -123,4 +146,5 @@ public class OrderService {
         }
     }
     
+    private OrderService() {}
 }

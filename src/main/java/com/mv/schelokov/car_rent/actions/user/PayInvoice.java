@@ -21,7 +21,7 @@ import org.apache.log4j.Logger;
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
 public class PayInvoice extends AbstractAction {
-    private static final Logger LOG = Logger.getLogger(ShowSelectCarPage.class);
+    private static final Logger LOG = Logger.getLogger(PayInvoice.class);
     private static final String ERROR = "Failed to pay invoice";
 
     @Override
@@ -33,7 +33,8 @@ public class PayInvoice extends AbstractAction {
         if (isUser(req)) {
             User user = (User) req.getSession().getAttribute(SessionAttr.USER);
             try {
-                RentOrder order = OrderService.getOrdersByUser(user);
+                RentOrder order = OrderService.getInstance()
+                        .getOrdersByUser(user);
                 
                 InvoiceService invoiceService = InvoiceService.getInstance();
                 Invoice invoice = invoiceService.getInvoiceById(order.getId());

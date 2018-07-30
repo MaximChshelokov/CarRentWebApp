@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
 public class ShowOpenedOrdersPage extends AbstractAction {
+    
     private static final Logger LOG = Logger.getLogger(ShowOpenedOrdersPage.class);
     private static final String ERROR = "Unable to prepare opened orders page";
 
@@ -26,7 +27,8 @@ public class ShowOpenedOrdersPage extends AbstractAction {
         
         if (isAdmin(req)) {
             try {
-                req.setAttribute("order_list", OrderService.getOpenedOrders());
+                req.setAttribute("order_list", OrderService.getInstance()
+                        .getOpenedOrders());
                 
                 forward.setUrl(Jsps.ADMIN_OPENED_ORDERS);
                 

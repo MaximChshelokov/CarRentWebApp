@@ -95,7 +95,7 @@ public class CarService {
         }
     }
     
-    private static List getCarsByCriteria(Criteria criteria) throws ServiceException {
+    private List getCarsByCriteria(Criteria criteria) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
             Dao carDao = daoFactory.getCarDao();
             return carDao.read(criteria);
