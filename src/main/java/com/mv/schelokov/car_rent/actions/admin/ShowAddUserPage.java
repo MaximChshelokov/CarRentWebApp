@@ -6,6 +6,7 @@ import com.mv.schelokov.car_rent.consts.Jsps;
 import com.mv.schelokov.car_rent.exceptions.ActionException;
 import com.mv.schelokov.car_rent.model.entity.User;
 import com.mv.schelokov.car_rent.model.entity.builders.UserDataBuilder;
+import com.mv.schelokov.car_rent.model.services.RoleService;
 import com.mv.schelokov.car_rent.model.services.UserService;
 import com.mv.schelokov.car_rent.model.services.exceptions.ServiceException;
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +31,9 @@ public class ShowAddUserPage extends AbstractAction {
             req.setAttribute("user_data",
                     new UserDataBuilder().setUser(new User()).getUserData());
             try {
-                req.setAttribute("roles", UserService.getAllRoles());
+                
+                req.setAttribute("roles", RoleService.getInstance()
+                        .getAllRoles());
                 
                 forward.setUrl(Jsps.ADMIN_ADD_USER);
                 

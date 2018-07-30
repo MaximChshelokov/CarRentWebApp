@@ -5,6 +5,7 @@ import com.mv.schelokov.car_rent.actions.JspForward;
 import com.mv.schelokov.car_rent.consts.Jsps;
 import com.mv.schelokov.car_rent.exceptions.ActionException;
 import com.mv.schelokov.car_rent.model.entity.UserData;
+import com.mv.schelokov.car_rent.model.services.UserDataService;
 import com.mv.schelokov.car_rent.model.services.UserService;
 import com.mv.schelokov.car_rent.model.services.exceptions.ServiceException;
 import com.mv.schelokov.car_rent.model.validators.UserDataValidator;
@@ -34,22 +35,26 @@ public class UpdateUser extends AbstractAction {
                 throw new ActionException("Wrong user_id parameter");
             }
             try {
-                UserData userData = UserService.getUserDataById(userDataId);
+                UserDataService userDataService = UserDataService.getInstance();
+                
+                UserData userData = userDataService.getUserDataById(userDataId);
                 userData.setName(req.getParameter("name"));
                 userData.setAddress(req.getParameter("address"));
-                userData.setPhone(req.getParameter("phone").replaceAll("[^0-9]+", ""));
+                userData.setPhone(req.getParameter("phone")
+                        .replaceAll("[^0-9]+", ""));
                 userData.getUser().setLogin(req.getParameter("login"));
                 
                 int validationResult = new UserDataValidator(userData).validate();
-                if (validationResult == ValidationResult.OK && !UserService
+                UserService userService = UserService.getInstance();
+                if (validationResult == ValidationResult.OK && !userService
                         .getUserByLogin(userData.getUser().getLogin()).isEmpty())
                     validationResult = ValidationResult.SAME_LOGIN;
 
                 if (validationResult == ValidationResult.OK) {
                     if (userData.getId() == 0) {
-                        UserService.addUserData(userData);
+                        userDataService.addUserData(userData);
                     } else {
-                        UserService.updateUserData(userData);
+                        userDataService.updateUserData(userData);
                     }
                     
                     forward.setUrl("action/user_list");

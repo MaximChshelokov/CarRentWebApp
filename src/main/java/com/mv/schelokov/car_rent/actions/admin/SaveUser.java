@@ -7,6 +7,7 @@ import com.mv.schelokov.car_rent.exceptions.ActionException;
 import com.mv.schelokov.car_rent.model.entity.User;
 import com.mv.schelokov.car_rent.model.entity.builders.RoleBuilder;
 import com.mv.schelokov.car_rent.model.entity.builders.UserBuilder;
+import com.mv.schelokov.car_rent.model.services.RoleService;
 import com.mv.schelokov.car_rent.model.services.UserService;
 import com.mv.schelokov.car_rent.model.services.exceptions.ServiceException;
 import com.mv.schelokov.car_rent.model.validators.UserValidator;
@@ -46,17 +47,22 @@ public class SaveUser extends AbstractAction {
                 if (validationResult == ValidationResult.OK && 
                         !user.getPassword().equals(repeat))
                     validationResult = ValidationResult.PASSWORDS_NOT_MATCH;
-                if (validationResult == ValidationResult.OK && !UserService
+                
+                UserService userService = UserService.getInstance();
+                
+                if (validationResult == ValidationResult.OK && !userService
                         .getUserByLogin(user.getLogin()).isEmpty())
                     validationResult = ValidationResult.SAME_LOGIN;
                 if (validationResult == ValidationResult.OK) {
-                    UserService.registerNewUser(user);
+                    userService.registerNewUser(user);
                     return new JspForward("action/user_list", true);
                 }
                 
+                RoleService roleService = RoleService.getInstance();
+                
                 req.setAttribute("errParam", validationResult);
                 req.setAttribute("user_edit", user);
-                req.setAttribute("roles", UserService.getAllRoles());
+                req.setAttribute("roles", roleService.getAllRoles());
                 
                 forward.setUrl(Jsps.ADMIN_ADD_USER);
                 

@@ -7,6 +7,7 @@ import com.mv.schelokov.car_rent.consts.SessionAttr;
 import com.mv.schelokov.car_rent.exceptions.ActionException;
 import com.mv.schelokov.car_rent.model.entity.User;
 import com.mv.schelokov.car_rent.model.entity.UserData;
+import com.mv.schelokov.car_rent.model.services.UserDataService;
 import com.mv.schelokov.car_rent.model.services.UserService;
 import com.mv.schelokov.car_rent.model.services.exceptions.ServiceException;
 import com.mv.schelokov.car_rent.model.validators.UserDataValidator;
@@ -34,7 +35,10 @@ public class UpdateProfile extends AbstractAction {
             try {
                 User user = (User) req.getSession()
                         .getAttribute(SessionAttr.USER);
-                UserData userData = UserService.getUserDataById(user.getId());
+                
+                UserDataService userDataService = UserDataService.getInstance();
+                UserData userData = userDataService
+                        .getUserDataById(user.getId());
                 
                 userData.setName(req.getParameter("name"));
                 userData.setAddress(req.getParameter("address"));
@@ -50,9 +54,9 @@ public class UpdateProfile extends AbstractAction {
                 
                 if (validationResult == ValidationResult.OK) {
                     if (userData.getId() > 0)
-                        UserService.updateUserData(userData);
+                        userDataService.updateUserData(userData);
                     else
-                        UserService.addUserData(userData);
+                        userDataService.addUserData(userData);
                     
                     forward.setUrl("action/home");
                     forward.setRedirect(true);

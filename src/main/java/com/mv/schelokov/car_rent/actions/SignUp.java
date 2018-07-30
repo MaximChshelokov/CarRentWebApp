@@ -46,14 +46,17 @@ public class SignUp implements Action {
                     && !user.getPassword().equals(repeat)) {
                 validationResult = ValidationResult.PASSWORDS_NOT_MATCH;
             }
-            if (validationResult == ValidationResult.OK && !UserService
+            
+            UserService userService = UserService.getInstance();
+            
+            if (validationResult == ValidationResult.OK && !userService
                     .getUserByLogin(user.getLogin()).isEmpty()) {
                 validationResult = ValidationResult.SAME_LOGIN;
             }
             if (validationResult == ValidationResult.OK) {
-                UserService.registerNewUser(user);
+                userService.registerNewUser(user);
                 req.getSession().setAttribute(SessionAttr.USER,
-                        UserService.getUserByLogin(user.getLogin()).get(0));
+                        userService.getUserByLogin(user.getLogin()).get(0));
 
                 forward.setUrl("action/welcome");
                 forward.setRedirect(true);

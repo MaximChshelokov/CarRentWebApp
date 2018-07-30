@@ -9,6 +9,7 @@ import com.mv.schelokov.car_rent.model.entity.RentOrder;
 import com.mv.schelokov.car_rent.model.services.CarService;
 import com.mv.schelokov.car_rent.model.services.InvoiceService;
 import com.mv.schelokov.car_rent.model.services.OrderService;
+import com.mv.schelokov.car_rent.model.services.UserDataService;
 import com.mv.schelokov.car_rent.model.services.UserService;
 import com.mv.schelokov.car_rent.model.services.exceptions.ServiceException;
 import javax.servlet.http.HttpServletRequest;
@@ -40,7 +41,8 @@ public class ShowBillOrderPage extends AbstractAction {
                 CarService carService = CarService.getInstance();
                 
                 req.setAttribute("user_data",
-                        UserService.getUserDataById(order.getUser().getId()));
+                        UserDataService.getInstance()
+                                .getUserDataById(order.getUser().getId()));
                 req.setAttribute("car",
                         carService.getCarById(order.getCar().getId()));
                 

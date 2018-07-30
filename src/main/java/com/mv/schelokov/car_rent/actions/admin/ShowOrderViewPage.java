@@ -7,6 +7,7 @@ import com.mv.schelokov.car_rent.exceptions.ActionException;
 import com.mv.schelokov.car_rent.model.entity.RentOrder;
 import com.mv.schelokov.car_rent.model.services.CarService;
 import com.mv.schelokov.car_rent.model.services.OrderService;
+import com.mv.schelokov.car_rent.model.services.UserDataService;
 import com.mv.schelokov.car_rent.model.services.UserService;
 import com.mv.schelokov.car_rent.model.services.exceptions.ServiceException;
 import javax.servlet.http.HttpServletRequest;
@@ -36,7 +37,8 @@ public class ShowOrderViewPage extends AbstractAction {
 
                 req.setAttribute("order", order);
                 req.setAttribute("user_data", 
-                        UserService.getUserDataById(order.getUser().getId()));
+                        UserDataService.getInstance()
+                                .getUserDataById(order.getUser().getId()));
                 req.setAttribute("car",
                         carService.getCarById(order.getCar().getId()));
                 

@@ -6,7 +6,6 @@ import com.mv.schelokov.car_rent.model.db.dao.factories.CriteriaFactory;
 import com.mv.schelokov.car_rent.model.db.dao.factories.DaoFactory;
 import com.mv.schelokov.car_rent.model.db.dao.interfaces.Criteria;
 import com.mv.schelokov.car_rent.model.entity.User;
-import com.mv.schelokov.car_rent.model.entity.UserData;
 import com.mv.schelokov.car_rent.model.services.exceptions.ServiceException;
 import com.mv.schelokov.car_rent.model.utils.ShaHash;
 import java.security.NoSuchAlgorithmException;
@@ -23,146 +22,94 @@ public class UserService {
     private static final Logger LOG = Logger.getLogger(UserService.class);
     private static final String SALT = "NuiF9cD32Kaw3";
     
-    private static final String USER_REPOSITORY_ERROR = "Failed to write the user";
     private static final String USER_CRITERIA_ERROR = "Failed to get user list"
-            + " from the repository by the criteria";
-    private static final String USER_DATA_REPOSITORY_ERROR = "Failed to get user"
-            + " data from the repository by the criteria";
-    private static final String ROLE_REPOSITORY_ERROR = "Failed to get roles "
-            + "list from the repository";
-    private static final String USER_REPOSITORY_ADD = "Failed to write the user data";
+            + " from the dao by the criteria";
     private static final String HASH_ERROR = "Hash algorithm SHA-512 not found";
-    
-    private static enum Operation { CREATE, UPDATE, DELETE }
-    
-    public static void registerNewUser(User user) throws ServiceException {
-        operateUser(user, Operation.CREATE);
+    private static final String REGISTER_ERROR = "Failed to create new user";
+    private static final String UPDATE_ERROR = "Failed to update a user";
+    private static final String DELETE_ERROR = "Failed to delete a user";
+    private static final String INSTANCE_ERROR = "Failed to get instance";
+    private static volatile UserService instance;
+
+    public static UserService getInstance() throws ServiceException {
+        UserService localInstance = instance;
+        if (localInstance == null) {
+            synchronized (UserService.class) {
+                localInstance = instance;
+                if (localInstance == null) {
+                    instance = localInstance = new UserService();
+                }
+            }
+        }
+        if (localInstance == null) {
+            LOG.error(INSTANCE_ERROR);
+            throw new ServiceException(INSTANCE_ERROR);
+        }
+        return localInstance;
     }
     
-    public static void updateUser(User user) throws ServiceException {
-        operateUser(user, Operation.UPDATE);
+    public void registerNewUser(User user) throws ServiceException {
+        try (DaoFactory daoFactory = new DaoFactory()) {
+            User userCopy = (User) user.clone();
+            Dao userDao = daoFactory.getUserDao();
+            userCopy.setPassword(hashPassword(userCopy.getPassword()));
+            if (!userDao.add(userCopy)) {
+                LOG.error(REGISTER_ERROR);
+                throw new ServiceException(REGISTER_ERROR);
+            }
+        }
+        catch (DaoException | DbException | CloneNotSupportedException ex) {
+            LOG.error(REGISTER_ERROR, ex);
+            throw new ServiceException(REGISTER_ERROR, ex);
+        }
     }
     
-    public static void deleteUser(User user) throws ServiceException {
-        operateUser(user, Operation.DELETE);
+    public void updateUser(User user) throws ServiceException {
+        try (DaoFactory daoFactory = new DaoFactory()) {
+            User userCopy = (User) user.clone();
+            Dao userDao = daoFactory.getUserDao();
+            userCopy.setPassword(hashPassword(userCopy.getPassword()));
+            if (!userDao.update(userCopy)) {
+                LOG.error(UPDATE_ERROR);
+                throw new ServiceException(UPDATE_ERROR);
+            }
+        }
+        catch (DaoException | DbException | CloneNotSupportedException ex) {
+            LOG.error(UPDATE_ERROR, ex);
+            throw new ServiceException(UPDATE_ERROR, ex);
+        }
     }
     
-    public static List getUserByCredentials(User user) 
+    public void deleteUser(User user) throws ServiceException {
+        try (DaoFactory daoFactory = new DaoFactory()) {
+            Dao userDao = daoFactory.getUserDao();
+            if (!userDao.remove(user)) {
+                LOG.error(DELETE_ERROR);
+                throw new ServiceException(DELETE_ERROR);
+            }
+        }
+        catch (DaoException | DbException ex) {
+            LOG.error(DELETE_ERROR, ex);
+            throw new ServiceException(DELETE_ERROR, ex);
+        }
+    }
+    
+    public List getUserByCredentials(User user) 
             throws ServiceException {
         Criteria criteria = CriteriaFactory.getUserFindLoginPassword(
                 user.getLogin(), hashPassword(user.getPassword()));
         return getUsersByCriteria(criteria);
     }
     
-    public static List getUserByLogin(String login) throws ServiceException {
+    public List getUserByLogin(String login) throws ServiceException {
         Criteria criteria = CriteriaFactory.getUserFindLogin(login);
         return getUsersByCriteria(criteria);
     }
     
-    public static int getUserNumber() throws ServiceException {
-        return getAllUsers().size();
-    }
-    
-    public static List getAllUsers() throws ServiceException {
-        Criteria criteria = CriteriaFactory.getAllUsersData();
-        return getUserDataByCriteria(criteria);       
-    }
-    
-    public static UserData getUserDataById(int id) throws ServiceException {
-        Criteria criteria = CriteriaFactory.getUserDataById(id);
-        List result = getUserDataByCriteria(criteria);
-        if (result.isEmpty())
-            return null;
-        else
-            return (UserData) result.get(0);
-    }
-    
-    public static void addUserData(UserData userData) throws ServiceException {
-        operateUserData(userData, Operation.CREATE);
-        if (userData.getUser().getId() == 0)
-            registerNewUser(userData.getUser());
-        else
-            updateUser(userData.getUser());
-    }
-    
-    public static void updateUserData(UserData userData) throws ServiceException {
-        operateUserData(userData, Operation.UPDATE);
-        updateUser(userData.getUser());
-    }
-    
-    public static void deleteUserData(UserData userData) throws ServiceException {
-        operateUserData(userData, Operation.DELETE);
-        deleteUser(userData.getUser());
-    }
-    
-    public static List getAllRoles() throws ServiceException {
-        try (DaoFactory repositoryFactory = new DaoFactory()) {
-            Dao roleRepository = repositoryFactory.getRoleDao();
-            Criteria criteria = CriteriaFactory.getAllRoles();
-            return roleRepository.read(criteria);
-        }
-        catch (DaoException | DbException ex) {
-            LOG.error(ROLE_REPOSITORY_ERROR, ex);
-            throw new ServiceException(ROLE_REPOSITORY_ERROR, ex);
-        }    
-    }
-    
-    private static void operateUser(User user, Operation operation)
-            throws ServiceException {
-        try(DaoFactory repositoryFactory = new DaoFactory()) {
-            User userCopy = (User) user.clone();
-            Dao userRepository = repositoryFactory.getUserDao();
-            boolean result = false;
-            switch (operation) {
-                case UPDATE:
-                    userCopy.setPassword(hashPassword(userCopy.getPassword()));
-                    result = userRepository.update(userCopy);
-                    break;
-                case CREATE:
-                    userCopy.setPassword(hashPassword(userCopy.getPassword()));
-                    result = userRepository.add(userCopy);
-                    break;
-                case DELETE:
-                    result = userRepository.remove(user);
-            }
-            if (!result)
-                throw new ServiceException("Failed to operate UserRepository");
-        } catch (DaoException | DbException | CloneNotSupportedException
-                ex) {
-            LOG.error(USER_REPOSITORY_ERROR, ex);
-            throw new ServiceException(USER_REPOSITORY_ERROR, ex);
-        }
-    } 
-    
-    private static void operateUserData(UserData userData, Operation operation) 
-            throws ServiceException {
-        try (DaoFactory repositoryFactory = new DaoFactory()) {
-            Dao userDataRepository = repositoryFactory.getUserDataDao();
-            boolean result = false;
-            switch(operation) {
-                case UPDATE:   
-                    result = userDataRepository.update(userData);
-                    break;
-                case CREATE:
-                    userData.setId(userData.getUser().getId());
-                    result = userDataRepository.add(userData);
-                    break;
-                case DELETE:
-                    result = userDataRepository.remove(userData);
-            }
-            if (!result) {
-                throw new ServiceException("Failed to operate UserDataRepository");
-            }  
-        } catch (DaoException | DbException ex) {
-            LOG.error(USER_REPOSITORY_ADD, ex);
-            throw new ServiceException(USER_REPOSITORY_ADD, ex);
-        }   
-    }
-    
-    private static List getUsersByCriteria(Criteria criteria) throws ServiceException {
-        try(DaoFactory repositoryFactory = new DaoFactory()) {
-            Dao userRepository = repositoryFactory.getUserDao();
-            return userRepository.read(criteria);
+    private List getUsersByCriteria(Criteria criteria) throws ServiceException {
+        try(DaoFactory daoFactory = new DaoFactory()) {
+            Dao userDao = daoFactory.getUserDao();
+            return userDao.read(criteria);
         }
         catch (DaoException | DbException ex) {
             LOG.error(USER_CRITERIA_ERROR, ex);
@@ -170,27 +117,19 @@ public class UserService {
         }
     }
     
-    private static List getUserDataByCriteria(Criteria criteria)
-            throws ServiceException {
-        try (DaoFactory repositoryFactory = new DaoFactory()) {
-            Dao userDataRepository = 
-                    repositoryFactory.getUserDataDao();
-            return userDataRepository.read(criteria);
-        } catch (DaoException | DbException ex) {
-            LOG.error(USER_DATA_REPOSITORY_ERROR, ex);
-            throw new ServiceException(USER_DATA_REPOSITORY_ERROR, ex);
-        }
-    }
-    
-    private static String hashPassword(String password) throws ServiceException {
+    private String hashPassword(String password) throws ServiceException {
         try {
             String result = ShaHash.getSHA512Hash(password, SALT);
-            if (result == null)
+            if (result == null) {
+                LOG.error(HASH_ERROR);
                 throw new ServiceException(HASH_ERROR);
+            }
             return result;
         } catch(NoSuchAlgorithmException ex) {
             LOG.error(HASH_ERROR, ex);
             throw new ServiceException(HASH_ERROR, ex);
         }
     }
+    
+    private UserService() {}
 }

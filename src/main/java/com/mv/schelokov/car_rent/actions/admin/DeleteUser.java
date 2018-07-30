@@ -6,6 +6,7 @@ import com.mv.schelokov.car_rent.exceptions.ActionException;
 import com.mv.schelokov.car_rent.model.entity.UserData;
 import com.mv.schelokov.car_rent.model.entity.builders.UserBuilder;
 import com.mv.schelokov.car_rent.model.entity.builders.UserDataBuilder;
+import com.mv.schelokov.car_rent.model.services.UserDataService;
 import com.mv.schelokov.car_rent.model.services.UserService;
 import com.mv.schelokov.car_rent.model.services.exceptions.ServiceException;
 import javax.servlet.http.HttpServletRequest;
@@ -38,10 +39,13 @@ public class DeleteUser extends AbstractAction {
                             .getUser())
                     .getUserData();
             try {
+                UserDataService userDataService = UserDataService.getInstance();
+                UserService userService = UserService.getInstance();
+                
                 if (userDataId > 0) {
-                    UserService.deleteUserData(userData);
+                    userDataService.deleteUserData(userData);
                 } else if (userId > 0) {
-                    UserService.deleteUser(userData.getUser());
+                    userService.deleteUser(userData.getUser());
                 } else {
                     throw new ActionException("Failed to delete user, wrong id");
                 }

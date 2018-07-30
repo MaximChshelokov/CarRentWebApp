@@ -4,6 +4,7 @@ import com.mv.schelokov.car_rent.actions.AbstractAction;
 import com.mv.schelokov.car_rent.actions.JspForward;
 import com.mv.schelokov.car_rent.consts.Jsps;
 import com.mv.schelokov.car_rent.exceptions.ActionException;
+import com.mv.schelokov.car_rent.model.services.UserDataService;
 import com.mv.schelokov.car_rent.model.services.UserService;
 import com.mv.schelokov.car_rent.model.services.exceptions.ServiceException;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +28,8 @@ public class ShowUsersList extends AbstractAction {
         
         if (isAdmin(req)) {
             try {
-                req.setAttribute("user_data", UserService.getAllUsers());
+                req.setAttribute("user_data", UserDataService.getInstance()
+                        .getAllUsers());
                 
                 forward.setUrl(Jsps.ADMIN_USERS_LIST);
                 

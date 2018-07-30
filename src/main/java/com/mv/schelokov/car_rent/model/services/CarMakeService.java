@@ -19,7 +19,7 @@ import org.apache.log4j.Logger;
 public class CarMakeService {
     private static final Logger LOG = Logger.getLogger(CarService.class);
     private static final String MAKE_NAME_ERROR = "Failed to get make by "
-            + "name from the repository";
+            + "name from the DAO";
     private static final String MAKE_CREATE_ERROR = "Failed to create new make";
     private static final String INSTANCE_ERROR = "Failed to get instance";
     private static volatile CarMakeService instance;
@@ -57,9 +57,9 @@ public class CarMakeService {
     
     public List getMakeByName(String name) throws ServiceException {
         Criteria criteria = CriteriaFactory.getMakeByName(name);
-        try (DaoFactory repositoryFactory = new DaoFactory()) {
-            Dao makeRepository = repositoryFactory.getMakeDao();
-            return makeRepository.read(criteria);
+        try (DaoFactory daoFactory = new DaoFactory()) {
+            Dao makeDao = daoFactory.getMakeDao();
+            return makeDao.read(criteria);
         }
         catch (DaoException | DbException ex) {
             LOG.error(MAKE_NAME_ERROR, ex);
@@ -68,10 +68,10 @@ public class CarMakeService {
     }
     
     public List createMake(CarMake make) throws ServiceException {
-        try (DaoFactory repositoryFactory = new DaoFactory()) {
-            Dao makeRepository = repositoryFactory.getMakeDao();
-            makeRepository.add(make);
-            repositoryFactory.commit();
+        try (DaoFactory daoFactory = new DaoFactory()) {
+            Dao makeDao = daoFactory.getMakeDao();
+            makeDao.add(make);
+            daoFactory.commit();
             return getMakeByName(make.getName());
         } catch (DaoException | DbException ex) {
             LOG.error(MAKE_CREATE_ERROR, ex);

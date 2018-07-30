@@ -6,6 +6,7 @@ import com.mv.schelokov.car_rent.consts.Jsps;
 import com.mv.schelokov.car_rent.consts.SessionAttr;
 import com.mv.schelokov.car_rent.exceptions.ActionException;
 import com.mv.schelokov.car_rent.model.entity.User;
+import com.mv.schelokov.car_rent.model.services.UserDataService;
 import com.mv.schelokov.car_rent.model.services.UserService;
 import com.mv.schelokov.car_rent.model.services.exceptions.ServiceException;
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +33,8 @@ public class ShowEditProfilePage extends AbstractAction {
                 User user = (User) req.getSession()
                         .getAttribute(SessionAttr.USER);
                 req.setAttribute("user_data",
-                        UserService.getUserDataById(user.getId()));
+                        UserDataService.getInstance()
+                                .getUserDataById(user.getId()));
                 
                 forward.setUrl(Jsps.USER_EDIT_PROFILE);
                 

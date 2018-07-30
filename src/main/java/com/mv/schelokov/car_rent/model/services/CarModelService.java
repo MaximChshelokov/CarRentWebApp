@@ -63,9 +63,9 @@ public class CarModelService {
     
     public List getModel(CarModel model) throws ServiceException {
         Criteria criteria = CriteriaFactory.findModel(model);
-        try (DaoFactory repositoryFactory = new DaoFactory()) {
-            Dao modelRepository = repositoryFactory.getModelDao();
-            return modelRepository.read(criteria);
+        try (DaoFactory daoFactory = new DaoFactory()) {
+            Dao modelDao = daoFactory.getModelDao();
+            return modelDao.read(criteria);
         }
         catch (DaoException | DbException ex) {
             LOG.error(MODEL_NAME_ERROR, ex);
@@ -74,10 +74,10 @@ public class CarModelService {
     }
     
     public List createModel(CarModel model) throws ServiceException {
-        try (DaoFactory repositoryFactory = new DaoFactory()) {
-            Dao modelRepository = repositoryFactory.getModelDao();
-            modelRepository.add(model);
-            repositoryFactory.commit();
+        try (DaoFactory daoFactory = new DaoFactory()) {
+            Dao modelDao = daoFactory.getModelDao();
+            modelDao.add(model);
+            daoFactory.commit();
             return getModel(model);
         }
         catch (DaoException | DbException ex) {

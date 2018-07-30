@@ -24,14 +24,14 @@ import com.mv.schelokov.car_rent.model.db.dao.interfaces.Dao;
 public class InvoiceService {
     
     private static final Logger LOG = Logger.getLogger(InvoiceService.class);
-    private static final String INVOICE_REPOSITORY_ERROR = "Failed to get an"
-            + " invoice list form the repository by the criteria";
+    private static final String INVOICE_DAO_ERROR = "Failed to get an"
+            + " invoice list form the dao by the criteria";
     private static final String INVOICE_OPERATION_ERROR = "Failed to operate an"
             + " invoice";
     private static final String INVOICE_LINE_OPERATION_ERROR = "Failed to "
             + "operate an invoice line";
-    private static final String INVOICE_LINE_REPOSITORY_ERROR = "Failed to get"
-            + " an invoice line list form the repository by the criteria";
+    private static final String INVOICE_LINE_DAO_ERROR = "Failed to get"
+            + " an invoice line list form the dao by the criteria";
 
     private static enum Operation {
         CREATE, UPDATE, DELETE
@@ -112,22 +112,22 @@ public class InvoiceService {
     
     private static void operateInvoice(Invoice invoice, Operation operation)
             throws ServiceException {
-        try (DaoFactory repositoryFactory = new DaoFactory()) {
-            Dao invoiceRepository = repositoryFactory
+        try (DaoFactory daoFactory = new DaoFactory()) {
+            Dao invoiceDao = daoFactory
                     .getInvoiceDao();
             boolean result = false;
             switch (operation) {
                 case CREATE:
-                    result = invoiceRepository.add(invoice);
+                    result = invoiceDao.add(invoice);
                     break;
                 case UPDATE:
-                    result = invoiceRepository.update(invoice);
+                    result = invoiceDao.update(invoice);
                     break;
                 case DELETE:
-                    result = invoiceRepository.remove(invoice);
+                    result = invoiceDao.remove(invoice);
             }
             if (!result) {
-                throw new ServiceException("Unable to operate to InvoiceRepository");
+                throw new ServiceException("Unable to operate to InvoiceDao");
             }
         }
         catch (DaoException | DbException ex) {
@@ -138,23 +138,23 @@ public class InvoiceService {
     
     private static void operateInvoiceLine(InvoiceLine invoiceLine, 
             Operation operation) throws ServiceException {
-        try (DaoFactory repositoryFactory = new DaoFactory()) {
-            Dao invoiceLineRepository = repositoryFactory
+        try (DaoFactory daoFactory = new DaoFactory()) {
+            Dao invoiceLineDao = daoFactory
                     .getInvoiceLineDao();
             boolean result = false;
             switch (operation) {
                 case CREATE:
-                    result = invoiceLineRepository.add(invoiceLine);
+                    result = invoiceLineDao.add(invoiceLine);
                     break;
                 case UPDATE:
-                    result = invoiceLineRepository.update(invoiceLine);
+                    result = invoiceLineDao.update(invoiceLine);
                     break;
                 case DELETE:
-                    result = invoiceLineRepository.remove(invoiceLine);
+                    result = invoiceLineDao.remove(invoiceLine);
             }
             if (!result) {
                 throw new ServiceException("Unable to operate to "
-                        + "InvoiceLineRepository");
+                        + "InvoiceLineDao");
             }
         }
         catch (DaoException | DbException ex) {
@@ -165,27 +165,27 @@ public class InvoiceService {
     
     private static List getInvoiceByCriteria(Criteria criteria)
             throws ServiceException {
-        try (DaoFactory repositoryFactory = new DaoFactory()) {
-            Dao invoiceRepository = repositoryFactory
+        try (DaoFactory daoFactory = new DaoFactory()) {
+            Dao invoiceDao = daoFactory
                     .getInvoiceDao();
-            return invoiceRepository.read(criteria);
+            return invoiceDao.read(criteria);
         }
         catch (DaoException | DbException ex) {
-            LOG.error(INVOICE_REPOSITORY_ERROR, ex);
-            throw new ServiceException(INVOICE_REPOSITORY_ERROR, ex);
+            LOG.error(INVOICE_DAO_ERROR, ex);
+            throw new ServiceException(INVOICE_DAO_ERROR, ex);
         }
     }
     
     private static List getInvoiceLinesByCriteria(Criteria criteria)
             throws ServiceException {
-        try (DaoFactory repositoryFactory = new DaoFactory()) {
-            Dao invoiceLineRepository = repositoryFactory
+        try (DaoFactory daoFactory = new DaoFactory()) {
+            Dao invoiceLineDao = daoFactory
                     .getInvoiceLineDao();
-            return invoiceLineRepository.read(criteria);
+            return invoiceLineDao.read(criteria);
         }
         catch (DaoException | DbException ex) {
-            LOG.error(INVOICE_LINE_REPOSITORY_ERROR, ex);
-            throw new ServiceException(INVOICE_LINE_REPOSITORY_ERROR, ex);
+            LOG.error(INVOICE_LINE_DAO_ERROR, ex);
+            throw new ServiceException(INVOICE_LINE_DAO_ERROR, ex);
         }
     }
 }

@@ -65,9 +65,9 @@ public class CarService {
     }
     
     public void deleteCar(Car car) throws ServiceException {
-        try (DaoFactory repositoryFactory = new DaoFactory()) {
-            Dao carRepository = repositoryFactory.getCarDao();
-            carRepository.remove(car);
+        try (DaoFactory daoFactory = new DaoFactory()) {
+            Dao carDao = daoFactory.getCarDao();
+            carDao.remove(car);
         }
         catch (DaoException | DbException ex) {
             LOG.error(DELETE_ERROR, ex);
@@ -76,9 +76,9 @@ public class CarService {
     }
     
     public void updateCar(Car car) throws ServiceException {
-        try (DaoFactory repositoryFactory = new DaoFactory()) {
-            Dao carRepository = repositoryFactory.getCarDao();
-            carRepository.update(car);
+        try (DaoFactory daoFactory = new DaoFactory()) {
+            Dao carDao = daoFactory.getCarDao();
+            carDao.update(car);
         }
         catch (DaoException | DbException ex) {
             LOG.error(UPDATE_ERROR, ex);
@@ -87,9 +87,9 @@ public class CarService {
     }
     
     public void createCar(Car car) throws ServiceException {
-        try (DaoFactory repositoryFactory = new DaoFactory()) {
-            Dao carRepository = repositoryFactory.getCarDao();
-            carRepository.add(car);
+        try (DaoFactory daoFactory = new DaoFactory()) {
+            Dao carDao = daoFactory.getCarDao();
+            carDao.add(car);
         }
         catch (DaoException | DbException ex) {
             LOG.error(CREATE_ERROR, ex);
@@ -98,9 +98,9 @@ public class CarService {
     }
     
     private static List getCarsByCriteria(Criteria criteria) throws ServiceException {
-        try (DaoFactory repositoryFactory = new DaoFactory()) {
-            Dao carRepository = repositoryFactory.getCarDao();
-            return carRepository.read(criteria);
+        try (DaoFactory daoFactory = new DaoFactory()) {
+            Dao carDao = daoFactory.getCarDao();
+            return carDao.read(criteria);
         } catch (DaoException | DbException ex) {
             LOG.error(CAR_CRITERIA_ERROR, ex);
             throw new ServiceException(CAR_CRITERIA_ERROR, ex);

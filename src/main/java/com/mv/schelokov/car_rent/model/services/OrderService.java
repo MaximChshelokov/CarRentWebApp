@@ -20,8 +20,8 @@ import com.mv.schelokov.car_rent.model.db.dao.interfaces.Dao;
 public class OrderService {
     
     private static final Logger LOG = Logger.getLogger(OrderService.class);
-    private static final String ORDER_REPOSITORY_ERROR = "Failed to get an order "
-            + "list form the repository by the criteria";
+    private static final String ORDER_DAO_ERROR = "Failed to get an order "
+            + "list form the dao by the criteria";
     private static final String ORDER_OPERATION_ERROR = "Failed to write an order";
     
     private static enum Operation {CREATE, UPDATE, DELETE}
@@ -82,22 +82,22 @@ public class OrderService {
     
     private static void operateOrder(RentOrder order, Operation operation)
             throws ServiceException {
-        try (DaoFactory repositoryFactory = new DaoFactory()) {
-            Dao orderRepository = repositoryFactory
+        try (DaoFactory daoFactory = new DaoFactory()) {
+            Dao orderDao = daoFactory
                     .getRentOrderDao();
             boolean result = false;
             switch (operation) {
                 case CREATE:
-                    result = orderRepository.add(order);
+                    result = orderDao.add(order);
                     break;
                 case UPDATE:
-                    result = orderRepository.update(order);
+                    result = orderDao.update(order);
                     break;
                 case DELETE:
-                    result = orderRepository.remove(order);
+                    result = orderDao.remove(order);
             }
             if (!result)
-                throw new ServiceException("Unable to operate to OrderRepository");
+                throw new ServiceException("Unable to operate to OrderDao");
         }
         catch (DaoException | DbException ex) {
             LOG.error(ORDER_OPERATION_ERROR, ex);
@@ -113,13 +113,13 @@ public class OrderService {
     
     private static List getOrdersByCriteria(Criteria criteria)
             throws ServiceException {
-        try(DaoFactory repositoryFactory = new DaoFactory()) {
-            Dao orderRepository = repositoryFactory
+        try(DaoFactory daoFactory = new DaoFactory()) {
+            Dao orderDao = daoFactory
                     .getRentOrderDao();
-            return orderRepository.read(criteria);
+            return orderDao.read(criteria);
         } catch (DaoException | DbException ex) {
-            LOG.error(ORDER_REPOSITORY_ERROR, ex);
-            throw new ServiceException(ORDER_REPOSITORY_ERROR, ex);
+            LOG.error(ORDER_DAO_ERROR, ex);
+            throw new ServiceException(ORDER_DAO_ERROR, ex);
         }
     }
     
