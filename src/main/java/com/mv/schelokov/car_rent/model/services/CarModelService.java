@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
  */
 public class CarModelService {
     
-    private static final Logger LOG = Logger.getLogger(CarService.class);
+    private static final Logger LOG = Logger.getLogger(CarModelService.class);
     private static final String MODEL_NAME_ERROR = "Failed to get model by "
             + "name from the DAO";
     private static final String MODEL_CREATE_ERROR = "Failed to create new model";

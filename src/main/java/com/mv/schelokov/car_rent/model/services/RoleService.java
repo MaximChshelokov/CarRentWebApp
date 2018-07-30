@@ -17,7 +17,7 @@ import org.apache.log4j.Logger;
  */
 public class RoleService {
     
-    private static final Logger LOG = Logger.getLogger(UserService.class);
+    private static final Logger LOG = Logger.getLogger(RoleService.class);
     private static final String ROLE_DAO_ERROR = "Failed to get roles "
             + "list from the dao";
     private static final String INSTANCE_ERROR = "Failed to get instance";

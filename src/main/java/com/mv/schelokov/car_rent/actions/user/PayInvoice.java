@@ -34,11 +34,13 @@ public class PayInvoice extends AbstractAction {
             User user = (User) req.getSession().getAttribute(SessionAttr.USER);
             try {
                 RentOrder order = OrderService.getOrdersByUser(user);
-                Invoice invoice = InvoiceService.getInvoiceById(order.getId());
+                
+                InvoiceService invoiceService = InvoiceService.getInstance();
+                Invoice invoice = invoiceService.getInvoiceById(order.getId());
 
                 invoice.setPaid(invoice.getTotal());
                 
-                InvoiceService.updateInvoice(invoice);
+                invoiceService.updateInvoice(invoice);
                 
                 forward.setUrl("action/home");
                 forward.setRedirect(true);

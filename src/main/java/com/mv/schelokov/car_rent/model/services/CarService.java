@@ -43,8 +43,6 @@ public class CarService {
         return localInstance;
     }
 
-    private CarService() {}
-    
     public List getAllCars() throws ServiceException {
         Criteria criteria = CriteriaFactory.getAllCars();
         return getCarsByCriteria(criteria);
@@ -106,4 +104,6 @@ public class CarService {
             throw new ServiceException(CAR_CRITERIA_ERROR, ex);
         }
     }
+    
+    private CarService() {}
 }

@@ -17,7 +17,7 @@ import org.apache.log4j.Logger;
  */
 public class UserDataService {
     
-    private static final Logger LOG = Logger.getLogger(UserService.class);
+    private static final Logger LOG = Logger.getLogger(UserDataService.class);
     private static final String ERROR_CREATE = "Failed to create user data";
     private static final String UPDATE_ERROR = "Failed to update user data";
     private static final String DELETE_ERROR = "Failed to delete user data";

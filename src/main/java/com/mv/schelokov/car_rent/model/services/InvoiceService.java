@@ -26,18 +26,33 @@ public class InvoiceService {
     private static final Logger LOG = Logger.getLogger(InvoiceService.class);
     private static final String INVOICE_DAO_ERROR = "Failed to get an"
             + " invoice list form the dao by the criteria";
-    private static final String INVOICE_OPERATION_ERROR = "Failed to operate an"
+    private static final String ERROR_CREATE = "Failed to create an"
             + " invoice";
-    private static final String INVOICE_LINE_OPERATION_ERROR = "Failed to "
-            + "operate an invoice line";
-    private static final String INVOICE_LINE_DAO_ERROR = "Failed to get"
-            + " an invoice line list form the dao by the criteria";
+    private static final String ERROR_UPDATE = "Failed to update an"
+            + " invoice";
+    private static final String ERROR_DELETE = "Failed to delete an"
+            + " invoice";
+    private static final String INSTANCE_ERROR = "Failed to get instance";
+    private static volatile InvoiceService instance;
 
-    private static enum Operation {
-        CREATE, UPDATE, DELETE
+    public static InvoiceService getInstance() throws ServiceException {
+        InvoiceService localInstance = instance;
+        if (localInstance == null) {
+            synchronized (InvoiceService.class) {
+                localInstance = instance;
+                if (localInstance == null) {
+                    instance = localInstance = new InvoiceService();
+                }
+            }
+        }
+        if (localInstance == null) {
+            LOG.error(INSTANCE_ERROR);
+            throw new ServiceException(INSTANCE_ERROR);
+        }
+        return localInstance;
     }
     
-    public static void openNewInvoice(RentOrder rentOrder)
+    public void openNewInvoice(RentOrder rentOrder)
             throws ServiceException {
         Invoice invoice = new InvoiceBuilder()
                 .setId(rentOrder.getId())
@@ -54,13 +69,15 @@ public class InvoiceService {
                 .setInvoiceId(invoice.getId())
                 .setAmount(days * rentOrder.getCar().getPrice())
                 .getInvoiceLine();
-        createInvoiceLine(invoiceLine);
+        InvoiceLineService.getInstance().createInvoiceLine(invoiceLine);
     }
     
-    public static void recalculateInvoice(RentOrder rentOrder)
+    public void recalculateInvoice(RentOrder rentOrder)
             throws ServiceException {
         Date today = DateUtils.onlyDate(new Date());
-        if (getInvoiceLinesByInvoiceId(rentOrder.getId()).size() < 2
+        InvoiceLineService invoiceLineService = InvoiceLineService.getInstance();
+        if (invoiceLineService.getInvoiceLinesByInvoiceId(
+                rentOrder.getId()).size() < 2
                 && !rentOrder.getEndDate().equals(today)) {
             int newDays = DateUtils.days(rentOrder.getStartDate(), today);
             int days = DateUtils.days(rentOrder.getStartDate(),
@@ -73,11 +90,11 @@ public class InvoiceService {
                     .setAmount(sumDifference)
                     .setInvoiceId(rentOrder.getId())
                     .getInvoiceLine();
-            createInvoiceLine(invoiceLine);
+            invoiceLineService.createInvoiceLine(invoiceLine);
         }
     }
     
-    public static Invoice getInvoiceById(int id) throws ServiceException {
+    public Invoice getInvoiceById(int id) throws ServiceException {
         Criteria criteria = CriteriaFactory.findInvoiceById(id);
         List invoiceList = getInvoiceByCriteria(criteria);
         if (invoiceList.isEmpty())
@@ -87,83 +104,52 @@ public class InvoiceService {
                     
     }
     
-    public static List getInvoiceLinesByInvoiceId(int id)
-            throws ServiceException {
-        Criteria criteria = CriteriaFactory.findInvoiceLinesByInvoiceId(id);
-        return getInvoiceLinesByCriteria(criteria);
-    }
+
     
-    public static void createInvoice(Invoice invoice) throws ServiceException {
-        operateInvoice(invoice, Operation.CREATE);
-    }
-    
-    public static void updateInvoice(Invoice invoice) throws ServiceException {
-        operateInvoice(invoice, Operation.UPDATE);
-    }
-    
-    public static void deleteInvoice(Invoice invoice) throws ServiceException {
-        operateInvoice(invoice, Operation.DELETE);
-    }
-    
-    public static void createInvoiceLine(InvoiceLine invoiceLine) throws
-            ServiceException {
-        operateInvoiceLine(invoiceLine, Operation.CREATE);
-    }
-    
-    private static void operateInvoice(Invoice invoice, Operation operation)
-            throws ServiceException {
+    public void createInvoice(Invoice invoice) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
-            Dao invoiceDao = daoFactory
-                    .getInvoiceDao();
-            boolean result = false;
-            switch (operation) {
-                case CREATE:
-                    result = invoiceDao.add(invoice);
-                    break;
-                case UPDATE:
-                    result = invoiceDao.update(invoice);
-                    break;
-                case DELETE:
-                    result = invoiceDao.remove(invoice);
-            }
-            if (!result) {
-                throw new ServiceException("Unable to operate to InvoiceDao");
+            Dao invoiceDao = daoFactory.getInvoiceDao();
+            if (!invoiceDao.add(invoice)) {
+                LOG.error(ERROR_CREATE);
+                throw new ServiceException(ERROR_CREATE);
             }
         }
         catch (DaoException | DbException ex) {
-            LOG.error(INVOICE_OPERATION_ERROR, ex);
-            throw new ServiceException(INVOICE_OPERATION_ERROR, ex);
+            LOG.error(ERROR_CREATE, ex);
+            throw new ServiceException(ERROR_CREATE, ex);
         }
     }
     
-    private static void operateInvoiceLine(InvoiceLine invoiceLine, 
-            Operation operation) throws ServiceException {
+    public void updateInvoice(Invoice invoice) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
-            Dao invoiceLineDao = daoFactory
-                    .getInvoiceLineDao();
-            boolean result = false;
-            switch (operation) {
-                case CREATE:
-                    result = invoiceLineDao.add(invoiceLine);
-                    break;
-                case UPDATE:
-                    result = invoiceLineDao.update(invoiceLine);
-                    break;
-                case DELETE:
-                    result = invoiceLineDao.remove(invoiceLine);
-            }
-            if (!result) {
-                throw new ServiceException("Unable to operate to "
-                        + "InvoiceLineDao");
+            Dao invoiceDao = daoFactory.getInvoiceDao();
+            if (!invoiceDao.update(invoice)) {
+                LOG.error(ERROR_UPDATE);
+                throw new ServiceException(ERROR_UPDATE);
             }
         }
         catch (DaoException | DbException ex) {
-            LOG.error(INVOICE_LINE_OPERATION_ERROR, ex);
-            throw new ServiceException(INVOICE_LINE_OPERATION_ERROR, ex);
+            LOG.error(ERROR_UPDATE, ex);
+            throw new ServiceException(ERROR_UPDATE, ex);
         }
     }
     
-    private static List getInvoiceByCriteria(Criteria criteria)
+    public void deleteInvoice(Invoice invoice) throws ServiceException {
+        try (DaoFactory daoFactory = new DaoFactory()) {
+            Dao invoiceDao = daoFactory.getInvoiceDao();
+            if (!invoiceDao.remove(invoice)) {
+                LOG.error(ERROR_DELETE);
+                throw new ServiceException(ERROR_DELETE);
+            }
+        }
+        catch (DaoException | DbException ex) {
+            LOG.error(ERROR_DELETE, ex);
+            throw new ServiceException(ERROR_DELETE, ex);
+        }
+    }
+    
+    
+    private List getInvoiceByCriteria(Criteria criteria)
             throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
             Dao invoiceDao = daoFactory
@@ -176,16 +162,5 @@ public class InvoiceService {
         }
     }
     
-    private static List getInvoiceLinesByCriteria(Criteria criteria)
-            throws ServiceException {
-        try (DaoFactory daoFactory = new DaoFactory()) {
-            Dao invoiceLineDao = daoFactory
-                    .getInvoiceLineDao();
-            return invoiceLineDao.read(criteria);
-        }
-        catch (DaoException | DbException ex) {
-            LOG.error(INVOICE_LINE_DAO_ERROR, ex);
-            throw new ServiceException(INVOICE_LINE_DAO_ERROR, ex);
-        }
-    }
+    private InvoiceService() {}
 }

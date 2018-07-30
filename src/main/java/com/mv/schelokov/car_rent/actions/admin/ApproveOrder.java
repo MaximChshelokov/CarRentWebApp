@@ -46,7 +46,7 @@ public class ApproveOrder extends AbstractAction {
                 car.setAvailable(false);
                 carService.updateCar(car);
                 
-                InvoiceService.openNewInvoice(order);
+                InvoiceService.getInstance().openNewInvoice(order);
                 
                 forward.setUrl("action/order_list");
                 forward.setRedirect(true);

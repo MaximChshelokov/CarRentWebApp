@@ -9,6 +9,7 @@ import com.mv.schelokov.car_rent.model.entity.Invoice;
 import com.mv.schelokov.car_rent.model.entity.RentOrder;
 import com.mv.schelokov.car_rent.model.entity.User;
 import com.mv.schelokov.car_rent.model.services.CarService;
+import com.mv.schelokov.car_rent.model.services.InvoiceLineService;
 import com.mv.schelokov.car_rent.model.services.InvoiceService;
 import com.mv.schelokov.car_rent.model.services.OrderService;
 import com.mv.schelokov.car_rent.model.services.exceptions.ServiceException;
@@ -39,7 +40,8 @@ public class ShowInvoicePage extends AbstractAction {
                     return forward;
                 }
 
-                Invoice invoice = InvoiceService.getInvoiceById(order.getId());
+                Invoice invoice = InvoiceService.getInstance()
+                        .getInvoiceById(order.getId());
                 
                 if (invoice.getTotal() != invoice.getPaid()) {
                     CarService carService = CarService.getInstance();
@@ -49,8 +51,9 @@ public class ShowInvoicePage extends AbstractAction {
 
                     req.setAttribute("invoice", invoice);
 
-                    req.setAttribute("invoice_lines", InvoiceService
-                        .getInvoiceLinesByInvoiceId(invoice.getId()));
+                    req.setAttribute("invoice_lines", InvoiceLineService
+                            .getInstance()
+                            .getInvoiceLinesByInvoiceId(invoice.getId()));
                 }
 
                 forward.setUrl(Jsps.USER_INVOICE);

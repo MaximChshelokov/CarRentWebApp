@@ -17,7 +17,7 @@ import org.apache.log4j.Logger;
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
 public class CarMakeService {
-    private static final Logger LOG = Logger.getLogger(CarService.class);
+    private static final Logger LOG = Logger.getLogger(CarMakeService.class);
     private static final String MAKE_NAME_ERROR = "Failed to get make by "
             + "name from the DAO";
     private static final String MAKE_CREATE_ERROR = "Failed to create new make";

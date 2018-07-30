@@ -7,6 +7,7 @@ import com.mv.schelokov.car_rent.exceptions.ActionException;
 import com.mv.schelokov.car_rent.model.entity.Invoice;
 import com.mv.schelokov.car_rent.model.entity.RentOrder;
 import com.mv.schelokov.car_rent.model.services.CarService;
+import com.mv.schelokov.car_rent.model.services.InvoiceLineService;
 import com.mv.schelokov.car_rent.model.services.InvoiceService;
 import com.mv.schelokov.car_rent.model.services.OrderService;
 import com.mv.schelokov.car_rent.model.services.UserDataService;
@@ -36,7 +37,8 @@ public class ShowBillOrderPage extends AbstractAction {
                 throw new ActionException("Incorrect order id");
             try {
                 RentOrder order = OrderService.getOrderById(orderId);
-                InvoiceService.recalculateInvoice(order);
+                InvoiceService invoiceService = InvoiceService.getInstance();
+                invoiceService.recalculateInvoice(order);
                 
                 CarService carService = CarService.getInstance();
                 
@@ -46,10 +48,11 @@ public class ShowBillOrderPage extends AbstractAction {
                 req.setAttribute("car",
                         carService.getCarById(order.getCar().getId()));
                 
-                Invoice invoice = InvoiceService.getInvoiceById(order.getId());
+                Invoice invoice = invoiceService.getInvoiceById(order.getId());
                 req.setAttribute("invoice", invoice);
                 
-                req.setAttribute("invoice_lines", InvoiceService
+                req.setAttribute("invoice_lines", InvoiceLineService
+                        .getInstance()
                         .getInvoiceLinesByInvoiceId(invoice.getId()));
                 
                 forward.setUrl(Jsps.ADMIN_BILL_ORDER);
