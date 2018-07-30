@@ -34,9 +34,11 @@ public class CloseOrder extends AbstractAction {
             try {
                 RentOrder order = (RentOrder) OrderService.getOrderById(invoiceId);
                 
-                Car car = CarService.getCarById(order.getCar().getId());
+                CarService carService = CarService.getInstance();
+                
+                Car car = carService.getCarById(order.getCar().getId());
                 car.setAvailable(true);
-                CarService.updateCar(car);
+                carService.updateCar(car);
                 
                 forward.setUrl("action/opened_orders");
                 forward.setRedirect(true);

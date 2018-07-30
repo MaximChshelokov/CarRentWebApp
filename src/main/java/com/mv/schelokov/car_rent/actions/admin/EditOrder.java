@@ -35,7 +35,10 @@ public class EditOrder extends AbstractAction {
                 throw new ActionException("Invalid order id");
             try {
                 RentOrder order = OrderService.getOrderById(id);
-                req.setAttribute("car_list", CarService.getAvailableCars());
+                
+                CarService carService = CarService.getInstance();
+                
+                req.setAttribute("car_list", carService.getAvailableCars());
                 req.setAttribute("order", order);
                 req.setAttribute("start_date", 
                         FORMAT.format(order.getStartDate()));

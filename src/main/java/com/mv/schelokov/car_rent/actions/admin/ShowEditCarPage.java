@@ -28,7 +28,9 @@ public class ShowEditCarPage extends AbstractAction {
         if (isAdmin(req)) {
             int id = getIntParam(req, "id");
             try {
-                req.setAttribute("car", CarService.getCarById(id));
+                CarService carService = CarService.getInstance();
+
+                req.setAttribute("car", carService.getCarById(id));
                 
                 forward.setUrl(Jsps.ADMIN_EDIT_CAR);
                 

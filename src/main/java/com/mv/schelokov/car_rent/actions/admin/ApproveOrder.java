@@ -40,9 +40,11 @@ public class ApproveOrder extends AbstractAction {
                         .getAttribute(SessionAttr.USER));
                 OrderService.updateOrder(order);
                 
-                Car car = CarService.getCarById(order.getCar().getId());
+                CarService carService = CarService.getInstance();
+
+                Car car = carService.getCarById(order.getCar().getId());
                 car.setAvailable(false);
-                CarService.updateCar(car);
+                carService.updateCar(car);
                 
                 InvoiceService.openNewInvoice(order);
                 

@@ -28,7 +28,9 @@ public class DeleteCar extends AbstractAction {
             if (carId < 1)
                 throw new ActionException("Failed to delete car, wrong id");
             try {
-                CarService.deleteCar(new CarBuilder().setId(carId).getCar());
+                CarService carService = CarService.getInstance();
+
+                carService.deleteCar(new CarBuilder().setId(carId).getCar());
                 
                 forward.setUrl("action/car_list");
                 forward.setRedirect(true);

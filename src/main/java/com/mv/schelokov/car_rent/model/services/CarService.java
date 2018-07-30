@@ -6,10 +6,6 @@ import com.mv.schelokov.car_rent.model.db.dao.factories.CriteriaFactory;
 import com.mv.schelokov.car_rent.model.db.dao.factories.DaoFactory;
 import com.mv.schelokov.car_rent.model.db.dao.interfaces.Criteria;
 import com.mv.schelokov.car_rent.model.entity.Car;
-import com.mv.schelokov.car_rent.model.entity.CarMake;
-import com.mv.schelokov.car_rent.model.entity.CarModel;
-import com.mv.schelokov.car_rent.model.entity.builders.CarMakeBuilder;
-import com.mv.schelokov.car_rent.model.entity.builders.CarModelBuilder;
 import com.mv.schelokov.car_rent.model.services.exceptions.ServiceException;
 import java.util.List;
 import org.apache.log4j.Logger;
@@ -23,26 +19,43 @@ public class CarService {
     
     private static final Logger LOG = Logger.getLogger(CarService.class);
     private static final String CAR_CRITERIA_ERROR = "Failed to get car list "
-            + "from the repository by the criteria";
-    private static final String MODEL_NAME_ERROR = "Failed to get model by "
-            + "name from the repository";
-    private static final String MAKE_NAME_ERROR = "Failed to get make by "
-            + "name from the repository";
-    private static final String MODEL_CREATE_ERROR = "Failed to create new model";
-    private static final String MAKE_CREATE_ERROR =  "Failed to create new make";
-    private static enum Operation { CREATE, UPDATE, DELETE }
+            + "from the DAO by the criteria";
+    private static final String DELETE_ERROR = "Failed to delete a car";
+    private static final String UPDATE_ERROR = "Failed to update a car";
+    private static final String CREATE_ERROR = "Failed to create a car";
+    private static final String INSTANCE_ERROR = "Failed to get instance";
+    private static volatile CarService instance;
+
+    public static CarService getInstance() throws ServiceException {
+        CarService localInstance = instance;
+        if (localInstance == null) {
+            synchronized (CarService.class) {
+                localInstance = instance;
+                if (localInstance == null) {
+                    instance = localInstance = new CarService();
+                }
+            }
+        }
+        if (localInstance == null) {
+            LOG.error(INSTANCE_ERROR);
+            throw new ServiceException(INSTANCE_ERROR);
+        }
+        return localInstance;
+    }
+
+    private CarService() {}
     
-    public static List getAllCars() throws ServiceException {
+    public List getAllCars() throws ServiceException {
         Criteria criteria = CriteriaFactory.getAllCars();
         return getCarsByCriteria(criteria);
     }
     
-    public static List getAvailableCars() throws ServiceException {
+    public List getAvailableCars() throws ServiceException {
         Criteria criteria = CriteriaFactory.getAvailableCars();
         return getCarsByCriteria(criteria);
     }
     
-    public static Car getCarById(int id) throws ServiceException {
+    public Car getCarById(int id) throws ServiceException {
         Criteria criteria = CriteriaFactory.getCarById(id);
         List result = getCarsByCriteria(criteria);
         if (result.isEmpty())
@@ -51,114 +64,36 @@ public class CarService {
             return (Car) result.get(0);
     }
     
-    public static void deleteCar(Car car) throws ServiceException {
-        operateCar(car, Operation.DELETE);
-    }
-    
-    public static void updateCar(Car car) throws ServiceException {
-        operateCar(car, Operation.UPDATE);
-    }
-    
-    public static void createCar(Car car) throws ServiceException {
-        operateCar(car, Operation.CREATE);
-    }
-    
-    private static void operateCar(Car car, Operation operation)
-            throws ServiceException {
+    public void deleteCar(Car car) throws ServiceException {
         try (DaoFactory repositoryFactory = new DaoFactory()) {
             Dao carRepository = repositoryFactory.getCarDao();
-            switch (operation) {
-                case CREATE:
-                    carRepository.add(car);
-                    break;
-                case UPDATE:
-                    carRepository.update(car);
-                    break;
-                case DELETE:
-                    carRepository.remove(car);
-            }
+            carRepository.remove(car);
         }
         catch (DaoException | DbException ex) {
-            LOG.error(MODEL_NAME_ERROR, ex);
-            throw new ServiceException(MODEL_NAME_ERROR, ex);
-        }   
+            LOG.error(DELETE_ERROR, ex);
+            throw new ServiceException(DELETE_ERROR, ex);
+        }
     }
     
-    public static CarModel getModelByNameOrCreate(String modelName, String makeName)
-            throws ServiceException {
-        if (modelName == null || modelName.isEmpty()) {
-            return new CarModelBuilder().setId(0).getCarModel();
-        }
-        CarModel model = new CarModelBuilder()
-                .setName(modelName)
-                .setCarMake(getMakeByNameOrCreate(makeName))
-                .getCarModel();
-        List modelList = getModel(model);
-        if (modelList.isEmpty()) {
-            modelList = createModel(model);
-        }
-        return (CarModel) modelList.get(0);
-    }
-
-    private static CarMake getMakeByNameOrCreate(String makeName)
-            throws ServiceException {
-        if (makeName == null || makeName.isEmpty()) {
-            return new CarMakeBuilder().setId(0).getCarMake();
-        }
-        List makeList = getMakeByName(makeName);
-        if (makeList.isEmpty()) {
-            makeList = createMake(new CarMakeBuilder()
-                    .setName(makeName)
-                    .getCarMake());
-        }
-        return (CarMake) makeList.get(0);
-    }
-    
-    public static List getModel(CarModel model) throws ServiceException {
-        Criteria criteria = CriteriaFactory.findModel(model);
+    public void updateCar(Car car) throws ServiceException {
         try (DaoFactory repositoryFactory = new DaoFactory()) {
-            Dao modelRepository = repositoryFactory.getModelDao();
-            return modelRepository.read(criteria);
+            Dao carRepository = repositoryFactory.getCarDao();
+            carRepository.update(car);
         }
         catch (DaoException | DbException ex) {
-            LOG.error(MODEL_NAME_ERROR, ex);
-            throw new ServiceException(MODEL_NAME_ERROR, ex);
+            LOG.error(UPDATE_ERROR, ex);
+            throw new ServiceException(UPDATE_ERROR, ex);
         }
     }
     
-    public static List createModel(CarModel model) throws ServiceException {
+    public void createCar(Car car) throws ServiceException {
         try (DaoFactory repositoryFactory = new DaoFactory()) {
-            Dao modelRepository = repositoryFactory.getModelDao();
-            modelRepository.add(model);
-            repositoryFactory.commit();
-            return getModel(model);
-        } catch (DaoException | DbException ex) {
-            LOG.error(MODEL_CREATE_ERROR, ex);
-            throw new ServiceException(MODEL_CREATE_ERROR, ex);
-        }
-    }
-    
-    public static List getMakeByName(String name) throws ServiceException {
-        Criteria criteria = CriteriaFactory.getMakeByName(name);
-        try (DaoFactory repositoryFactory = new DaoFactory()) {
-            Dao makeRepository = repositoryFactory.getMakeDao();
-            return makeRepository.read(criteria);
+            Dao carRepository = repositoryFactory.getCarDao();
+            carRepository.add(car);
         }
         catch (DaoException | DbException ex) {
-            LOG.error(MAKE_NAME_ERROR, ex);
-            throw new ServiceException(MAKE_NAME_ERROR, ex);
-        }
-    }
-    
-    public static List createMake(CarMake make) throws ServiceException {
-        try (DaoFactory repositoryFactory = new DaoFactory()) {
-            Dao makeRepository = repositoryFactory.getMakeDao();
-            makeRepository.add(make);
-            repositoryFactory.commit();
-            return getMakeByName(make.getName());
-        } catch (DaoException | DbException ex) {
-            LOG.error(MAKE_CREATE_ERROR, ex);
-            throw new ServiceException(MAKE_CREATE_ERROR, ex);
+            LOG.error(CREATE_ERROR, ex);
+            throw new ServiceException(CREATE_ERROR, ex);
         }
     }
     

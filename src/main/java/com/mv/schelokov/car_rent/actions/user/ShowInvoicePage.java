@@ -42,9 +42,10 @@ public class ShowInvoicePage extends AbstractAction {
                 Invoice invoice = InvoiceService.getInvoiceById(order.getId());
                 
                 if (invoice.getTotal() != invoice.getPaid()) {
-                
+                    CarService carService = CarService.getInstance();
+                    
                     req.setAttribute("car",
-                        CarService.getCarById(order.getCar().getId()));
+                        carService.getCarById(order.getCar().getId()));
 
                     req.setAttribute("invoice", invoice);
 

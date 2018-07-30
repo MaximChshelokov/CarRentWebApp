@@ -37,10 +37,12 @@ public class ShowBillOrderPage extends AbstractAction {
                 RentOrder order = OrderService.getOrderById(orderId);
                 InvoiceService.recalculateInvoice(order);
                 
+                CarService carService = CarService.getInstance();
+                
                 req.setAttribute("user_data",
                         UserService.getUserDataById(order.getUser().getId()));
                 req.setAttribute("car",
-                        CarService.getCarById(order.getCar().getId()));
+                        carService.getCarById(order.getCar().getId()));
                 
                 Invoice invoice = InvoiceService.getInvoiceById(order.getId());
                 req.setAttribute("invoice", invoice);

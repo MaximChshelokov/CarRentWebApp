@@ -32,11 +32,13 @@ public class ShowOrderViewPage extends AbstractAction {
             int orderId = getIntParam(req, "id");
             try {
                 RentOrder order = OrderService.getOrderById(orderId);
+                CarService carService = CarService.getInstance();
+
                 req.setAttribute("order", order);
                 req.setAttribute("user_data", 
                         UserService.getUserDataById(order.getUser().getId()));
                 req.setAttribute("car",
-                        CarService.getCarById(order.getCar().getId()));
+                        carService.getCarById(order.getCar().getId()));
                 
                 forward.setUrl(Jsps.ADMIN_ORDER_VIEW);
                 

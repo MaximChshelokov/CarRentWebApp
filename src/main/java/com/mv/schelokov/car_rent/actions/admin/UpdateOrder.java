@@ -62,8 +62,11 @@ public class UpdateOrder extends AbstractAction {
                     
                     return forward;
                 }
+                
+                CarService carService = CarService.getInstance();
+
                 req.setAttribute("errParam", validationResult);
-                req.setAttribute("car_list", CarService.getAvailableCars());
+                req.setAttribute("car_list", carService.getAvailableCars());
                 req.setAttribute("order", order);
                 req.setAttribute("start_date",
                         FORMAT.format(order.getStartDate()));

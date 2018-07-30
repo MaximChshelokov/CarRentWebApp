@@ -6,6 +6,7 @@ import com.mv.schelokov.car_rent.consts.Jsps;
 import com.mv.schelokov.car_rent.exceptions.ActionException;
 import com.mv.schelokov.car_rent.model.entity.Car;
 import com.mv.schelokov.car_rent.model.entity.builders.CarBuilder;
+import com.mv.schelokov.car_rent.model.services.CarModelService;
 import com.mv.schelokov.car_rent.model.services.CarService;
 import com.mv.schelokov.car_rent.model.services.exceptions.ServiceException;
 import com.mv.schelokov.car_rent.model.validators.CarValidator;
@@ -31,12 +32,15 @@ public class UpdateCar extends AbstractAction {
         if (isAdmin(req)) {
             try {
                 int carId = getIntParam(req, "id");
+                
+                CarModelService carModelService = CarModelService.getInstance();
+                
                 Car car = new CarBuilder()
                         .setId(carId)
                         .setLicensePlate(req.getParameter("plate"))
                         .setPrice(getIntParam(req, "price"))
                         .setYearOfMake(getIntParam(req, "year"))
-                        .setModel(CarService.getModelByNameOrCreate(
+                        .setModel(carModelService.getModelByNameOrCreate(
                                 req.getParameter("model"),
                                 req.getParameter("make")))
                         .getCar();
@@ -49,11 +53,14 @@ public class UpdateCar extends AbstractAction {
                     
                     return forward;
                 }
+                
+                CarService carService = CarService.getInstance();
+                
                 if (car.getId() == 0) {
                     car.setAvailable(true);
-                    CarService.createCar(car);
+                    carService.createCar(car);
                 } else
-                    CarService.updateCar(car);
+                    carService.updateCar(car);
                 
                 forward.setUrl("action/car_list");
                 forward.setRedirect(true);

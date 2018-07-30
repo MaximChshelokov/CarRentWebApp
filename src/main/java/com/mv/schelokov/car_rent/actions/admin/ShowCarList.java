@@ -28,7 +28,9 @@ public class ShowCarList extends AbstractAction {
         
         if (isAdmin(req)) {
             try {
-                req.setAttribute("car_list", CarService.getAllCars());
+                CarService carService = CarService.getInstance();
+
+                req.setAttribute("car_list", carService.getAllCars());
                 
                 forward.setUrl(Jsps.ADMIN_CARS_LIST);
                 
