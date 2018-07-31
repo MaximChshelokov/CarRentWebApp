@@ -18,7 +18,6 @@ import org.apache.log4j.Logger;
  */
 public class ErrorFilter implements Filter {
     
-    private static final Logger LOG = Logger.getLogger(ErrorFilter.class);
     private static final Map<Integer, String> ERROR_MESSAGE = new HashMap<>();
     
     static {

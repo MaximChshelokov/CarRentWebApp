@@ -1,7 +1,7 @@
-package com.mv.schelokov.carent.actions;
+package com.mv.schelokov.carent.actions.interfaces;
 
-import com.mv.schelokov.carent.consts.SessionAttr;
-import com.mv.schelokov.carent.exceptions.ActionException;
+import com.mv.schelokov.carent.actions.consts.SessionAttr;
+import com.mv.schelokov.carent.actions.exceptions.ActionException;
 import com.mv.schelokov.carent.model.entity.User;
 import java.io.IOException;
 import java.net.HttpURLConnection;

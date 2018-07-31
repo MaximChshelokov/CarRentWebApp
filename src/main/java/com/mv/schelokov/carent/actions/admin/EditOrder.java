@@ -1,10 +1,10 @@
 package com.mv.schelokov.carent.actions.admin;
 
-import com.mv.schelokov.carent.actions.AbstractAction;
+import com.mv.schelokov.carent.actions.interfaces.AbstractAction;
 import com.mv.schelokov.carent.actions.JspForward;
 import com.mv.schelokov.carent.actions.user.CreateOrder;
-import com.mv.schelokov.carent.consts.Jsps;
-import com.mv.schelokov.carent.exceptions.ActionException;
+import com.mv.schelokov.carent.actions.consts.Jsps;
+import com.mv.schelokov.carent.actions.exceptions.ActionException;
 import com.mv.schelokov.carent.model.entity.RentOrder;
 import com.mv.schelokov.carent.model.services.CarService;
 import com.mv.schelokov.carent.model.services.OrderService;
@@ -21,6 +21,7 @@ import org.apache.log4j.Logger;
 public class EditOrder extends AbstractAction {
     private static final Logger LOG = Logger.getLogger(EditOrder.class);
     private static final String ERROR = "Failed to prepare rent order edit page";
+    private static final String WRONG_ID = "Wrong id parameter for order entity";
     private static final SimpleDateFormat FORMAT
             = new SimpleDateFormat("yyyy-MM-dd");
     @Override
@@ -32,7 +33,7 @@ public class EditOrder extends AbstractAction {
         if (isAdmin(req)) {
             int id = getIntParam(req, "id");
             if (id < 1)
-                throw new ActionException("Invalid order id");
+                throw new ActionException(WRONG_ID);
             try {
                 RentOrder order = OrderService.getInstance().getOrderById(id);
                 

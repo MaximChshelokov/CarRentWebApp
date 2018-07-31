@@ -1,7 +1,8 @@
 package com.mv.schelokov.carent.actions;
 
-import com.mv.schelokov.carent.consts.Cookies;
-import com.mv.schelokov.carent.exceptions.ActionException;
+import com.mv.schelokov.carent.actions.interfaces.AbstractAction;
+import com.mv.schelokov.carent.actions.consts.Cookies;
+import com.mv.schelokov.carent.actions.exceptions.ActionException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

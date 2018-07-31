@@ -1,9 +1,9 @@
 package com.mv.schelokov.carent.actions.admin;
 
-import com.mv.schelokov.carent.actions.AbstractAction;
+import com.mv.schelokov.carent.actions.interfaces.AbstractAction;
 import com.mv.schelokov.carent.actions.JspForward;
-import com.mv.schelokov.carent.consts.Jsps;
-import com.mv.schelokov.carent.exceptions.ActionException;
+import com.mv.schelokov.carent.actions.consts.Jsps;
+import com.mv.schelokov.carent.actions.exceptions.ActionException;
 import com.mv.schelokov.carent.model.services.OrderService;
 import com.mv.schelokov.carent.model.services.exceptions.ServiceException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +17,7 @@ import org.apache.log4j.Logger;
 public class ShowOpenedOrdersPage extends AbstractAction {
     
     private static final Logger LOG = Logger.getLogger(ShowOpenedOrdersPage.class);
-    private static final String ERROR = "Unable to prepare opened orders page";
+    private static final String ERROR = "Unable to prepare order list page";
 
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)

@@ -1,5 +1,11 @@
-package com.mv.schelokov.carent.actions;
+package com.mv.schelokov.carent.actions.factory;
 
+import com.mv.schelokov.carent.actions.interfaces.Action;
+import com.mv.schelokov.carent.actions.ChangeLocale;
+import com.mv.schelokov.carent.actions.LogOut;
+import com.mv.schelokov.carent.actions.Login;
+import com.mv.schelokov.carent.actions.ShowPage;
+import com.mv.schelokov.carent.actions.SignUp;
 import com.mv.schelokov.carent.actions.admin.ApproveOrder;
 import com.mv.schelokov.carent.actions.admin.CloseOrder;
 import com.mv.schelokov.carent.actions.admin.DeleteCar;
@@ -28,7 +34,7 @@ import com.mv.schelokov.carent.actions.user.ShowInvoicePage;
 import com.mv.schelokov.carent.actions.user.ShowSelectCarPage;
 import com.mv.schelokov.carent.actions.user.ShowWelcomePage;
 import com.mv.schelokov.carent.actions.user.UpdateProfile;
-import com.mv.schelokov.carent.consts.Jsps;
+import com.mv.schelokov.carent.actions.consts.Jsps;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;

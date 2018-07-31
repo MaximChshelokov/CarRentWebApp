@@ -1,9 +1,9 @@
 package com.mv.schelokov.carent.controller;
 
-import com.mv.schelokov.carent.actions.Action;
-import com.mv.schelokov.carent.actions.ActionFactory;
+import com.mv.schelokov.carent.actions.interfaces.Action;
+import com.mv.schelokov.carent.actions.factory.ActionFactory;
 import com.mv.schelokov.carent.actions.JspForward;
-import com.mv.schelokov.carent.exceptions.ActionException;
+import com.mv.schelokov.carent.actions.exceptions.ActionException;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.rmi.ServerException;

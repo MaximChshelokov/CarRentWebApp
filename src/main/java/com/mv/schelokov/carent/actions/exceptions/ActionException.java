@@ -1,4 +1,4 @@
-package com.mv.schelokov.carent.exceptions;
+package com.mv.schelokov.carent.actions.exceptions;
 
 /**
  *

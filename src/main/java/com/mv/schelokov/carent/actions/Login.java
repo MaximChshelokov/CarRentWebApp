@@ -1,8 +1,9 @@
 package com.mv.schelokov.carent.actions;
 
-import com.mv.schelokov.carent.consts.Jsps;
-import com.mv.schelokov.carent.consts.SessionAttr;
-import com.mv.schelokov.carent.exceptions.ActionException;
+import com.mv.schelokov.carent.actions.interfaces.AbstractAction;
+import com.mv.schelokov.carent.actions.consts.Jsps;
+import com.mv.schelokov.carent.actions.consts.SessionAttr;
+import com.mv.schelokov.carent.actions.exceptions.ActionException;
 import com.mv.schelokov.carent.model.entity.User;
 import com.mv.schelokov.carent.model.entity.builders.RoleBuilder;
 import com.mv.schelokov.carent.model.entity.builders.UserBuilder;

@@ -1,9 +1,9 @@
 package com.mv.schelokov.carent.actions.admin;
 
-import com.mv.schelokov.carent.actions.AbstractAction;
+import com.mv.schelokov.carent.actions.interfaces.AbstractAction;
 import com.mv.schelokov.carent.actions.JspForward;
-import com.mv.schelokov.carent.consts.SessionAttr;
-import com.mv.schelokov.carent.exceptions.ActionException;
+import com.mv.schelokov.carent.actions.consts.SessionAttr;
+import com.mv.schelokov.carent.actions.exceptions.ActionException;
 import com.mv.schelokov.carent.model.entity.Car;
 import com.mv.schelokov.carent.model.entity.RentOrder;
 import com.mv.schelokov.carent.model.entity.User;
@@ -23,6 +23,7 @@ public class ApproveOrder extends AbstractAction {
     
     private static final Logger LOG = Logger.getLogger(ApproveOrder.class);
     private static final String ERROR = "Failed to update order";
+    private static final String WRONG_ID = "Wrong id parameter for order entity";
 
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
@@ -32,7 +33,7 @@ public class ApproveOrder extends AbstractAction {
         if (isAdmin(req)) {
             int orderId = getIntParam(req, "id");
             if (orderId < 1) {
-                throw new ActionException("Wrong id parameter for order entity");
+                throw new ActionException(WRONG_ID);
             }
             try {
                 OrderService orderService = OrderService.getInstance();

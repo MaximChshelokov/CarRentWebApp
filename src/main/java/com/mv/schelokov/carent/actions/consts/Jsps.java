@@ -1,4 +1,4 @@
-package com.mv.schelokov.carent.consts;
+package com.mv.schelokov.carent.actions.consts;
 
 /**
  *

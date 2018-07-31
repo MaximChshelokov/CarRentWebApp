@@ -1,8 +1,8 @@
 package com.mv.schelokov.carent.actions.admin;
 
-import com.mv.schelokov.carent.actions.AbstractAction;
+import com.mv.schelokov.carent.actions.interfaces.AbstractAction;
 import com.mv.schelokov.carent.actions.JspForward;
-import com.mv.schelokov.carent.exceptions.ActionException;
+import com.mv.schelokov.carent.actions.exceptions.ActionException;
 import com.mv.schelokov.carent.model.entity.builders.RentOrderBuilder;
 import com.mv.schelokov.carent.model.services.OrderService;
 import com.mv.schelokov.carent.model.services.exceptions.ServiceException;
@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 public class DeleteOrder extends AbstractAction {
     private static final Logger LOG = Logger.getLogger(DeleteOrder.class);
     private static final String ERROR = "Unable to delete the order";
+    private static final String WRONG_ID = "Wrong id parameter for order entity";
 
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
@@ -27,7 +28,7 @@ public class DeleteOrder extends AbstractAction {
         if (isAdmin(req)) {
             int orderId = getIntParam(req, "id");
             if (orderId < 1) {
-                throw new ActionException("Failed to delete order, wrong id");
+                throw new ActionException(WRONG_ID);
             }
             try {
                 OrderService.getInstance().deleteOrder(new RentOrderBuilder()

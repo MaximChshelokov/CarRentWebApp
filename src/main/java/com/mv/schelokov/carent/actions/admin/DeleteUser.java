@@ -1,8 +1,8 @@
 package com.mv.schelokov.carent.actions.admin;
 
-import com.mv.schelokov.carent.actions.AbstractAction;
+import com.mv.schelokov.carent.actions.interfaces.AbstractAction;
 import com.mv.schelokov.carent.actions.JspForward;
-import com.mv.schelokov.carent.exceptions.ActionException;
+import com.mv.schelokov.carent.actions.exceptions.ActionException;
 import com.mv.schelokov.carent.model.entity.UserData;
 import com.mv.schelokov.carent.model.entity.builders.UserBuilder;
 import com.mv.schelokov.carent.model.entity.builders.UserDataBuilder;
@@ -21,7 +21,8 @@ public class DeleteUser extends AbstractAction {
     
     private static final Logger LOG = Logger.getLogger(AbstractAction.class);
     private static final String ERROR = "Unable to delete user";
-    
+    private static final String WRONG_ID = "Wrong id parameter for user entity";
+
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
@@ -47,7 +48,7 @@ public class DeleteUser extends AbstractAction {
                 } else if (userId > 0) {
                     userService.deleteUser(userData.getUser());
                 } else {
-                    throw new ActionException("Failed to delete user, wrong id");
+                    throw new ActionException(WRONG_ID);
                 }
 
                 forward.setUrl("action/user_list");

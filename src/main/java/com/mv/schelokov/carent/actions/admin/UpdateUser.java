@@ -1,9 +1,9 @@
 package com.mv.schelokov.carent.actions.admin;
 
-import com.mv.schelokov.carent.actions.AbstractAction;
+import com.mv.schelokov.carent.actions.interfaces.AbstractAction;
 import com.mv.schelokov.carent.actions.JspForward;
-import com.mv.schelokov.carent.consts.Jsps;
-import com.mv.schelokov.carent.exceptions.ActionException;
+import com.mv.schelokov.carent.actions.consts.Jsps;
+import com.mv.schelokov.carent.actions.exceptions.ActionException;
 import com.mv.schelokov.carent.model.entity.UserData;
 import com.mv.schelokov.carent.model.services.UserDataService;
 import com.mv.schelokov.carent.model.services.UserService;
@@ -22,6 +22,7 @@ public class UpdateUser extends AbstractAction {
     
     private static final Logger LOG = Logger.getLogger(UpdateUser.class);
     private static final String ERROR = "Unable to write data to database";
+    private static final String WRONG_ID = "Wrong id parameter for user entity";
 
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
@@ -32,7 +33,7 @@ public class UpdateUser extends AbstractAction {
         if (isAdmin(req)) {
             int userDataId = getIntParam(req, "id");
             if (userDataId < 1) {
-                throw new ActionException("Wrong user_id parameter");
+                throw new ActionException(WRONG_ID);
             }
             try {
                 UserDataService userDataService = UserDataService.getInstance();

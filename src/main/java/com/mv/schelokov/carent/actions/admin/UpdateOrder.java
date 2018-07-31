@@ -1,9 +1,9 @@
 package com.mv.schelokov.carent.actions.admin;
 
-import com.mv.schelokov.carent.actions.AbstractAction;
+import com.mv.schelokov.carent.actions.interfaces.AbstractAction;
 import com.mv.schelokov.carent.actions.JspForward;
-import com.mv.schelokov.carent.consts.Jsps;
-import com.mv.schelokov.carent.exceptions.ActionException;
+import com.mv.schelokov.carent.actions.consts.Jsps;
+import com.mv.schelokov.carent.actions.exceptions.ActionException;
 import com.mv.schelokov.carent.model.entity.RentOrder;
 import com.mv.schelokov.carent.model.services.CarService;
 import com.mv.schelokov.carent.model.services.OrderService;
@@ -24,6 +24,8 @@ public class UpdateOrder extends AbstractAction {
     
     private static final Logger LOG = Logger.getLogger(UpdateOrder.class);
     private static final String ERROR = "Failed to update the rent order";
+    private static final String WRONG_ID = "Wrong id parameter for order entity";
+    private static final String DATE_PARSE_ERROR = "Date parse error!";
     private static final SimpleDateFormat FORMAT
             = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -37,7 +39,7 @@ public class UpdateOrder extends AbstractAction {
 
             int orderId = getIntParam(req, "id");
             if (orderId < 1)
-                throw new ActionException("Incorrect rent order id");
+                throw new ActionException(WRONG_ID);
             try {
                 OrderService orderService = OrderService.getInstance();
                 RentOrder order = orderService.getOrderById(orderId);
@@ -49,7 +51,7 @@ public class UpdateOrder extends AbstractAction {
                     order.setStartDate(FORMAT.parse(req.getParameter("start_date")));
                     order.setEndDate(FORMAT.parse(req.getParameter("end_date")));
                 } catch (ParseException ex) {
-                    LOG.error("Date parse error!");
+                    LOG.error(DATE_PARSE_ERROR, ex);
                     validationResult = ValidationResult.INVALID_DATE;
                 }
                 

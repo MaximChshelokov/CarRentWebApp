@@ -1,8 +1,8 @@
 package com.mv.schelokov.carent.actions.admin;
 
-import com.mv.schelokov.carent.actions.AbstractAction;
+import com.mv.schelokov.carent.actions.interfaces.AbstractAction;
 import com.mv.schelokov.carent.actions.JspForward;
-import com.mv.schelokov.carent.exceptions.ActionException;
+import com.mv.schelokov.carent.actions.exceptions.ActionException;
 import com.mv.schelokov.carent.model.entity.builders.CarBuilder;
 import com.mv.schelokov.carent.model.services.CarService;
 import com.mv.schelokov.carent.model.services.exceptions.ServiceException;
@@ -17,7 +17,8 @@ import org.apache.log4j.Logger;
 public class DeleteCar extends AbstractAction {
     private static final Logger LOG = Logger.getLogger(DeleteCar.class);
     private static final String ERROR = "Unable to delete car";
-    
+    private static final String WRONG_ID = "Wrong id parameter for car entity";
+
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
@@ -26,7 +27,7 @@ public class DeleteCar extends AbstractAction {
         if (isAdmin(req)) {
             int carId = getIntParam(req, "id");
             if (carId < 1)
-                throw new ActionException("Failed to delete car, wrong id");
+                throw new ActionException(WRONG_ID);
             try {
                 CarService carService = CarService.getInstance();
 

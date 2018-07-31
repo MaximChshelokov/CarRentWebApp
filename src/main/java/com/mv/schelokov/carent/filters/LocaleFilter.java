@@ -1,6 +1,6 @@
 package com.mv.schelokov.carent.filters;
 
-import com.mv.schelokov.carent.consts.Cookies;
+import com.mv.schelokov.carent.actions.consts.Cookies;
 import java.io.IOException;
 import java.util.Locale;
 import javax.servlet.Filter;
