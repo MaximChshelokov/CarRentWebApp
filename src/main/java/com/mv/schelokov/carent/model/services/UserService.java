@@ -20,8 +20,6 @@ import com.mv.schelokov.carent.model.db.dao.interfaces.Dao;
 public class UserService {
     
     private static final Logger LOG = Logger.getLogger(UserService.class);
-    private static final String SALT = "NuiF9cD32Kaw3";
-    
     private static final String USER_CRITERIA_ERROR = "Failed to get user list"
             + " from the dao by the criteria";
     private static final String HASH_ERROR = "Hash algorithm SHA-512 not found";
@@ -119,7 +117,7 @@ public class UserService {
     
     private String hashPassword(String password) throws ServiceException {
         try {
-            String result = ShaHash.getSHA512Hash(password, SALT);
+            String result = new ShaHash(password).getSHA512Hash();
             if (result == null) {
                 LOG.error(HASH_ERROR);
                 throw new ServiceException(HASH_ERROR);

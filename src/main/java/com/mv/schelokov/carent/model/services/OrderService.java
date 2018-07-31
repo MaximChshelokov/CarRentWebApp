@@ -8,10 +8,11 @@ import com.mv.schelokov.carent.model.db.dao.interfaces.Criteria;
 import com.mv.schelokov.carent.model.entity.RentOrder;
 import com.mv.schelokov.carent.model.entity.User;
 import com.mv.schelokov.carent.model.services.exceptions.ServiceException;
-import com.mv.schelokov.carent.model.utils.DateUtils;
+import com.mv.schelokov.carent.model.utils.OnlyDate;
 import java.util.List;
 import org.apache.log4j.Logger;
 import com.mv.schelokov.carent.model.db.dao.interfaces.Dao;
+import com.mv.schelokov.carent.model.utils.Period;
 
 /**
  *
@@ -129,8 +130,8 @@ public class OrderService {
     }
 
     private void calculateSum(RentOrder order) {
-        order.setSum(order.getCar().getPrice() * DateUtils.days(order.getStartDate(),
-                order.getEndDate()));
+        order.setSum(order.getCar().getPrice() * new Period(order.getStartDate(),
+                order.getEndDate()).getDays());
     }
     
     

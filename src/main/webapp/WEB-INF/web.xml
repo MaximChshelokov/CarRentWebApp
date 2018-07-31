@@ -22,7 +22,7 @@
     </listener>
     <servlet>
         <servlet-name>Controller</servlet-name>
-        <servlet-class>com.mv.schelokov.carent.controller.CarRentAppFrontController</servlet-class>
+        <servlet-class>com.mv.schelokov.carent.controller.CarRentAppController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Controller</servlet-name>
@@ -47,7 +47,7 @@
     </session-config>
     <error-page>
         <exception-type>java.lang.Throwable</exception-type>
-        <location>/error_page.jsp</location>
+        <location>/WEB-INF/jsp/error_page.jsp</location>
     </error-page>
     <error-page>
         <error-code>403</error-code>

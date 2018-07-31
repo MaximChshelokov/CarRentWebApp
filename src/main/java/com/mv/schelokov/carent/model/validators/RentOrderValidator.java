@@ -1,7 +1,7 @@
 package com.mv.schelokov.carent.model.validators;
 
 import com.mv.schelokov.carent.model.entity.RentOrder;
-import com.mv.schelokov.carent.model.utils.DateUtils;
+import com.mv.schelokov.carent.model.utils.OnlyDate;
 import java.util.Date;
 
 /**
@@ -41,7 +41,7 @@ public class RentOrderValidator extends Validator {
     }
     
     private boolean isValidOrderDate() {
-        Date today = DateUtils.onlyDate(new Date());
+        Date today = new OnlyDate().getOnlyDate();
         return !order.getStartDate().before(today)
                 && order.getEndDate().after(order.getStartDate());
     }

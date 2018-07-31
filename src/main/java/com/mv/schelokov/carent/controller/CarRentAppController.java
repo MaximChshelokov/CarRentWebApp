@@ -17,9 +17,10 @@ import org.apache.log4j.Logger;
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
-public class CarRentAppFrontController extends HttpServlet {
+public class CarRentAppController extends HttpServlet {
 
-    private static final Logger LOG = Logger.getLogger(CarRentAppFrontController.class);
+    private static final Logger LOG = Logger.getLogger(CarRentAppController.class);
+    private static final String REDIRECTION_ERROR = "Redirection error";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,14 +39,14 @@ public class CarRentAppFrontController extends HttpServlet {
             response.sendError(HttpURLConnection.HTTP_NOT_FOUND);
             return;
         }
-        JspForward forward = null;
+        JspForward forward = new JspForward();
         try {
             forward = action.execute(request, response);
         } catch (ActionException ex) {
-            LOG.error("Failed to redirect", ex);
-            throw new ServerException("Redirection error");
+            LOG.error(REDIRECTION_ERROR, ex);
+            throw new ServerException(REDIRECTION_ERROR);
         }
-        if (forward != null) {
+        if (!forward.getUrl().isEmpty()) {
             String path = "/" + forward.getUrl();
             if (forward.isRedirect()) {
                 response.sendRedirect(response.encodeRedirectURL(path));

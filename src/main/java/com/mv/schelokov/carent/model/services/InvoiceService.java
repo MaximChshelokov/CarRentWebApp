@@ -11,11 +11,12 @@ import com.mv.schelokov.carent.model.entity.RentOrder;
 import com.mv.schelokov.carent.model.entity.builders.InvoiceBuilder;
 import com.mv.schelokov.carent.model.entity.builders.InvoiceLineBuilder;
 import com.mv.schelokov.carent.model.services.exceptions.ServiceException;
-import com.mv.schelokov.carent.model.utils.DateUtils;
+import com.mv.schelokov.carent.model.utils.OnlyDate;
 import java.util.Date;
 import java.util.List;
 import org.apache.log4j.Logger;
 import com.mv.schelokov.carent.model.db.dao.interfaces.Dao;
+import com.mv.schelokov.carent.model.utils.Period;
 
 /**
  *
@@ -60,8 +61,8 @@ public class InvoiceService {
                 .getInvoice();
         createInvoice(invoice);
 
-        int days = DateUtils.days(rentOrder.getStartDate(), 
-                rentOrder.getEndDate());
+        int days = new Period(rentOrder.getStartDate(), 
+                rentOrder.getEndDate()).getDays();
         
         InvoiceLine invoiceLine = new InvoiceLineBuilder()
                 .setDetails(String.format("Предоплата за аренду машины "
@@ -74,14 +75,14 @@ public class InvoiceService {
     
     public void recalculateInvoice(RentOrder rentOrder)
             throws ServiceException {
-        Date today = DateUtils.onlyDate(new Date());
+        Date today = new OnlyDate().getOnlyDate();
         InvoiceLineService invoiceLineService = InvoiceLineService.getInstance();
         if (invoiceLineService.getInvoiceLinesByInvoiceId(
                 rentOrder.getId()).size() < 2
                 && !rentOrder.getEndDate().equals(today)) {
-            int newDays = DateUtils.days(rentOrder.getStartDate(), today);
-            int days = DateUtils.days(rentOrder.getStartDate(),
-                    rentOrder.getEndDate());
+            int newDays = new Period(rentOrder.getStartDate(), today).getDays();
+            int days = new Period(rentOrder.getStartDate(),
+                    rentOrder.getEndDate()).getDays();
             int sumDifference = (newDays - days) * rentOrder.getCar().getPrice();
             String paymentType = (days < newDays) ? "Доплата" : "Возврат";
             InvoiceLine invoiceLine = new InvoiceLineBuilder()

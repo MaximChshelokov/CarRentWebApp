@@ -9,11 +9,19 @@ import java.security.NoSuchAlgorithmException;
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
 public class ShaHash {
-    public static String getSHA512Hash(String password, String salt) 
+    
+    private static final String SALT = "NuiF9cD32Kaw3";
+    private final String password;
+    
+    public ShaHash(String password) {
+        this.password = password;
+    }
+    
+    public String getSHA512Hash() 
             throws NoSuchAlgorithmException {
         String result = null;
         MessageDigest md = MessageDigest.getInstance("SHA-512");
-        md.update(salt.getBytes(StandardCharsets.UTF_8));
+        md.update(SALT.getBytes(StandardCharsets.UTF_8));
         byte[] bytes = md.digest(password.getBytes(StandardCharsets.UTF_8));
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < bytes.length; i++) {
