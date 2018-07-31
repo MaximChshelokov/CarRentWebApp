@@ -41,11 +41,11 @@
                     <div class="row uniform">
                         <div class="field half first">
                             <label for="make"><fmt:message key="make"/></label>
-                            <input type="text" name="make" placeholder="<fmt:message key="make"/>" value="${car.model.make.name}"/>
+                            <input type="text" name="make" placeholder="<fmt:message key="make"/>" value="${car.carModel.carMake.name}"/>
                         </div>
                         <div class="field half">
                             <label for="model"><fmt:message key="model"/></label>
-                            <input type="text" name="model" placeholder="<fmt:message key="model"/>" value="${car.model.name}"/>
+                            <input type="text" name="model" placeholder="<fmt:message key="model"/>" value="${car.carModel.name}"/>
                         </div>
                         <div class="field half first">
                             <label for="year"><fmt:message key="year"/></label>

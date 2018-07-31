@@ -43,7 +43,7 @@
                                         <tr>
                                             <td><fmt:formatDate value="${order.startDate}" dateStyle="SHORT"/></td>
                                             <td><fmt:formatDate value="${order.endDate}" dateStyle="SHORT"/></td>
-                                            <td><c:out value="${order.car.model.make.name}"/> <c:out value="${order.car.model.name}"/> (<c:out value="${order.car.yearOfMake}"/>)</td>
+                                            <td><c:out value="${order.car.carModel.carMake.name}"/> <c:out value="${order.car.carModel.name}"/> (<c:out value="${order.car.yearOfMake}"/>)</td>
                                             <td><c:out value="${order.user.login}"/></td>
                                             <td><c:out value="${order.sum}"/></td>
                                             <td><c:out value="${order.approvedBy.login}" default="${no}"/></td>

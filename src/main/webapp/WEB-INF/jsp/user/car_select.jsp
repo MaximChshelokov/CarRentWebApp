@@ -42,8 +42,8 @@
                         <tbody>
                             <c:forEach items="${car_list}" var="car" varStatus="s">
                             <tr>
-                                <td><c:out value="${car.model.make.name}"/></td>
-                            <td><c:out value="${car.model.name}"/></td>
+                                <td><c:out value="${car.carModel.carMake.name}"/></td>
+                            <td><c:out value="${car.carModel.name}"/></td>
                             <td><c:out value="${car.yearOfMake}"/></td>
                             <td><c:out value="${car.licensePlate}"/></td>
                             <td><c:out value="${car.price}"/></td>

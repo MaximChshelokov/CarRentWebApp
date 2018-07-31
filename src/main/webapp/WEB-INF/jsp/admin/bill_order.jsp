@@ -73,8 +73,8 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><c:out value="${car.model.make.name}"/></td>
-                                    <td><c:out value="${car.model.name}"/></td>
+                                    <td><c:out value="${car.carModel.carMake.name}"/></td>
+                                    <td><c:out value="${car.carModel.name}"/></td>
                                     <td><c:out value="${car.yearOfMake}"/></td>
                                     <td><c:out value="${car.licensePlate}"/></td>
                                 </tr>
