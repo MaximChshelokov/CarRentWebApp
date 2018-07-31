@@ -1,4 +1,4 @@
-package com.mv.schelokov.car_rent.model.db.repository;
+package com.mv.schelokov.carent.model.db.repository;
 
 import com.mv.schelokov.carent.model.db.dao.MakeDao;
 import com.mv.schelokov.carent.model.db.dao.exceptions.DbException;
@@ -50,14 +50,14 @@ public class MakeRepositoryTest {
     
     @Test
     public void selectAllAndUpdateMake() throws DbException {
-        CarMake mk = mr.read(MakeDao.SELECT_ALL).get(0);
+        CarMake mk = mr.read(new MakeDao.SelectAllCriteria()).get(0);
         mk.setName("Toyota");
         assertTrue(mr.update(mk));
     }
     
     @Test
     public void deleteLastMake() throws DbException {
-        List<CarMake> ml = mr.read(MakeDao.SELECT_ALL);
+        List<CarMake> ml = mr.read(new MakeDao.SelectAllCriteria());
         assertTrue(mr.remove(ml.get(ml.size()-1)));
     }
     

@@ -1,4 +1,4 @@
-package com.mv.schelokov.car_rent.model.db.repository;
+package com.mv.schelokov.carent.model.db.repository;
 
 import com.mv.schelokov.carent.model.db.dao.ModelDao;
 import com.mv.schelokov.carent.model.db.dao.exceptions.DbException;
@@ -54,14 +54,14 @@ public class ModelRepositoryTest {
     
     @Test
     public void selectAllModelAndUpdateOne() throws DbException {
-        CarModel model = mr.read(ModelDao.SELECT_ALL).get(2);
+        CarModel model = mr.read(new ModelDao.SelectAllCriteria()).get(2);
         model.setName("Corola");
         assertTrue(mr.update(model));
     }
     
     @Test
     public void selectAllAndDeleteLast() throws DbException {
-        List<CarModel> ml = mr.read(ModelDao.SELECT_ALL);
+        List<CarModel> ml = mr.read(new ModelDao.SelectAllCriteria());
         CarModel modelToDelete = new CarModel();
         for (CarModel model : ml)
             if (model.getId() > modelToDelete.getId())

@@ -19,81 +19,81 @@ import com.mv.schelokov.carent.model.entity.User;
  */
 public class CriteriaFactory {
     
-    public static Criteria getUserFindLoginPassword(User user) {
-        return new UserDao.FindLoginPassword(user);
+    public static Criteria getUserFindLoginPasswordCriteria(User user) {
+        return new UserDao.FindLoginPasswordCriteria(user);
     }
     
-    public static Criteria getUserFindLogin(String login) {
-        return new UserDao.FindLogin(login);
+    public static Criteria getUserFindLoginCriteria(String login) {
+        return new UserDao.FindLoginCriteria(login);
     }
     
-    public static Criteria getUserFindLoginPassword(String login, 
+    public static Criteria getUserFindLoginPasswordCriteria(String login, 
             String password) {
-        return new UserDao.FindLoginPassword(login, password);
+        return new UserDao.FindLoginPasswordCriteria(login, password);
     }
     
-    public static Criteria getAllUsers() {
-        return UserDao.SELECT_ALL;
+    public static Criteria getAllUsersCriteria() {
+        return UserDao.SELECT_ALL_CRITERIA;
     }
     
-    public static Criteria getAllUsersData() {
-        return UserDataDao.SELECT_ALL;
+    public static Criteria getAllUsersDataCriteria() {
+        return UserDataDao.SELECT_ALL_CRITERIA;
     }
     
-    public static Criteria getUserDataById(int id) {
-        return new UserDataDao.FindByUser(id);
+    public static Criteria getUserDataByIdCriteria(int id) {
+        return new UserDataDao.FindByUserCriteria(id);
     }
     
-    public static Criteria getAllRoles() {
-        return RoleDao.SELECT_ALL;
+    public static Criteria getAllRolesCriteria() {
+        return RoleDao.SELECT_ALL_CRITERIA;
     }
     
-    public static Criteria getAllCars() {
-        return CarDao.SELECT_ALL;
+    public static Criteria getAllCarsCriteria() {
+        return CarDao.SELECT_ALL_CRITERIA;
     }
     
-    public static Criteria getAvailableCars() {
-        return CarDao.SELECT_AVAILABLE;
+    public static Criteria getAvailableCarsCriteria() {
+        return CarDao.SELECT_AVAILABLE_CRITERIA;
     }
     
-    public static Criteria getCarById(int id) {
-        return new CarDao.FindById(id);
+    public static Criteria getCarByIdCriteria(int id) {
+        return new CarDao.FindByIdCriteria(id);
     }
     
-    public static Criteria findModel(CarModel model) {
-        return new ModelDao.FindModel(model);
+    public static Criteria findModelCriteria(CarModel model) {
+        return new ModelDao.FindModelCriteria(model);
     }
     
-    public static Criteria getMakeByName(String name) {
-        return new MakeDao.FindName(name);
+    public static Criteria getMakeByNameCriteria(String name) {
+        return new MakeDao.FindNameCriteria(name);
     }
     
-    public static Criteria getAllRentOrders() {
-        return RentOrderDao.SELECT_ALL;
+    public static Criteria getAllRentOrdersCriteria() {
+        return RentOrderDao.SELECT_ALL_CRITERIA;
     }
     
-    public static Criteria getAllOrdersOrderByApproved() {
-        return RentOrderDao.ORDER_BY_APPROVED;
+    public static Criteria getAllOrdersOrderByApprovedCriteria() {
+        return RentOrderDao.ORDER_BY_APPROVED_CRITERIA;
     }
     
-    public static Criteria getAllOpenedOrders() {
-        return RentOrderDao.OPENED_ORDERS;
+    public static Criteria getAllOpenedOrdersCriteria() {
+        return RentOrderDao.OPENED_ORDERS_CRITERIA;
     }
     
-    public static Criteria findOrderById(int id) {
-        return new RentOrderDao.FindById(id);
+    public static Criteria findOrderByIdCriteria(int id) {
+        return new RentOrderDao.FindByIdCriteria(id);
     }
     
-    public static Criteria findOrderByUserId(int id) {
-        return new RentOrderDao.FindByUserId(id);
+    public static Criteria findOrderByUserIdCriteria(int id) {
+        return new RentOrderDao.FindByUserIdCriteria(id);
     }
     
-    public static Criteria findInvoiceById(int id) {
-        return new InvoiceDao.FindById(id);
+    public static Criteria findInvoiceByIdCriteria(int id) {
+        return new InvoiceDao.FindByIdCriteria(id);
     }
     
-    public static Criteria findInvoiceLinesByInvoiceId(int id) {
-        return new InvoiceLineDao.FindByInvoiceId(id);
+    public static Criteria findInvoiceLinesByInvoiceIdCriteria(int id) {
+        return new InvoiceLineDao.FindByInvoiceIdCriteria(id);
     }
     
 }

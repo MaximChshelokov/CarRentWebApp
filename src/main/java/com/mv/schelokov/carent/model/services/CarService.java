@@ -44,17 +44,17 @@ public class CarService {
     }
 
     public List getAllCars() throws ServiceException {
-        Criteria criteria = CriteriaFactory.getAllCars();
+        Criteria criteria = CriteriaFactory.getAllCarsCriteria();
         return getCarsByCriteria(criteria);
     }
     
     public List getAvailableCars() throws ServiceException {
-        Criteria criteria = CriteriaFactory.getAvailableCars();
+        Criteria criteria = CriteriaFactory.getAvailableCarsCriteria();
         return getCarsByCriteria(criteria);
     }
     
     public Car getCarById(int id) throws ServiceException {
-        Criteria criteria = CriteriaFactory.getCarById(id);
+        Criteria criteria = CriteriaFactory.getCarByIdCriteria(id);
         List result = getCarsByCriteria(criteria);
         if (result.isEmpty())
             return null;

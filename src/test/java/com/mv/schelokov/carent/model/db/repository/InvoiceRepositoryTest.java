@@ -1,4 +1,4 @@
-package com.mv.schelokov.car_rent.model.db.repository;
+package com.mv.schelokov.carent.model.db.repository;
 
 import com.mv.schelokov.carent.model.db.dao.InvoiceDao;
 import com.mv.schelokov.carent.model.db.dao.exceptions.DbException;

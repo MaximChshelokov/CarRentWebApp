@@ -21,7 +21,8 @@ public class CarModelService {
     private static final Logger LOG = Logger.getLogger(CarModelService.class);
     private static final String MODEL_NAME_ERROR = "Failed to get model by "
             + "name from the DAO";
-    private static final String MODEL_CREATE_ERROR = "Failed to create new model";
+    private static final String MODEL_CREATE_ERROR =
+            "Failed to create new model";
     private static final String INSTANCE_ERROR = "Failed to get instance";
     private static volatile CarModelService instance;
 
@@ -62,7 +63,7 @@ public class CarModelService {
     }
     
     public List getModel(CarModel model) throws ServiceException {
-        Criteria criteria = CriteriaFactory.findModel(model);
+        Criteria criteria = CriteriaFactory.findModelCriteria(model);
         try (DaoFactory daoFactory = new DaoFactory()) {
             Dao modelDao = daoFactory.getModelDao();
             return modelDao.read(criteria);

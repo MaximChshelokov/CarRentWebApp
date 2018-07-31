@@ -43,7 +43,7 @@ public class UserDataService {
         return localInstance;
     }
     public UserData getUserDataById(int id) throws ServiceException {
-        Criteria criteria = CriteriaFactory.getUserDataById(id);
+        Criteria criteria = CriteriaFactory.getUserDataByIdCriteria(id);
         List result = getUserDataByCriteria(criteria);
         if (result.isEmpty()) {
             return null;
@@ -109,7 +109,7 @@ public class UserDataService {
     }
     
     public List getAllUsers() throws ServiceException {
-        Criteria criteria = CriteriaFactory.getAllUsersData();
+        Criteria criteria = CriteriaFactory.getAllUsersDataCriteria();
         return getUserDataByCriteria(criteria);
     }
     

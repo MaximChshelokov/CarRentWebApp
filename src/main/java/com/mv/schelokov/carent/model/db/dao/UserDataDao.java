@@ -23,11 +23,12 @@ public class UserDataDao extends AbstractSqlDao<UserData> {
 
     public interface DeleteCriteria extends SqlCriteria {}
     
-    public static final SelectAll SELECT_ALL = new SelectAll();
+    public static final SelectAllCriteria SELECT_ALL_CRITERIA =
+            new SelectAllCriteria();
     
-    public static class SelectAll implements ReadCriteria {
+    public static class SelectAllCriteria implements ReadCriteria {
         private static final String QUERY = "SELECT login,password,userdata_id,"
-                + "name,address,phone,role,role_name,user_id FROM users_data_full";
+            + "name,address,phone,role,role_name,user_id FROM users_data_full";
         
         @Override
         public String toSqlQuery() {
@@ -38,16 +39,16 @@ public class UserDataDao extends AbstractSqlDao<UserData> {
         public void setStatement(PreparedStatement ps) throws SQLException {}
     }
 
-    public static class FindByUser extends SelectAll {
+    public static class FindByUserCriteria extends SelectAllCriteria {
         private static final String QUERY = " WHERE user_id=?";
         private final int userId;
         private static final int USER_ID_COLUMN = 1;
 
-        public FindByUser(User user) {
+        public FindByUserCriteria(User user) {
             this.userId = user.getId();
         }
 
-        public FindByUser(int userDataId) {
+        public FindByUserCriteria(int userDataId) {
             this.userId = userDataId;
         }
 

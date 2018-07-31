@@ -43,7 +43,7 @@ public class RoleService {
     public List getAllRoles() throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
             Dao roleDao = daoFactory.getRoleDao();
-            Criteria criteria = CriteriaFactory.getAllRoles();
+            Criteria criteria = CriteriaFactory.getAllRolesCriteria();
             return roleDao.read(criteria);
         }
         catch (DaoException | DbException ex) {

@@ -47,7 +47,8 @@ public class OrderService {
     }
     
     public List getAllOrders() throws ServiceException {
-        Criteria criteria = CriteriaFactory.getAllOrdersOrderByApproved();
+        Criteria criteria = CriteriaFactory
+                .getAllOrdersOrderByApprovedCriteria();
         List<RentOrder> orders = getOrdersByCriteria(criteria);
         if (!orders.isEmpty()) {
             for (RentOrder order : orders)
@@ -57,7 +58,7 @@ public class OrderService {
     }
     
     public List getOpenedOrders() throws ServiceException {
-        Criteria criteria = CriteriaFactory.getAllOpenedOrders();
+        Criteria criteria = CriteriaFactory.getAllOpenedOrdersCriteria();
         List<RentOrder> orders = getOrdersByCriteria(criteria);
         if (!orders.isEmpty()) {
             for (RentOrder order : orders) {
@@ -68,7 +69,7 @@ public class OrderService {
     }
     
     public RentOrder getOrderById(int id) throws ServiceException {
-        Criteria criteria = CriteriaFactory.findOrderById(id);
+        Criteria criteria = CriteriaFactory.findOrderByIdCriteria(id);
         List resultList = getOrdersByCriteria(criteria);
         if (resultList.isEmpty())
             return null;
@@ -78,7 +79,8 @@ public class OrderService {
     }
     
     public RentOrder getOrdersByUser(User user) throws ServiceException {
-        Criteria criteria = CriteriaFactory.findOrderByUserId(user.getId());
+        Criteria criteria = CriteriaFactory
+                .findOrderByUserIdCriteria(user.getId());
         List resultList = getOrdersByCriteria(criteria);
         if (resultList.isEmpty())
             return null;
@@ -130,8 +132,9 @@ public class OrderService {
     }
 
     private void calculateSum(RentOrder order) {
-        order.setSum(order.getCar().getPrice() * new Period(order.getStartDate(),
-                order.getEndDate()).getDays());
+        order.setSum(order.getCar().getPrice()
+                * new Period(order.getStartDate()
+                        , order.getEndDate()).getDays());
     }
     
     

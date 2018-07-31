@@ -1,4 +1,4 @@
-package com.mv.schelokov.car_rent.model.db.repository;
+package com.mv.schelokov.carent.model.db.repository;
 
 import com.mv.schelokov.carent.model.db.dao.RentOrderDao;
 import com.mv.schelokov.carent.model.db.dao.exceptions.DbException;
@@ -47,7 +47,7 @@ public class RentOrderRepositoryTest {
 
     @Test
     public void findAllRentOrders() throws DbException {
-        assertNotEquals(0,ror.read(RentOrderDao.SELECT_ALL).size());
+        assertNotEquals(0,ror.read(RentOrderDao.SELECT_ALL_CRITERIA).size());
     }
     
     @Test
@@ -62,13 +62,13 @@ public class RentOrderRepositoryTest {
     
     @Test 
     public void findAllAndDeleteLast() throws DbException {
-        List<RentOrder> rol = ror.read(RentOrderDao.SELECT_ALL);
+        List<RentOrder> rol = ror.read(RentOrderDao.SELECT_ALL_CRITERIA);
         assertTrue(ror.remove(rol.get(rol.size()-1)));
     }
     
     @Test
     public void findAllAndUpdateFirst() throws DbException {
-        RentOrder order = ror.read(RentOrderDao.SELECT_ALL).get(0);
+        RentOrder order = ror.read(RentOrderDao.SELECT_ALL_CRITERIA).get(0);
         order.setApprovedBy(new UserBuilder().setId(1).getUser());
         assertTrue(ror.update(order));
     }

@@ -86,8 +86,8 @@ public class InvoiceService {
             int sumDifference = (newDays - days) * rentOrder.getCar().getPrice();
             String paymentType = (days < newDays) ? "Доплата" : "Возврат";
             InvoiceLine invoiceLine = new InvoiceLineBuilder()
-                    .setDetails(String.format("%s за аренду машины "
-                            + "за %d дней", paymentType, Math.abs(newDays - days)))
+                    .setDetails(String.format("%s за аренду машины за %d дней",
+                            paymentType, Math.abs(newDays - days)))
                     .setAmount(sumDifference)
                     .setInvoiceId(rentOrder.getId())
                     .getInvoiceLine();
@@ -96,7 +96,7 @@ public class InvoiceService {
     }
     
     public Invoice getInvoiceById(int id) throws ServiceException {
-        Criteria criteria = CriteriaFactory.findInvoiceById(id);
+        Criteria criteria = CriteriaFactory.findInvoiceByIdCriteria(id);
         List invoiceList = getInvoiceByCriteria(criteria);
         if (invoiceList.isEmpty())
             return null;

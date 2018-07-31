@@ -27,11 +27,13 @@ public class RentOrderDao extends AbstractSqlDao<RentOrder> {
 
     public interface DeleteCriteria extends SqlCriteria {}
 
-    public static final Criteria SELECT_ALL = new SelectAll();
-    public static final Criteria ORDER_BY_APPROVED = new OrderedByApproved();
-    public static final Criteria OPENED_ORDERS = new OpenedOrders();
+    public static final Criteria SELECT_ALL_CRITERIA = new SelectAllCriteria();
+    public static final Criteria ORDER_BY_APPROVED_CRITERIA =
+            new OrderedByApprovedCriteria();
+    public static final Criteria OPENED_ORDERS_CRITERIA =
+            new OpenedOrdersCriteria();
 
-    public static class SelectAll implements ReadCriteria {
+    public static class SelectAllCriteria implements ReadCriteria {
         private static final String QUERY = "SELECT rent_id,start_date,"
                 + "end_date,car,license_plate,year_of_make,price,model,"
                 + "model_name,make,make_name,user,login,approved_by,"
@@ -46,7 +48,7 @@ public class RentOrderDao extends AbstractSqlDao<RentOrder> {
         public void setStatement(PreparedStatement ps) throws SQLException {}
     }
     
-    public static class OrderedByApproved extends SelectAll {
+    public static class OrderedByApprovedCriteria extends SelectAllCriteria {
         private static final String QUERY = " ORDER BY approved_by";
         
         @Override
@@ -55,7 +57,7 @@ public class RentOrderDao extends AbstractSqlDao<RentOrder> {
         }
     }
     
-    public static class OpenedOrders extends SelectAll {
+    public static class OpenedOrdersCriteria extends SelectAllCriteria {
         private static final String QUERY = " WHERE available=b'0' AND"
                 + " approved_by IS NOT NULL";
 
@@ -65,12 +67,12 @@ public class RentOrderDao extends AbstractSqlDao<RentOrder> {
         }
     }
     
-    public static class FindById extends SelectAll {
+    public static class FindByIdCriteria extends SelectAllCriteria {
         private static final String QUERY = " WHERE rent_id=?";
         private static final int RENT_ID_INDEX = 1;
         private final int rentId;
         
-        public FindById(int rentId) {
+        public FindByIdCriteria(int rentId) {
             this.rentId = rentId;
         }
         
@@ -85,12 +87,12 @@ public class RentOrderDao extends AbstractSqlDao<RentOrder> {
         }
     }
     
-    public static class FindByUserId extends SelectAll {
+    public static class FindByUserIdCriteria extends SelectAllCriteria {
         private static final String QUERY = " WHERE user=? ORDER BY start_date";
         private static final int USER_ID_INDEX = 1;
         private final int userId;
 
-        public FindByUserId(int userId) {
+        public FindByUserIdCriteria(int userId) {
             this.userId = userId;
         }
 

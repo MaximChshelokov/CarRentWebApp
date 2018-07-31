@@ -22,10 +22,11 @@ public class CarDao extends AbstractSqlDao<Car> {
     
     public interface DeleteCriteria extends SqlCriteria {}
     
-    public static final Criteria SELECT_ALL = new SelectAll();
-    public static final Criteria SELECT_AVAILABLE = new SelectAvailable();
+    public static final Criteria SELECT_ALL_CRITERIA = new SelectAllCriteria();
+    public static final Criteria SELECT_AVAILABLE_CRITERIA = 
+            new SelectAvailableCriteria();
     
-    public static class SelectAll implements ReadCriteria {
+    public static class SelectAllCriteria implements ReadCriteria {
 
         private static final String QUERY = "SELECT car_id,license_plate,"
                 + "year_of_make,price,model,name,make,make_name,available "
@@ -40,7 +41,7 @@ public class CarDao extends AbstractSqlDao<Car> {
         public void setStatement(PreparedStatement ps) throws SQLException {}
     }
     
-    public static class SelectAvailable extends SelectAll {
+    public static class SelectAvailableCriteria extends SelectAllCriteria {
         private static final String QUERY = " WHERE available=b'1'";
         @Override
         public String toSqlQuery() {
@@ -48,7 +49,7 @@ public class CarDao extends AbstractSqlDao<Car> {
         }
     }
     
-    public static class FindById extends SelectAll {
+    public static class FindByIdCriteria extends SelectAllCriteria {
 
         private static final String QUERY = " WHERE car_id=?";
         private static final int CAR_ID = 1;
@@ -56,7 +57,7 @@ public class CarDao extends AbstractSqlDao<Car> {
         private final int id;
 
         // TODO: Add constructors for Invoice and Defect entities!
-        public FindById(int id) {
+        public FindByIdCriteria(int id) {
             this.id = id;
         }
 

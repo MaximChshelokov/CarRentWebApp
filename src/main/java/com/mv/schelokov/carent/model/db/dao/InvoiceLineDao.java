@@ -20,13 +20,13 @@ public class InvoiceLineDao extends AbstractSqlDao<InvoiceLine> {
 
     public interface DeleteCriteria extends SqlCriteria {}
 
-    public static class FindByInvoiceId implements ReadCriteria {
+    public static class FindByInvoiceIdCriteria implements ReadCriteria {
         private static final String QUERY = "SELECT line_id,invoice_id,details,"
                 + "amount FROM invoice_lines WHERE invoice_id=?";
         private static final int INVOICE_ID_COLUMN = 1;
         private final int invoiceId;
 
-        public FindByInvoiceId(int invoiceId) {
+        public FindByInvoiceIdCriteria(int invoiceId) {
             this.invoiceId = invoiceId;
         }
 

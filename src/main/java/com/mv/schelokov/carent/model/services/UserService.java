@@ -94,13 +94,13 @@ public class UserService {
     
     public List getUserByCredentials(User user) 
             throws ServiceException {
-        Criteria criteria = CriteriaFactory.getUserFindLoginPassword(
+        Criteria criteria = CriteriaFactory.getUserFindLoginPasswordCriteria(
                 user.getLogin(), hashPassword(user.getPassword()));
         return getUsersByCriteria(criteria);
     }
     
     public List getUserByLogin(String login) throws ServiceException {
-        Criteria criteria = CriteriaFactory.getUserFindLogin(login);
+        Criteria criteria = CriteriaFactory.getUserFindLoginCriteria(login);
         return getUsersByCriteria(criteria);
     }
     

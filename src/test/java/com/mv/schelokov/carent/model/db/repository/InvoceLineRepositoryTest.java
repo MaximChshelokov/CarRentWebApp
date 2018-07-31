@@ -1,4 +1,4 @@
-package com.mv.schelokov.car_rent.model.db.repository;
+package com.mv.schelokov.carent.model.db.repository;
 
 import com.mv.schelokov.carent.model.db.dao.InvoiceLineDao;
 import com.mv.schelokov.carent.model.db.dao.exceptions.DbException;
@@ -53,14 +53,14 @@ public class InvoceLineRepositoryTest {
     @Test
     public void findByInvoiceIdAndDeleteLast() throws DbException {
         List<InvoiceLine> ill = ilr.read(new InvoiceLineDao
-                .FindByInvoiceId(1));
+                .FindByInvoiceIdCriteria(1));
         assertTrue(ilr.remove(ill.get(ill.size()-1)));
     }
     
     @Test
     public void findByInvoiceIdAndUpdateFirst() throws DbException {
         InvoiceLine iLine = ilr.read(new InvoiceLineDao
-                .FindByInvoiceId(1)).get(0);
+                .FindByInvoiceIdCriteria(1)).get(0);
         iLine.setAmount(iLine.getAmount()+1);
         
         assertTrue(ilr.update(iLine));

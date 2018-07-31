@@ -1,4 +1,4 @@
-package com.mv.schelokov.car_rent.model.db.datasource;
+package com.mv.schelokov.carent.model.db.datasource;
 
 import com.mv.schelokov.carent.model.db.datasource.ParametersLoader;
 import com.mv.schelokov.carent.model.db.datasource.exceptions.DataSourceException;

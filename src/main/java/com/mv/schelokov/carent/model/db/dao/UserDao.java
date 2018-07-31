@@ -21,9 +21,9 @@ public class UserDao extends AbstractSqlDao<User> {
 
     public interface DeleteCriteria extends SqlCriteria {}
 
-    public static final Criteria SELECT_ALL = new SelectAll();
+    public static final Criteria SELECT_ALL_CRITERIA = new SelectAllCriteria();
 
-    public static class SelectAll implements ReadCriteria {
+    public static class SelectAllCriteria implements ReadCriteria {
         private static final String QUERY = "SELECT user_id,login,password,"
                 + "role,role_name FROM users_full";
 
@@ -36,13 +36,13 @@ public class UserDao extends AbstractSqlDao<User> {
         public void setStatement(PreparedStatement ps) throws SQLException {}
     }
     
-    public static class FindLogin extends SelectAll {
+    public static class FindLoginCriteria extends SelectAllCriteria {
 
         private static final String QUERY = " WHERE login=?";
         private static final int LOGIN_COLUMN = 1;
         private final String login;
 
-        public FindLogin(String login) {
+        public FindLoginCriteria(String login) {
             this.login = login;
         }
 
@@ -57,18 +57,18 @@ public class UserDao extends AbstractSqlDao<User> {
         }
     }
     
-    public static class FindLoginPassword extends FindLogin {
+    public static class FindLoginPasswordCriteria extends FindLoginCriteria {
 
         private static final String QUERY = " AND password=?";
         private static final int PASSWORD_COLUMN = 2;
         private final String password;
 
-        public FindLoginPassword(String login, String password) {
+        public FindLoginPasswordCriteria(String login, String password) {
             super(login);
             this.password = password;
         }
         
-        public FindLoginPassword(User user) {
+        public FindLoginPasswordCriteria(User user) {
             this(user.getLogin(), user.getPassword());
         }
 

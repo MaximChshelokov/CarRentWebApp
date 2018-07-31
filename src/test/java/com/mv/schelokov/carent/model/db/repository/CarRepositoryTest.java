@@ -1,4 +1,4 @@
-package com.mv.schelokov.car_rent.model.db.repository;
+package com.mv.schelokov.carent.model.db.repository;
 
 import com.mv.schelokov.carent.model.db.dao.CarDao;
 import com.mv.schelokov.carent.model.db.dao.exceptions.DbException;
@@ -57,7 +57,7 @@ public class CarRepositoryTest {
     
     @Test
     public void selectAllAndDeleteLast() throws DbException {
-        List<Car> cl = cr.read(CarDao.SELECT_ALL);
+        List<Car> cl = cr.read(CarDao.SELECT_ALL_CRITERIA);
         Car carToDelete = new Car();
         for (Car car : cl)
             if (car.getId() > carToDelete.getId())
@@ -67,13 +67,13 @@ public class CarRepositoryTest {
     
     @Test
     public void updateCar() throws DbException {
-        Car car = cr.read(CarDao.SELECT_ALL).get(0);
+        Car car = cr.read(CarDao.SELECT_ALL_CRITERIA).get(0);
         car.setPrice(car.getPrice() + 1);
         assertTrue(cr.update(car));                
     }
     
     @Test
     public void findCarById() throws DbException {
-        assertEquals(1, cr.read(new CarDao.FindById(1)).size());
+        assertEquals(1, cr.read(new CarDao.FindByIdCriteria(1)).size());
     }
 }

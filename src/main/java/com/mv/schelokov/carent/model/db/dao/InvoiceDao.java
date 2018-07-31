@@ -21,9 +21,9 @@ public class InvoiceDao extends AbstractSqlDao<Invoice> {
 
     public interface DeleteCriteria extends SqlCriteria {}
 
-    public static final Criteria SELECT_ALL = new SelectAll();
+    public static final Criteria SELECT_ALL = new SelectAllCriteria();
 
-    public static class SelectAll implements ReadCriteria {
+    public static class SelectAllCriteria implements ReadCriteria {
 
         private static final String QUERY = "SELECT invoice_id,date,paid,total"
                 + " FROM invoices_full";
@@ -37,13 +37,13 @@ public class InvoiceDao extends AbstractSqlDao<Invoice> {
         public void setStatement(PreparedStatement ps) throws SQLException {}
     }
     
-    public static class FindById extends SelectAll {
+    public static class FindByIdCriteria extends SelectAllCriteria {
 
         private static final String QUERY = " WHERE invoice_id=?";
         private static final int INVOICE_ID_INDEX = 1;
         private final int invoiceId;
 
-        public FindById(int invoiceId) {
+        public FindByIdCriteria(int invoiceId) {
             this.invoiceId = invoiceId;
         }
 

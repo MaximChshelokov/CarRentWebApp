@@ -1,4 +1,4 @@
-package com.mv.schelokov.car_rent.model.db.repository;
+package com.mv.schelokov.carent.model.db.repository;
 
 import com.mv.schelokov.carent.model.db.dao.RoleDao;
 import com.mv.schelokov.carent.model.db.dao.exceptions.DbException;
@@ -50,13 +50,13 @@ public class RoleRepositoryTest {
     
     @Test
     public void findAllAndDeleteLast() throws DbException {
-        List<Role> rl = rr.read(RoleDao.SELECT_ALL);
+        List<Role> rl = rr.read(RoleDao.SELECT_ALL_CRITERIA);
         assertTrue(rr.remove(rl.get(rl.size()-1)));
     }
     
     @Test
     public void findAllAndUpdateSecond() throws DbException {
-        Role role = rr.read(RoleDao.SELECT_ALL).get(1);
+        Role role = rr.read(RoleDao.SELECT_ALL_CRITERIA).get(1);
         role.setRoleName("guest");
         assertTrue(rr.update(role));
     }

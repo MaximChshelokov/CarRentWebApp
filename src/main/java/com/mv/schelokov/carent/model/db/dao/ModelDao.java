@@ -21,9 +21,7 @@ public class ModelDao extends AbstractSqlDao<CarModel> {
 
     public interface DeleteCriteria extends SqlCriteria {}
 
-    public static final Criteria SELECT_ALL = new SelectAll();
-
-    public static class SelectAll implements ReadCriteria {
+    public static class SelectAllCriteria implements ReadCriteria {
         private static final String QUERY = "SELECT model_id,name,make,"
                 + "make_name FROM models_full";
 
@@ -36,14 +34,14 @@ public class ModelDao extends AbstractSqlDao<CarModel> {
         public void setStatement(PreparedStatement ps) throws SQLException {}
     }
     
-    public static class FindModel extends SelectAll {
+    public static class FindModelCriteria extends SelectAllCriteria {
         private static final String QUERY = " WHERE name=? AND make=?";
         private static final int NAME_INDEX = 1;
         private static final int MAKE_INDEX = 2;
         private final String name;
         private final int make;
         
-        public FindModel(CarModel model) {
+        public FindModelCriteria(CarModel model) {
             this.name = model.getName();
             this.make = model.getCarMake().getId();
         }

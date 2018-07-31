@@ -59,7 +59,8 @@ public class InvoiceLineService {
     
     public List getInvoiceLinesByInvoiceId(int id)
             throws ServiceException {
-        Criteria criteria = CriteriaFactory.findInvoiceLinesByInvoiceId(id);
+        Criteria criteria = CriteriaFactory
+                .findInvoiceLinesByInvoiceIdCriteria(id);
         return getInvoiceLinesByCriteria(criteria);
     }
     

@@ -1,4 +1,4 @@
-package com.mv.schelokov.car_rent.model.validators;
+package com.mv.schelokov.carent.model.validators;
 
 import com.mv.schelokov.carent.model.validators.UserDataValidator;
 import com.mv.schelokov.carent.model.validators.ValidationResult;

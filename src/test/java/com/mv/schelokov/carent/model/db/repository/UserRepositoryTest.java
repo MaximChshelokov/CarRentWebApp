@@ -1,4 +1,4 @@
-package com.mv.schelokov.car_rent.model.db.repository;
+package com.mv.schelokov.carent.model.db.repository;
 
 import com.mv.schelokov.carent.model.db.dao.UserDao;
 import com.mv.schelokov.carent.model.db.dao.exceptions.DbException;
@@ -40,7 +40,7 @@ public class UserRepositoryTest {
     @Test
     public void findLoginPasswordUser() throws DbException {
         
-        List<User> ul = ur.read(new UserDao.FindLoginPassword("boss@mail.com", 
+        List<User> ul = ur.read(new UserDao.FindLoginPasswordCriteria("boss@mail.com", 
                 "admin"));
         assertEquals(ul.size(), 1);
     }
@@ -57,20 +57,20 @@ public class UserRepositoryTest {
     
     @Test
     public void findAndRemoveUser() throws DbException {
-        List<User> ul = ur.read(UserDao.SELECT_ALL);
+        List<User> ul = ur.read(UserDao.SELECT_ALL_CRITERIA);
         assertTrue(ur.remove(ul.get(ul.size()-1)));
     }
     
     @Test
     public void findLoginPasswordUserNotFount() throws DbException {
-        List<User> ul = ur.read(new UserDao.FindLoginPassword("bogdan", 
+        List<User> ul = ur.read(new UserDao.FindLoginPasswordCriteria("bogdan", 
                 "admin"));
         assertEquals(ul.size(), 0);
     }
     
     @Test
     public void findLoginAndUpdateUser() throws DbException {
-        User user = ur.read(new UserDao.FindLogin("Dronchik")).get(0);
+        User user = ur.read(new UserDao.FindLoginCriteria("Dronchik")).get(0);
         user.setPassword(Integer.toString(Integer.parseInt(user.getPassword()) + 1));
         assertTrue(ur.update(user));
     }

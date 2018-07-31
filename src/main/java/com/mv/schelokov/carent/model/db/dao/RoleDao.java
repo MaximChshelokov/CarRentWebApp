@@ -20,9 +20,9 @@ public class RoleDao extends AbstractSqlDao<Role> {
 
     public interface DeleteCriteria extends SqlCriteria {}
 
-    public static final Criteria SELECT_ALL = new SelectAll();
+    public static final Criteria SELECT_ALL_CRITERIA = new SelectAllCriteria();
 
-    public static class SelectAll implements ReadCriteria {
+    public static class SelectAllCriteria implements ReadCriteria {
         private static final String QUERY = "SELECT role_id, role_name FROM "
                 + "roles";
 

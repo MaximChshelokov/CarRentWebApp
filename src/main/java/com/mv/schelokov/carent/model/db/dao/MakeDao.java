@@ -20,9 +20,7 @@ public class MakeDao extends AbstractSqlDao<CarMake> {
 
     public interface DeleteCriteria extends SqlCriteria {}
 
-    public static final Criteria SELECT_ALL = new SelectAll();
-
-    public static class SelectAll implements ReadCriteria {
+    public static class SelectAllCriteria implements ReadCriteria {
         private static final String QUERY = "SELECT make_id,name FROM makes";
 
         @Override
@@ -34,13 +32,13 @@ public class MakeDao extends AbstractSqlDao<CarMake> {
         public void setStatement(PreparedStatement ps) throws SQLException {}
     }
     
-    public static class FindName extends SelectAll {
+    public static class FindNameCriteria extends SelectAllCriteria {
 
         private static final String QUERY = " WHERE name=?";
         private static final int NAME_INDEX = 1;
         private final String name;
 
-        public FindName(String name) {
+        public FindNameCriteria(String name) {
             this.name = name;
         }
 

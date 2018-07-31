@@ -56,7 +56,7 @@ public class CarMakeService {
     }
     
     public List getMakeByName(String name) throws ServiceException {
-        Criteria criteria = CriteriaFactory.getMakeByName(name);
+        Criteria criteria = CriteriaFactory.getMakeByNameCriteria(name);
         try (DaoFactory daoFactory = new DaoFactory()) {
             Dao makeDao = daoFactory.getMakeDao();
             return makeDao.read(criteria);
