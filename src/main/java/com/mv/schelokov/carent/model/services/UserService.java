@@ -63,10 +63,14 @@ public class UserService {
     }
     
     public void updateUser(User user) throws ServiceException {
+        
+        User oldUser = getUserById(user.getId());
+
         try (DaoFactory daoFactory = new DaoFactory()) {
             User userCopy = (User) user.clone();
             Dao userDao = daoFactory.getUserDao();
-            userCopy.setPassword(hashPassword(userCopy.getPassword()));
+            if (!userCopy.getPassword().equals(oldUser.getPassword()))
+                userCopy.setPassword(hashPassword(userCopy.getPassword()));
             if (!userDao.update(userCopy)) {
                 LOG.error(UPDATE_ERROR);
                 throw new ServiceException(UPDATE_ERROR);
@@ -102,6 +106,15 @@ public class UserService {
     public List getUserByLogin(String login) throws ServiceException {
         Criteria criteria = CriteriaFactory.getUserFindLoginCriteria(login);
         return getUsersByCriteria(criteria);
+    }
+    
+    public User getUserById(int id) throws ServiceException {
+        Criteria criteria = CriteriaFactory.getUserByIdCriteria(id);
+        List userList = getUsersByCriteria(criteria);
+        if (userList.isEmpty())
+            return null;
+        else
+            return (User) userList.get(0);
     }
     
     private List getUsersByCriteria(Criteria criteria) throws ServiceException {

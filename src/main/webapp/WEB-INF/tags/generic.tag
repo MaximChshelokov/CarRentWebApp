@@ -24,7 +24,7 @@
         <!-- Header -->
         <header id="header">
             <div class="inner">
-                <a href="" class="logo"><strong>${title}</strong></a>
+                <a href="action/home" class="logo"><strong>${title}</strong></a>
                 <nav id="nav">
                     <a href="<c:url value = "action/change_locale">
                            <c:param name="locale" value="ru"/>

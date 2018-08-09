@@ -32,6 +32,10 @@ public class CriteriaFactory {
         return new UserDao.FindLoginPasswordCriteria(login, password);
     }
     
+    public static Criteria getUserByIdCriteria(int id) {
+        return new UserDao.FindByIdCriteria(id);
+    }
+    
     public static Criteria getAllUsersCriteria() {
         return UserDao.SELECT_ALL_CRITERIA;
     }

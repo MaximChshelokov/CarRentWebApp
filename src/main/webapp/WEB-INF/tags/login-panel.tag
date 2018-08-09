@@ -32,7 +32,7 @@
                     </ul>
                 </div>
                 <div class="12u">
-                    <a href="#" class="button special" onclick="$('#login').fadeOut(300, function(){
+                    <a href="${URL}#" class="button special" onclick="$('#login').fadeOut(300, function(){
     $('#signup').fadeIn(300);})"><fmt:message key="signup"/></a>
                 </div>
             </div>
@@ -60,7 +60,7 @@
                     </ul>
                 </div>
                 <div class="12u">
-                    <a href="#" class="button special" onclick=" $('#signup').fadeOut(300, function(){
+                    <a href="${URL}#" class="button special" onclick=" $('#signup').fadeOut(300, function(){
     $('#login').fadeIn(300);});"><fmt:message key="login"/></a>
                 </div>
             </div>

@@ -35,6 +35,8 @@ import com.mv.schelokov.carent.actions.user.ShowSelectCarPage;
 import com.mv.schelokov.carent.actions.user.ShowWelcomePage;
 import com.mv.schelokov.carent.actions.user.UpdateProfile;
 import com.mv.schelokov.carent.actions.consts.Jsps;
+import com.mv.schelokov.carent.actions.user.ProceedToOrder;
+import com.mv.schelokov.carent.actions.user.ShowUserDataPage;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -67,6 +69,8 @@ public class ActionFactory {
         ACTIONS.put("approve_order", new ApproveOrder());
         ACTIONS.put("edit_profile", new ShowEditProfilePage());
         ACTIONS.put("update_profile", new UpdateProfile());
+        ACTIONS.put("user_data", new ShowUserDataPage());
+        ACTIONS.put("proceed_to_order", new ProceedToOrder());
         ACTIONS.put("select_car", new ShowSelectCarPage());
         ACTIONS.put("create_order", new CreateOrder());
         ACTIONS.put("order_completed", new ShowPage(Jsps.USER_ORDER_COMPLETED));

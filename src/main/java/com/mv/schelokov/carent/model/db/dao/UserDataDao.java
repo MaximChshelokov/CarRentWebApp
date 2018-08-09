@@ -136,7 +136,7 @@ public class UserDataDao extends AbstractSqlDao<UserData> {
             ps.setString(Fields.ADDRESS.UPDATE, item.getAddress());
             ps.setString(Fields.PHONE.UPDATE, item.getPhone());
         } else {
-            ps.setInt(Fields.USERDATA_ID.INSERT, item.getId());
+            ps.setInt(Fields.USERDATA_ID.INSERT, item.getUser().getId());
             ps.setString(Fields.NAME.INSERT, item.getName());
             ps.setString(Fields.ADDRESS.INSERT, item.getAddress());
             ps.setString(Fields.PHONE.INSERT, item.getPhone());          

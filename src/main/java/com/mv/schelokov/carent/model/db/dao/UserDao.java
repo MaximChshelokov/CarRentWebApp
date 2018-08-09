@@ -36,6 +36,26 @@ public class UserDao extends AbstractSqlDao<User> {
         public void setStatement(PreparedStatement ps) throws SQLException {}
     }
     
+    public static class FindByIdCriteria extends SelectAllCriteria {
+        private static final String QUERY = " WHERE user_id=?";
+        private static final int ID_COLUMN = 1;
+        private final int id;
+
+        public FindByIdCriteria(int id) {
+            this.id = id;
+        }
+
+        @Override
+        public String toSqlQuery() {
+            return super.toSqlQuery() + QUERY;
+        }
+
+        @Override
+        public void setStatement(PreparedStatement ps) throws SQLException {
+            ps.setInt(ID_COLUMN, this.id);
+        } 
+    }
+    
     public static class FindLoginCriteria extends SelectAllCriteria {
 
         private static final String QUERY = " WHERE login=?";

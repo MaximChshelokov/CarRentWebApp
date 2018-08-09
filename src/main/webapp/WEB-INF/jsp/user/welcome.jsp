@@ -14,7 +14,7 @@
             <div class="12u">
                 <p><fmt:message key="user-welcome.message"/></p>
                 <c:if test="${show_button}">
-                    <a href="<c:url value="action/select_car"/>" class="button"><fmt:message key="user-welcome.select"/></a>
+                    <a href="<c:url value="action/user_data"/>" class="button"><fmt:message key="user-welcome.select"/></a>
                 </c:if>
             </div>
         </jsp:attribute>
