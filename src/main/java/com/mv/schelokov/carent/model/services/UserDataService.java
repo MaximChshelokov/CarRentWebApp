@@ -23,25 +23,7 @@ public class UserDataService {
     private static final String DELETE_ERROR = "Failed to delete user data";
     private static final String USER_DATA_DAO_ERROR = "Failed to get user"
             + " data from the DAO by the criteria";
-    private static final String INSTANCE_ERROR = "Failed to get instance";
-    private static volatile UserDataService instance;
 
-    public static UserDataService getInstance() throws ServiceException {
-        UserDataService localInstance = instance;
-        if (localInstance == null) {
-            synchronized (UserDataService.class) {
-                localInstance = instance;
-                if (localInstance == null) {
-                    instance = localInstance = new UserDataService();
-                }
-            }
-        }
-        if (localInstance == null) {
-            LOG.error(INSTANCE_ERROR);
-            throw new ServiceException(INSTANCE_ERROR);
-        }
-        return localInstance;
-    }
     public UserData getUserDataById(int id) throws ServiceException {
         Criteria criteria = CriteriaFactory.getUserDataByIdCriteria(id);
         List result = getUserDataByCriteria(criteria);
@@ -65,7 +47,7 @@ public class UserDataService {
             throw new ServiceException(ERROR_CREATE, ex);
         }
         
-        UserService userService = UserService.getInstance();
+        UserService userService = new UserService();
         
         if (userData.getUser().getId() == 0) {
             userService.registerNewUser(userData.getUser());
@@ -87,7 +69,7 @@ public class UserDataService {
             throw new ServiceException(UPDATE_ERROR, ex);
         }
         
-        UserService userService = UserService.getInstance();
+        UserService userService = new UserService();
         userService.updateUser(userData.getUser());
     }
 
@@ -104,7 +86,7 @@ public class UserDataService {
             throw new ServiceException(DELETE_ERROR, ex);
         }
         
-        UserService userService = UserService.getInstance();
+        UserService userService = new UserService();
         userService.deleteUser(userData.getUser());
     }
     
@@ -125,6 +107,4 @@ public class UserDataService {
             throw new ServiceException(USER_DATA_DAO_ERROR, ex);
         }
     }
-    
-    private UserDataService() {}
 }

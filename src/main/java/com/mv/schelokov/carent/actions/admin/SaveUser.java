@@ -48,7 +48,7 @@ public class SaveUser extends AbstractAction {
                         !user.getPassword().equals(repeat))
                     validationResult = ValidationResult.PASSWORDS_NOT_MATCH;
                 
-                UserService userService = UserService.getInstance();
+                UserService userService = new UserService();
                 
                 if (validationResult == ValidationResult.OK && !userService
                         .getUserByLogin(user.getLogin()).isEmpty())
@@ -58,7 +58,7 @@ public class SaveUser extends AbstractAction {
                     return new JspForward("action/user_list", true);
                 }
                 
-                RoleService roleService = RoleService.getInstance();
+                RoleService roleService = new RoleService();
                 
                 req.setAttribute("errParam", validationResult);
                 req.setAttribute("user_edit", user);

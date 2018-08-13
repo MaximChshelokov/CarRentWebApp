@@ -32,7 +32,7 @@ public class ShowAddUserPage extends AbstractAction {
                     new UserDataBuilder().setUser(new User()).getUserData());
             try {
                 
-                req.setAttribute("roles", RoleService.getInstance()
+                req.setAttribute("roles", new RoleService()
                         .getAllRoles());
                 
                 forward.setUrl(Jsps.ADMIN_ADD_USER);

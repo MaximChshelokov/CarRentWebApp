@@ -8,7 +8,6 @@ import com.mv.schelokov.carent.model.db.dao.interfaces.Criteria;
 import com.mv.schelokov.carent.model.entity.RentOrder;
 import com.mv.schelokov.carent.model.entity.User;
 import com.mv.schelokov.carent.model.services.exceptions.ServiceException;
-import com.mv.schelokov.carent.model.utils.OnlyDate;
 import java.util.List;
 import org.apache.log4j.Logger;
 import com.mv.schelokov.carent.model.db.dao.interfaces.Dao;
@@ -26,25 +25,6 @@ public class OrderService {
     private static final String CREATE_ERROR = "Failed to create an order";
     private static final String UPDATE_ERROR = "Failed to update an order";
     private static final String DELETE_ERROR = "Failed to delete an order";
-    private static final String INSTANCE_ERROR = "Failed to get instance";
-    private static volatile OrderService instance;
-
-    public static OrderService getInstance() throws ServiceException {
-        OrderService localInstance = instance;
-        if (localInstance == null) {
-            synchronized (OrderService.class) {
-                localInstance = instance;
-                if (localInstance == null) {
-                    instance = localInstance = new OrderService();
-                }
-            }
-        }
-        if (localInstance == null) {
-            LOG.error(INSTANCE_ERROR);
-            throw new ServiceException(INSTANCE_ERROR);
-        }
-        return localInstance;
-    }
     
     public List getAllOrders() throws ServiceException {
         Criteria criteria = CriteriaFactory
@@ -149,6 +129,4 @@ public class OrderService {
             throw new ServiceException(ORDER_DAO_ERROR, ex);
         }
     }
-    
-    private OrderService() {}
 }

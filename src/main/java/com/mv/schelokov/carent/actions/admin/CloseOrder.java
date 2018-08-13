@@ -33,10 +33,10 @@ public class CloseOrder extends AbstractAction {
                 throw new ActionException(WRONG_ID);
             }
             try {
-                RentOrder order = (RentOrder) OrderService.getInstance()
+                RentOrder order = (RentOrder) new OrderService()
                         .getOrderById(invoiceId);
                 
-                CarService carService = CarService.getInstance();
+                CarService carService = new CarService();
                 
                 Car car = carService.getCarById(order.getCar().getId());
                 car.setAvailable(true);

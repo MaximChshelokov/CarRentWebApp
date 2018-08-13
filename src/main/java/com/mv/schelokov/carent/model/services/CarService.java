@@ -23,25 +23,6 @@ public class CarService {
     private static final String DELETE_ERROR = "Failed to delete a car";
     private static final String UPDATE_ERROR = "Failed to update a car";
     private static final String CREATE_ERROR = "Failed to create a car";
-    private static final String INSTANCE_ERROR = "Failed to get instance";
-    private static volatile CarService instance;
-
-    public static CarService getInstance() throws ServiceException {
-        CarService localInstance = instance;
-        if (localInstance == null) {
-            synchronized (CarService.class) {
-                localInstance = instance;
-                if (localInstance == null) {
-                    instance = localInstance = new CarService();
-                }
-            }
-        }
-        if (localInstance == null) {
-            LOG.error(INSTANCE_ERROR);
-            throw new ServiceException(INSTANCE_ERROR);
-        }
-        return localInstance;
-    }
 
     public List getAllCars() throws ServiceException {
         Criteria criteria = CriteriaFactory.getAllCarsCriteria();
@@ -104,6 +85,4 @@ public class CarService {
             throw new ServiceException(CAR_CRITERIA_ERROR, ex);
         }
     }
-    
-    private CarService() {}
 }

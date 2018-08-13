@@ -40,8 +40,8 @@ public class DeleteUser extends AbstractAction {
                             .getUser())
                     .getUserData();
             try {
-                UserDataService userDataService = UserDataService.getInstance();
-                UserService userService = UserService.getInstance();
+                UserDataService userDataService = new UserDataService();
+                UserService userService = new UserService();
                 
                 if (userDataId > 0) {
                     userDataService.deleteUserData(userData);

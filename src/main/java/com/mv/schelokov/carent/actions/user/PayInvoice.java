@@ -33,10 +33,10 @@ public class PayInvoice extends AbstractAction {
         if (isUser(req)) {
             User user = (User) req.getSession().getAttribute(SessionAttr.USER);
             try {
-                RentOrder order = OrderService.getInstance()
+                RentOrder order = new OrderService()
                         .getOrdersByUser(user);
                 
-                InvoiceService invoiceService = InvoiceService.getInstance();
+                InvoiceService invoiceService = new InvoiceService();
                 Invoice invoice = invoiceService.getInvoiceById(order.getId());
 
                 invoice.setPaid(invoice.getTotal());

@@ -36,7 +36,7 @@ public class UpdateUser extends AbstractAction {
                 throw new ActionException(WRONG_ID);
             }
             try {
-                UserDataService userDataService = UserDataService.getInstance();
+                UserDataService userDataService = new UserDataService();
                 
                 UserData userData = userDataService.getUserDataById(userDataId);
                 userData.setName(req.getParameter("name"));
@@ -46,7 +46,7 @@ public class UpdateUser extends AbstractAction {
                 userData.getUser().setLogin(req.getParameter("login"));
                 
                 int validationResult = new UserDataValidator(userData).validate();
-                UserService userService = UserService.getInstance();
+                UserService userService = new UserService();
                 if (validationResult == ValidationResult.OK && !userService
                         .getUserByLogin(userData.getUser().getLogin()).isEmpty())
                     validationResult = ValidationResult.SAME_LOGIN;

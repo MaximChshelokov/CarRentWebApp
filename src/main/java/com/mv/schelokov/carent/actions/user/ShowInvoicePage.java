@@ -34,26 +34,25 @@ public class ShowInvoicePage extends AbstractAction {
         if (isUser(req)) {
             User user = (User) req.getSession().getAttribute(SessionAttr.USER);
             try {
-                RentOrder order = OrderService.getInstance()
+                RentOrder order = new OrderService()
                         .getOrdersByUser(user);
                 if (order == null) {
                     forward.setUrl(Jsps.USER_INVOICE);
                     return forward;
                 }
 
-                Invoice invoice = InvoiceService.getInstance()
+                Invoice invoice = new InvoiceService()
                         .getInvoiceById(order.getId());
                 
                 if (invoice != null && invoice.getTotal() != invoice.getPaid()) {
-                    CarService carService = CarService.getInstance();
+                    CarService carService = new CarService();
                     
                     req.setAttribute("car",
                         carService.getCarById(order.getCar().getId()));
 
                     req.setAttribute("invoice", invoice);
                     
-                    req.setAttribute("invoice_lines", InvoiceLineService
-                            .getInstance()
+                    req.setAttribute("invoice_lines", new InvoiceLineService()
                             .getInvoiceLinesByInvoiceId(invoice.getId()));
                 }
 

@@ -63,7 +63,7 @@ public class CreateOrder extends AbstractAction {
             try {
                 if (validationResult == ValidationResult.OK) {
 
-                    OrderService.getInstance().addOrder(order);
+                    new OrderService().addOrder(order);
                     
                     forward.setUrl("action/order_completed");
                     forward.setRedirect(true);
@@ -71,7 +71,7 @@ public class CreateOrder extends AbstractAction {
                     return forward;
                 }
                 
-                CarService carService = CarService.getInstance();
+                CarService carService = new CarService();
                 
                 req.setAttribute("errParam", validationResult);
                 req.setAttribute("car_list", carService.getAvailableCars());

@@ -36,19 +36,19 @@ public class ApproveOrder extends AbstractAction {
                 throw new ActionException(WRONG_ID);
             }
             try {
-                OrderService orderService = OrderService.getInstance();
+                OrderService orderService = new OrderService();
                 RentOrder order = (RentOrder) orderService.getOrderById(orderId);
                 order.setApprovedBy((User) req.getSession()
                         .getAttribute(SessionAttr.USER));
                 orderService.updateOrder(order);
                 
-                CarService carService = CarService.getInstance();
+                CarService carService = new CarService();
 
                 Car car = carService.getCarById(order.getCar().getId());
                 car.setAvailable(false);
                 carService.updateCar(car);
                 
-                InvoiceService.getInstance().openNewInvoice(order);
+                new InvoiceService().openNewInvoice(order);
                 
                 forward.setUrl("action/order_list");
                 forward.setRedirect(true);

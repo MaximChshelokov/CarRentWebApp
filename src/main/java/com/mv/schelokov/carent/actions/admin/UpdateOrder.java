@@ -41,7 +41,7 @@ public class UpdateOrder extends AbstractAction {
             if (orderId < 1)
                 throw new ActionException(WRONG_ID);
             try {
-                OrderService orderService = OrderService.getInstance();
+                OrderService orderService = new OrderService();
                 RentOrder order = orderService.getOrderById(orderId);
                 order.getCar().setId(getIntParam(req, "selected_car"));
 
@@ -66,7 +66,7 @@ public class UpdateOrder extends AbstractAction {
                     return forward;
                 }
                 
-                CarService carService = CarService.getInstance();
+                CarService carService = new CarService();
 
                 req.setAttribute("errParam", validationResult);
                 req.setAttribute("car_list", carService.getAvailableCars());

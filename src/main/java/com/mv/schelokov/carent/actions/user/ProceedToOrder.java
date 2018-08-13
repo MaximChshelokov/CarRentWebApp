@@ -35,7 +35,7 @@ public class ProceedToOrder extends AbstractAction {
                 User user = (User) req.getSession()
                         .getAttribute(SessionAttr.USER);
 
-                UserDataService userDataService = UserDataService.getInstance();
+                UserDataService userDataService = new UserDataService();
                 UserData userData = userDataService
                         .getUserDataById(user.getId());
 

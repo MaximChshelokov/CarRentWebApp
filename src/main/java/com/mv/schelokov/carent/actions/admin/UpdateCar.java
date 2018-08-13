@@ -33,7 +33,7 @@ public class UpdateCar extends AbstractAction {
             try {
                 int carId = getIntParam(req, "id");
                 
-                CarModelService carModelService = CarModelService.getInstance();
+                CarModelService carModelService = new CarModelService();
                 
                 Car car = new CarBuilder()
                         .setId(carId)
@@ -54,7 +54,7 @@ public class UpdateCar extends AbstractAction {
                     return forward;
                 }
                 
-                CarService carService = CarService.getInstance();
+                CarService carService = new CarService();
                 
                 if (car.getId() == 0) {
                     car.setAvailable(true);

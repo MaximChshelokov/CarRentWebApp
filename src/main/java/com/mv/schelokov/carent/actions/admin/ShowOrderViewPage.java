@@ -32,13 +32,13 @@ public class ShowOrderViewPage extends AbstractAction {
         if (isAdmin(req)) {
             int orderId = getIntParam(req, "id");
             try {
-                RentOrder order = OrderService.getInstance()
+                RentOrder order = new OrderService()
                         .getOrderById(orderId);
-                CarService carService = CarService.getInstance();
+                CarService carService = new CarService();
 
                 req.setAttribute("order", order);
                 req.setAttribute("user_data", 
-                        UserDataService.getInstance()
+                        new UserDataService()
                                 .getUserDataById(order.getUser().getId()));
                 req.setAttribute("car",
                         carService.getCarById(order.getCar().getId()));

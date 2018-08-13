@@ -48,7 +48,7 @@ public class SignUp implements Action {
                 validationResult = ValidationResult.PASSWORDS_NOT_MATCH;
             }
             
-            UserService userService = UserService.getInstance();
+            UserService userService = new UserService();
             
             if (validationResult == ValidationResult.OK && !userService
                     .getUserByLogin(user.getLogin()).isEmpty()) {

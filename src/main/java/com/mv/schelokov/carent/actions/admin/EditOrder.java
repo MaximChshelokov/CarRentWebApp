@@ -35,9 +35,9 @@ public class EditOrder extends AbstractAction {
             if (id < 1)
                 throw new ActionException(WRONG_ID);
             try {
-                RentOrder order = OrderService.getInstance().getOrderById(id);
+                RentOrder order = new OrderService().getOrderById(id);
                 
-                CarService carService = CarService.getInstance();
+                CarService carService = new CarService();
                 
                 req.setAttribute("car_list", carService.getAvailableCars());
                 req.setAttribute("order", order);

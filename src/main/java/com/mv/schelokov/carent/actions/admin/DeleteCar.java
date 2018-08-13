@@ -29,7 +29,7 @@ public class DeleteCar extends AbstractAction {
             if (carId < 1)
                 throw new ActionException(WRONG_ID);
             try {
-                CarService carService = CarService.getInstance();
+                CarService carService = new CarService();
 
                 carService.deleteCar(new CarBuilder().setId(carId).getCar());
                 

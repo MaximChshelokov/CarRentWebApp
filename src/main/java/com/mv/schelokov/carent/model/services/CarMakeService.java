@@ -21,25 +21,6 @@ public class CarMakeService {
     private static final String MAKE_NAME_ERROR = "Failed to get make by "
             + "name from the DAO";
     private static final String MAKE_CREATE_ERROR = "Failed to create new make";
-    private static final String INSTANCE_ERROR = "Failed to get instance";
-    private static volatile CarMakeService instance;
-
-    public static CarMakeService getInstance() throws ServiceException {
-        CarMakeService localInstance = instance;
-        if (localInstance == null) {
-            synchronized (CarMakeService.class) {
-                localInstance = instance;
-                if (localInstance == null) {
-                    instance = localInstance = new CarMakeService();
-                }
-            }
-        }
-        if (localInstance == null) {
-            LOG.error(INSTANCE_ERROR);
-            throw new ServiceException(INSTANCE_ERROR);
-        }
-        return localInstance;
-    }
     
     public CarMake getMakeByNameOrCreate(String makeName)
             throws ServiceException {
@@ -78,6 +59,4 @@ public class CarMakeService {
             throw new ServiceException(MAKE_CREATE_ERROR, ex);
         }
     }
-    
-    private CarMakeService() {}
 }

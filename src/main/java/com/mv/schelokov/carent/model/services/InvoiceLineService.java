@@ -22,25 +22,6 @@ public class InvoiceLineService {
             + "create an invoice line";
     private static final String INVOICE_LINE_DAO_ERROR = "Failed to get"
             + " an invoice line list form the DAO by the criteria";
-    private static final String INSTANCE_ERROR = "Failed to get instance";
-    private static volatile InvoiceLineService instance;
-
-    public static InvoiceLineService getInstance() throws ServiceException {
-        InvoiceLineService localInstance = instance;
-        if (localInstance == null) {
-            synchronized (InvoiceLineService.class) {
-                localInstance = instance;
-                if (localInstance == null) {
-                    instance = localInstance = new InvoiceLineService();
-                }
-            }
-        }
-        if (localInstance == null) {
-            LOG.error(INSTANCE_ERROR);
-            throw new ServiceException(INSTANCE_ERROR);
-        }
-        return localInstance;
-    }
     
     public void createInvoiceLine(InvoiceLine invoiceLine)
             throws ServiceException {
@@ -76,6 +57,4 @@ public class InvoiceLineService {
             throw new ServiceException(INVOICE_LINE_DAO_ERROR, ex);
         }
     }
-    
-    private InvoiceLineService() {}
 }

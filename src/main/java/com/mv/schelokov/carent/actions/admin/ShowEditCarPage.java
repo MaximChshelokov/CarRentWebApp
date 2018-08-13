@@ -28,7 +28,7 @@ public class ShowEditCarPage extends AbstractAction {
         if (isAdmin(req)) {
             int id = getIntParam(req, "id");
             try {
-                CarService carService = CarService.getInstance();
+                CarService carService = new CarService();
 
                 req.setAttribute("car", carService.getCarById(id));
                 

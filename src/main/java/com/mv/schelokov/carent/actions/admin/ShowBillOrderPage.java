@@ -11,7 +11,6 @@ import com.mv.schelokov.carent.model.services.InvoiceLineService;
 import com.mv.schelokov.carent.model.services.InvoiceService;
 import com.mv.schelokov.carent.model.services.OrderService;
 import com.mv.schelokov.carent.model.services.UserDataService;
-import com.mv.schelokov.carent.model.services.UserService;
 import com.mv.schelokov.carent.model.services.exceptions.ServiceException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,15 +36,15 @@ public class ShowBillOrderPage extends AbstractAction {
             if (orderId < 1)
                 throw new ActionException(WRONG_ID);
             try {
-                RentOrder order = OrderService.getInstance()
+                RentOrder order = new OrderService()
                         .getOrderById(orderId);
-                InvoiceService invoiceService = InvoiceService.getInstance();
+                InvoiceService invoiceService = new InvoiceService();
                 invoiceService.recalculateInvoice(order);
                 
-                CarService carService = CarService.getInstance();
+                CarService carService = new CarService();
                 
                 req.setAttribute("user_data",
-                        UserDataService.getInstance()
+                        new UserDataService()
                                 .getUserDataById(order.getUser().getId()));
                 req.setAttribute("car",
                         carService.getCarById(order.getCar().getId()));
@@ -53,8 +52,7 @@ public class ShowBillOrderPage extends AbstractAction {
                 Invoice invoice = invoiceService.getInvoiceById(order.getId());
                 req.setAttribute("invoice", invoice);
                 
-                req.setAttribute("invoice_lines", InvoiceLineService
-                        .getInstance()
+                req.setAttribute("invoice_lines", new InvoiceLineService()
                         .getInvoiceLinesByInvoiceId(invoice.getId()));
                 
                 forward.setUrl(Jsps.ADMIN_BILL_ORDER);

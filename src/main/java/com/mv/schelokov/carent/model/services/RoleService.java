@@ -20,26 +20,7 @@ public class RoleService {
     private static final Logger LOG = Logger.getLogger(RoleService.class);
     private static final String ROLE_DAO_ERROR = "Failed to get roles "
             + "list from the dao";
-    private static final String INSTANCE_ERROR = "Failed to get instance";
-    private static volatile RoleService instance;
 
-    public static RoleService getInstance() throws ServiceException {
-        RoleService localInstance = instance;
-        if (localInstance == null) {
-            synchronized (RoleService.class) {
-                localInstance = instance;
-                if (localInstance == null) {
-                    instance = localInstance = new RoleService();
-                }
-            }
-        }
-        if (localInstance == null) {
-            LOG.error(INSTANCE_ERROR);
-            throw new ServiceException(INSTANCE_ERROR);
-        }
-        return localInstance;
-    }
-    
     public List getAllRoles() throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
             Dao roleDao = daoFactory.getRoleDao();
@@ -51,6 +32,4 @@ public class RoleService {
             throw new ServiceException(ROLE_DAO_ERROR, ex);
         }
     }
-    
-    private RoleService() {}
 }

@@ -33,7 +33,7 @@ public class ShowEditProfilePage extends AbstractAction {
                 User user = (User) req.getSession()
                         .getAttribute(SessionAttr.USER);
                 req.setAttribute("user_data",
-                        UserDataService.getInstance()
+                        new UserDataService()
                                 .getUserDataById(user.getId()));
                 
                 forward.setUrl(Jsps.USER_EDIT_PROFILE);

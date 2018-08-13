@@ -28,7 +28,7 @@ public class ShowUsersList extends AbstractAction {
         
         if (isAdmin(req)) {
             try {
-                req.setAttribute("user_data", UserDataService.getInstance()
+                req.setAttribute("user_data", new UserDataService()
                         .getAllUsers());
                 
                 forward.setUrl(Jsps.ADMIN_USERS_LIST);

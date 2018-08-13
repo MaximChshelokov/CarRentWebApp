@@ -33,25 +33,6 @@ public class InvoiceService {
             + " invoice";
     private static final String ERROR_DELETE = "Failed to delete an"
             + " invoice";
-    private static final String INSTANCE_ERROR = "Failed to get instance";
-    private static volatile InvoiceService instance;
-
-    public static InvoiceService getInstance() throws ServiceException {
-        InvoiceService localInstance = instance;
-        if (localInstance == null) {
-            synchronized (InvoiceService.class) {
-                localInstance = instance;
-                if (localInstance == null) {
-                    instance = localInstance = new InvoiceService();
-                }
-            }
-        }
-        if (localInstance == null) {
-            LOG.error(INSTANCE_ERROR);
-            throw new ServiceException(INSTANCE_ERROR);
-        }
-        return localInstance;
-    }
     
     public void openNewInvoice(RentOrder rentOrder)
             throws ServiceException {
@@ -70,13 +51,13 @@ public class InvoiceService {
                 .setInvoiceId(invoice.getId())
                 .setAmount(days * rentOrder.getCar().getPrice())
                 .getInvoiceLine();
-        InvoiceLineService.getInstance().createInvoiceLine(invoiceLine);
+        new InvoiceLineService().createInvoiceLine(invoiceLine);
     }
     
     public void recalculateInvoice(RentOrder rentOrder)
             throws ServiceException {
         Date today = new OnlyDate().getOnlyDate();
-        InvoiceLineService invoiceLineService = InvoiceLineService.getInstance();
+        InvoiceLineService invoiceLineService = new InvoiceLineService();
         if (invoiceLineService.getInvoiceLinesByInvoiceId(
                 rentOrder.getId()).size() < 2
                 && !rentOrder.getEndDate().equals(today)) {
@@ -162,6 +143,4 @@ public class InvoiceService {
             throw new ServiceException(INVOICE_DAO_ERROR, ex);
         }
     }
-    
-    private InvoiceService() {}
 }

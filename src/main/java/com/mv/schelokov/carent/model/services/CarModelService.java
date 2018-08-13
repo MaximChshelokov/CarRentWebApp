@@ -23,25 +23,6 @@ public class CarModelService {
             + "name from the DAO";
     private static final String MODEL_CREATE_ERROR =
             "Failed to create new model";
-    private static final String INSTANCE_ERROR = "Failed to get instance";
-    private static volatile CarModelService instance;
-
-    public static CarModelService getInstance() throws ServiceException {
-        CarModelService localInstance = instance;
-        if (localInstance == null) {
-            synchronized (CarModelService.class) {
-                localInstance = instance;
-                if (localInstance == null) {
-                    instance = localInstance = new CarModelService();
-                }
-            }
-        }
-        if (localInstance == null) {
-            LOG.error(INSTANCE_ERROR);
-            throw new ServiceException(INSTANCE_ERROR);
-        }
-        return localInstance;
-    }
     
     public CarModel getModelByNameOrCreate(String modelName, String makeName)
             throws ServiceException {
@@ -49,7 +30,7 @@ public class CarModelService {
             return new CarModelBuilder().setId(0).getCarModel();
         }
         
-        CarMakeService carMakeService = CarMakeService.getInstance();
+        CarMakeService carMakeService = new CarMakeService();
         
         CarModel model = new CarModelBuilder()
                 .setName(modelName)
@@ -86,7 +67,5 @@ public class CarModelService {
             throw new ServiceException(MODEL_CREATE_ERROR, ex);
         }
     }
-    
-    private CarModelService() {}
     
 }

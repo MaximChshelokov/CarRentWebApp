@@ -27,7 +27,7 @@ public class ShowOpenedOrdersPage extends AbstractAction {
         
         if (isAdmin(req)) {
             try {
-                req.setAttribute("order_list", OrderService.getInstance()
+                req.setAttribute("order_list", new OrderService()
                         .getOpenedOrders());
                 
                 forward.setUrl(Jsps.ADMIN_OPENED_ORDERS);

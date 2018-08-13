@@ -29,7 +29,7 @@ public class ShowEditUserPage extends AbstractAction {
         if (isAdmin(req)) {
             try {
                 int id = getIntParam(req, "id");
-                req.setAttribute("user_data", UserDataService.getInstance()
+                req.setAttribute("user_data", new UserDataService()
                         .getUserDataById(id));
                 
                 forward.setUrl(Jsps.ADMIN_EDIT_USER);

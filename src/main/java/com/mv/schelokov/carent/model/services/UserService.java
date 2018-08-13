@@ -26,25 +26,6 @@ public class UserService {
     private static final String REGISTER_ERROR = "Failed to create new user";
     private static final String UPDATE_ERROR = "Failed to update a user";
     private static final String DELETE_ERROR = "Failed to delete a user";
-    private static final String INSTANCE_ERROR = "Failed to get instance";
-    private static volatile UserService instance;
-
-    public static UserService getInstance() throws ServiceException {
-        UserService localInstance = instance;
-        if (localInstance == null) {
-            synchronized (UserService.class) {
-                localInstance = instance;
-                if (localInstance == null) {
-                    instance = localInstance = new UserService();
-                }
-            }
-        }
-        if (localInstance == null) {
-            LOG.error(INSTANCE_ERROR);
-            throw new ServiceException(INSTANCE_ERROR);
-        }
-        return localInstance;
-    }
     
     public void registerNewUser(User user) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
@@ -141,6 +122,4 @@ public class UserService {
             throw new ServiceException(HASH_ERROR, ex);
         }
     }
-    
-    private UserService() {}
 }
