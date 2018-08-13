@@ -1,6 +1,5 @@
-package com.mv.schelokov.carent.model.db.repository;
+package com.mv.schelokov.carent.model.db.dao;
 
-import com.mv.schelokov.carent.model.db.dao.CarDao;
 import com.mv.schelokov.carent.model.db.dao.exceptions.DbException;
 import com.mv.schelokov.carent.model.entity.Car;
 import com.mv.schelokov.carent.model.entity.builders.CarBuilder;
@@ -8,7 +7,6 @@ import com.mv.schelokov.carent.model.entity.builders.CarModelBuilder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Comparator;
 import java.util.List;
 import org.junit.After;
 import org.junit.Before;
@@ -19,12 +17,12 @@ import static org.junit.Assert.*;
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
-public class CarRepositoryTest {
+public class CarDaoTest {
     
     private Connection connection;
     private CarDao cr;
     
-    public CarRepositoryTest() {
+    public CarDaoTest() {
     }
     
     @Before

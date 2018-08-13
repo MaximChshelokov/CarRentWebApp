@@ -1,6 +1,5 @@
-package com.mv.schelokov.carent.model.db.repository;
+package com.mv.schelokov.carent.model.db.dao;
 
-import com.mv.schelokov.carent.model.db.dao.UserDataDao;
 import com.mv.schelokov.carent.model.db.dao.exceptions.DbException;
 import com.mv.schelokov.carent.model.entity.User;
 import com.mv.schelokov.carent.model.entity.UserData;
@@ -19,12 +18,12 @@ import static org.junit.Assert.*;
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
-public class UserDataRepositoryTest {
+public class UserDataDaoTest {
     
     private Connection connection;
     private UserDataDao udr;
     
-    public UserDataRepositoryTest() {
+    public UserDataDaoTest() {
     }
     
     @Before

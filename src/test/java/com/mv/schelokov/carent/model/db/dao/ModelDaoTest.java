@@ -1,6 +1,5 @@
-package com.mv.schelokov.carent.model.db.repository;
+package com.mv.schelokov.carent.model.db.dao;
 
-import com.mv.schelokov.carent.model.db.dao.ModelDao;
 import com.mv.schelokov.carent.model.db.dao.exceptions.DbException;
 import com.mv.schelokov.carent.model.entity.CarModel;
 import com.mv.schelokov.carent.model.entity.builders.CarMakeBuilder;
@@ -18,12 +17,12 @@ import static org.junit.Assert.*;
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
-public class ModelRepositoryTest {
+public class ModelDaoTest {
     
     private Connection connection;
     private ModelDao mr;
     
-    public ModelRepositoryTest() {
+    public ModelDaoTest() {
     }
     
     @Before

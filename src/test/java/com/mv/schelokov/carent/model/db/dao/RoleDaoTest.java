@@ -1,6 +1,5 @@
-package com.mv.schelokov.carent.model.db.repository;
+package com.mv.schelokov.carent.model.db.dao;
 
-import com.mv.schelokov.carent.model.db.dao.RoleDao;
 import com.mv.schelokov.carent.model.db.dao.exceptions.DbException;
 import com.mv.schelokov.carent.model.entity.Role;
 import com.mv.schelokov.carent.model.entity.builders.RoleBuilder;
@@ -17,12 +16,12 @@ import static org.junit.Assert.*;
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
-public class RoleRepositoryTest {
+public class RoleDaoTest {
     
     private Connection connection;
     private RoleDao rr;
     
-    public RoleRepositoryTest() {
+    public RoleDaoTest() {
     }
     
     @Before

@@ -56,7 +56,6 @@ public class CarDao extends AbstractSqlDao<Car> {
 
         private final int id;
 
-        // TODO: Add constructors for Invoice and Defect entities!
         public FindByIdCriteria(int id) {
             this.id = id;
         }

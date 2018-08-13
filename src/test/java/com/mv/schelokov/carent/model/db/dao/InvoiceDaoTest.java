@@ -1,6 +1,5 @@
-package com.mv.schelokov.carent.model.db.repository;
+package com.mv.schelokov.carent.model.db.dao;
 
-import com.mv.schelokov.carent.model.db.dao.InvoiceDao;
 import com.mv.schelokov.carent.model.db.dao.exceptions.DbException;
 import com.mv.schelokov.carent.model.entity.Invoice;
 import com.mv.schelokov.carent.model.entity.builders.InvoiceBuilder;
@@ -13,19 +12,18 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.Ignore;
 
 /**
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
-public class InvoiceRepositoryTest {
+public class InvoiceDaoTest {
     
     private Connection connection;
     private InvoiceDao ir;
 
     
-    public InvoiceRepositoryTest() {
+    public InvoiceDaoTest() {
     }
     
     @Before
