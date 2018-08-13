@@ -23,7 +23,7 @@ import org.apache.log4j.Logger;
  */
 public class Login extends AbstractAction {
     
-    public static final Logger LOG = Logger.getLogger(Login.class);
+    private static final Logger LOG = Logger.getLogger(Login.class);
     private static final String ERROR = "Failed to login";
 
     @Override

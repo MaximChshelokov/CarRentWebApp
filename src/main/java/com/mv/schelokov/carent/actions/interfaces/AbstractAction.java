@@ -31,18 +31,6 @@ public abstract class AbstractAction implements Action {
         return isUserLogged(req, USER_ID);
     }
     
-    public Object pickSessionAttribute(HttpServletRequest req,
-            String attributeName) {
-        HttpSession session = req.getSession(false);
-        if (session != null) {
-            Object result = session.getAttribute(attributeName);
-            if (result != null)
-                session.removeAttribute(attributeName);
-            return result;
-        }
-        return null;
-    }
-    
     public int getIntParam(HttpServletRequest req, String name) {
         String param = req.getParameter(name);
         if (param != null && param.length() > 0)
