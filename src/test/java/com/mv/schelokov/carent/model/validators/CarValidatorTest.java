@@ -1,7 +1,5 @@
 package com.mv.schelokov.carent.model.validators;
 
-import com.mv.schelokov.carent.model.validators.CarValidator;
-import com.mv.schelokov.carent.model.validators.ValidationResult;
 import com.mv.schelokov.carent.model.entity.Car;
 import com.mv.schelokov.carent.model.entity.builders.CarBuilder;
 import com.mv.schelokov.carent.model.entity.builders.CarMakeBuilder;

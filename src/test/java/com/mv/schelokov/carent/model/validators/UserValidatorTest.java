@@ -1,7 +1,5 @@
 package com.mv.schelokov.carent.model.validators;
 
-import com.mv.schelokov.carent.model.validators.UserValidator;
-import com.mv.schelokov.carent.model.validators.ValidationResult;
 import com.mv.schelokov.carent.model.entity.User;
 import com.mv.schelokov.carent.model.entity.builders.RoleBuilder;
 import com.mv.schelokov.carent.model.entity.builders.UserBuilder;
