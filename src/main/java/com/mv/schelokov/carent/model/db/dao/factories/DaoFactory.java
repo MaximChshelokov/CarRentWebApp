@@ -23,7 +23,8 @@ import com.mv.schelokov.carent.model.db.dao.interfaces.Dao;
 public class DaoFactory implements AutoCloseable {
     
     private static final Logger LOG = Logger.getLogger(DaoFactory.class);
-    private static final String ERROR_CLOSE_CONNECTION = "Failed to close the connection";
+    private static final String ERROR_CLOSE_CONNECTION = "Failed to close the"
+            + " connection";
     private static final String ERROR_COMMIT = "Failed to commit to database";
     private final ConnectionPool connectionPool;
     private final Connection connection;
@@ -86,7 +87,7 @@ public class DaoFactory implements AutoCloseable {
     @Override
     public void close() throws DaoException {
         try {
-            connectionPool.freeConnection(connection);
+            connectionPool.releaseConnection(connection);
         } catch (DataSourceException ex) {
             LOG.error(ERROR_CLOSE_CONNECTION, ex);
             throw new DaoException(ERROR_CLOSE_CONNECTION, ex);

@@ -26,6 +26,7 @@ public abstract class AbstractSqlDao <T extends Entity>
             "PreparedStatement error occurred";
     private static final String CRITERIA_MISTMATCH = 
             "Criteria class mistmatches";
+    private static final String ROLLBACK_ERROR = "Failed to rollback";
     
     private final Connection connection;
     
@@ -42,29 +43,32 @@ public abstract class AbstractSqlDao <T extends Entity>
      */
     @Override
     public List<T> read(Criteria criteria) throws DbException {
-        if (checkCriteriaInstance(criteria, false)) {
-            List<T> result = new ArrayList<>();
-            SqlCriteria sqlCriteria = (SqlCriteria) criteria;
-            try (PreparedStatement ps = connection.prepareStatement(
-                    sqlCriteria.toSqlQuery())) {
-                sqlCriteria.setStatement(ps);
-                try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) {
-                        result.add(createItem(rs));
-                    }
-                } catch (SQLException ex) {
-                    LOG.error(RESULTSER_ERROR);
-                    throw new DbException (RESULTSER_ERROR, ex);
-                }
-            } catch (SQLException ex) {
-                LOG.error(PREPAREDSTAT_ERROR);
-                throw new DbException(PREPAREDSTAT_ERROR, ex);
-            }
-            return result;
-        } else {
+        
+        if (!checkCriteriaInstance(criteria, false)) {
             LOG.error(CRITERIA_MISTMATCH);
             throw new CriteriaMismatchException(CRITERIA_MISTMATCH);
         }
+        
+        List<T> result = new ArrayList<>();
+        SqlCriteria sqlCriteria = (SqlCriteria) criteria;
+        try (PreparedStatement ps = connection.prepareStatement(
+                sqlCriteria.toSqlQuery())) {
+            sqlCriteria.setStatement(ps);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    result.add(createItem(rs));
+                }
+            }
+            catch (SQLException ex) {
+                LOG.error(RESULTSER_ERROR);
+                throw new DbException(RESULTSER_ERROR, ex);
+            }
+        }
+        catch (SQLException ex) {
+            LOG.error(PREPAREDSTAT_ERROR);
+            throw new DbException(PREPAREDSTAT_ERROR, ex);
+        }
+        return result;
     }
     
     /**
@@ -76,19 +80,27 @@ public abstract class AbstractSqlDao <T extends Entity>
      */
     @Override
     public boolean remove(Criteria criteria) throws DbException {
-        if (checkCriteriaInstance(criteria, true)) {
-            SqlCriteria sqlCriteria = (SqlCriteria) criteria;
-            try (PreparedStatement ps = connection.prepareStatement(
-                    sqlCriteria.toSqlQuery())) {
-                sqlCriteria.setStatement(ps);
-                return ps.executeUpdate() > 0;                
-            } catch (SQLException ex) {
-                LOG.error(PREPAREDSTAT_ERROR);
-                throw new DbException(PREPAREDSTAT_ERROR, ex);
-            }
-        } else {
+        
+        if (!checkCriteriaInstance(criteria, true)) {
             LOG.error(CRITERIA_MISTMATCH);
             throw new CriteriaMismatchException(CRITERIA_MISTMATCH);
+        }
+        
+        SqlCriteria sqlCriteria = (SqlCriteria) criteria;
+        try (PreparedStatement ps = connection.prepareStatement(
+                sqlCriteria.toSqlQuery())) {
+            sqlCriteria.setStatement(ps);
+            return ps.executeUpdate() > 0;
+        }
+        catch (SQLException ex) {
+            try {
+                connection.rollback();
+            } catch (SQLException exc) {
+                LOG.error(ROLLBACK_ERROR);
+                throw new DbException(ROLLBACK_ERROR, exc);             
+            }
+            LOG.error(PREPAREDSTAT_ERROR);
+            throw new DbException(PREPAREDSTAT_ERROR, ex);
         }
     }
 
@@ -106,6 +118,13 @@ public abstract class AbstractSqlDao <T extends Entity>
             ps.setInt(1, item.getId());
             return ps.executeUpdate() > 0;
         } catch (SQLException ex) {
+            try {
+                connection.rollback();
+            }
+            catch (SQLException exc) {
+                LOG.error(ROLLBACK_ERROR);
+                throw new DbException(ROLLBACK_ERROR, exc);
+            }
             LOG.error(PREPAREDSTAT_ERROR);
             throw new DbException(PREPAREDSTAT_ERROR, ex);
         }
@@ -124,6 +143,13 @@ public abstract class AbstractSqlDao <T extends Entity>
             setStatement(ps, item, true);
             return ps.executeUpdate() > 0;
         } catch (SQLException ex) {
+            try {
+                connection.rollback();
+            }
+            catch (SQLException exc) {
+                LOG.error(ROLLBACK_ERROR);
+                throw new DbException(ROLLBACK_ERROR, exc);
+            }
             LOG.error(PREPAREDSTAT_ERROR);
             throw new DbException(PREPAREDSTAT_ERROR, ex);
         }
@@ -142,6 +168,13 @@ public abstract class AbstractSqlDao <T extends Entity>
             setStatement(ps, item, false);
             return ps.executeUpdate() > 0;
         } catch (SQLException ex) {
+            try {
+                connection.rollback();
+            }
+            catch (SQLException exc) {
+                LOG.error(ROLLBACK_ERROR);
+                throw new DbException(ROLLBACK_ERROR, exc);
+            }
             LOG.error(PREPAREDSTAT_ERROR);
             throw new DbException(PREPAREDSTAT_ERROR, ex);
         }

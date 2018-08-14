@@ -48,6 +48,38 @@ public class ConnectionPool {
         return localInstance;
     }
     
+    public Connection getConnection() throws DataSourceException {
+        try {
+            Connection result = freeConnections.take();
+            result.setAutoCommit(false);
+            result.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            return result;
+        }
+        catch (InterruptedException ex) {
+            LOG.error(ERROR_TAKE_CONNECTION, ex);
+            throw new DataSourceException(ERROR_TAKE_CONNECTION, ex);
+        }
+        catch (SQLException ex) {
+            LOG.error(ERROR_SETUP_CONNECTION, ex);
+            throw new DataSourceException(ERROR_SETUP_CONNECTION, ex);
+        }
+    }
+
+    public void releaseConnection(Connection connection) throws DataSourceException {
+        commit(connection);
+        freeConnections.offer(connection);
+    }
+    
+    public void commit(Connection connection) throws DataSourceException {
+        try {
+            connection.commit();
+        }
+        catch (SQLException ex) {
+            LOG.error(ERROR_COMMIT, ex);
+            throw new DataSourceException(ERROR_COMMIT, ex);
+        }
+    }
+    
     private ConnectionPool() {
         try {
             params = new ParametersLoader(this.getClass().getClassLoader()
@@ -76,39 +108,6 @@ public class ConnectionPool {
                 | IllegalAccessException ex) {
             LOG.error(DRIVER_ERROR, ex);
             throw new DataSourceException(DRIVER_ERROR, ex);
-        }
-    }
-
-    
-    public Connection getConnection() throws DataSourceException {
-        try {
-            Connection result = freeConnections.take();
-            result.setAutoCommit(false);
-            result.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
-            return result;
-        } catch (InterruptedException ex) {
-            LOG.error(ERROR_TAKE_CONNECTION, ex);
-            throw new DataSourceException(ERROR_TAKE_CONNECTION, ex);
-        }
-        catch (SQLException ex) {
-            LOG.error(ERROR_SETUP_CONNECTION, ex);
-            throw new DataSourceException(ERROR_SETUP_CONNECTION, ex);
-        }
-    }
-
-    
-    public void freeConnection(Connection connection) throws DataSourceException {
-        commit(connection);
-        freeConnections.offer(connection);
-    }
-    
-    public void commit(Connection connection) throws DataSourceException {
-        try {
-            connection.commit();
-        }
-        catch (SQLException ex) {
-            LOG.error(ERROR_COMMIT, ex);
-            throw new DataSourceException(ERROR_COMMIT, ex);
         }
     }
 }
