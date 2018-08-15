@@ -40,10 +40,12 @@ public class UserDataDaoTest {
     @Test
     public void createNewUserData() throws DbException {
         assertTrue(udr.add(new UserDataBuilder()
-                .setId(19)
                 .setName("Эдуард Робертович Михтельштейн")
                 .setAddress("ул. Победы, д. 22, кв 50")
                 .setPhone("+77087653492")
+                .setUser(new UserBuilder()
+                        .setId(19)
+                        .getUser())
                 .getUserData()));
     }
     
