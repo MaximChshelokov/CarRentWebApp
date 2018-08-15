@@ -31,7 +31,7 @@ public class DeleteCar extends AbstractAction {
             try {
                 CarService carService = new CarService();
 
-                carService.deleteCar(new CarBuilder().setId(carId).getCar());
+                carService.deleteCar(new CarBuilder().withId(carId).getCar());
                 
                 forward.setUrl("action/car_list");
                 forward.setRedirect(true);

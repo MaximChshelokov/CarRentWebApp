@@ -47,10 +47,10 @@ public class UserDaoTest {
     @Test
     public void createNewUser() throws DbException {
         assertTrue(ur.add(new UserBuilder()
-                .setLogin("Dronchik")
-                .setPassword("228")
-                .setRole(new RoleBuilder()
-                        .setId(2)
+                .withLogin("Dronchik")
+                .withPassword("228")
+                .withRole(new RoleBuilder()
+                        .withId(2)
                         .getRole()).getUser()));
     }
     

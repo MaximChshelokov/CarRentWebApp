@@ -43,7 +43,7 @@ public class RoleDaoTest {
     @Test
     public void createNewRole() throws DbException {
         assertTrue(rr.add(new RoleBuilder()
-                .setRoleName("guest")
+                .withRoleName("guest")
                 .getRole()));
     }
     

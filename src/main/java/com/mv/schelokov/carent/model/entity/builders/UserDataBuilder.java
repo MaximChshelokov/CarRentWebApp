@@ -9,33 +9,33 @@ import com.mv.schelokov.carent.model.entity.UserData;
  */
 public class UserDataBuilder {
     
-    private UserData userData;
+    private final UserData userData;
     
     public UserDataBuilder() {
         userData = new UserData();
     }
     
-    public UserDataBuilder setId(int id) {
+    public UserDataBuilder withId(int id) {
         this.userData.setId(id);
         return this;
     }
     
-    public UserDataBuilder setName(String name) {
+    public UserDataBuilder withName(String name) {
         this.userData.setName(name);
         return this;
     }
     
-    public UserDataBuilder setAddress(String address) {
+    public UserDataBuilder residentAtAddress(String address) {
         this.userData.setAddress(address);
         return this;
     }
     
-    public UserDataBuilder setPhone(String phone) {
+    public UserDataBuilder withPhone(String phone) {
         this.userData.setPhone(phone);
         return this;
     }
     
-    public UserDataBuilder setUser(User user) {
+    public UserDataBuilder withUser(User user) {
         this.userData.setUser(user);
         return this;
     }

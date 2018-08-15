@@ -13,12 +13,12 @@ public class CarMakeBuilder {
         make = new CarMake();
     }
     
-    public CarMakeBuilder setId(int id) {
+    public CarMakeBuilder withId(int id) {
         this.make.setId(id);
         return this;
     }
     
-    public CarMakeBuilder setName(String name) {
+    public CarMakeBuilder withName(String name) {
         this.make.setName(name);
         return this;
     }

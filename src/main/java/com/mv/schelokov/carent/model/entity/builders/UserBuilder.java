@@ -8,28 +8,28 @@ import com.mv.schelokov.carent.model.entity.User;
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
 public class UserBuilder {
-    private User user;
+    private final User user;
 
     
     public UserBuilder() {
         this.user = new User();
     }
         
-    public UserBuilder setId(int id) {
+    public UserBuilder withId(int id) {
         this.user.setId(id);
         return this;
     }
-    public UserBuilder setLogin(String login) {
+    public UserBuilder withLogin(String login) {
         this.user.setLogin(login);
         return this;
     }
     
-    public UserBuilder setPassword(String password) {
+    public UserBuilder withPassword(String password) {
         this.user.setPassword(password);
         return this;
     }
     
-    public UserBuilder setRole(Role role) {
+    public UserBuilder withRole(Role role) {
         this.user.setRole(role);
         return this;
     }

@@ -37,10 +37,10 @@ public class RentOrderValidatorTest {
     @Test
     public void testValidateReturnOk() {
         RentOrder order = new RentOrderBuilder()
-                .setCar(new CarBuilder().setId(1).getCar())
-                .setUser(new UserBuilder().setId(1).getUser())
-                .setStartDate(todayDate)
-                .setEndDate(futureDate)
+                .selectedCar(new CarBuilder().withId(1).getCar())
+                .byUser(new UserBuilder().withId(1).getUser())
+                .startsAtDate(todayDate)
+                .endsByDate(futureDate)
                 .getRentOrder();
         int expResult = ValidationResult.OK;
         int result = new RentOrderValidator(order).validate();
@@ -50,10 +50,10 @@ public class RentOrderValidatorTest {
     @Test
     public void testValidateReturnInvalidCar() {
         RentOrder order = new RentOrderBuilder()
-                .setCar(new CarBuilder().setId(-1).getCar())
-                .setUser(new UserBuilder().setId(1).getUser())
-                .setStartDate(todayDate)
-                .setEndDate(futureDate)
+                .selectedCar(new CarBuilder().withId(-1).getCar())
+                .byUser(new UserBuilder().withId(1).getUser())
+                .startsAtDate(todayDate)
+                .endsByDate(futureDate)
                 .getRentOrder();
         int expResult = ValidationResult.INVALID_CAR;
         int result = new RentOrderValidator(order).validate();
@@ -63,10 +63,10 @@ public class RentOrderValidatorTest {
     @Test
     public void testValidateReturnInvalidUser() {
         RentOrder order = new RentOrderBuilder()
-                .setCar(new CarBuilder().setId(1).getCar())
-                .setUser(new UserBuilder().setId(-1).getUser())
-                .setStartDate(todayDate)
-                .setEndDate(futureDate)
+                .selectedCar(new CarBuilder().withId(1).getCar())
+                .byUser(new UserBuilder().withId(-1).getUser())
+                .startsAtDate(todayDate)
+                .endsByDate(futureDate)
                 .getRentOrder();
         int expResult = ValidationResult.INVALID_USER;
         int result = new RentOrderValidator(order).validate();
@@ -76,10 +76,10 @@ public class RentOrderValidatorTest {
     @Test
     public void testValidateReturnInvalidDate() {
         RentOrder order = new RentOrderBuilder()
-                .setCar(new CarBuilder().setId(1).getCar())
-                .setUser(new UserBuilder().setId(1).getUser())
-                .setStartDate(pastDate)
-                .setEndDate(futureDate)
+                .selectedCar(new CarBuilder().withId(1).getCar())
+                .byUser(new UserBuilder().withId(1).getUser())
+                .startsAtDate(pastDate)
+                .endsByDate(futureDate)
                 .getRentOrder();
         int expResult = ValidationResult.INVALID_DATE;
         int result = new RentOrderValidator(order).validate();
@@ -89,10 +89,10 @@ public class RentOrderValidatorTest {
     @Test
     public void testValidateReturnInvalidEndDate() {
         RentOrder order = new RentOrderBuilder()
-                .setCar(new CarBuilder().setId(1).getCar())
-                .setUser(new UserBuilder().setId(1).getUser())
-                .setStartDate(todayDate)
-                .setEndDate(pastDate)
+                .selectedCar(new CarBuilder().withId(1).getCar())
+                .byUser(new UserBuilder().withId(1).getUser())
+                .startsAtDate(todayDate)
+                .endsByDate(pastDate)
                 .getRentOrder();
         int expResult = ValidationResult.INVALID_DATE;
         int result = new RentOrderValidator(order).validate();

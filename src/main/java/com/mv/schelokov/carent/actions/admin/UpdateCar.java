@@ -36,11 +36,11 @@ public class UpdateCar extends AbstractAction {
                 CarModelService carModelService = new CarModelService();
                 
                 Car car = new CarBuilder()
-                        .setId(carId)
-                        .setLicensePlate(req.getParameter("plate"))
-                        .setPrice(getIntParam(req, "price"))
-                        .setYearOfMake(getIntParam(req, "year"))
-                        .setModel(carModelService.getModelByNameOrCreate(
+                        .withId(carId)
+                        .withLicensePlate(req.getParameter("plate"))
+                        .withPrice(getIntParam(req, "price"))
+                        .inYearOfMake(getIntParam(req, "year"))
+                        .withModel(carModelService.getModelByNameOrCreate(
                                 req.getParameter("model"),
                                 req.getParameter("make")))
                         .getCar();

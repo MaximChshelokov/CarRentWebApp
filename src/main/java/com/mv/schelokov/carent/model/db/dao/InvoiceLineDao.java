@@ -87,10 +87,10 @@ public class InvoiceLineDao extends AbstractSqlDao<InvoiceLine> {
     @Override
     protected InvoiceLine createItem(ResultSet rs) throws SQLException {
         return new InvoiceLineBuilder()
-                .setId(rs.getInt(Fields.LINE_ID.name()))
-                .setInvoiceId(rs.getInt(Fields.INVOICE_ID.name()))
-                .setDetails(rs.getString(Fields.DETAILS.name()))
-                .setAmount(rs.getInt(Fields.AMOUNT.name()))
+                .withId(rs.getInt(Fields.LINE_ID.name()))
+                .withInvoiceId(rs.getInt(Fields.INVOICE_ID.name()))
+                .paymentDetails(rs.getString(Fields.DETAILS.name()))
+                .paymentAmount(rs.getInt(Fields.AMOUNT.name()))
                 .getInvoiceLine();
     }
     

@@ -40,18 +40,18 @@ public class UserDataDaoTest {
     @Test
     public void createNewUserData() throws DbException {
         assertTrue(udr.add(new UserDataBuilder()
-                .setName("Эдуард Робертович Михтельштейн")
-                .setAddress("ул. Победы, д. 22, кв 50")
-                .setPhone("+77087653492")
-                .setUser(new UserBuilder()
-                        .setId(19)
+                .withName("Эдуард Робертович Михтельштейн")
+                .residentAtAddress("ул. Победы, д. 22, кв 50")
+                .withPhone("+77087653492")
+                .withUser(new UserBuilder()
+                        .withId(19)
                         .getUser())
                 .getUserData()));
     }
     
     @Test
     public void findByUserEntity() throws DbException {
-        User user = new UserBuilder().setId(4).getUser();
+        User user = new UserBuilder().withId(4).getUser();
         List<UserData> udl = udr.read(new UserDataDao.FindByUserCriteria(user));
         assertEquals(1, udl.size());
     }

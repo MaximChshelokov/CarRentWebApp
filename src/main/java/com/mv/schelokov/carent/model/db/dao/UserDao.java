@@ -149,12 +149,12 @@ public class UserDao extends AbstractSqlDao<User> {
     @Override
     protected User createItem(ResultSet rs) throws SQLException {
         return new UserBuilder()
-                .setId(rs.getInt(Fields.USER_ID.name()))
-                .setLogin(rs.getString(Fields.LOGIN.name()))
-                .setPassword(rs.getString(Fields.PASSWORD.name()))
-                .setRole(new RoleBuilder()
-                        .setId(rs.getInt(Fields.ROLE.name()))
-                        .setRoleName(rs.getString(Fields.ROLE_NAME.name()))
+                .withId(rs.getInt(Fields.USER_ID.name()))
+                .withLogin(rs.getString(Fields.LOGIN.name()))
+                .withPassword(rs.getString(Fields.PASSWORD.name()))
+                .withRole(new RoleBuilder()
+                        .withId(rs.getInt(Fields.ROLE.name()))
+                        .withRoleName(rs.getString(Fields.ROLE_NAME.name()))
                         .getRole())
                 .getUser();
     }

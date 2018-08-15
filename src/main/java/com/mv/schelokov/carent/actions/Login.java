@@ -30,9 +30,9 @@ public class Login extends AbstractAction {
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
         User user = new UserBuilder()
-                .setLogin(req.getParameter("email"))
-                .setPassword(req.getParameter("pass"))
-                .setRole(new RoleBuilder().setId(1).getRole())
+                .withLogin(req.getParameter("email"))
+                .withPassword(req.getParameter("pass"))
+                .withRole(new RoleBuilder().withId(1).getRole())
                 .getUser();
         try {
             int validationResult = new UserValidator(user).validate();

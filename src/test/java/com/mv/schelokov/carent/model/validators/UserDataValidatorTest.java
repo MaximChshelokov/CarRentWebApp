@@ -21,10 +21,10 @@ public class UserDataValidatorTest {
     @Test
     public void testValidateReturnOk() {
         UserData userData = new UserDataBuilder()
-                .setName("Фёдор Семёнович Кружыль")
-                .setAddress("г. Караганда, ул. Кривая, д. 20 кв 18")
-                .setPhone("87019131415")
-                .setUser(new UserBuilder().setLogin("semenitch@rambler.kz").getUser())
+                .withName("Фёдор Семёнович Кружыль")
+                .residentAtAddress("г. Караганда, ул. Кривая, д. 20 кв 18")
+                .withPhone("87019131415")
+                .withUser(new UserBuilder().withLogin("semenitch@rambler.kz").getUser())
                 .getUserData();
         int expResult = ValidationResult.OK;
         int result = new UserDataValidator(userData).validate();
@@ -34,10 +34,10 @@ public class UserDataValidatorTest {
     @Test
     public void testValidateReturnInvalidPhone() {
         UserData userData = new UserDataBuilder()
-                .setName("Фёдор Семёнович Кружыль")
-                .setAddress("г. Караганда, ул. Кривая, д. 20 кв 18")
-                .setPhone("8701913")
-                .setUser(new UserBuilder().setLogin("semenitch@rambler.kz").getUser())
+                .withName("Фёдор Семёнович Кружыль")
+                .residentAtAddress("г. Караганда, ул. Кривая, д. 20 кв 18")
+                .withPhone("8701913")
+                .withUser(new UserBuilder().withLogin("semenitch@rambler.kz").getUser())
                 .getUserData();
         int expResult = ValidationResult.INVALID_PHONE;
         int result = new UserDataValidator(userData).validate();
@@ -55,10 +55,10 @@ public class UserDataValidatorTest {
     @Test
     public void testValidateReturnInvalidName() {
         UserData userData = new UserDataBuilder()
-                .setName("Федя")
-                .setAddress("г. Караганда, ул. Кривая, д. 20 кв 18")
-                .setPhone("87019131415")
-                .setUser(new UserBuilder().setLogin("semenitch@rambler.kz").getUser())
+                .withName("Федя")
+                .residentAtAddress("г. Караганда, ул. Кривая, д. 20 кв 18")
+                .withPhone("87019131415")
+                .withUser(new UserBuilder().withLogin("semenitch@rambler.kz").getUser())
                 .getUserData();
         int expResult = ValidationResult.INVALID_NAME;
         int result = new UserDataValidator(userData).validate();
@@ -68,10 +68,10 @@ public class UserDataValidatorTest {
     @Test
     public void testValidateReturnInvalidAddress() {
         UserData userData = new UserDataBuilder()
-                .setName("Фёдор Семёнович Кружыль")
-                .setAddress("улица")
-                .setPhone("87019131415")
-                .setUser(new UserBuilder().setLogin("semenitch@rambler.kz").getUser())
+                .withName("Фёдор Семёнович Кружыль")
+                .residentAtAddress("улица")
+                .withPhone("87019131415")
+                .withUser(new UserBuilder().withLogin("semenitch@rambler.kz").getUser())
                 .getUserData();
         int expResult = ValidationResult.INVALID_ADDRESS;
         int result = new UserDataValidator(userData).validate();
@@ -81,10 +81,10 @@ public class UserDataValidatorTest {
     @Test
     public void testValidateReturnInvalidEmail() {
         UserData userData = new UserDataBuilder()
-                .setName("Фёдор Семёнович Кружыль")
-                .setAddress("г. Караганда, ул. Кривая, д. 20 кв 18")
-                .setPhone("87019131415")
-                .setUser(new UserBuilder().setLogin("beysembet").getUser())
+                .withName("Фёдор Семёнович Кружыль")
+                .residentAtAddress("г. Караганда, ул. Кривая, д. 20 кв 18")
+                .withPhone("87019131415")
+                .withUser(new UserBuilder().withLogin("beysembet").getUser())
                 .getUserData();
         int expResult = ValidationResult.INVALID_EMAIL;
         int result = new UserDataValidator(userData).validate();

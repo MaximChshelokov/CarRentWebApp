@@ -21,9 +21,9 @@ public class UserValidatorTest {
     @Test
     public void testValidateReturnOK() {
         User user = new UserBuilder()
-                .setLogin("podkova@mail.ru")
-                .setPassword("1337228")
-                .setRole(new RoleBuilder().setId(1).getRole())
+                .withLogin("podkova@mail.ru")
+                .withPassword("1337228")
+                .withRole(new RoleBuilder().withId(1).getRole())
                 .getUser();
         int expResult = ValidationResult.OK;
         int result = new UserValidator(user).validate();
@@ -33,9 +33,9 @@ public class UserValidatorTest {
     @Test
     public void testValidateReturnInvalidEmail() {
         User user = new UserBuilder()
-                .setLogin("podkovapail.ru")
-                .setPassword("Sfv@341v_1")
-                .setRole(new RoleBuilder().setId(1).getRole())
+                .withLogin("podkovapail.ru")
+                .withPassword("Sfv@341v_1")
+                .withRole(new RoleBuilder().withId(1).getRole())
                 .getUser();
         int expResult = ValidationResult.INVALID_EMAIL;
         int result = new UserValidator(user).validate();
@@ -45,9 +45,9 @@ public class UserValidatorTest {
     @Test
     public void testValidateReturnInvalidPassword() {
         User user = new UserBuilder()
-                .setLogin("podkova@mail.ru")
-                .setPassword("мой пароль")
-                .setRole(new RoleBuilder().setId(1).getRole())
+                .withLogin("podkova@mail.ru")
+                .withPassword("мой пароль")
+                .withRole(new RoleBuilder().withId(1).getRole())
                 .getUser();
         int expResult = ValidationResult.INVALID_PASSWORD;
         int result = new UserValidator(user).validate();

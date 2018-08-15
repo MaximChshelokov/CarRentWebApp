@@ -40,9 +40,9 @@ public class CreateOrder extends AbstractAction {
             User user = (User) req.getSession().getAttribute(SessionAttr.USER);
             
             RentOrder order = new RentOrderBuilder()
-                    .setUser(user)
-                    .setCar(new CarBuilder()
-                            .setId(getIntParam(req, "selected_car"))
+                    .byUser(user)
+                    .selectedCar(new CarBuilder()
+                            .withId(getIntParam(req, "selected_car"))
                             .getCar())
                     .getRentOrder();
             String start = req.getParameter("start_date");

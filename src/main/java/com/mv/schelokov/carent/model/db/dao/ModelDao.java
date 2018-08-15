@@ -104,11 +104,11 @@ public class ModelDao extends AbstractSqlDao<CarModel> {
     @Override
     protected CarModel createItem(ResultSet rs) throws SQLException {
         return new CarModelBuilder()
-                .setId(rs.getInt(Fields.MODEL_ID.name()))
-                .setName(rs.getString(Fields.NAME.name()))
-                .setCarMake(new CarMakeBuilder()
-                        .setId(rs.getInt(Fields.MAKE.name()))
-                        .setName(rs.getString(Fields.MAKE_NAME.name()))
+                .withId(rs.getInt(Fields.MODEL_ID.name()))
+                .withName(rs.getString(Fields.NAME.name()))
+                .withCarMake(new CarMakeBuilder()
+                        .withId(rs.getInt(Fields.MAKE.name()))
+                        .withName(rs.getString(Fields.MAKE_NAME.name()))
                         .getCarMake())
                 .getCarModel();
     }

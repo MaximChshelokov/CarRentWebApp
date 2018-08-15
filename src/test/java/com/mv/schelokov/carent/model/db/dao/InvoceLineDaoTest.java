@@ -43,9 +43,9 @@ public class InvoceLineDaoTest {
     @Test
     public void createNewInvoceType() throws DbException {
         assertTrue(ilr.add(new InvoiceLineBuilder()
-                .setInvoiceId(1)
-                .setDetails("Штраф за царапину")
-                .setAmount(3000)
+                .withInvoiceId(1)
+                .paymentDetails("Штраф за царапину")
+                .paymentAmount(3000)
                 .getInvoiceLine()));
     }
     

@@ -17,32 +17,32 @@ public class RentOrderBuilder {
         this.rentOrder = new RentOrder();
     }
     
-    public RentOrderBuilder setId(int id) {
+    public RentOrderBuilder withId(int id) {
         this.rentOrder.setId(id);
         return this;
     }
     
-    public RentOrderBuilder setCar(Car car) {
+    public RentOrderBuilder selectedCar(Car car) {
         this.rentOrder.setCar(car);
         return this;
     }
     
-    public RentOrderBuilder setUser(User user) {
+    public RentOrderBuilder byUser(User user) {
         this.rentOrder.setUser(user);
         return this;
     }
     
-    public RentOrderBuilder setStartDate(Date startDate) {
+    public RentOrderBuilder startsAtDate(Date startDate) {
         this.rentOrder.setStartDate(startDate);
         return this;
     }
     
-    public RentOrderBuilder setEndDate(Date endDate) {
+    public RentOrderBuilder endsByDate(Date endDate) {
         this.rentOrder.setEndDate(endDate);
         return this;
     }
     
-    public RentOrderBuilder setApprovedBy(User approvedBy) {
+    public RentOrderBuilder approvedBy(User approvedBy) {
         this.rentOrder.setApprovedBy(approvedBy);
         return this;
     }

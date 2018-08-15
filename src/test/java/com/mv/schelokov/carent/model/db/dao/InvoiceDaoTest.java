@@ -46,9 +46,9 @@ public class InvoiceDaoTest {
     @Test
     public void createNewInvoce() throws DbException {
         assertTrue(ir.add(new InvoiceBuilder()
-                .setId(2)
-                .setDate(new GregorianCalendar(2018, 5, 19).getTime())
-                .setPaid(1500)
+                .withId(2)
+                .creationDate(new GregorianCalendar(2018, 5, 19).getTime())
+                .initialPayment(1500)
                 .getInvoice()));
     }
     

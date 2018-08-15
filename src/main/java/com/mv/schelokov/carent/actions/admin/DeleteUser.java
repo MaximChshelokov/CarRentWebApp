@@ -34,9 +34,9 @@ public class DeleteUser extends AbstractAction {
             int userDataId = getIntParam(req, "uid");
 
             UserData userData = new UserDataBuilder()
-                    .setId(userDataId)
-                    .setUser(new UserBuilder()
-                            .setId(userId)
+                    .withId(userDataId)
+                    .withUser(new UserBuilder()
+                            .withId(userId)
                             .getUser())
                     .getUserData();
             try {

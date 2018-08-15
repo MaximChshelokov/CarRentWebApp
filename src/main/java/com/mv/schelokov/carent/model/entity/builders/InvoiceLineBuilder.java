@@ -14,22 +14,22 @@ public class InvoiceLineBuilder {
         this.invoceLine = new InvoiceLine();
     }
     
-    public InvoiceLineBuilder setId(int id) {
+    public InvoiceLineBuilder withId(int id) {
         this.invoceLine.setId(id);
         return this;
     }
     
-    public InvoiceLineBuilder setInvoiceId(int invoiceId) {
+    public InvoiceLineBuilder withInvoiceId(int invoiceId) {
         this.invoceLine.setInvoiceId(invoiceId);
         return this;
     }
     
-    public InvoiceLineBuilder setDetails(String details) {
+    public InvoiceLineBuilder paymentDetails(String details) {
         this.invoceLine.setDetails(details);
         return this;
     }
     
-    public InvoiceLineBuilder setAmount(int amount) {
+    public InvoiceLineBuilder paymentAmount(int amount) {
         this.invoceLine.setAmount(amount);
         return this;
     }

@@ -15,22 +15,22 @@ public class InvoiceBuilder {
         this.invoice = new Invoice();
     }
     
-    public InvoiceBuilder setId(int id) {
+    public InvoiceBuilder withId(int id) {
         this.invoice.setId(id);
         return this;
     }
     
-    public InvoiceBuilder setDate(Date date) {
+    public InvoiceBuilder creationDate(Date date) {
         this.invoice.setDate(date);
         return this;
     }
     
-    public InvoiceBuilder setPaid(int paid) {
+    public InvoiceBuilder initialPayment(int paid) {
         this.invoice.setPaid(paid);
         return this;
     }
     
-    public InvoiceBuilder setTotal(int total) {
+    public InvoiceBuilder estimatedTotal(int total) {
         this.invoice.setTotal(total);
         return this;
     }

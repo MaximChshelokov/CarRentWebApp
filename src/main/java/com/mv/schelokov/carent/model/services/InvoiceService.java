@@ -37,8 +37,8 @@ public class InvoiceService {
     public void openNewInvoice(RentOrder rentOrder)
             throws ServiceException {
         Invoice invoice = new InvoiceBuilder()
-                .setId(rentOrder.getId())
-                .setDate(new Date())
+                .withId(rentOrder.getId())
+                .creationDate(new Date())
                 .getInvoice();
         createInvoice(invoice);
 
@@ -46,10 +46,10 @@ public class InvoiceService {
                 rentOrder.getEndDate()).getDays();
         
         InvoiceLine invoiceLine = new InvoiceLineBuilder()
-                .setDetails(String.format("Предоплата за аренду машины "
+                .paymentDetails(String.format("Предоплата за аренду машины "
                         + "на %d дней", days))
-                .setInvoiceId(invoice.getId())
-                .setAmount(days * rentOrder.getCar().getPrice())
+                .withInvoiceId(invoice.getId())
+                .paymentAmount(days * rentOrder.getCar().getPrice())
                 .getInvoiceLine();
         new InvoiceLineService().createInvoiceLine(invoiceLine);
     }
@@ -67,10 +67,10 @@ public class InvoiceService {
             int sumDifference = (newDays - days) * rentOrder.getCar().getPrice();
             String paymentType = (days < newDays) ? "Доплата" : "Возврат";
             InvoiceLine invoiceLine = new InvoiceLineBuilder()
-                    .setDetails(String.format("%s за аренду машины за %d дней",
+                    .paymentDetails(String.format("%s за аренду машины за %d дней",
                             paymentType, Math.abs(newDays - days)))
-                    .setAmount(sumDifference)
-                    .setInvoiceId(rentOrder.getId())
+                    .paymentAmount(sumDifference)
+                    .withInvoiceId(rentOrder.getId())
                     .getInvoiceLine();
             invoiceLineService.createInvoiceLine(invoiceLine);
         }

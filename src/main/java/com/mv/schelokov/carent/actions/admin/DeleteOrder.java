@@ -32,7 +32,7 @@ public class DeleteOrder extends AbstractAction {
             }
             try {
                 new OrderService().deleteOrder(new RentOrderBuilder()
-                        .setId(orderId)
+                        .withId(orderId)
                         .getRentOrder());
                 
                 forward.setUrl("action/order_list");

@@ -22,12 +22,12 @@ public class CarValidatorTest {
     @Test
     public void testValidateReturnOk() {
         Car car = new CarBuilder()
-                .setLicensePlate("123ASM09")
-                .setPrice(1500)
-                .setYearOfMake(2005)
-                .setModel(new CarModelBuilder()
-                        .setName("Granta")
-                        .setCarMake(new CarMakeBuilder().setName("Lada").getCarMake())
+                .withLicensePlate("123ASM09")
+                .withPrice(1500)
+                .inYearOfMake(2005)
+                .withModel(new CarModelBuilder()
+                        .withName("Granta")
+                        .withCarMake(new CarMakeBuilder().withName("Lada").getCarMake())
                         .getCarModel())
                 .getCar();
         int expResult = ValidationResult.OK;
@@ -38,12 +38,12 @@ public class CarValidatorTest {
     @Test
     public void testValidateReturnInvalidePlate() {
         Car car = new CarBuilder()
-                .setLicensePlate("KAZ228AK")
-                .setPrice(1500)
-                .setYearOfMake(2005)
-                .setModel(new CarModelBuilder()
-                        .setName("Granta")
-                        .setCarMake(new CarMakeBuilder().setName("Lada").getCarMake())
+                .withLicensePlate("KAZ228AK")
+                .withPrice(1500)
+                .inYearOfMake(2005)
+                .withModel(new CarModelBuilder()
+                        .withName("Granta")
+                        .withCarMake(new CarMakeBuilder().withName("Lada").getCarMake())
                         .getCarModel())
                 .getCar();
         int expResult = ValidationResult.INVALID_LICENSE_PLATE;
@@ -54,12 +54,12 @@ public class CarValidatorTest {
     @Test
     public void testValidateReturnInvalidPrice() {
         Car car = new CarBuilder()
-                .setLicensePlate("123ASM09")
-                .setPrice(300)
-                .setYearOfMake(2005)
-                .setModel(new CarModelBuilder()
-                        .setName("Granta")
-                        .setCarMake(new CarMakeBuilder().setName("Lada").getCarMake())
+                .withLicensePlate("123ASM09")
+                .withPrice(300)
+                .inYearOfMake(2005)
+                .withModel(new CarModelBuilder()
+                        .withName("Granta")
+                        .withCarMake(new CarMakeBuilder().withName("Lada").getCarMake())
                         .getCarModel())
                 .getCar();
         int expResult = ValidationResult.INVALID_PRICE;
@@ -70,12 +70,12 @@ public class CarValidatorTest {
     @Test
     public void testValidateReturnInvalidYear() {
         Car car = new CarBuilder()
-                .setLicensePlate("123ASM09")
-                .setPrice(1500)
-                .setYearOfMake(2050)
-                .setModel(new CarModelBuilder()
-                        .setName("Granta")
-                        .setCarMake(new CarMakeBuilder().setName("Lada").getCarMake())
+                .withLicensePlate("123ASM09")
+                .withPrice(1500)
+                .inYearOfMake(2050)
+                .withModel(new CarModelBuilder()
+                        .withName("Granta")
+                        .withCarMake(new CarMakeBuilder().withName("Lada").getCarMake())
                         .getCarModel())
                 .getCar();
         int expResult = ValidationResult.INVALID_YEAR;
@@ -86,12 +86,12 @@ public class CarValidatorTest {
     @Test
     public void testValidateReturnInvalidModel() {
         Car car = new CarBuilder()
-                .setLicensePlate("123ASM09")
-                .setPrice(1500)
-                .setYearOfMake(2005)
-                .setModel(new CarModelBuilder()
-                        .setName("+%$Granta")
-                        .setCarMake(new CarMakeBuilder().setName("Lada").getCarMake())
+                .withLicensePlate("123ASM09")
+                .withPrice(1500)
+                .inYearOfMake(2005)
+                .withModel(new CarModelBuilder()
+                        .withName("+%$Granta")
+                        .withCarMake(new CarMakeBuilder().withName("Lada").getCarMake())
                         .getCarModel())
                 .getCar();
         int expResult = ValidationResult.INVALID_MODEL;
@@ -102,12 +102,12 @@ public class CarValidatorTest {
     @Test
     public void testValidateReturnInvalidMake() {
         Car car = new CarBuilder()
-                .setLicensePlate("123ASM09")
-                .setPrice(1500)
-                .setYearOfMake(2005)
-                .setModel(new CarModelBuilder()
-                        .setName("Granta")
-                        .setCarMake(new CarMakeBuilder().setName("@#$234").getCarMake())
+                .withLicensePlate("123ASM09")
+                .withPrice(1500)
+                .inYearOfMake(2005)
+                .withModel(new CarModelBuilder()
+                        .withName("Granta")
+                        .withCarMake(new CarMakeBuilder().withName("@#$234").getCarMake())
                         .getCarModel())
                 .getCar();
         int expResult = ValidationResult.INVALID_MAKE;

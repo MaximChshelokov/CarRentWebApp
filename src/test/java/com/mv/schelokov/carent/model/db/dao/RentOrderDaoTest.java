@@ -52,10 +52,10 @@ public class RentOrderDaoTest {
     @Test
     public void createNewRentOrder() throws DbException {
         assertTrue(ror.add(new RentOrderBuilder()
-                .setCar(new CarBuilder().setId(6).getCar())
-                .setUser(new UserBuilder().setId(4).getUser())
-                .setStartDate(new GregorianCalendar(2018, 5, 15).getTime())
-                .setEndDate(new GregorianCalendar(2018, 5, 30).getTime())
+                .selectedCar(new CarBuilder().withId(6).getCar())
+                .byUser(new UserBuilder().withId(4).getUser())
+                .startsAtDate(new GregorianCalendar(2018, 5, 15).getTime())
+                .endsByDate(new GregorianCalendar(2018, 5, 30).getTime())
                 .getRentOrder()));
     }
     
@@ -68,7 +68,7 @@ public class RentOrderDaoTest {
     @Test
     public void findAllAndUpdateFirst() throws DbException {
         RentOrder order = ror.read(RentOrderDao.SELECT_ALL_CRITERIA).get(0);
-        order.setApprovedBy(new UserBuilder().setId(1).getUser());
+        order.setApprovedBy(new UserBuilder().withId(1).getUser());
         assertTrue(ror.update(order));
     }
     

@@ -105,10 +105,10 @@ public class InvoiceDao extends AbstractSqlDao<Invoice> {
     @Override
     protected Invoice createItem(ResultSet rs) throws SQLException {
         return new InvoiceBuilder()
-                .setId(rs.getInt(Fields.INVOICE_ID.name()))
-                .setDate(rs.getDate(Fields.DATE.name()))
-                .setPaid(rs.getInt(Fields.PAID.name()))
-                .setTotal(rs.getInt(Fields.TOTAL.name()))
+                .withId(rs.getInt(Fields.INVOICE_ID.name()))
+                .creationDate(rs.getDate(Fields.DATE.name()))
+                .initialPayment(rs.getInt(Fields.PAID.name()))
+                .estimatedTotal(rs.getInt(Fields.TOTAL.name()))
                 .getInvoice();
     }
 

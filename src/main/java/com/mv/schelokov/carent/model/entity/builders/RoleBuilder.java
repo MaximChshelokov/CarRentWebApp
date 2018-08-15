@@ -14,12 +14,12 @@ public class RoleBuilder {
         this.role = new Role();
     }
     
-    public RoleBuilder setId(int id) {
+    public RoleBuilder withId(int id) {
         this.role.setId(id);
         return this;
     }
     
-    public RoleBuilder setRoleName(String roleName) {
+    public RoleBuilder withRoleName(String roleName) {
         this.role.setRoleName(roleName);
         return this;
     }

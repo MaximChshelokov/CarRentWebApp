@@ -78,8 +78,8 @@ public class RoleDao extends AbstractSqlDao<Role> {
     @Override
     protected Role createItem(ResultSet rs) throws SQLException {
         return new RoleBuilder()
-                .setId(rs.getInt(Fields.ROLE_ID.name()))
-                .setRoleName(rs.getString(Fields.ROLE_NAME.name()))
+                .withId(rs.getInt(Fields.ROLE_ID.name()))
+                .withRoleName(rs.getString(Fields.ROLE_NAME.name()))
                 .getRole();
     }
 

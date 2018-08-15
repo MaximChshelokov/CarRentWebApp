@@ -43,7 +43,7 @@ public class MakeDaoTest {
     @Test
     public void createNewMake() throws DbException {
         assertTrue(mr.add(new CarMakeBuilder()
-                .setName("Shkoda")
+                .withName("Shkoda")
                 .getCarMake()));
     }
     

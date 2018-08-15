@@ -14,17 +14,17 @@ public class CarModelBuilder {
         model = new CarModel();
     }
     
-    public CarModelBuilder setId(int id) {
+    public CarModelBuilder withId(int id) {
         this.model.setId(id);
         return this;
     }
     
-    public CarModelBuilder setName(String name) {
+    public CarModelBuilder withName(String name) {
         this.model.setName(name);
         return this;
     }
     
-    public CarModelBuilder setCarMake(CarMake make) {
+    public CarModelBuilder withCarMake(CarMake make) {
         this.model.setMake(make);
         return this;
     }

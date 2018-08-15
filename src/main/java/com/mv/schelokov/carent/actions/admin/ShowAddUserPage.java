@@ -29,7 +29,7 @@ public class ShowAddUserPage extends AbstractAction {
         
         if (isAdmin(req)) {
             req.setAttribute("user_data",
-                    new UserDataBuilder().setUser(new User()).getUserData());
+                    new UserDataBuilder().withUser(new User()).getUserData());
             try {
                 
                 req.setAttribute("roles", new RoleService()

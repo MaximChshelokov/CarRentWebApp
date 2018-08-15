@@ -44,9 +44,9 @@ public class ModelDaoTest {
     @Test
     public void createNewModel() throws DbException {
         assertTrue(mr.add(new CarModelBuilder()
-                .setName("Corola")
-                .setCarMake(new CarMakeBuilder()
-                        .setId(1)
+                .withName("Corola")
+                .withCarMake(new CarMakeBuilder()
+                        .withId(1)
                         .getCarMake())
                 .getCarModel()));
     }

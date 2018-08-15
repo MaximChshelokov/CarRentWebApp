@@ -96,8 +96,8 @@ public class MakeDao extends AbstractSqlDao<CarMake> {
     @Override
     protected CarMake createItem(ResultSet rs) throws SQLException {
         return new CarMakeBuilder()
-                .setId(rs.getInt(Fields.MAKE_ID.name()))
-                .setName(rs.getString(Fields.NAME.name()))
+                .withId(rs.getInt(Fields.MAKE_ID.name()))
+                .withName(rs.getString(Fields.NAME.name()))
                 .getCarMake();
     }
 

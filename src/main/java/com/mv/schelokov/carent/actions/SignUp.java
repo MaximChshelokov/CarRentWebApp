@@ -33,10 +33,10 @@ public class SignUp implements Action {
 
         try {
             User user = new UserBuilder()
-                    .setLogin(req.getParameter("email"))
-                    .setPassword(req.getParameter("pass"))
-                    .setRole(new RoleBuilder()
-                            .setId(USER_ROLE)
+                    .withLogin(req.getParameter("email"))
+                    .withPassword(req.getParameter("pass"))
+                    .withRole(new RoleBuilder()
+                            .withId(USER_ROLE)
                             .getRole())
                     .getUser();
             String repeat = req.getParameter("repeat");

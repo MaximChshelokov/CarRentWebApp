@@ -25,12 +25,12 @@ public class CarMakeService {
     public CarMake getMakeByNameOrCreate(String makeName)
             throws ServiceException {
         if (makeName == null || makeName.isEmpty()) {
-            return new CarMakeBuilder().setId(0).getCarMake();
+            return new CarMakeBuilder().withId(0).getCarMake();
         }
         List makeList = getMakeByName(makeName);
         if (makeList.isEmpty()) {
             makeList = createMake(new CarMakeBuilder()
-                    .setName(makeName)
+                    .withName(makeName)
                     .getCarMake());
         }
         return (CarMake) makeList.get(0);

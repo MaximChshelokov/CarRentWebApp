@@ -15,32 +15,32 @@ public class CarBuilder {
         this.car = new Car();
     }
     
-    public CarBuilder setId(int id) {
+    public CarBuilder withId(int id) {
         this.car.setId(id);
         return this;
     }
     
-    public CarBuilder setModel(CarModel model) {
+    public CarBuilder withModel(CarModel model) {
         this.car.setModel(model);
         return this;
     }
     
-    public CarBuilder setLicensePlate(String licensePlate) {
+    public CarBuilder withLicensePlate(String licensePlate) {
         this.car.setLicensePlate(licensePlate);
         return this;
     }
     
-    public CarBuilder setYearOfMake(int year) {
+    public CarBuilder inYearOfMake(int year) {
         this.car.setYearOfMake(year);
         return this;
     }
     
-    public CarBuilder setPrice(int price) {
+    public CarBuilder withPrice(int price) {
         this.car.setPrice(price);
         return this;
     }
     
-    public CarBuilder setAvailable(boolean available) {
+    public CarBuilder withAvailability(boolean available) {
         this.car.setAvailable(available);
         return this;
     }

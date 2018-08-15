@@ -44,11 +44,11 @@ public class CarDaoTest {
     @Test
     public void createNewCar() throws DbException {
         assertTrue(cr.add(new CarBuilder()
-                .setLicensePlate("228cum09")
-                .setYearOfMake(2009)
-                .setPrice(6000)
-                .setModel(new CarModelBuilder()
-                        .setId(1)
+                .withLicensePlate("228cum09")
+                .inYearOfMake(2009)
+                .withPrice(6000)
+                .withModel(new CarModelBuilder()
+                        .withId(1)
                         .getCarModel())
                 .getCar()));
     }

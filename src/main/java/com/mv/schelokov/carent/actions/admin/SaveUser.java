@@ -34,10 +34,10 @@ public class SaveUser extends AbstractAction {
         if (isAdmin(req)) {
             try {
                 User user = new UserBuilder()
-                        .setLogin(req.getParameter("login"))
-                        .setPassword(req.getParameter("password"))
-                        .setRole(new RoleBuilder()
-                                .setId(getIntParam(req, "role"))
+                        .withLogin(req.getParameter("login"))
+                        .withPassword(req.getParameter("password"))
+                        .withRole(new RoleBuilder()
+                                .withId(getIntParam(req, "role"))
                                 .getRole())
                         .getUser();
                 String repeat = req.getParameter("repeat");

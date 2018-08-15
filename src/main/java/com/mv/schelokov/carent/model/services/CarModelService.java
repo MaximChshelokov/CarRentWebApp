@@ -27,14 +27,14 @@ public class CarModelService {
     public CarModel getModelByNameOrCreate(String modelName, String makeName)
             throws ServiceException {
         if (modelName == null || modelName.isEmpty()) {
-            return new CarModelBuilder().setId(0).getCarModel();
+            return new CarModelBuilder().withId(0).getCarModel();
         }
         
         CarMakeService carMakeService = new CarMakeService();
         
         CarModel model = new CarModelBuilder()
-                .setName(modelName)
-                .setCarMake(carMakeService.getMakeByNameOrCreate(makeName))
+                .withName(modelName)
+                .withCarMake(carMakeService.getMakeByNameOrCreate(makeName))
                 .getCarModel();
         List modelList = getModel(model);
         if (modelList.isEmpty()) {
