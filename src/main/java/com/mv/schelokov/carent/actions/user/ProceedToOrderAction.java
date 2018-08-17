@@ -43,7 +43,7 @@ public class ProceedToOrderAction extends AbstractAction {
                 userData.setName(req.getParameter(NAME));
                 userData.setAddress(req.getParameter(ADDRESS));
                 userData.setPhone(req.getParameter(PHONE)
-                        .replaceAll("[^0-9]+", ""));
+                        .replaceAll(REGEX_NUMBER, ""));
 
                 int validationResult = new UserDataValidator(userData).validate();
 

@@ -8,8 +8,8 @@ public class Actions {
     public static final String HOME = "home";
     public static final String LOGIN = "login";
     public static final String SIGN_UP = "sign_up";
-    public static final String LOG_OUT = "log_oug";
-    public static final String ADMIN_ACTIONS = "admin_action";
+    public static final String LOG_OUT = "log_out";
+    public static final String ADMIN_ACTIONS = "admin_actions";
     public static final String USER_LIST = "user_list";
     public static final String EDIT_USER = "edit_user";
     public static final String UPDATE_USER = "update_user";

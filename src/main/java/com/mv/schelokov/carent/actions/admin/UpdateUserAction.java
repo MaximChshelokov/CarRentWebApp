@@ -5,12 +5,14 @@ import com.mv.schelokov.carent.actions.JspForward;
 import com.mv.schelokov.carent.actions.consts.Actions;
 import com.mv.schelokov.carent.actions.consts.Jsps;
 import com.mv.schelokov.carent.actions.exceptions.ActionException;
+import com.mv.schelokov.carent.model.entity.User;
 import com.mv.schelokov.carent.model.entity.UserData;
 import com.mv.schelokov.carent.model.services.UserDataService;
 import com.mv.schelokov.carent.model.services.UserService;
 import com.mv.schelokov.carent.model.services.exceptions.ServiceException;
 import com.mv.schelokov.carent.model.validators.UserDataValidator;
 import com.mv.schelokov.carent.model.validators.ValidationResult;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
@@ -42,14 +44,18 @@ public class UpdateUserAction extends AbstractAction {
                 userData.setName(req.getParameter(NAME));
                 userData.setAddress(req.getParameter(ADDRESS));
                 userData.setPhone(req.getParameter(PHONE)
-                        .replaceAll("[^0-9]+", ""));
+                        .replaceAll(REGEX_NUMBER, ""));
                 userData.getUser().setLogin(req.getParameter(LOGIN));
                 
                 int validationResult = new UserDataValidator(userData).validate();
                 UserService userService = new UserService();
-                if (validationResult == ValidationResult.OK && !userService
-                        .getUserByLogin(userData.getUser().getLogin()).isEmpty())
-                    validationResult = ValidationResult.SAME_LOGIN;
+                if (validationResult == ValidationResult.OK) {
+                        List<User> userList = userService.getUserByLogin(
+                                userData.getUser().getLogin());
+                        if (!userList.isEmpty() && userList.get(0).getId()
+                                != userDataId)
+                            validationResult = ValidationResult.SAME_LOGIN;
+                }
 
                 if (validationResult == ValidationResult.OK) {
                     if (userData.getId() == 0) {
