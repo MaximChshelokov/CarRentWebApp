@@ -25,7 +25,8 @@ public class CarRentAppController extends HttpServlet {
     @Override
     public void service(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Action action = ActionFactory.action(request);
+        ActionFactory actionFactory = new ActionFactory();
+        Action action = actionFactory.createAction(request);
         request.setAttribute("URL", request.getRequestURI());
 
         if (action == null) {

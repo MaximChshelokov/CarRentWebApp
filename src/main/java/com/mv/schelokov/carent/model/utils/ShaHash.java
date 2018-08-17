@@ -19,7 +19,6 @@ public class ShaHash {
     
     public String getSHA512Hash() 
             throws NoSuchAlgorithmException {
-        String result = null;
         MessageDigest md = MessageDigest.getInstance("SHA-512");
         md.update(SALT.getBytes(StandardCharsets.UTF_8));
         byte[] bytes = md.digest(password.getBytes(StandardCharsets.UTF_8));
@@ -27,8 +26,6 @@ public class ShaHash {
         for (int i = 0; i < bytes.length; i++) {
             sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
         }
-        result = sb.toString();
-
-        return result;
+        return sb.toString();
     }    
 }

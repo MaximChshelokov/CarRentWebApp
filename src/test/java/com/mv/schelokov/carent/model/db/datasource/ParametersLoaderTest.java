@@ -1,6 +1,5 @@
 package com.mv.schelokov.carent.model.db.datasource;
 
-import com.mv.schelokov.carent.model.db.datasource.ParametersLoader;
 import com.mv.schelokov.carent.model.db.datasource.exceptions.DataSourceException;
 import java.io.InputStream;
 import org.junit.After;

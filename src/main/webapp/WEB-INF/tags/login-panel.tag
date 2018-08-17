@@ -21,10 +21,10 @@
             <form method="post" action="<c:url value="action/login"/>">
             <div class="row uniform">
                 <div class="12u">
-                    <input type="text" name="email" placeholder="<fmt:message key="email"/>" value="${user_edit.login}"/>
+                    <input type="text" name="login" placeholder="<fmt:message key="email"/>" value="${user_edit.login}"/>
                 </div>
                 <div class="12u">
-                    <input type="password" name="pass" placeholder="<fmt:message key="password"/>" />
+                    <input type="password" name="password" placeholder="<fmt:message key="password"/>" />
                 </div>
                 <div class="12u">
                     <ul class="actions">
@@ -46,10 +46,10 @@
             <form method="post" action="<c:url value="action/sign_up"/>">
             <div class="row uniform">
                 <div class="12u">
-                    <input type="text" name="email" placeholder="<fmt:message key="email"/>" value="${user_edit.login}"/>
+                    <input type="text" name="login" placeholder="<fmt:message key="email"/>" value="${user_edit.login}"/>
                 </div>
                 <div class="12u">
-                    <input type="password" name="pass" placeholder="<fmt:message key="password"/>" />
+                    <input type="password" name="password" placeholder="<fmt:message key="password"/>" />
                 </div>
                 <div class="12u">
                     <input type="password" name="repeat" placeholder="<fmt:message key="repeat"/>" />
