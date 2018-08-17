@@ -7,7 +7,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.GregorianCalendar;
-import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,6 +20,11 @@ public class InvoiceDaoTest {
     
     private Connection connection;
     private InvoiceDao ir;
+    private final Invoice invoice = new InvoiceBuilder()
+                .withId(2)
+                .creationDate(new GregorianCalendar(2018, 5, 19).getTime())
+                .initialPayment(1500)
+                .getInvoice();
 
     
     public InvoiceDaoTest() {
@@ -34,36 +38,34 @@ public class InvoiceDaoTest {
                 "jdbc:mysql://localhost/car_rent_test?autoReconnect=true"
                 + "&useSSL=false&characterEncoding=utf-8",
                 "car_rent_app", "Un3L41NoewVA");
+        connection.setAutoCommit(false);
         ir = new InvoiceDao(connection);
     }
     
     @After
     public void tearDown() throws SQLException {
-        
         connection.close();
     }
 
     @Test
     public void createNewInvoce() throws DbException {
-        assertTrue(ir.add(new InvoiceBuilder()
-                .withId(2)
-                .creationDate(new GregorianCalendar(2018, 5, 19).getTime())
-                .initialPayment(1500)
-                .getInvoice()));
+        assertTrue(ir.add(invoice));
+        ir.remove(invoice);
     }
     
     @Test
-    public void findAllAndDeleteLast() throws DbException {
-        List<Invoice> il = ir.read(InvoiceDao.SELECT_ALL);
-        assertTrue(ir.remove(il.get(il.size() - 1)));
+    public void deleteInvoice() throws DbException {
+        ir.add(invoice);
+        assertTrue(ir.remove(invoice));
     }
 
     @Test
-    public void findAllAndUpdateFirst() throws DbException {
-        Invoice invoice = ir.read(InvoiceDao.SELECT_ALL).get(0);
-        invoice.setPaid(invoice.getPaid() + 1);
+    public void updateInvoice() throws DbException {
+        ir.add(invoice);
 
         assertTrue(ir.update(invoice));
+        
+        ir.remove(invoice);
     }
     
 }

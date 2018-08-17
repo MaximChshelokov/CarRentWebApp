@@ -5,8 +5,8 @@ import com.mv.schelokov.carent.model.db.datasource.exceptions.DataSourceExceptio
 import com.mv.schelokov.carent.model.db.dao.CarDao;
 import com.mv.schelokov.carent.model.db.dao.InvoiceLineDao;
 import com.mv.schelokov.carent.model.db.dao.InvoiceDao;
-import com.mv.schelokov.carent.model.db.dao.MakeDao;
-import com.mv.schelokov.carent.model.db.dao.ModelDao;
+import com.mv.schelokov.carent.model.db.dao.CarMakeDao;
+import com.mv.schelokov.carent.model.db.dao.CarModelDao;
 import com.mv.schelokov.carent.model.db.dao.RentOrderDao;
 import com.mv.schelokov.carent.model.db.dao.RoleDao;
 import com.mv.schelokov.carent.model.db.dao.UserDataDao;
@@ -52,11 +52,11 @@ public class DaoFactory implements AutoCloseable {
     }
 
     public Dao getMakeDao() {
-        return new MakeDao(connection);
+        return new CarMakeDao(connection);
     }
     
     public Dao getModelDao() {
-        return new ModelDao(connection);
+        return new CarModelDao(connection);
     }
     
     public Dao getRentOrderDao() {

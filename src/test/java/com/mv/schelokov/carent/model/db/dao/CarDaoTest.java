@@ -21,6 +21,15 @@ public class CarDaoTest {
     
     private Connection connection;
     private CarDao cr;
+    private static final String LICENSE_PLATE_NUMBER = "228cum09";
+    private final Car car = new CarBuilder()
+                .withLicensePlate(LICENSE_PLATE_NUMBER)
+                .inYearOfMake(2009)
+                .withPrice(6000)
+                .withModel(new CarModelBuilder()
+                        .withId(1)
+                        .getCarModel())
+                .getCar();
     
     public CarDaoTest() {
     }
@@ -33,6 +42,7 @@ public class CarDaoTest {
                 "jdbc:mysql://localhost/car_rent_test?autoReconnect=true"
                         + "&useSSL=false&characterEncoding=utf-8",
                 "car_rent_app", "Un3L41NoewVA");
+        connection.setAutoCommit(false);
         cr = new CarDao(connection);
     }
     
@@ -43,35 +53,35 @@ public class CarDaoTest {
 
     @Test
     public void createNewCar() throws DbException {
-        assertTrue(cr.add(new CarBuilder()
-                .withLicensePlate("228cum09")
-                .inYearOfMake(2009)
-                .withPrice(6000)
-                .withModel(new CarModelBuilder()
-                        .withId(1)
-                        .getCarModel())
-                .getCar()));
+        assertTrue(cr.add(car));
+        cr.remove(getCar());
     }
     
     @Test
     public void selectAllAndDeleteLast() throws DbException {
-        List<Car> cl = cr.read(CarDao.SELECT_ALL_CRITERIA);
-        Car carToDelete = new Car();
-        for (Car car : cl)
-            if (car.getId() > carToDelete.getId())
-                carToDelete = car;
-        assertTrue(cr.remove(carToDelete));        
+        
+        cr.add(car);
+        assertTrue(cr.remove(getCar()));        
     }
     
     @Test
     public void updateCar() throws DbException {
-        Car car = cr.read(CarDao.SELECT_ALL_CRITERIA).get(0);
-        car.setPrice(car.getPrice() + 1);
-        assertTrue(cr.update(car));                
+        cr.add(car);
+        Car updCar = getCar();
+        assertTrue(cr.update(updCar));                
+        cr.remove(updCar);
     }
     
     @Test
     public void findCarById() throws DbException {
         assertEquals(1, cr.read(new CarDao.FindByIdCriteria(1)).size());
+    }
+    
+    private Car getCar() throws DbException {
+        List<Car> carList = cr.read(CarDao.SELECT_ALL_CRITERIA);
+        for (Car car : carList)
+            if (car.getLicensePlate().equals(LICENSE_PLATE_NUMBER))
+                return car;
+        return new Car();
     }
 }

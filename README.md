@@ -129,7 +129,7 @@
 
 Для сборки приложения введите в командной строке:
 	
-	mvn clean compile
+	mvn clean install
 	
 ## Развертывание приложения
 ### <a name="tomcat_deploy"></a> Установка в контейнер Tomcat

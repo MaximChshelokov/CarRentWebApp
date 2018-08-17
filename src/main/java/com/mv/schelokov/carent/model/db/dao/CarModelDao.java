@@ -15,7 +15,7 @@ import java.sql.SQLException;
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
-public class ModelDao extends AbstractSqlDao<CarModel> {
+public class CarModelDao extends AbstractSqlDao<CarModel> {
  
     public interface ReadCriteria extends SqlCriteria {}
 
@@ -82,7 +82,7 @@ public class ModelDao extends AbstractSqlDao<CarModel> {
         }
     }
 
-    public ModelDao(Connection connection) {
+    public CarModelDao(Connection connection) {
         super(connection);
     }
 

@@ -16,12 +16,15 @@ import static org.junit.Assert.*;
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
-public class MakeDaoTest {
+public class CarMakeDaoTest {
     
     private Connection connection;
-    private MakeDao mr;
+    private CarMakeDao mr;
+    private final CarMake carMake = new CarMakeBuilder()
+                .withName("Shkoda")
+                .getCarMake();
     
-    public MakeDaoTest() {
+    public CarMakeDaoTest() {
     }
     
     @Before
@@ -32,7 +35,8 @@ public class MakeDaoTest {
                 "jdbc:mysql://localhost/car_rent_test?autoReconnect=true"
                         + "&useSSL=false&characterEncoding=utf-8",
                 "car_rent_app", "Un3L41NoewVA");
-        mr = new MakeDao(connection);
+        connection.setAutoCommit(false);
+        mr = new CarMakeDao(connection);
     }
     
     @After
@@ -41,23 +45,33 @@ public class MakeDaoTest {
     }
     
     @Test
-    public void createNewMake() throws DbException {
-        assertTrue(mr.add(new CarMakeBuilder()
-                .withName("Shkoda")
-                .getCarMake()));
+    public void createNewCarMake() throws DbException {
+        assertTrue(mr.add(carMake));
+        mr.remove(getCarMake());
     }
     
     @Test
-    public void selectAllAndUpdateMake() throws DbException {
-        CarMake mk = mr.read(new MakeDao.SelectAllCriteria()).get(0);
-        mk.setName("Toyota");
+    public void updateCarMake() throws DbException {
+        mr.add(carMake);
+        CarMake mk = getCarMake();
         assertTrue(mr.update(mk));
+        mr.remove(mk);
     }
     
     @Test
-    public void deleteLastMake() throws DbException {
-        List<CarMake> ml = mr.read(new MakeDao.SelectAllCriteria());
-        assertTrue(mr.remove(ml.get(ml.size()-1)));
+    public void deleteCarMake() throws DbException {
+        mr.add(carMake);
+        CarMake mk = getCarMake();
+        assertTrue(mr.remove(mk));
+    }
+    
+    private CarMake getCarMake() throws DbException {
+        List<CarMake> cMakeList = mr.read(new CarMakeDao.FindNameCriteria(
+                carMake.getName()));
+        for (CarMake cMake : cMakeList)
+            if (cMake.getName().equals(carMake.getName()))
+                return cMake;
+        return new CarMake();
     }
     
 }

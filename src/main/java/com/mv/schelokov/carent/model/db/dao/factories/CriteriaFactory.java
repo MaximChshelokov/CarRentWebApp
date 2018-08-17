@@ -3,8 +3,8 @@ package com.mv.schelokov.carent.model.db.dao.factories;
 import com.mv.schelokov.carent.model.db.dao.CarDao;
 import com.mv.schelokov.carent.model.db.dao.InvoiceLineDao;
 import com.mv.schelokov.carent.model.db.dao.InvoiceDao;
-import com.mv.schelokov.carent.model.db.dao.MakeDao;
-import com.mv.schelokov.carent.model.db.dao.ModelDao;
+import com.mv.schelokov.carent.model.db.dao.CarMakeDao;
+import com.mv.schelokov.carent.model.db.dao.CarModelDao;
 import com.mv.schelokov.carent.model.db.dao.RentOrderDao;
 import com.mv.schelokov.carent.model.db.dao.RoleDao;
 import com.mv.schelokov.carent.model.db.dao.UserDataDao;
@@ -65,11 +65,11 @@ public class CriteriaFactory {
     }
     
     public static Criteria findModelCriteria(CarModel model) {
-        return new ModelDao.FindModelCriteria(model);
+        return new CarModelDao.FindModelCriteria(model);
     }
     
     public static Criteria getMakeByNameCriteria(String name) {
-        return new MakeDao.FindNameCriteria(name);
+        return new CarMakeDao.FindNameCriteria(name);
     }
     
     public static Criteria getAllRentOrdersCriteria() {

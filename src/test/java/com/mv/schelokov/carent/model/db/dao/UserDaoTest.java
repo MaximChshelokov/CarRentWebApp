@@ -21,6 +21,12 @@ public class UserDaoTest {
     
     private Connection connection;
     private UserDao ur;
+    private final User user = new UserBuilder()
+            .withLogin("Dronchik")
+            .withPassword("228")
+            .withRole(new RoleBuilder()
+                    .withId(2)
+                    .getRole()).getUser();
     
     public UserDaoTest() {
     }
@@ -33,31 +39,28 @@ public class UserDaoTest {
                 "jdbc:mysql://localhost/car_rent_test?autoReconnect=true"
                         + "&useSSL=false&characterEncoding=utf-8",
                 "car_rent_app", "Un3L41NoewVA");
+        connection.setAutoCommit(false);
         ur = new UserDao(connection);
     }
 
     @Test
     public void findLoginPasswordUser() throws DbException {
-        
-        List<User> ul = ur.read(new UserDao.FindLoginPasswordCriteria("boss@mail.com", 
-                "admin"));
-        assertEquals(ul.size(), 1);
+        ur.add(user);
+        List<User> ul = ur.read(new UserDao.FindLoginPasswordCriteria(user));
+        assertEquals(1, ul.size());
+        ur.remove(getUser());
     }
     
     @Test
     public void createNewUser() throws DbException {
-        assertTrue(ur.add(new UserBuilder()
-                .withLogin("Dronchik")
-                .withPassword("228")
-                .withRole(new RoleBuilder()
-                        .withId(2)
-                        .getRole()).getUser()));
+        assertTrue(ur.add(user));
+        ur.remove(getUser());
     }
     
     @Test
-    public void findAndRemoveUser() throws DbException {
-        List<User> ul = ur.read(UserDao.SELECT_ALL_CRITERIA);
-        assertTrue(ur.remove(ul.get(ul.size()-1)));
+    public void removeUser() throws DbException {
+        ur.add(user);
+        assertTrue(ur.remove(getUser()));
     }
     
     @Test
@@ -68,15 +71,23 @@ public class UserDaoTest {
     }
     
     @Test
-    public void findLoginAndUpdateUser() throws DbException {
-        User user = ur.read(new UserDao.FindLoginCriteria("Dronchik")).get(0);
-        user.setPassword(Integer.toString(Integer.parseInt(user.getPassword()) + 1));
-        assertTrue(ur.update(user));
+    public void updateUser() throws DbException {
+        ur.add(user);
+        User userWithId = getUser();
+        assertTrue(ur.update(userWithId));
+        ur.remove(userWithId);
     }
     
     @After
     public void close() throws SQLException {
        connection.close();
+    }
+    
+    private User getUser() throws DbException {
+        List<User> ul = ur.read(new UserDao.FindLoginPasswordCriteria(user));
+        if (ul.isEmpty())
+            return new User();
+        return ul.get(0);
     }
     
 }

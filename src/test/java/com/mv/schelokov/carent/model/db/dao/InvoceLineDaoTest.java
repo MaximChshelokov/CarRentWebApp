@@ -20,6 +20,11 @@ public class InvoceLineDaoTest {
     
     private Connection connection;
     private InvoiceLineDao ilr;
+    private final InvoiceLine iLine = new InvoiceLineBuilder()
+                .withInvoiceId(1)
+                .paymentDetails("Штраф за царапину")
+                .paymentAmount(3000)
+                .getInvoiceLine();
 
     public InvoceLineDaoTest() {
     }
@@ -32,6 +37,7 @@ public class InvoceLineDaoTest {
                 "jdbc:mysql://localhost/car_rent_test?autoReconnect=true"
                         + "&useSSL=false&characterEncoding=utf-8",
                 "car_rent_app", "Un3L41NoewVA");
+        connection.setAutoCommit(false);
         ilr = new InvoiceLineDao(connection);
     }
     
@@ -41,28 +47,31 @@ public class InvoceLineDaoTest {
     }
     
     @Test
-    public void createNewInvoceType() throws DbException {
-        assertTrue(ilr.add(new InvoiceLineBuilder()
-                .withInvoiceId(1)
-                .paymentDetails("Штраф за царапину")
-                .paymentAmount(3000)
-                .getInvoiceLine()));
+    public void createNewInvoce() throws DbException {
+        assertTrue(ilr.add(iLine));
+        ilr.remove(getInvoiceLine());
     }
     
     @Test
-    public void findByInvoiceIdAndDeleteLast() throws DbException {
-        List<InvoiceLine> ill = ilr.read(new InvoiceLineDao
-                .FindByInvoiceIdCriteria(1));
-        assertTrue(ilr.remove(ill.get(ill.size()-1)));
+    public void findByInvoiceIdAndDeleteLast() throws DbException  {
+        ilr.add(iLine);
+        ilr.remove(getInvoiceLine());
     }
     
     @Test
     public void findByInvoiceIdAndUpdateFirst() throws DbException {
-        InvoiceLine iLine = ilr.read(new InvoiceLineDao
-                .FindByInvoiceIdCriteria(1)).get(0);
-        iLine.setAmount(iLine.getAmount()+1);
-        
-        assertTrue(ilr.update(iLine));
+        ilr.add(iLine);
+        InvoiceLine iLineWithId = getInvoiceLine();
+        assertTrue(ilr.update(iLineWithId));
+        ilr.remove(iLineWithId);
+    }
+    
+    private InvoiceLine getInvoiceLine() throws DbException {
+        List<InvoiceLine> iList = ilr.read(new InvoiceLineDao.FindByInvoiceIdCriteria(1));
+        for (InvoiceLine invoiceLine : iList)
+            if (invoiceLine.getDetails().equals(iLine.getDetails()))
+                return invoiceLine;
+        return new InvoiceLine();
     }
     
 }
