@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `car_rent_test` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `car_rent_test`;
--- MySQL dump 10.13  Distrib 5.7.22, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.23, for Linux (x86_64)
 --
 -- Host: localhost    Database: car_rent_test
 -- ------------------------------------------------------
--- Server version	5.7.22-0ubuntu0.16.04.1
+-- Server version	5.7.23-0ubuntu0.16.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -58,7 +58,7 @@ CREATE TABLE `cars` (
   PRIMARY KEY (`car_id`),
   KEY `fk_cars_1_idx` (`model`),
   CONSTRAINT `fk_cars_1` FOREIGN KEY (`model`) REFERENCES `models` (`model_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,7 +67,7 @@ CREATE TABLE `cars` (
 
 LOCK TABLES `cars` WRITE;
 /*!40000 ALTER TABLE `cars` DISABLE KEYS */;
-INSERT INTO `cars` VALUES (1,6,'342sum09',2018,28,''),(6,5,'228cum09',2013,2000,''),(35,1,'228cum09',2009,6010,'\0'),(40,20,'583cum09',2008,6000,'\0'),(42,1,'228cum09',2009,6000,'\0'),(43,13,'424sum09',1999,2500,''),(55,1,'228cum09',2009,6000,'\0'),(76,1,'228cum09',2009,6000,'\0');
+INSERT INTO `cars` VALUES (1,6,'342sum09',2018,38,_binary ''),(6,5,'327cum09',2013,2000,_binary ''),(35,1,'228cum09',2009,6010,_binary '\0'),(40,20,'583cum09',2008,6000,_binary '\0'),(42,1,'228cum09',2009,6000,_binary '\0'),(43,13,'424sum09',1999,2500,_binary ''),(55,1,'228cum09',2009,6000,_binary '\0'),(85,1,'228cum09',2009,6000,_binary '\0'),(87,1,'228cum09',2009,6000,_binary '\0'),(88,1,'228cum09',2009,6000,_binary '\0'),(89,1,'228cum09',2009,6000,_binary '\0'),(90,1,'228cum09',2009,6000,_binary '\0'),(91,1,'228cum09',2009,6000,_binary '\0'),(92,1,'228cum09',2009,6000,_binary '\0'),(93,1,'228cum09',2009,6000,_binary '\0');
 /*!40000 ALTER TABLE `cars` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -118,7 +118,7 @@ CREATE TABLE `defects` (
 
 LOCK TABLES `defects` WRITE;
 /*!40000 ALTER TABLE `defects` DISABLE KEYS */;
-INSERT INTO `defects` VALUES (2,6,1,'Царапина 11 см','\0'),(50,6,1,'Скол лакокрасочного покрытия 5 см^2','\0');
+INSERT INTO `defects` VALUES (2,6,1,'Царапина 11 см',_binary '\0'),(50,6,1,'Скол лакокрасочного покрытия 5 см^2',_binary '\0');
 /*!40000 ALTER TABLE `defects` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -152,7 +152,7 @@ CREATE TABLE `invoice_lines` (
   `details` varchar(100) NOT NULL,
   `amount` int(11) NOT NULL,
   PRIMARY KEY (`line_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -161,7 +161,7 @@ CREATE TABLE `invoice_lines` (
 
 LOCK TABLES `invoice_lines` WRITE;
 /*!40000 ALTER TABLE `invoice_lines` DISABLE KEYS */;
-INSERT INTO `invoice_lines` VALUES (1,1,'Штраф за задержку на 5 дней',2066),(2,1,'Штраф за царапину',3000),(4,58,'Оплата за аренду машины на 15 дней',30000),(6,58,'Возврат за аренду машины за 7 дней',-14000),(8,59,'Предоплата за аренду машины на 6 дней',22000);
+INSERT INTO `invoice_lines` VALUES (1,1,'Штраф за задержку на 5 дней',2075),(4,58,'Оплата за аренду машины на 15 дней',30000),(6,58,'Возврат за аренду машины за 7 дней',-14000),(8,59,'Предоплата за аренду машины на 6 дней',22000);
 /*!40000 ALTER TABLE `invoice_lines` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -211,7 +211,7 @@ CREATE TABLE `invoices` (
 
 LOCK TABLES `invoices` WRITE;
 /*!40000 ALTER TABLE `invoices` DISABLE KEYS */;
-INSERT INTO `invoices` VALUES (2,'2018-06-19',1500);
+INSERT INTO `invoices` VALUES (1,'2018-06-19',1500);
 /*!40000 ALTER TABLE `invoices` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -241,7 +241,7 @@ CREATE TABLE `makes` (
   `make_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(15) NOT NULL,
   PRIMARY KEY (`make_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -250,7 +250,7 @@ CREATE TABLE `makes` (
 
 LOCK TABLES `makes` WRITE;
 /*!40000 ALTER TABLE `makes` DISABLE KEYS */;
-INSERT INTO `makes` VALUES (1,'Toyota'),(2,'Shkoda'),(4,'Lada'),(6,'Mazda'),(7,'Volkswagen'),(8,'Shkoda');
+INSERT INTO `makes` VALUES (1,'Toyota'),(4,'Lada'),(6,'Mazda'),(7,'Volkswagen');
 /*!40000 ALTER TABLE `makes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -268,7 +268,7 @@ CREATE TABLE `models` (
   PRIMARY KEY (`model_id`),
   KEY `fk_models_1_idx` (`make`),
   CONSTRAINT `fk_models_1` FOREIGN KEY (`make`) REFERENCES `makes` (`make_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -317,7 +317,7 @@ CREATE TABLE `rent_orders` (
   CONSTRAINT `fk_rent_orders_1` FOREIGN KEY (`car`) REFERENCES `cars` (`car_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_rent_orders_2` FOREIGN KEY (`user`) REFERENCES `users` (`user_id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   CONSTRAINT `fk_rent_orders_3` FOREIGN KEY (`approved_by`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -326,7 +326,7 @@ CREATE TABLE `rent_orders` (
 
 LOCK TABLES `rent_orders` WRITE;
 /*!40000 ALTER TABLE `rent_orders` DISABLE KEYS */;
-INSERT INTO `rent_orders` VALUES (1,1,3,'2018-06-11','2018-06-20',1),(2,1,NULL,'2018-06-25','2018-06-30',NULL),(46,6,4,'2018-06-15','2018-06-30',NULL),(52,6,4,'2018-06-15','2018-06-30',NULL),(58,6,4,'2018-07-22','2018-07-30',31),(75,6,4,'2018-06-15','2018-06-30',NULL);
+INSERT INTO `rent_orders` VALUES (1,1,3,'2018-06-11','2018-06-20',1),(2,1,NULL,'2018-06-25','2018-06-30',NULL),(46,6,4,'2018-06-15','2018-06-30',NULL),(52,6,4,'2018-06-15','2018-06-30',NULL),(58,6,4,'2018-07-22','2018-07-30',31),(84,6,4,'2018-06-15','2018-06-30',NULL);
 /*!40000 ALTER TABLE `rent_orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -368,7 +368,7 @@ CREATE TABLE `roles` (
   `role_id` int(11) NOT NULL AUTO_INCREMENT,
   `role_name` varchar(10) NOT NULL,
   PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -377,7 +377,7 @@ CREATE TABLE `roles` (
 
 LOCK TABLES `roles` WRITE;
 /*!40000 ALTER TABLE `roles` DISABLE KEYS */;
-INSERT INTO `roles` VALUES (1,'admin'),(2,'guest'),(3,'guest'),(4,'guest');
+INSERT INTO `roles` VALUES (1,'admin'),(2,'user'),(3,'guest'),(4,'guest');
 /*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -396,7 +396,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`user_id`),
   KEY `fk_users_1_idx` (`role`),
   CONSTRAINT `fk_users_1` FOREIGN KEY (`role`) REFERENCES `roles` (`role_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -405,7 +405,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'boss@mail.com','admin',1),(2,'client','clientpass',2),(3,'vovchik','123',2),(4,'Dronchik','312',2),(19,'sobaka@mail.ru','12345',2),(20,'Dronchik','228',2),(24,'artem','6f61a84f857751a172e11ecb5c295b6c77a1b76ba16bf870ea50da40512e58a398b6c403ebaee6485195c999f828e53e03e2f06f2ef7340b08b88e6b7eb9f7eb',2),(25,'rorka@gmail.com','ytrewq',2),(31,'admin@mail.com','4166fc9a68f8a018055a724876be7ff65b2d8195e5993d8cea720721486c88fa4158567a6b8e3c8e92be5e58102df73c7910b9a444a2de6a4108b8111959e7ca',1),(32,'abdul@mail.ru','94a42f5403528ebc87179de3b7dd825b988cfd403a34cac93e269d81d81254370df607cf8686c1092456dd6c9aa9c95611675bf4ac7ef45736d9f158517d0005',2);
+INSERT INTO `users` VALUES (1,'boss@mail.com','admin',1),(2,'client','clientpass',2),(3,'vovchik','123',2),(4,'Dronchik','321',2),(19,'sobaka@mail.ru','12345',2),(24,'artem','6f61a84f857751a172e11ecb5c295b6c77a1b76ba16bf870ea50da40512e58a398b6c403ebaee6485195c999f828e53e03e2f06f2ef7340b08b88e6b7eb9f7eb',2),(25,'rorka@gmail.com','ytrewq',2),(31,'admin@mail.com','4166fc9a68f8a018055a724876be7ff65b2d8195e5993d8cea720721486c88fa4158567a6b8e3c8e92be5e58102df73c7910b9a444a2de6a4108b8111959e7ca',1),(32,'abdul@mail.ru','94a42f5403528ebc87179de3b7dd825b988cfd403a34cac93e269d81d81254370df607cf8686c1092456dd6c9aa9c95611675bf4ac7ef45736d9f158517d0005',2);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -432,7 +432,7 @@ CREATE TABLE `users_data` (
 
 LOCK TABLES `users_data` WRITE;
 /*!40000 ALTER TABLE `users_data` DISABLE KEYS */;
-INSERT INTO `users_data` VALUES (1,'Пётр Семёнович Одинцов','пр. Республики, д. 55/4, кв. 21','88005553535'),(2,'Андрей Иванович Давидович','ул. Пушкина, дом Кукушкина','+71233215467'),(3,'Василий Петрович Адамантьев','ул. Блюхера, д. 33, кв 22','77021233192'),(4,'Андрей Павлович Папанов','ул. Коммунаров, д. 12, кв 21','+77773334422'),(19,'Эдуард Робертович Михтельштейн','ул. Победы, д. 22, кв 50','+77087653492'),(25,'Анатолий Петрович','улица Ленина','77021234567'),(32,'Абдулов Абдула Исламович','г. Ашхабад, ул. Магомеда 12','77093452375');
+INSERT INTO `users_data` VALUES (1,'Пётр Семёнович Одинцов','пр. Республики, д. 55/4, кв. 21','88005553535'),(2,'Андрей Иванович Давидович','ул. Пушкина, дом Кукушкина','+71233215467'),(3,'Василий Петрович Адамантьев','ул. Блюхера, д. 33, кв 22','77021233181'),(4,'Андрей Павлович Папанов','ул. Коммунаров, д. 12, кв 21','+77773334422'),(25,'Анатолий Петрович','улица Ленина','77021234567'),(32,'Абдулов Абдула Исламович','г. Ашхабад, ул. Магомеда 12','77093452375');
 /*!40000 ALTER TABLE `users_data` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -607,4 +607,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-30 10:10:53
+-- Dump completed on 2018-08-17 10:28:13
