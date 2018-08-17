@@ -25,17 +25,17 @@ public class CarService {
     private static final String CREATE_ERROR = "Failed to create a car";
 
     public List getAllCars() throws ServiceException {
-        Criteria criteria = CriteriaFactory.getAllCarsCriteria();
+        Criteria criteria = new CriteriaFactory().createAllCarsCriteria();
         return getCarsByCriteria(criteria);
     }
     
     public List getAvailableCars() throws ServiceException {
-        Criteria criteria = CriteriaFactory.getAvailableCarsCriteria();
+        Criteria criteria = new CriteriaFactory().createAvailableCarsCriteria();
         return getCarsByCriteria(criteria);
     }
     
     public Car getCarById(int id) throws ServiceException {
-        Criteria criteria = CriteriaFactory.getCarByIdCriteria(id);
+        Criteria criteria = new CriteriaFactory().createCarByIdCriteria(id);
         List result = getCarsByCriteria(criteria);
         if (result.isEmpty())
             return null;
@@ -45,7 +45,7 @@ public class CarService {
     
     public void deleteCar(Car car) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
-            Dao carDao = daoFactory.getCarDao();
+            Dao carDao = daoFactory.createCarDao();
             carDao.remove(car);
         }
         catch (DaoException | DbException ex) {
@@ -56,7 +56,7 @@ public class CarService {
     
     public void updateCar(Car car) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
-            Dao carDao = daoFactory.getCarDao();
+            Dao carDao = daoFactory.createCarDao();
             carDao.update(car);
         }
         catch (DaoException | DbException ex) {
@@ -67,7 +67,7 @@ public class CarService {
     
     public void createCar(Car car) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
-            Dao carDao = daoFactory.getCarDao();
+            Dao carDao = daoFactory.createCarDao();
             carDao.add(car);
         }
         catch (DaoException | DbException ex) {
@@ -78,7 +78,7 @@ public class CarService {
     
     private List getCarsByCriteria(Criteria criteria) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
-            Dao carDao = daoFactory.getCarDao();
+            Dao carDao = daoFactory.createCarDao();
             return carDao.read(criteria);
         } catch (DaoException | DbException ex) {
             LOG.error(CAR_CRITERIA_ERROR, ex);

@@ -6,7 +6,9 @@ import com.mv.schelokov.carent.model.entity.interfaces.Entity;
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
-public class Validator {
+public abstract class Validator {
+    
+    public abstract int validate();
     
     protected boolean isNullField(Object... fields) {
         for (Object field : fields) {

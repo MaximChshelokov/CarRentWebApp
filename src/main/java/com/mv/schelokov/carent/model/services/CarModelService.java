@@ -44,9 +44,9 @@ public class CarModelService {
     }
     
     public List getModel(CarModel model) throws ServiceException {
-        Criteria criteria = CriteriaFactory.findModelCriteria(model);
+        Criteria criteria = new CriteriaFactory().createFindModelCriteria(model);
         try (DaoFactory daoFactory = new DaoFactory()) {
-            Dao modelDao = daoFactory.getModelDao();
+            Dao modelDao = daoFactory.createCarModelDao();
             return modelDao.read(criteria);
         }
         catch (DaoException | DbException ex) {
@@ -57,7 +57,7 @@ public class CarModelService {
     
     public List createModel(CarModel model) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
-            Dao modelDao = daoFactory.getModelDao();
+            Dao modelDao = daoFactory.createCarModelDao();
             modelDao.add(model);
             daoFactory.commit();
             return getModel(model);

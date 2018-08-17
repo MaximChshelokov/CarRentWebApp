@@ -18,6 +18,9 @@ import javax.servlet.ServletResponse;
 public class ErrorFilter implements Filter {
     
     private static final Map<Integer, String> ERROR_MESSAGE = new HashMap<>();
+    private static final String UNKNOW_ERROR = "editor.error-unknow";
+    private static final String ERROR_MESSAGE_PARAM = "error_message";
+    private static final String ERROR_NUMBER = "errParam";
     
     static {
         ERROR_MESSAGE.put(ValidationResult.EMPTY_FIELD, "editor.error-empty");
@@ -46,12 +49,12 @@ public class ErrorFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain) throws IOException, ServletException {
-        if (request.getAttribute("errParam") != null) {
-            int errParam = (Integer) request.getAttribute("errParam");
+        if (request.getAttribute(ERROR_NUMBER) != null) {
+            int errParam = (Integer) request.getAttribute(ERROR_NUMBER);
             String errorMessage = ERROR_MESSAGE.get(errParam);
             if (errorMessage == null)
-                errorMessage = "editor.error-unknow";
-            request.setAttribute("error_message", errorMessage);
+                errorMessage = UNKNOW_ERROR;
+            request.setAttribute(ERROR_MESSAGE_PARAM, errorMessage);
         }
         chain.doFilter(request, response);
     }

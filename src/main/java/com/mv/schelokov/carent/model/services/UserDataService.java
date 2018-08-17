@@ -25,7 +25,8 @@ public class UserDataService {
             + " data from the DAO by the criteria";
 
     public UserData getUserDataById(int id) throws ServiceException {
-        Criteria criteria = CriteriaFactory.getUserDataByIdCriteria(id);
+        Criteria criteria = new CriteriaFactory()
+                .createUserDataByIdCriteria(id);
         List result = getUserDataByCriteria(criteria);
         if (result.isEmpty()) {
             return null;
@@ -36,7 +37,7 @@ public class UserDataService {
     
     public void addUserData(UserData userData) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
-            Dao userDataDao = daoFactory.getUserDataDao();
+            Dao userDataDao = daoFactory.createUserDataDao();
             if (!userDataDao.add(userData)) {
                 LOG.error(ERROR_CREATE);
                 throw new ServiceException(ERROR_CREATE);
@@ -58,7 +59,7 @@ public class UserDataService {
 
     public void updateUserData(UserData userData) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
-            Dao userDataDao = daoFactory.getUserDataDao();
+            Dao userDataDao = daoFactory.createUserDataDao();
             if (!userDataDao.update(userData)) {
                 LOG.error(UPDATE_ERROR);
                 throw new ServiceException(UPDATE_ERROR);
@@ -75,7 +76,7 @@ public class UserDataService {
 
     public void deleteUserData(UserData userData) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
-            Dao userDataDao = daoFactory.getUserDataDao();
+            Dao userDataDao = daoFactory.createUserDataDao();
             if (!userDataDao.remove(userData)) {
                 LOG.error(DELETE_ERROR);
                 throw new ServiceException(DELETE_ERROR);
@@ -91,7 +92,7 @@ public class UserDataService {
     }
     
     public List getAllUsers() throws ServiceException {
-        Criteria criteria = CriteriaFactory.getAllUsersDataCriteria();
+        Criteria criteria = new CriteriaFactory().createAllUsersDataCriteria();
         return getUserDataByCriteria(criteria);
     }
     
@@ -99,7 +100,7 @@ public class UserDataService {
             throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
             Dao userDataDao
-                    = daoFactory.getUserDataDao();
+                    = daoFactory.createUserDataDao();
             return userDataDao.read(criteria);
         }
         catch (DaoException | DbException ex) {

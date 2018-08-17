@@ -33,6 +33,10 @@ public class InvoiceService {
             + " invoice";
     private static final String ERROR_DELETE = "Failed to delete an"
             + " invoice";
+    private static final String CAR_PREPAY = "Предоплата за аренду машины на %d дней";
+    private static final String FOR_THE_RENT = "%s за аренду машины за %d дней";
+    private static final String REFUND = "Возврат";
+    private static final String SURCHARGE = "Доплата";
     
     public void openNewInvoice(RentOrder rentOrder)
             throws ServiceException {
@@ -46,8 +50,7 @@ public class InvoiceService {
                 rentOrder.getEndDate()).getDays();
         
         InvoiceLine invoiceLine = new InvoiceLineBuilder()
-                .paymentDetails(String.format("Предоплата за аренду машины "
-                        + "на %d дней", days))
+                .paymentDetails(String.format(CAR_PREPAY, days))
                 .withInvoiceId(invoice.getId())
                 .paymentAmount(days * rentOrder.getCar().getPrice())
                 .getInvoiceLine();
@@ -65,9 +68,9 @@ public class InvoiceService {
             int days = new Period(rentOrder.getStartDate(),
                     rentOrder.getEndDate()).getDays();
             int sumDifference = (newDays - days) * rentOrder.getCar().getPrice();
-            String paymentType = (days < newDays) ? "Доплата" : "Возврат";
+            String paymentType = (days < newDays) ? SURCHARGE : REFUND;
             InvoiceLine invoiceLine = new InvoiceLineBuilder()
-                    .paymentDetails(String.format("%s за аренду машины за %d дней",
+                    .paymentDetails(String.format(FOR_THE_RENT,
                             paymentType, Math.abs(newDays - days)))
                     .paymentAmount(sumDifference)
                     .withInvoiceId(rentOrder.getId())
@@ -77,7 +80,7 @@ public class InvoiceService {
     }
     
     public Invoice getInvoiceById(int id) throws ServiceException {
-        Criteria criteria = CriteriaFactory.findInvoiceByIdCriteria(id);
+        Criteria criteria = new CriteriaFactory().createInvoiceByIdCriteria(id);
         List invoiceList = getInvoiceByCriteria(criteria);
         if (invoiceList.isEmpty())
             return null;
@@ -90,7 +93,7 @@ public class InvoiceService {
     
     public void createInvoice(Invoice invoice) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
-            Dao invoiceDao = daoFactory.getInvoiceDao();
+            Dao invoiceDao = daoFactory.createInvoiceDao();
             if (!invoiceDao.add(invoice)) {
                 LOG.error(ERROR_CREATE);
                 throw new ServiceException(ERROR_CREATE);
@@ -104,7 +107,7 @@ public class InvoiceService {
     
     public void updateInvoice(Invoice invoice) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
-            Dao invoiceDao = daoFactory.getInvoiceDao();
+            Dao invoiceDao = daoFactory.createInvoiceDao();
             if (!invoiceDao.update(invoice)) {
                 LOG.error(ERROR_UPDATE);
                 throw new ServiceException(ERROR_UPDATE);
@@ -118,7 +121,7 @@ public class InvoiceService {
     
     public void deleteInvoice(Invoice invoice) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
-            Dao invoiceDao = daoFactory.getInvoiceDao();
+            Dao invoiceDao = daoFactory.createInvoiceDao();
             if (!invoiceDao.remove(invoice)) {
                 LOG.error(ERROR_DELETE);
                 throw new ServiceException(ERROR_DELETE);
@@ -135,7 +138,7 @@ public class InvoiceService {
             throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
             Dao invoiceDao = daoFactory
-                    .getInvoiceDao();
+                    .createInvoiceDao();
             return invoiceDao.read(criteria);
         }
         catch (DaoException | DbException ex) {

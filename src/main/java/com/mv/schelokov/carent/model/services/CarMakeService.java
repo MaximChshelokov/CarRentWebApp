@@ -37,9 +37,9 @@ public class CarMakeService {
     }
     
     public List getMakeByName(String name) throws ServiceException {
-        Criteria criteria = CriteriaFactory.getMakeByNameCriteria(name);
+        Criteria criteria = new CriteriaFactory().createMakeByNameCriteria(name);
         try (DaoFactory daoFactory = new DaoFactory()) {
-            Dao makeDao = daoFactory.getMakeDao();
+            Dao makeDao = daoFactory.createCarMakeDao();
             return makeDao.read(criteria);
         }
         catch (DaoException | DbException ex) {
@@ -50,7 +50,7 @@ public class CarMakeService {
     
     public List createMake(CarMake make) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
-            Dao makeDao = daoFactory.getMakeDao();
+            Dao makeDao = daoFactory.createCarMakeDao();
             makeDao.add(make);
             daoFactory.commit();
             return getMakeByName(make.getName());

@@ -17,6 +17,12 @@ public class ParametersLoader {
             + " the file";
     private static final String PARAMETERS_LOAD_ERROR = "Load parameters from"
             + " the file is failed";
+    private static final String LOGIN = "LOGIN";
+    private static final String PASSWORD = "PASSWORD";
+    private static final String URL = "URL";
+    private static final String DRIVER = "DRIVER";
+    private static final String POOL_SIZE = "POOL_SIZE";
+
     private Properties properties;
     
     public ParametersLoader(InputStream stream) throws DataSourceException {
@@ -30,24 +36,24 @@ public class ParametersLoader {
     }
 
     public String getLogin() {
-        return properties.getProperty("LOGIN");
+        return properties.getProperty(LOGIN);
     }
     
     public String getPassword() {
-        return properties.getProperty("PASSWORD");
+        return properties.getProperty(PASSWORD);
     }
     
     public String getUrl() {
-        return properties.getProperty("URL");
+        return properties.getProperty(URL);
     }
     
     public String getDriver() {
-        return properties.getProperty("DRIVER");
+        return properties.getProperty(DRIVER);
     }
     
     public int getPoolSize() throws DataSourceException {
         int result = 10;    // Default pool size
-        String poolSize = properties.getProperty("POOL_SIZE");
+        String poolSize = properties.getProperty(POOL_SIZE);
         if (poolSize != null)
             try {
                 result = Integer.parseInt(poolSize);

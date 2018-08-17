@@ -26,6 +26,9 @@ public class DaoFactory implements AutoCloseable {
     private static final String ERROR_CLOSE_CONNECTION = "Failed to close the"
             + " connection";
     private static final String ERROR_COMMIT = "Failed to commit to database";
+    private static final String ERROR_GET_INSTANCE = "Failed to get connection"
+            + " pool instance";
+
     private final ConnectionPool connectionPool;
     private final Connection connection;
     
@@ -34,44 +37,43 @@ public class DaoFactory implements AutoCloseable {
             connectionPool = ConnectionPool.getInstance();
             connection = connectionPool.getConnection();
         } catch(DataSourceException ex) {
-            throw new DaoException("Failed to get connection pool "
-                    + "instance", ex);
+            throw new DaoException(ERROR_GET_INSTANCE, ex);
         }
     }
     
-    public Dao getCarDao() {
+    public Dao createCarDao() {
         return new CarDao(connection);
     }
     
-    public Dao getInvoiceLineDao() {
+    public Dao createInvoiceLineDao() {
         return new InvoiceLineDao(connection);
     }
     
-    public Dao getInvoiceDao() {
+    public Dao createInvoiceDao() {
         return new InvoiceDao(connection);
     }
 
-    public Dao getMakeDao() {
+    public Dao createCarMakeDao() {
         return new CarMakeDao(connection);
     }
     
-    public Dao getModelDao() {
+    public Dao createCarModelDao() {
         return new CarModelDao(connection);
     }
     
-    public Dao getRentOrderDao() {
+    public Dao createRentOrderDao() {
         return new RentOrderDao(connection);
     }
     
-    public Dao getRoleDao() {
+    public Dao createRoleDao() {
         return new RoleDao(connection);
     }
     
-    public Dao getUserDataDao() {
+    public Dao createUserDataDao() {
         return new UserDataDao(connection);
     }
     
-    public Dao getUserDao() {
+    public Dao createUserDao() {
         return new UserDao(connection);
     }
     

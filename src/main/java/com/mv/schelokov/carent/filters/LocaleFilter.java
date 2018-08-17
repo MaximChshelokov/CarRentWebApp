@@ -1,6 +1,7 @@
 package com.mv.schelokov.carent.filters;
 
 import com.mv.schelokov.carent.actions.consts.Cookies;
+import com.mv.schelokov.carent.actions.consts.Locales;
 import java.io.IOException;
 import java.util.Locale;
 import javax.servlet.Filter;
@@ -37,17 +38,18 @@ public class LocaleFilter implements Filter {
             }
         }
         
-        if (localeString == null || !("en".equals(localeString)
-                || "ru".equals(localeString))) {
-            localeString = "en";
+        if (localeString == null || !(Locales.ENGLISH.equals(localeString)
+                || Locales.RUSSIAN.equals(localeString))) {
+            localeString = Locales.ENGLISH;
         }
-        String region = "US";
-        if ("ru".equals(localeString))
-            region = "RU";
+        String region = Locales.USA;
+        if (Locales.RUSSIAN.equals(localeString))
+            region = Locales.RUSSIA;
         Locale locale = new Locale(localeString, region);
         Config.set(req.getSession(), Config.FMT_LOCALE, locale);
         chain.doFilter(request, response);
     }
+
 
     @Override
     public void destroy() {}

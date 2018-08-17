@@ -16,6 +16,7 @@ public class RentOrderValidator extends Validator {
         this.order = order;
     }
     
+    @Override
     public int validate() {
 
         if (hasEmptyFields()) {

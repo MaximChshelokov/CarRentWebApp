@@ -19,84 +19,84 @@ import com.mv.schelokov.carent.model.entity.User;
  */
 public class CriteriaFactory {
     
-    public static Criteria getUserFindLoginPasswordCriteria(User user) {
+    public Criteria createUserFindLoginPasswordCriteria(User user) {
         return new UserDao.FindLoginPasswordCriteria(user);
     }
     
-    public static Criteria getUserFindLoginCriteria(String login) {
+    public Criteria createUserFindLoginCriteria(String login) {
         return new UserDao.FindLoginCriteria(login);
     }
     
-    public static Criteria getUserFindLoginPasswordCriteria(String login, 
+    public Criteria createUserFindLoginPasswordCriteria(String login, 
             String password) {
         return new UserDao.FindLoginPasswordCriteria(login, password);
     }
     
-    public static Criteria getUserByIdCriteria(int id) {
+    public Criteria createUserByIdCriteria(int id) {
         return new UserDao.FindByIdCriteria(id);
     }
     
-    public static Criteria getAllUsersCriteria() {
+    public Criteria createAllUsersCriteria() {
         return UserDao.SELECT_ALL_CRITERIA;
     }
     
-    public static Criteria getAllUsersDataCriteria() {
+    public Criteria createAllUsersDataCriteria() {
         return UserDataDao.SELECT_ALL_CRITERIA;
     }
     
-    public static Criteria getUserDataByIdCriteria(int id) {
+    public Criteria createUserDataByIdCriteria(int id) {
         return new UserDataDao.FindByUserCriteria(id);
     }
     
-    public static Criteria getAllRolesCriteria() {
+    public Criteria createAllRolesCriteria() {
         return RoleDao.SELECT_ALL_CRITERIA;
     }
     
-    public static Criteria getAllCarsCriteria() {
+    public Criteria createAllCarsCriteria() {
         return CarDao.SELECT_ALL_CRITERIA;
     }
     
-    public static Criteria getAvailableCarsCriteria() {
+    public Criteria createAvailableCarsCriteria() {
         return CarDao.SELECT_AVAILABLE_CRITERIA;
     }
     
-    public static Criteria getCarByIdCriteria(int id) {
+    public Criteria createCarByIdCriteria(int id) {
         return new CarDao.FindByIdCriteria(id);
     }
     
-    public static Criteria findModelCriteria(CarModel model) {
+    public Criteria createFindModelCriteria(CarModel model) {
         return new CarModelDao.FindModelCriteria(model);
     }
     
-    public static Criteria getMakeByNameCriteria(String name) {
+    public Criteria createMakeByNameCriteria(String name) {
         return new CarMakeDao.FindNameCriteria(name);
     }
     
-    public static Criteria getAllRentOrdersCriteria() {
+    public Criteria createAllRentOrdersCriteria() {
         return RentOrderDao.SELECT_ALL_CRITERIA;
     }
     
-    public static Criteria getAllOrdersOrderByApprovedCriteria() {
+    public Criteria createOrdersByApprovedCriteria() {
         return RentOrderDao.ORDER_BY_APPROVED_CRITERIA;
     }
     
-    public static Criteria getAllOpenedOrdersCriteria() {
+    public Criteria createAllOpenedOrdersCriteria() {
         return RentOrderDao.OPENED_ORDERS_CRITERIA;
     }
     
-    public static Criteria findOrderByIdCriteria(int id) {
+    public Criteria createOrderByIdCriteria(int id) {
         return new RentOrderDao.FindByIdCriteria(id);
     }
     
-    public static Criteria findOrderByUserIdCriteria(int id) {
+    public Criteria createOrderByUserIdCriteria(int id) {
         return new RentOrderDao.FindByUserIdCriteria(id);
     }
     
-    public static Criteria findInvoiceByIdCriteria(int id) {
+    public Criteria createInvoiceByIdCriteria(int id) {
         return new InvoiceDao.FindByIdCriteria(id);
     }
     
-    public static Criteria findInvoiceLinesByInvoiceIdCriteria(int id) {
+    public Criteria createInvoiceLinesByInvoiceIdCriteria(int id) {
         return new InvoiceLineDao.FindByInvoiceIdCriteria(id);
     }
     

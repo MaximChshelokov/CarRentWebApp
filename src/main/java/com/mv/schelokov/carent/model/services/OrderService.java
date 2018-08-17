@@ -27,8 +27,8 @@ public class OrderService {
     private static final String DELETE_ERROR = "Failed to delete an order";
     
     public List getAllOrders() throws ServiceException {
-        Criteria criteria = CriteriaFactory
-                .getAllOrdersOrderByApprovedCriteria();
+        Criteria criteria = new CriteriaFactory()
+                .createOrdersByApprovedCriteria();
         List<RentOrder> orders = getOrdersByCriteria(criteria);
         if (!orders.isEmpty()) {
             for (RentOrder order : orders)
@@ -38,7 +38,8 @@ public class OrderService {
     }
     
     public List getOpenedOrders() throws ServiceException {
-        Criteria criteria = CriteriaFactory.getAllOpenedOrdersCriteria();
+        Criteria criteria = new CriteriaFactory()
+                .createAllOpenedOrdersCriteria();
         List<RentOrder> orders = getOrdersByCriteria(criteria);
         if (!orders.isEmpty()) {
             for (RentOrder order : orders) {
@@ -49,7 +50,7 @@ public class OrderService {
     }
     
     public RentOrder getOrderById(int id) throws ServiceException {
-        Criteria criteria = CriteriaFactory.findOrderByIdCriteria(id);
+        Criteria criteria = new CriteriaFactory().createOrderByIdCriteria(id);
         List resultList = getOrdersByCriteria(criteria);
         if (resultList.isEmpty())
             return null;
@@ -59,8 +60,8 @@ public class OrderService {
     }
     
     public RentOrder getOrdersByUser(User user) throws ServiceException {
-        Criteria criteria = CriteriaFactory
-                .findOrderByUserIdCriteria(user.getId());
+        Criteria criteria = new CriteriaFactory()
+                .createOrderByUserIdCriteria(user.getId());
         List resultList = getOrdersByCriteria(criteria);
         if (resultList.isEmpty())
             return null;
@@ -71,7 +72,7 @@ public class OrderService {
     
     public void addOrder(RentOrder order) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
-            Dao orderDao = daoFactory.getRentOrderDao();
+            Dao orderDao = daoFactory.createRentOrderDao();
             if (!orderDao.add(order)) {
                 LOG.error(CREATE_ERROR);
                 throw new ServiceException(CREATE_ERROR);
@@ -85,7 +86,7 @@ public class OrderService {
     
     public void updateOrder(RentOrder order) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
-            Dao orderDao = daoFactory.getRentOrderDao();
+            Dao orderDao = daoFactory.createRentOrderDao();
             if (!orderDao.update(order)) {
                 LOG.error(UPDATE_ERROR);
                 throw new ServiceException(UPDATE_ERROR);
@@ -99,7 +100,7 @@ public class OrderService {
     
     public void deleteOrder(RentOrder order) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
-            Dao orderDao = daoFactory.getRentOrderDao();
+            Dao orderDao = daoFactory.createRentOrderDao();
             if (!orderDao.remove(order)) {
                 LOG.error(DELETE_ERROR);
                 throw new ServiceException(DELETE_ERROR);
@@ -122,7 +123,7 @@ public class OrderService {
             throws ServiceException {
         try(DaoFactory daoFactory = new DaoFactory()) {
             Dao orderDao = daoFactory
-                    .getRentOrderDao();
+                    .createRentOrderDao();
             return orderDao.read(criteria);
         } catch (DaoException | DbException ex) {
             LOG.error(ORDER_DAO_ERROR, ex);

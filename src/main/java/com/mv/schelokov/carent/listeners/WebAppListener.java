@@ -10,11 +10,13 @@ import javax.servlet.ServletContextListener;
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
 public class WebAppListener implements ServletContextListener {
+    
+    private static final String ROOT = "root";
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         ServletContext context = sce.getServletContext();
-        System.setProperty("root", context.getRealPath("/"));
+        System.setProperty(ROOT, context.getRealPath("/"));
     }
 
     @Override

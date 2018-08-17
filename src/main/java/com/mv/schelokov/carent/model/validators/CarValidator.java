@@ -27,6 +27,7 @@ public class CarValidator extends Validator {
         this.car = car;
     }
     
+    @Override
     public int validate() {
 
         if (hasEmptyFields()) {

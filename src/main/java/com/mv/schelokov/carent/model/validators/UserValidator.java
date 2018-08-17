@@ -20,6 +20,7 @@ public class UserValidator extends Validator {
         this.user = user;
     }
     
+    @Override
     public int validate() {
         
         if (hasEmptyFields())

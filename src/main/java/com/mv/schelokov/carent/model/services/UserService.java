@@ -30,7 +30,7 @@ public class UserService {
     public void registerNewUser(User user) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
             User userCopy = (User) user.clone();
-            Dao userDao = daoFactory.getUserDao();
+            Dao userDao = daoFactory.createUserDao();
             userCopy.setPassword(hashPassword(userCopy.getPassword()));
             if (!userDao.add(userCopy)) {
                 LOG.error(REGISTER_ERROR);
@@ -49,7 +49,7 @@ public class UserService {
 
         try (DaoFactory daoFactory = new DaoFactory()) {
             User userCopy = (User) user.clone();
-            Dao userDao = daoFactory.getUserDao();
+            Dao userDao = daoFactory.createUserDao();
             if (!userCopy.getPassword().equals(oldUser.getPassword()))
                 userCopy.setPassword(hashPassword(userCopy.getPassword()));
             if (!userDao.update(userCopy)) {
@@ -65,7 +65,7 @@ public class UserService {
     
     public void deleteUser(User user) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
-            Dao userDao = daoFactory.getUserDao();
+            Dao userDao = daoFactory.createUserDao();
             if (!userDao.remove(user)) {
                 LOG.error(DELETE_ERROR);
                 throw new ServiceException(DELETE_ERROR);
@@ -79,18 +79,21 @@ public class UserService {
     
     public List getUserByCredentials(User user) 
             throws ServiceException {
-        Criteria criteria = CriteriaFactory.getUserFindLoginPasswordCriteria(
+        Criteria criteria = new CriteriaFactory()
+                .createUserFindLoginPasswordCriteria(
                 user.getLogin(), hashPassword(user.getPassword()));
         return getUsersByCriteria(criteria);
     }
     
     public List getUserByLogin(String login) throws ServiceException {
-        Criteria criteria = CriteriaFactory.getUserFindLoginCriteria(login);
+        Criteria criteria = new CriteriaFactory()
+                .createUserFindLoginCriteria(login);
         return getUsersByCriteria(criteria);
     }
     
     public User getUserById(int id) throws ServiceException {
-        Criteria criteria = CriteriaFactory.getUserByIdCriteria(id);
+        Criteria criteria = new CriteriaFactory()
+                .createUserByIdCriteria(id);
         List userList = getUsersByCriteria(criteria);
         if (userList.isEmpty())
             return null;
@@ -100,7 +103,7 @@ public class UserService {
     
     private List getUsersByCriteria(Criteria criteria) throws ServiceException {
         try(DaoFactory daoFactory = new DaoFactory()) {
-            Dao userDao = daoFactory.getUserDao();
+            Dao userDao = daoFactory.createUserDao();
             return userDao.read(criteria);
         }
         catch (DaoException | DbException ex) {

@@ -26,7 +26,7 @@ public class InvoiceLineService {
     public void createInvoiceLine(InvoiceLine invoiceLine)
             throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
-            Dao invoiceLineDao = daoFactory.getInvoiceLineDao();
+            Dao invoiceLineDao = daoFactory.createInvoiceLineDao();
             if (!invoiceLineDao.add(invoiceLine)) {
                 LOG.error(ERROR_CREATE);
                 throw new ServiceException(ERROR_CREATE);
@@ -40,8 +40,8 @@ public class InvoiceLineService {
     
     public List getInvoiceLinesByInvoiceId(int id)
             throws ServiceException {
-        Criteria criteria = CriteriaFactory
-                .findInvoiceLinesByInvoiceIdCriteria(id);
+        Criteria criteria = new CriteriaFactory()
+                .createInvoiceLinesByInvoiceIdCriteria(id);
         return getInvoiceLinesByCriteria(criteria);
     }
     
@@ -49,7 +49,7 @@ public class InvoiceLineService {
             throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
             Dao invoiceLineDao = daoFactory
-                    .getInvoiceLineDao();
+                    .createInvoiceLineDao();
             return invoiceLineDao.read(criteria);
         }
         catch (DaoException | DbException ex) {
