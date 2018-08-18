@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ChangeLocaleAction extends AbstractAction {
     private static final int ONE_MONTH = 60 * 60 * 24 * 30;
     private static final String LOCALE = "locale";
+    private static final String URL = "url";
 
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
@@ -27,8 +28,9 @@ public class ChangeLocaleAction extends AbstractAction {
             cookie.setMaxAge(ONE_MONTH);
             res.addCookie(cookie);
         }
-        if (isUser(req) || isAdmin(req))
-            return new JspForward(Actions.getActionName(Actions.WELCOME), true);
+        String url = req.getParameter(URL);
+        if (url != null)
+            return new JspForward(url.replaceFirst("/", ""), true);
         return new JspForward(Actions.getActionName(Actions.HOME), true);
     }
 }

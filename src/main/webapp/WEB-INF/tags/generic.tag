@@ -28,9 +28,11 @@
                 <nav id="nav">
                     <a href="<c:url value = "action/change_locale">
                            <c:param name="locale" value="ru"/>
+                           <c:param name="url" value="${URL}"/>
                         </c:url>">Русский</a>
                     <a href="<c:url value = "action/change_locale">
                            <c:param name="locale" value="en"/>
+                           <c:param name="url" value="${URL}"/>
                         </c:url>">English</a>
                 </nav>
                 <a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
