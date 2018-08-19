@@ -42,6 +42,7 @@ public class Actions {
     public static final String PAY_CHECK = "pay_check";
     public static final String CHANGE_LOCALE = "change_locale";
     public static final String WELCOME = "welcome";
+    public static final String ALREADY_RENTED = "already_rented";
     private static final String ACTION = "action";
     
     public static String getActionName(String action) {

@@ -36,6 +36,7 @@ import com.mv.schelokov.carent.actions.user.SelectCarPageAction;
 import com.mv.schelokov.carent.actions.user.WelcomePageAction;
 import com.mv.schelokov.carent.actions.user.UpdateProfileAction;
 import com.mv.schelokov.carent.actions.consts.Jsps;
+import com.mv.schelokov.carent.actions.user.AlreadyRentedPageAction;
 import com.mv.schelokov.carent.actions.user.ProceedToOrderAction;
 import com.mv.schelokov.carent.actions.user.UserDataPageAction;
 import java.util.HashMap;
@@ -87,6 +88,7 @@ public class ActionFactory {
         ACTIONS.put(Actions.PAY_CHECK, new PayInvoiceAction());
         ACTIONS.put(Actions.CHANGE_LOCALE, new ChangeLocaleAction());
         ACTIONS.put(Actions.WELCOME, new WelcomePageAction());
+        ACTIONS.put(Actions.ALREADY_RENTED, new AlreadyRentedPageAction());
     }
     
     public Action createAction(HttpServletRequest req) {

@@ -9,7 +9,6 @@ import com.mv.schelokov.carent.actions.exceptions.ActionException;
 import com.mv.schelokov.carent.model.entity.RentOrder;
 import com.mv.schelokov.carent.model.entity.User;
 import com.mv.schelokov.carent.model.entity.builders.CarBuilder;
-import com.mv.schelokov.carent.model.entity.builders.RentOrderBuilder;
 import com.mv.schelokov.carent.model.services.CarService;
 import com.mv.schelokov.carent.model.services.OrderService;
 import com.mv.schelokov.carent.model.services.exceptions.ServiceException;
@@ -38,32 +37,41 @@ public class CreateOrderAction extends AbstractAction {
         if (isUser(req) || isAdmin(req)) {
             User user = (User) req.getSession().getAttribute(SessionAttr.USER);
             
-            RentOrder order = new RentOrderBuilder()
-                    .byUser(user)
-                    .selectedCar(new CarBuilder()
-                            .withId(getIntParam(req, SELECTED_CAR))
-                            .getCar())
-                    .getRentOrder();
             String start = req.getParameter(START_DATE);
             String end = req.getParameter(END_DATE);
             
-            int validationResult = ValidationResult.OK;
-            
-            try {
-                order.setStartDate(FORMAT.parse(start));
-                order.setEndDate(FORMAT.parse(end));
-            } catch (ParseException ex) {
-                validationResult = ValidationResult.INVALID_DATE;
-                LOG.error(DATE_PARSE_ERROR, ex);
-            }
-            
-            if (validationResult == ValidationResult.OK) 
-                validationResult = new RentOrderValidator(order).validate();
-            
-            try {
-                if (validationResult == ValidationResult.OK) {
 
-                    new OrderService().addOrder(order);
+            
+            try {
+                
+                RentOrder order = new OrderService()
+                        .getOrderByUser(user);
+                
+                order.setCar(new CarBuilder()
+                        .withId(getIntParam(req, SELECTED_CAR))
+                        .getCar());
+                
+                int validationResult = ValidationResult.OK;
+
+                try {
+                    order.setStartDate(FORMAT.parse(start));
+                    order.setEndDate(FORMAT.parse(end));
+                }
+                catch (ParseException ex) {
+                    validationResult = ValidationResult.INVALID_DATE;
+                    LOG.error(DATE_PARSE_ERROR, ex);
+                }
+
+                if (validationResult == ValidationResult.OK) {
+                    validationResult = new RentOrderValidator(order).validate();
+                }
+                
+                if (validationResult == ValidationResult.OK) {
+                    
+                    if (order.getId() == 0)
+                        new OrderService().addOrder(order);
+                    else
+                        new OrderService().updateOrder(order);
                     
                     forward.setUrl(Actions.getActionName(
                             Actions.ORDER_COMPLETED));

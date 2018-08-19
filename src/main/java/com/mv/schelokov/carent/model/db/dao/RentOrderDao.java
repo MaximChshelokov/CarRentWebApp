@@ -37,7 +37,7 @@ public class RentOrderDao extends AbstractSqlDao<RentOrder> {
         private static final String QUERY = "SELECT rent_id,start_date,"
                 + "end_date,car,license_plate,year_of_make,price,model,"
                 + "model_name,make,make_name,user,login,approved_by,"
-                + "approver_login FROM rent_orders_full";
+                + "approver_login,available FROM rent_orders_full";
 
         @Override
         public String toSqlQuery() {
@@ -121,7 +121,7 @@ public class RentOrderDao extends AbstractSqlDao<RentOrder> {
     enum Fields {
         RENT_ID(6), START_DATE(3), END_DATE(4), CAR(1), LICENSE_PLATE, 
         YEAR_OF_MAKE, PRICE, MODEL, MODEL_NAME, MAKE, MAKE_NAME, USER(2), LOGIN, 
-        APPROVED_BY(5), APPROVER_LOGIN;
+        APPROVED_BY(5), APPROVER_LOGIN, AVAILABLE;
         
         int NUMBER;
         
@@ -175,6 +175,7 @@ public class RentOrderDao extends AbstractSqlDao<RentOrder> {
                 .withLicensePlate(rs.getString(Fields.LICENSE_PLATE.name()))
                 .inYearOfMake(rs.getInt(Fields.YEAR_OF_MAKE.name()))
                 .withPrice(rs.getInt(Fields.PRICE.name()))
+                .withAvailability(rs.getBoolean(Fields.AVAILABLE.name()))
                 .withModel(new CarModelBuilder()
                         .withId(rs.getInt(Fields.MODEL.name()))
                         .withName(rs.getString(Fields.MODEL_NAME.name()))

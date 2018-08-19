@@ -11,6 +11,7 @@ import com.mv.schelokov.carent.model.services.exceptions.ServiceException;
 import java.util.List;
 import org.apache.log4j.Logger;
 import com.mv.schelokov.carent.model.db.dao.interfaces.Dao;
+import com.mv.schelokov.carent.model.entity.builders.RentOrderBuilder;
 import com.mv.schelokov.carent.model.utils.Period;
 
 /**
@@ -59,14 +60,20 @@ public class OrderService {
         return result;
     }
     
-    public RentOrder getOrdersByUser(User user) throws ServiceException {
+    public RentOrder getOrderByUser(User user) throws ServiceException {
         Criteria criteria = new CriteriaFactory()
                 .createOrderByUserIdCriteria(user.getId());
-        List resultList = getOrdersByCriteria(criteria);
-        if (resultList.isEmpty())
-            return null;
-        RentOrder result = (RentOrder) resultList.get(0);
-        calculateSum(result);
+        List<RentOrder> resultList = getOrdersByCriteria(criteria);
+        RentOrder result = new RentOrderBuilder()
+                .byUser(user)
+                .getRentOrder();
+        for (RentOrder order : resultList)
+            if (order.getApprovedBy() == null || !order.getCar().isAvailable()) {
+                result = order;
+                break;
+            }
+        if (result.getCar() != null)
+            calculateSum(result);
         return result;
     }
     
