@@ -24,4 +24,5 @@ public class ValidationResult {
     public static final int PASSWORDS_NOT_MATCH = 16;
     public static final int SAME_LOGIN = 17;
     public static final int USER_NOT_FOUND = 18;
+    public static final int INVALID_AMOUNT = 19;
 }

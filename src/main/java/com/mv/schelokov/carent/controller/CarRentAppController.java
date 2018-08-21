@@ -27,7 +27,9 @@ public class CarRentAppController extends HttpServlet {
             throws ServletException, IOException {
         ActionFactory actionFactory = new ActionFactory();
         Action action = actionFactory.createAction(request);
-        request.setAttribute("URL", request.getRequestURI());
+        request.setAttribute("URL", request.getQueryString() != null ? 
+                String.join("", request.getRequestURI(), "?", request.getQueryString())
+                : request.getRequestURI());
 
         if (action == null) {
             response.sendError(HttpURLConnection.HTTP_NOT_FOUND);
