@@ -45,7 +45,7 @@ public class CarDao extends AbstractSqlDao<Car> {
         private static final String QUERY = " WHERE available=b'1'";
         @Override
         public String toSqlQuery() {
-            return super.toSqlQuery() + QUERY;
+            return super.toSqlQuery().concat(QUERY);
         }
     }
     
@@ -62,7 +62,7 @@ public class CarDao extends AbstractSqlDao<Car> {
 
         @Override
         public String toSqlQuery() {
-            return super.toSqlQuery() + QUERY;
+            return super.toSqlQuery().concat(QUERY);
         }
 
         @Override

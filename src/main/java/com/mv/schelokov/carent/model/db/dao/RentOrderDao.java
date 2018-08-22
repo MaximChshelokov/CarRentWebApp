@@ -53,7 +53,7 @@ public class RentOrderDao extends AbstractSqlDao<RentOrder> {
         
         @Override
         public String toSqlQuery() {
-            return super.toSqlQuery() + QUERY;
+            return super.toSqlQuery().concat(QUERY);
         }
     }
     
@@ -63,7 +63,7 @@ public class RentOrderDao extends AbstractSqlDao<RentOrder> {
 
         @Override
         public String toSqlQuery() {
-            return super.toSqlQuery() + QUERY;
+            return super.toSqlQuery().concat(QUERY);
         }
     }
     
@@ -78,7 +78,7 @@ public class RentOrderDao extends AbstractSqlDao<RentOrder> {
         
         @Override
         public String toSqlQuery() {
-            return super.toSqlQuery() + QUERY;
+            return super.toSqlQuery().concat(QUERY);
         }
         
         @Override
@@ -98,7 +98,7 @@ public class RentOrderDao extends AbstractSqlDao<RentOrder> {
 
         @Override
         public String toSqlQuery() {
-            return super.toSqlQuery() + QUERY;
+            return super.toSqlQuery().concat(QUERY);
         }
 
         @Override

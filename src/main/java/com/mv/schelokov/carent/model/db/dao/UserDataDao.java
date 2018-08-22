@@ -54,7 +54,7 @@ public class UserDataDao extends AbstractSqlDao<UserData> {
 
         @Override
         public String toSqlQuery() {
-            return super.toSqlQuery() + QUERY;
+            return super.toSqlQuery().concat(QUERY);
         }
 
         @Override

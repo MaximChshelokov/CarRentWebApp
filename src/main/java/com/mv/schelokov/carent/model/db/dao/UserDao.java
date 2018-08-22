@@ -47,7 +47,7 @@ public class UserDao extends AbstractSqlDao<User> {
 
         @Override
         public String toSqlQuery() {
-            return super.toSqlQuery() + QUERY;
+            return super.toSqlQuery().concat(QUERY);
         }
 
         @Override
@@ -68,7 +68,7 @@ public class UserDao extends AbstractSqlDao<User> {
 
         @Override
         public String toSqlQuery() {
-            return super.toSqlQuery() + QUERY;
+            return super.toSqlQuery().concat(QUERY);
         }
 
         @Override
@@ -94,7 +94,7 @@ public class UserDao extends AbstractSqlDao<User> {
 
         @Override
         public String toSqlQuery() {
-            return super.toSqlQuery() + QUERY;
+            return super.toSqlQuery().concat(QUERY);
         }
 
         @Override

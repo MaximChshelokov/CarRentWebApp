@@ -48,7 +48,7 @@ public class CarModelDao extends AbstractSqlDao<CarModel> {
         
         @Override
         public String toSqlQuery() {
-            return super.toSqlQuery() + QUERY;
+            return super.toSqlQuery().concat(QUERY);
         }
         
         @Override
