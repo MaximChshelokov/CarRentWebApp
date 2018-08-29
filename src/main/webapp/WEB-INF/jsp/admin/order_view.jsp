@@ -13,6 +13,7 @@
     <fmt:message key="application.table.delete" var="delete"/>
     <fmt:message key="application.table.confirm" var="confirm"/>
     <fmt:message key="admin-order-view.approve" var="approve"/>
+    <fmt:message key="admin-order-view.reject" var="reject"/>
     <fmt:message key="admin-order-view.caption" var="caption"/>
 </fmt:bundle>
 <t:generic>
@@ -95,7 +96,7 @@
                                         <th><fmt:message key="start"/></th>
                                         <th><fmt:message key="end"/></th>
                                         <th><fmt:message key="sum"/></th>
-                                        <th><fmt:message key="approved"/></th>
+                                        <th><fmt:message key="reviewer"/></th>
                                         </fmt:bundle>
                                 </tr>
                             </thead>
@@ -129,6 +130,11 @@
                                <c:param name="id" value="${order.id}"/>
                            </c:url>" class="button"><c:out value="${approve}"/></a>
                     </li>
+                    <li>
+                        <a href="<c:url value="action/rejection_reason">
+                               <c:param name="id" value="${order.id}"/>
+                           </c:url>" class="button"><c:out value="${reject}"/></a>
+                    </li>   
                 </ul>
             </div>
         </div>

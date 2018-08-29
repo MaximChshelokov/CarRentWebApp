@@ -5,7 +5,7 @@ import com.mv.schelokov.carent.actions.JspForward;
 import com.mv.schelokov.carent.actions.consts.Actions;
 import com.mv.schelokov.carent.actions.exceptions.ActionException;
 import com.mv.schelokov.carent.model.entity.builders.RentOrderBuilder;
-import com.mv.schelokov.carent.model.services.OrderService;
+import com.mv.schelokov.carent.model.services.RentOrderService;
 import com.mv.schelokov.carent.model.services.exceptions.ServiceException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,7 +31,7 @@ public class DeleteOrderAction extends AbstractAction {
                 throw new ActionException(WRONG_ID);
             }
             try {
-                new OrderService().deleteOrder(new RentOrderBuilder()
+                new RentOrderService().deleteOrder(new RentOrderBuilder()
                         .withId(orderId)
                         .getRentOrder());
                 

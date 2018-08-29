@@ -10,7 +10,7 @@ import com.mv.schelokov.carent.model.entity.RentOrder;
 import com.mv.schelokov.carent.model.entity.builders.InvoiceLineBuilder;
 import com.mv.schelokov.carent.model.services.CarService;
 import com.mv.schelokov.carent.model.services.InvoiceLineService;
-import com.mv.schelokov.carent.model.services.OrderService;
+import com.mv.schelokov.carent.model.services.RentOrderService;
 import com.mv.schelokov.carent.model.services.exceptions.ServiceException;
 import com.mv.schelokov.carent.model.validators.InvoiceLineValidator;
 import com.mv.schelokov.carent.model.validators.ValidationResult;
@@ -41,7 +41,7 @@ public class CloseOrderAction extends AbstractAction {
                 throw new ActionException(WRONG_ID);
             }
             try {
-                RentOrder order = (RentOrder) new OrderService()
+                RentOrder order = (RentOrder) new RentOrderService()
                         .getOrderById(invoiceId);
                 
                 if (req.getParameter("fine-check") != null &&

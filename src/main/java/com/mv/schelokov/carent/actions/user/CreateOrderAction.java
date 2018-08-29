@@ -10,7 +10,7 @@ import com.mv.schelokov.carent.model.entity.RentOrder;
 import com.mv.schelokov.carent.model.entity.User;
 import com.mv.schelokov.carent.model.entity.builders.CarBuilder;
 import com.mv.schelokov.carent.model.services.CarService;
-import com.mv.schelokov.carent.model.services.OrderService;
+import com.mv.schelokov.carent.model.services.RentOrderService;
 import com.mv.schelokov.carent.model.services.exceptions.ServiceException;
 import com.mv.schelokov.carent.model.validators.RentOrderValidator;
 import com.mv.schelokov.carent.model.validators.ValidationResult;
@@ -44,7 +44,7 @@ public class CreateOrderAction extends AbstractAction {
             
             try {
                 
-                RentOrder order = new OrderService()
+                RentOrder order = new RentOrderService()
                         .getOrderByUser(user);
                 
                 order.setCar(new CarBuilder()
@@ -69,9 +69,9 @@ public class CreateOrderAction extends AbstractAction {
                 if (validationResult == ValidationResult.OK) {
                     
                     if (order.getId() == 0)
-                        new OrderService().addOrder(order);
+                        new RentOrderService().addOrder(order);
                     else
-                        new OrderService().updateOrder(order);
+                        new RentOrderService().updateOrder(order);
                     
                     forward.setUrl(Actions.getActionName(
                             Actions.ORDER_COMPLETED));

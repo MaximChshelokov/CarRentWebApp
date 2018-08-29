@@ -23,9 +23,11 @@ import com.mv.schelokov.carent.actions.admin.EditUserPageAction;
 import com.mv.schelokov.carent.actions.admin.OpenedOrdersPageAction;
 import com.mv.schelokov.carent.actions.admin.OrderListAction;
 import com.mv.schelokov.carent.actions.admin.OrderViewPageAction;
+import com.mv.schelokov.carent.actions.admin.RejectionReasonPageAction;
 import com.mv.schelokov.carent.actions.admin.UsersListAction;
 import com.mv.schelokov.carent.actions.admin.UpdateCarAction;
 import com.mv.schelokov.carent.actions.admin.UpdateOrderAction;
+import com.mv.schelokov.carent.actions.admin.UpdateRejectionReasonAction;
 import com.mv.schelokov.carent.actions.admin.UpdateUserAction;
 import com.mv.schelokov.carent.actions.consts.Actions;
 import com.mv.schelokov.carent.actions.user.CreateOrderAction;
@@ -89,6 +91,8 @@ public class ActionFactory {
         ACTIONS.put(Actions.CHANGE_LOCALE, new ChangeLocaleAction());
         ACTIONS.put(Actions.WELCOME, new WelcomePageAction());
         ACTIONS.put(Actions.ALREADY_RENTED, new AlreadyRentedPageAction());
+        ACTIONS.put(Actions.REJECTION_REASON, new RejectionReasonPageAction());
+        ACTIONS.put(Actions.UPDATE_REASON, new UpdateRejectionReasonAction());
     }
     
     public Action createAction(HttpServletRequest req) {

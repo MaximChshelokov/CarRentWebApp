@@ -1,6 +1,7 @@
 package com.mv.schelokov.carent.model.entity.builders;
 
 import com.mv.schelokov.carent.model.entity.Car;
+import com.mv.schelokov.carent.model.entity.RejectionReason;
 import com.mv.schelokov.carent.model.entity.RentOrder;
 import com.mv.schelokov.carent.model.entity.User;
 import java.util.Date;
@@ -44,6 +45,11 @@ public class RentOrderBuilder {
     
     public RentOrderBuilder approvedBy(User approvedBy) {
         this.rentOrder.setApprovedBy(approvedBy);
+        return this;
+    }
+    
+    public RentOrderBuilder rejectedDueReason(RejectionReason rejectionReason) {
+        this.rentOrder.setRejectionReason(rejectionReason);
         return this;
     }
     

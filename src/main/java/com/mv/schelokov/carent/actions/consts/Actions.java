@@ -43,6 +43,8 @@ public class Actions {
     public static final String CHANGE_LOCALE = "change_locale";
     public static final String WELCOME = "welcome";
     public static final String ALREADY_RENTED = "already_rented";
+    public static final String REJECTION_REASON = "rejection_reason";
+    public static final String UPDATE_REASON = "update_reason";
     private static final String ACTION = "action";
     
     public static String getActionName(String action) {

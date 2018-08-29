@@ -9,7 +9,7 @@ import com.mv.schelokov.carent.actions.exceptions.ActionException;
 import com.mv.schelokov.carent.model.entity.RentOrder;
 import com.mv.schelokov.carent.model.entity.User;
 import com.mv.schelokov.carent.model.services.CarService;
-import com.mv.schelokov.carent.model.services.OrderService;
+import com.mv.schelokov.carent.model.services.RentOrderService;
 import com.mv.schelokov.carent.model.services.exceptions.ServiceException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,8 +36,8 @@ public class SelectCarPageAction extends AbstractAction {
             User user = (User) req.getSession().getAttribute(SessionAttr.USER);
 
             try {
-                RentOrder order = new OrderService().getOrderByUser(user);
-                if (order.getApprovedBy() != null && 
+                RentOrder order = new RentOrderService().getOrderByUser(user);
+                if (order.getApprovedBy().getLogin() != null && 
                         !order.getCar().isAvailable()) {
                     forward.setUrl(Actions.getActionName(Actions.ALREADY_RENTED));
                     forward.setRedirect(true);

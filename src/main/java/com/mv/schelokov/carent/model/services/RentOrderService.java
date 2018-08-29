@@ -18,9 +18,9 @@ import com.mv.schelokov.carent.model.utils.Period;
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
-public class OrderService {
+public class RentOrderService {
     
-    private static final Logger LOG = Logger.getLogger(OrderService.class);
+    private static final Logger LOG = Logger.getLogger(RentOrderService.class);
     private static final String ORDER_DAO_ERROR = "Failed to get an order "
             + "list form the dao by the criteria";
     private static final String CREATE_ERROR = "Failed to create an order";
@@ -68,12 +68,35 @@ public class OrderService {
                 .byUser(user)
                 .getRentOrder();
         for (RentOrder order : resultList)
-            if (order.getApprovedBy() == null || !order.getCar().isAvailable()) {
+            if (order.getApprovedBy().getLogin() == null
+                    || !order.getCar().isAvailable()
+                    && order.getRejectionReason().getReason() == null) {
                 result = order;
                 break;
             }
         if (result.getCar() != null)
             calculateSum(result);
+        return result;
+    }
+    
+    public RentOrder getRejectedOrderByUser(User user) throws ServiceException {
+        Criteria criteria = new CriteriaFactory()
+                .createOrderByUserIdCriteria(user.getId());
+        List<RentOrder> resultList = getOrdersByCriteria(criteria);
+        RentOrder result = new RentOrderBuilder()
+                .byUser(user)
+                .getRentOrder();
+        for (RentOrder order : resultList) {
+            if (order.getApprovedBy().getLogin() == null
+                    || !order.getCar().isAvailable()
+                    || order.getRejectionReason().getReason() != null) {
+                result = order;
+                break;
+            }
+        }
+        if (result.getCar() != null) {
+            calculateSum(result);
+        }
         return result;
     }
     

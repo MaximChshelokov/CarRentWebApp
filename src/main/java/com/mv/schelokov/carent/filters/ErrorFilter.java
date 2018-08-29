@@ -41,6 +41,7 @@ public class ErrorFilter implements Filter {
         ERROR_MESSAGE.put(ValidationResult.PASSWORDS_NOT_MATCH, "editor.error-match");
         ERROR_MESSAGE.put(ValidationResult.SAME_LOGIN, "editor.error-login");
         ERROR_MESSAGE.put(ValidationResult.USER_NOT_FOUND, "editor.error-user-not-found");
+        ERROR_MESSAGE.put(ValidationResult.REASON_TEXT_TOO_LONG, "editor.error-reason-too-long");
     }
     
     @Override

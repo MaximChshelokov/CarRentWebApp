@@ -19,6 +19,7 @@ public class RentOrder implements Entity {
     private Date startDate;
     private Date endDate;
     private int sum;
+    private RejectionReason rejectionReason;
 
     /**
      * @return the id
@@ -118,15 +119,31 @@ public class RentOrder implements Entity {
         this.sum = sum;
     }
 
+    /**
+     * @return the rejectionReason
+     */
+    public RejectionReason getRejectionReason() {
+        return rejectionReason;
+    }
+
+    /**
+     * @param rejectionReason the rejectionReason to set
+     */
+    public void setRejectionReason(RejectionReason rejectionReason) {
+        this.rejectionReason = rejectionReason;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 79 * hash + this.id;
-        hash = 79 * hash + Objects.hashCode(this.car);
-        hash = 79 * hash + Objects.hashCode(this.user);
-        hash = 79 * hash + Objects.hashCode(this.approvedBy);
-        hash = 79 * hash + Objects.hashCode(this.startDate);
-        hash = 79 * hash + Objects.hashCode(this.endDate);
+        hash = 17 * hash + this.id;
+        hash = 17 * hash + Objects.hashCode(this.car);
+        hash = 17 * hash + Objects.hashCode(this.user);
+        hash = 17 * hash + Objects.hashCode(this.approvedBy);
+        hash = 17 * hash + Objects.hashCode(this.startDate);
+        hash = 17 * hash + Objects.hashCode(this.endDate);
+        hash = 17 * hash + this.sum;
+        hash = 17 * hash + Objects.hashCode(this.rejectionReason);
         return hash;
     }
 
@@ -145,6 +162,9 @@ public class RentOrder implements Entity {
         if (this.id != other.id) {
             return false;
         }
+        if (this.sum != other.sum) {
+            return false;
+        }
         if (!Objects.equals(this.car, other.car)) {
             return false;
         }
@@ -160,12 +180,18 @@ public class RentOrder implements Entity {
         if (!Objects.equals(this.endDate, other.endDate)) {
             return false;
         }
+        if (!Objects.equals(this.rejectionReason, other.rejectionReason)) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "RentOrder{" + "id=" + id + ", car=" + car + ", user=" + user + ", approvedBy=" + approvedBy + ", startDate=" + startDate + ", endDate=" + endDate + '}';
-    }    
+        return "RentOrder{" + "id=" + id + ", car=" + car + ", user=" + user +
+                ", approvedBy=" + approvedBy + ", startDate=" + startDate +
+                ", endDate=" + endDate + ", sum=" + sum + ", rejectionReason="
+                + rejectionReason + '}';
+    }
 
 }

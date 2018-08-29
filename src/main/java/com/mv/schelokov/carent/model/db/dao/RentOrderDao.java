@@ -8,6 +8,7 @@ import com.mv.schelokov.carent.model.entity.RentOrder;
 import com.mv.schelokov.carent.model.entity.builders.CarBuilder;
 import com.mv.schelokov.carent.model.entity.builders.CarMakeBuilder;
 import com.mv.schelokov.carent.model.entity.builders.CarModelBuilder;
+import com.mv.schelokov.carent.model.entity.builders.RejectionReasonBuilder;
 import com.mv.schelokov.carent.model.entity.builders.RentOrderBuilder;
 import com.mv.schelokov.carent.model.entity.builders.UserBuilder;
 import java.sql.Connection;
@@ -37,7 +38,7 @@ public class RentOrderDao extends AbstractSqlDao<RentOrder> {
         private static final String QUERY = "SELECT rent_id,start_date,"
                 + "end_date,car,license_plate,year_of_make,price,model,"
                 + "model_name,make,make_name,user,login,approved_by,"
-                + "approver_login,available FROM rent_orders_full";
+                + "approver_login,available,reason FROM rent_orders_full";
 
         @Override
         public String toSqlQuery() {
@@ -59,7 +60,7 @@ public class RentOrderDao extends AbstractSqlDao<RentOrder> {
     
     public static class OpenedOrdersCriteria extends SelectAllCriteria {
         private static final String QUERY = " WHERE available=b'0' AND"
-                + " approved_by IS NOT NULL";
+                + " approved_by IS NOT NULL AND reason IS NULL";
 
         @Override
         public String toSqlQuery() {
@@ -121,7 +122,7 @@ public class RentOrderDao extends AbstractSqlDao<RentOrder> {
     enum Fields {
         RENT_ID(6), START_DATE(3), END_DATE(4), CAR(1), LICENSE_PLATE, 
         YEAR_OF_MAKE, PRICE, MODEL, MODEL_NAME, MAKE, MAKE_NAME, USER(2), LOGIN, 
-        APPROVED_BY(5), APPROVER_LOGIN, AVAILABLE;
+        APPROVED_BY(5), APPROVER_LOGIN, AVAILABLE, REASON;
         
         int NUMBER;
         
@@ -166,6 +167,10 @@ public class RentOrderDao extends AbstractSqlDao<RentOrder> {
                         .withId(rs.getInt(Fields.APPROVED_BY.name()))
                         .withLogin(rs.getString(Fields.APPROVER_LOGIN.name()))
                         .getUser())
+                .rejectedDueReason(new RejectionReasonBuilder()
+                        .withId(rs.getInt(Fields.RENT_ID.name()))
+                        .dueReason(rs.getString(Fields.REASON.name()))
+                        .getRejectionReason())
                 .getRentOrder();
     }
     

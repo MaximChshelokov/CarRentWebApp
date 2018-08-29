@@ -4,7 +4,7 @@ import com.mv.schelokov.carent.actions.interfaces.AbstractAction;
 import com.mv.schelokov.carent.actions.JspForward;
 import com.mv.schelokov.carent.actions.consts.Jsps;
 import com.mv.schelokov.carent.actions.exceptions.ActionException;
-import com.mv.schelokov.carent.model.services.OrderService;
+import com.mv.schelokov.carent.model.services.RentOrderService;
 import com.mv.schelokov.carent.model.services.exceptions.ServiceException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,7 +27,7 @@ public class OpenedOrdersPageAction extends AbstractAction {
         
         if (isAdmin(req)) {
             try {
-                req.setAttribute(ORDER_LIST, new OrderService()
+                req.setAttribute(ORDER_LIST, new RentOrderService()
                         .getOpenedOrders());
                 
                 forward.setUrl(Jsps.ADMIN_OPENED_ORDERS);

@@ -10,7 +10,7 @@ import com.mv.schelokov.carent.model.entity.RentOrder;
 import com.mv.schelokov.carent.model.entity.User;
 import com.mv.schelokov.carent.model.services.CarService;
 import com.mv.schelokov.carent.model.services.InvoiceService;
-import com.mv.schelokov.carent.model.services.OrderService;
+import com.mv.schelokov.carent.model.services.RentOrderService;
 import com.mv.schelokov.carent.model.services.exceptions.ServiceException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,7 +24,6 @@ public class ApproveOrderAction extends AbstractAction {
     
     private static final Logger LOG = Logger.getLogger(ApproveOrderAction.class);
     private static final String ERROR = "Failed to update order";
-    private static final String WRONG_ID = "Wrong id parameter for order entity";
 
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
@@ -37,7 +36,7 @@ public class ApproveOrderAction extends AbstractAction {
                 throw new ActionException(WRONG_ID);
             }
             try {
-                OrderService orderService = new OrderService();
+                RentOrderService orderService = new RentOrderService();
                 RentOrder order = (RentOrder) orderService.getOrderById(orderId);
                 order.setApprovedBy((User) req.getSession()
                         .getAttribute(SessionAttr.USER));

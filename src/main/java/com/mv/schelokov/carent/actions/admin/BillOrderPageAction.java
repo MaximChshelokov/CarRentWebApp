@@ -9,7 +9,7 @@ import com.mv.schelokov.carent.model.entity.RentOrder;
 import com.mv.schelokov.carent.model.services.CarService;
 import com.mv.schelokov.carent.model.services.InvoiceLineService;
 import com.mv.schelokov.carent.model.services.InvoiceService;
-import com.mv.schelokov.carent.model.services.OrderService;
+import com.mv.schelokov.carent.model.services.RentOrderService;
 import com.mv.schelokov.carent.model.services.UserDataService;
 import com.mv.schelokov.carent.model.services.exceptions.ServiceException;
 import javax.servlet.http.HttpServletRequest;
@@ -35,7 +35,7 @@ public class BillOrderPageAction extends AbstractAction {
             if (orderId < 1)
                 throw new ActionException(WRONG_ID);
             try {
-                RentOrder order = new OrderService()
+                RentOrder order = new RentOrderService()
                         .getOrderById(orderId);
                 InvoiceService invoiceService = new InvoiceService();
                 invoiceService.recalculateInvoice(order);

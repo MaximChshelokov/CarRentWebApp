@@ -5,6 +5,7 @@ import com.mv.schelokov.carent.model.db.dao.InvoiceLineDao;
 import com.mv.schelokov.carent.model.db.dao.InvoiceDao;
 import com.mv.schelokov.carent.model.db.dao.CarMakeDao;
 import com.mv.schelokov.carent.model.db.dao.CarModelDao;
+import com.mv.schelokov.carent.model.db.dao.RejectionReasonDao;
 import com.mv.schelokov.carent.model.db.dao.RentOrderDao;
 import com.mv.schelokov.carent.model.db.dao.RoleDao;
 import com.mv.schelokov.carent.model.db.dao.UserDataDao;
@@ -98,6 +99,10 @@ public class CriteriaFactory {
     
     public Criteria createInvoiceLinesByInvoiceIdCriteria(int id) {
         return new InvoiceLineDao.FindByInvoiceIdCriteria(id);
+    }
+    
+    public Criteria createRejectionReasonByIdCriteria(int id) {
+        return new RejectionReasonDao.FindByIdCriteria(id);
     }
     
 }

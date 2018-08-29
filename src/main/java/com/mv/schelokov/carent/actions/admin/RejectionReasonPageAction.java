@@ -1,9 +1,9 @@
 package com.mv.schelokov.carent.actions.admin;
 
-import com.mv.schelokov.carent.actions.interfaces.AbstractAction;
 import com.mv.schelokov.carent.actions.JspForward;
 import com.mv.schelokov.carent.actions.consts.Jsps;
 import com.mv.schelokov.carent.actions.exceptions.ActionException;
+import com.mv.schelokov.carent.actions.interfaces.AbstractAction;
 import com.mv.schelokov.carent.model.services.RentOrderService;
 import com.mv.schelokov.carent.model.services.exceptions.ServiceException;
 import javax.servlet.http.HttpServletRequest;
@@ -14,35 +14,34 @@ import org.apache.log4j.Logger;
  *
  * @author Maxim Chshelokov <schelokov.mv@gmail.com>
  */
-public class OrderListAction extends AbstractAction {
+public class RejectionReasonPageAction extends AbstractAction {
     
-    private static final Logger LOG = Logger.getLogger(OrderListAction.class);
-    private static final String ERROR = "Unable to prepare order list page";
-            
+    private static final Logger LOG = Logger.getLogger(RejectionReasonPageAction.class);
+    private static final String SERVICE_ERROR = "Unable to get order from service";
 
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
             throws ActionException {
-        
+
         JspForward forward = new JspForward();
-        
+
         if (isAdmin(req)) {
             try {
-                req.setAttribute(ORDER_LIST, new RentOrderService()
-                        .getAllOrders());
-                
-                forward.setUrl(Jsps.ADMIN_ORDER_LIST);
-                
-                return forward;
-            } catch (ServiceException ex) {
-                LOG.error(ERROR, ex);
-                throw new ActionException(ERROR, ex);
+            int orderId = getIntParam(req, ID);
+            if (orderId < 1 ||
+                    new RentOrderService().getOrderById(orderId).getId()
+                    != orderId) {
+                throw new ActionException(WRONG_ID);
             }
-            
-        } else {
-            sendForbidden(res);
+            req.setAttribute(ID, orderId);
+            } catch (ServiceException ex) {
+                LOG.error(SERVICE_ERROR, ex);
+                throw new ActionException(SERVICE_ERROR, ex);
+            }
+            forward.setUrl(Jsps.ADMIN_REJECTION_REASON);
             return forward;
         }
+        sendForbidden(res);
+        return forward;
     }
-    
 }

@@ -13,6 +13,12 @@
         <jsp:attribute name="content">
             <div class="12u">
                 <p><fmt:message key="user-welcome.message"/></p>
+                <c:if test="${not empty rent_order}">
+                    <p>
+                        <fmt:message key="user-welcome.rejected"/><br>
+                    <c:out value="${rent_order.rejectionReason.reason}"/>
+                    <p/>
+                </c:if>
                 <a href="<c:url value="action/user_data"/>" class="button"><fmt:message key="user-welcome.select"/></a>
             </div>
         </jsp:attribute>

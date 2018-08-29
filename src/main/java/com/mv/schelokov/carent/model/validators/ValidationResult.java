@@ -25,4 +25,5 @@ public class ValidationResult {
     public static final int SAME_LOGIN = 17;
     public static final int USER_NOT_FOUND = 18;
     public static final int INVALID_AMOUNT = 19;
+    public static final int REASON_TEXT_TOO_LONG = 20;
 }

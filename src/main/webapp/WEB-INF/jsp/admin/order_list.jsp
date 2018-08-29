@@ -32,7 +32,8 @@
                                         <th><fmt:message key="car"/></th>
                                         <th><fmt:message key="user"/></th>
                                         <th><fmt:message key="sum"/></th>
-                                        <th><fmt:message key="approved"/></th>
+                                        <th><fmt:message key="status"/></th>
+                                        <th><fmt:message key="reviewer"/></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -43,6 +44,11 @@
                                             <td><c:out value="${order.car.carModel.carMake.name}"/> <c:out value="${order.car.carModel.name}"/> (<c:out value="${order.car.yearOfMake}"/>)</td>
                                             <td><c:out value="${order.user.login}"/></td>
                                             <td><c:out value="${order.sum}"/></td>
+                                            <td><c:choose>
+                                                    <c:when test="${empty order.approvedBy.login}"><fmt:message key="status-not-processed"/></c:when>
+                                                    <c:when test="${empty order.rejectionReason.reason}"><fmt:message key="status-approved"/></c:when>
+                                                    <c:otherwise><fmt:message key="status-rejected"/></c:otherwise>
+                                            </c:choose></td>
                                             <td><c:out value="${order.approvedBy.login}" default="${no}"/></td>
                                             <td><a href="<c:url value="action/view_order">
                                                        <c:param name="id" value="${order.id}"/>

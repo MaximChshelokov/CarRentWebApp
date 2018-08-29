@@ -24,5 +24,6 @@ public class Jsps {
     public static final String USER_DATA = "WEB-INF/jsp/user/user_data.jsp";
     public static final String ADMIN_OPENED_ORDERS = "WEB-INF/jsp/admin/opened_orders.jsp";
     public static final String ADMIN_BILL_ORDER = "WEB-INF/jsp/admin/bill_order.jsp";
+    public static final String ADMIN_REJECTION_REASON = "WEB-INF/jsp/admin/rejection_reason.jsp";
     public static final String ERROR_PAGE = "WEB-INF/jsp/error_page.jsp";
 }

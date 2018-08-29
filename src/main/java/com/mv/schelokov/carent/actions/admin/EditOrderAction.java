@@ -6,7 +6,7 @@ import com.mv.schelokov.carent.actions.consts.Jsps;
 import com.mv.schelokov.carent.actions.exceptions.ActionException;
 import com.mv.schelokov.carent.model.entity.RentOrder;
 import com.mv.schelokov.carent.model.services.CarService;
-import com.mv.schelokov.carent.model.services.OrderService;
+import com.mv.schelokov.carent.model.services.RentOrderService;
 import com.mv.schelokov.carent.model.services.exceptions.ServiceException;
 import java.text.SimpleDateFormat;
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +33,7 @@ public class EditOrderAction extends AbstractAction {
             if (id < 1)
                 throw new ActionException(WRONG_ID);
             try {
-                RentOrder order = new OrderService().getOrderById(id);
+                RentOrder order = new RentOrderService().getOrderById(id);
                 
                 CarService carService = new CarService();
                 

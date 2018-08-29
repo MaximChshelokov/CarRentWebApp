@@ -7,6 +7,7 @@ import com.mv.schelokov.carent.model.db.dao.InvoiceLineDao;
 import com.mv.schelokov.carent.model.db.dao.InvoiceDao;
 import com.mv.schelokov.carent.model.db.dao.CarMakeDao;
 import com.mv.schelokov.carent.model.db.dao.CarModelDao;
+import com.mv.schelokov.carent.model.db.dao.RejectionReasonDao;
 import com.mv.schelokov.carent.model.db.dao.RentOrderDao;
 import com.mv.schelokov.carent.model.db.dao.RoleDao;
 import com.mv.schelokov.carent.model.db.dao.UserDataDao;
@@ -75,6 +76,10 @@ public class DaoFactory implements AutoCloseable {
     
     public Dao createUserDao() {
         return new UserDao(connection);
+    }
+    
+    public Dao createRejectionReasonDao() {
+        return new RejectionReasonDao(connection);
     }
     
     public void commit() throws DaoException {

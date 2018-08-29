@@ -9,7 +9,7 @@ import com.mv.schelokov.carent.model.entity.Invoice;
 import com.mv.schelokov.carent.model.entity.RentOrder;
 import com.mv.schelokov.carent.model.entity.User;
 import com.mv.schelokov.carent.model.services.InvoiceService;
-import com.mv.schelokov.carent.model.services.OrderService;
+import com.mv.schelokov.carent.model.services.RentOrderService;
 import com.mv.schelokov.carent.model.services.exceptions.ServiceException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,7 +32,7 @@ public class PayInvoiceAction extends AbstractAction {
         if (isUser(req)) {
             User user = (User) req.getSession().getAttribute(SessionAttr.USER);
             try {
-                RentOrder order = new OrderService()
+                RentOrder order = new RentOrderService()
                         .getOrderByUser(user);
                 
                 InvoiceService invoiceService = new InvoiceService();
