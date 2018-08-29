@@ -15,6 +15,12 @@
     <fmt:message key="admin-order-view.approve" var="approve"/>
     <fmt:message key="admin-order-view.reject" var="reject"/>
     <fmt:message key="admin-order-view.caption" var="caption"/>
+    <fmt:message key="admin-bill-order.no-userdata" var="no_user_data"/>
+    <fmt:message key="admin-bill-order.no-car" var="no_car_data"/>
+    <fmt:message key="admin-order-view.no-order-data" var="no_order_data"/>
+    <fmt:message key="admin-order-list.car" var="car_title"/>
+    <fmt:message key="admin-order-view.user" var="user_title"/>
+    <fmt:message key="admin-order-view.rent-order" var="rent_order_details"/>
 </fmt:bundle>
 <t:generic>
     <jsp:attribute name="content">
@@ -22,10 +28,10 @@
             <h3><c:out value="${caption}"/></h3>
         </header>
         <div class="12u">
-            <h4>User</h4>
+            <h4><c:out value="${user_title}"/></h4>
             <c:choose>
                 <c:when test="${empty user_data}">
-                    <p>The user hasn't provided any data</p>
+                    <p><c:out value="${no_user_data}"/></p>
                 </c:when>
                 <c:otherwise>
                     <div class="table-wrapper">
@@ -52,10 +58,10 @@
                     </div>
                 </c:otherwise>
             </c:choose>
-            <h4>Car</h4>
+                    <h4><c:out value="${car_title}"/></h4>
             <c:choose>
                 <c:when test="${empty car}">
-                    <p>There is no information about the car</p>
+                    <p><c:out value="${no_car_data}"/></p>
                 </c:when>
                 <c:otherwise>
                     <div class="table-wrapper">
@@ -82,10 +88,10 @@
                     </div>
                 </c:otherwise>
             </c:choose>
-            <h4>Rent order details</h4>
+                    <h4><c:out value="rent_order_details"/></h4>
             <c:choose>
                 <c:when test="${empty order}">
-                    <p>There is no information about the order</p>
+                    <p><c:out value="no_order_data"/></p>
                 </c:when>
                 <c:otherwise>
                     <div class="table-wrapper">
