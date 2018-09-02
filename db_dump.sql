@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `car_rent` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `car_rent`;
--- MySQL dump 10.13  Distrib 5.7.22, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.23, for Linux (x86_64)
 --
 -- Host: localhost    Database: car_rent
 -- ------------------------------------------------------
--- Server version	5.7.22-0ubuntu0.16.04.1
+-- Server version	5.7.23-0ubuntu0.16.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -43,7 +43,7 @@ CREATE TABLE `cars` (
 
 LOCK TABLES `cars` WRITE;
 /*!40000 ALTER TABLE `cars` DISABLE KEYS */;
-INSERT INTO `cars` VALUES (1,1,'235sum09',2010,5000,''),(2,2,'734cum09',2012,7000,'');
+INSERT INTO `cars` VALUES (1,1,'235sum09',2010,5000,_binary ''),(2,2,'734cum09',2012,7000,_binary '');
 /*!40000 ALTER TABLE `cars` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -80,7 +80,7 @@ CREATE TABLE `invoice_lines` (
   `details` varchar(100) NOT NULL,
   `amount` int(11) NOT NULL,
   PRIMARY KEY (`line_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -199,6 +199,30 @@ SET character_set_client = utf8;
 SET character_set_client = @saved_cs_client;
 
 --
+-- Table structure for table `rejection_reasons`
+--
+
+DROP TABLE IF EXISTS `rejection_reasons`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `rejection_reasons` (
+  `reason_id` int(11) NOT NULL,
+  `reason` varchar(100) NOT NULL,
+  PRIMARY KEY (`reason_id`),
+  CONSTRAINT `fk_rejection_reasons_1` FOREIGN KEY (`reason_id`) REFERENCES `rent_orders` (`rent_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `rejection_reasons`
+--
+
+LOCK TABLES `rejection_reasons` WRITE;
+/*!40000 ALTER TABLE `rejection_reasons` DISABLE KEYS */;
+/*!40000 ALTER TABLE `rejection_reasons` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `rent_orders`
 --
 
@@ -219,7 +243,7 @@ CREATE TABLE `rent_orders` (
   CONSTRAINT `fk_rent_orders_1` FOREIGN KEY (`car`) REFERENCES `cars` (`car_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_rent_orders_2` FOREIGN KEY (`user`) REFERENCES `users` (`user_id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   CONSTRAINT `fk_rent_orders_3` FOREIGN KEY (`approved_by`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -228,7 +252,6 @@ CREATE TABLE `rent_orders` (
 
 LOCK TABLES `rent_orders` WRITE;
 /*!40000 ALTER TABLE `rent_orders` DISABLE KEYS */;
-INSERT INTO `rent_orders` VALUES (1,1,3,'2018-07-24','2018-07-26',NULL);
 /*!40000 ALTER TABLE `rent_orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -256,7 +279,8 @@ SET character_set_client = utf8;
  1 AS `login`,
  1 AS `approved_by`,
  1 AS `approver_login`,
- 1 AS `available`*/;
+ 1 AS `available`,
+ 1 AS `reason`*/;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -298,7 +322,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`user_id`),
   KEY `fk_users_1_idx` (`role`),
   CONSTRAINT `fk_users_1` FOREIGN KEY (`role`) REFERENCES `roles` (`role_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -307,7 +331,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (2,'admin@mail.com','f118d3bf958ddd3eff6d0f91242299e147bd101dc09a943afee1e83776a9cca71bac7d00393d56f4fba2db221eb0a8e74c6fd83b6a53db4c204366887fcbda76',1),(3,'client@mail.com','a81a840b05c3beb88384df56925f654705e025119c9f8adb20a50c4cbc82f4a9cf205e2f75cc5394bbfb432233791cd2f0c58e5e22a4f70cc378999ec5942968',2);
+INSERT INTO `users` VALUES (2,'admin@mail.com','f118d3bf958ddd3eff6d0f91242299e147bd101dc09a943afee1e83776a9cca71bac7d00393d56f4fba2db221eb0a8e74c6fd83b6a53db4c204366887fcbda76',1),(3,'client@mail.com','a81a840b05c3beb88384df56925f654705e025119c9f8adb20a50c4cbc82f4a9cf205e2f75cc5394bbfb432233791cd2f0c58e5e22a4f70cc378999ec5942968',2),(4,'client1@mail.com','d366c2e8507ead11cd5648c7e9c99ae7cfc278591d7d07495d373521db52b01a9adf4024fff3b4fb87fa2e997683dab106115df8bc97aa9048c580d1990d4534',2);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -334,7 +358,7 @@ CREATE TABLE `users_data` (
 
 LOCK TABLES `users_data` WRITE;
 /*!40000 ALTER TABLE `users_data` DISABLE KEYS */;
-INSERT INTO `users_data` VALUES (3,'Иванов Иван Иванович','ул. Бассеитовой 23, кв. 15','77755352354');
+INSERT INTO `users_data` VALUES (3,'Иванов Иван Иванович','ул. Бассеитовой 23, кв. 15','77755352354'),(4,'Есенбек Нургали','Бухар Жырау, 20, 85','77055071221');
 /*!40000 ALTER TABLE `users_data` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -441,7 +465,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `rent_orders_full` AS select `rent_orders`.`rent_id` AS `rent_id`,`rent_orders`.`start_date` AS `start_date`,`rent_orders`.`end_date` AS `end_date`,`rent_orders`.`car` AS `car`,`cars`.`license_plate` AS `license_plate`,`cars`.`year_of_make` AS `year_of_make`,`cars`.`price` AS `price`,`cars`.`model` AS `model`,`m`.`name` AS `model_name`,`m`.`make` AS `make`,`k`.`name` AS `make_name`,`rent_orders`.`user` AS `user`,`u`.`login` AS `login`,`rent_orders`.`approved_by` AS `approved_by`,`a`.`login` AS `approver_login`,`cars`.`available` AS `available` from (((((`rent_orders` left join `cars` on((`rent_orders`.`car` = `cars`.`car_id`))) left join `models` `m` on((`cars`.`model` = `m`.`model_id`))) left join `makes` `k` on((`m`.`make` = `k`.`make_id`))) left join `users` `u` on((`rent_orders`.`user` = `u`.`user_id`))) left join `users` `a` on((`rent_orders`.`approved_by` = `a`.`user_id`))) */;
+/*!50001 VIEW `rent_orders_full` AS select `rent_orders`.`rent_id` AS `rent_id`,`rent_orders`.`start_date` AS `start_date`,`rent_orders`.`end_date` AS `end_date`,`rent_orders`.`car` AS `car`,`cars`.`license_plate` AS `license_plate`,`cars`.`year_of_make` AS `year_of_make`,`cars`.`price` AS `price`,`cars`.`model` AS `model`,`m`.`name` AS `model_name`,`m`.`make` AS `make`,`k`.`name` AS `make_name`,`rent_orders`.`user` AS `user`,`u`.`login` AS `login`,`rent_orders`.`approved_by` AS `approved_by`,`a`.`login` AS `approver_login`,`cars`.`available` AS `available`,`rejection_reasons`.`reason` AS `reason` from ((((((`rent_orders` left join `cars` on((`rent_orders`.`car` = `cars`.`car_id`))) left join `models` `m` on((`cars`.`model` = `m`.`model_id`))) left join `makes` `k` on((`m`.`make` = `k`.`make_id`))) left join `users` `u` on((`rent_orders`.`user` = `u`.`user_id`))) left join `users` `a` on((`rent_orders`.`approved_by` = `a`.`user_id`))) left join `rejection_reasons` on((`rejection_reasons`.`reason_id` = `rent_orders`.`rent_id`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -491,4 +515,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-31 17:27:08
+-- Dump completed on 2018-09-02 14:37:43
