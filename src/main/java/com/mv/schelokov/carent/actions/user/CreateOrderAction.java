@@ -45,7 +45,7 @@ public class CreateOrderAction extends AbstractAction {
             try {
                 
                 RentOrder order = new RentOrderService()
-                        .getOrderByUser(user);
+                        .getLastOrderByUser(user);
                 
                 order.setCar(new CarBuilder()
                         .withId(getIntParam(req, SELECTED_CAR))

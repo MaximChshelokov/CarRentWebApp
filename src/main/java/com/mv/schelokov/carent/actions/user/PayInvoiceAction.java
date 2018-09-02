@@ -33,7 +33,7 @@ public class PayInvoiceAction extends AbstractAction {
             User user = (User) req.getSession().getAttribute(SessionAttr.USER);
             try {
                 RentOrder order = new RentOrderService()
-                        .getOrderByUser(user);
+                        .getLastOrderByUser(user);
                 
                 InvoiceService invoiceService = new InvoiceService();
                 Invoice invoice = invoiceService.getInvoiceById(order.getId());

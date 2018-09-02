@@ -11,6 +11,8 @@ import com.mv.schelokov.carent.model.services.exceptions.ServiceException;
 import java.util.List;
 import org.apache.log4j.Logger;
 import com.mv.schelokov.carent.model.db.dao.interfaces.Dao;
+import com.mv.schelokov.carent.model.entity.Car;
+import com.mv.schelokov.carent.model.entity.RejectionReason;
 import com.mv.schelokov.carent.model.entity.builders.RentOrderBuilder;
 import com.mv.schelokov.carent.model.utils.Period;
 
@@ -60,40 +62,31 @@ public class RentOrderService {
         return result;
     }
     
-    public RentOrder getOrderByUser(User user) throws ServiceException {
+    public RentOrder getLastOrderByUser(User user) throws ServiceException {
         Criteria criteria = new CriteriaFactory()
                 .createOrderByUserIdCriteria(user.getId());
         List<RentOrder> resultList = getOrdersByCriteria(criteria);
-        RentOrder result = new RentOrderBuilder()
-                .byUser(user)
-                .getRentOrder();
+        RentOrder result = getEmptyOrderByUser(user);
         for (RentOrder order : resultList)
             if (order.getApprovedBy().getLogin() == null
                     || !order.getCar().isAvailable()
                     && order.getRejectionReason().getReason() == null) {
                 result = order;
-                break;
             }
         if (result.getCar() != null)
             calculateSum(result);
         return result;
     }
     
-    public RentOrder getRejectedOrderByUser(User user) throws ServiceException {
+    public RentOrder getLastRejectedOrderByUser(User user)
+            throws ServiceException {
         Criteria criteria = new CriteriaFactory()
                 .createOrderByUserIdCriteria(user.getId());
         List<RentOrder> resultList = getOrdersByCriteria(criteria);
-        RentOrder result = new RentOrderBuilder()
-                .byUser(user)
-                .getRentOrder();
-        for (RentOrder order : resultList) {
-            if (order.getApprovedBy().getLogin() == null
-                    || !order.getCar().isAvailable()
-                    || order.getRejectionReason().getReason() != null) {
-                result = order;
-                break;
-            }
-        }
+        RentOrder result = getEmptyOrderByUser(user);
+        RentOrder lastOrder = resultList.get(resultList.size() - 1);
+        if (lastOrder.getRejectionReason().getReason() != null)
+            result = lastOrder;
         if (result.getCar() != null) {
             calculateSum(result);
         }
@@ -159,5 +152,11 @@ public class RentOrderService {
             LOG.error(ORDER_DAO_ERROR, ex);
             throw new ServiceException(ORDER_DAO_ERROR, ex);
         }
+    }
+    
+    private RentOrder getEmptyOrderByUser(User user) {
+        return new RentOrderBuilder()
+                .byUser(user)
+                .getRentOrder();
     }
 }

@@ -60,6 +60,8 @@ public class InvoiceService {
     public void recalculateInvoice(RentOrder rentOrder)
             throws ServiceException {
         Date today = new OnlyDate().getOnlyDate();
+        if (rentOrder.getStartDate().after(today))
+            today = rentOrder.getStartDate();
         InvoiceLineService invoiceLineService = new InvoiceLineService();
         if (invoiceLineService.getInvoiceLinesByInvoiceId(
                 rentOrder.getId()).size() < 2

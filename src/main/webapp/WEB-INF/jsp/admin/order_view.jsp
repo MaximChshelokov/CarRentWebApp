@@ -58,7 +58,7 @@
                     </div>
                 </c:otherwise>
             </c:choose>
-                    <h4><c:out value="${car_title}"/></h4>
+            <h4><c:out value="${car_title}"/></h4>
             <c:choose>
                 <c:when test="${empty car}">
                     <p><c:out value="${no_car_data}"/></p>
@@ -88,10 +88,10 @@
                     </div>
                 </c:otherwise>
             </c:choose>
-                    <h4><c:out value="rent_order_details"/></h4>
+            <h4><c:out value="${rent_order_details}"/></h4>
             <c:choose>
                 <c:when test="${empty order}">
-                    <p><c:out value="no_order_data"/></p>
+                    <p><c:out value="${no_order_data}"/></p>
                 </c:when>
                 <c:otherwise>
                     <div class="table-wrapper">
@@ -108,10 +108,12 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><c:out value="${order.startDate}"/></td>
-                                    <td><c:out value="${order.endDate}"/></td>
+                                    <fmt:bundle basename="i18n">
+                                    <td><fmt:formatDate value="${order.startDate}" dateStyle="MEDIUM"/></td>
+                                    <td><fmt:formatDate value="${order.endDate}" dateStyle="MEDIUM"/></td>
                                     <td><c:out value="${order.sum}"/></td>
                                     <td><c:out value="${order.approvedBy.login}" default="None"/></td>
+                                    </fmt:bundle>
                                 </tr>
                             </tbody>
                         </table>

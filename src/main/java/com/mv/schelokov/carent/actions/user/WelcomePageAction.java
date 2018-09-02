@@ -34,7 +34,7 @@ public class WelcomePageAction extends AbstractAction {
             try {
             User user = (User) req.getSession().getAttribute(SessionAttr.USER);
             RentOrder rentOrder = new RentOrderService()
-                    .getRejectedOrderByUser(user);
+                    .getLastRejectedOrderByUser(user);
             if (rentOrder.getId() > 0)
                 req.setAttribute(RENT_ORDER, rentOrder);
 

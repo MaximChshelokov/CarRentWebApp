@@ -35,7 +35,7 @@
                                         <th><fmt:message key="car"/></th>
                                         <th><fmt:message key="user"/></th>
                                         <th><fmt:message key="sum"/></th>
-                                        <th><fmt:message key="approved"/></th>
+                                        <th><fmt:message key="reviewer"/></th>
                                     </tr>
                                 </thead>
                                 <tbody>

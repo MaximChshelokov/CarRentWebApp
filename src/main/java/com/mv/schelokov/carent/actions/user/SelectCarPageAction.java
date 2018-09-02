@@ -36,9 +36,9 @@ public class SelectCarPageAction extends AbstractAction {
             User user = (User) req.getSession().getAttribute(SessionAttr.USER);
 
             try {
-                RentOrder order = new RentOrderService().getOrderByUser(user);
-                if (order.getApprovedBy().getLogin() != null && 
-                        !order.getCar().isAvailable()) {
+                RentOrder order = new RentOrderService().getLastOrderByUser(user);
+                if (order.getApprovedBy() != null && order.getCar() != null
+                        && !order.getCar().isAvailable()) {
                     forward.setUrl(Actions.getActionName(Actions.ALREADY_RENTED));
                     forward.setRedirect(true);
                     return forward;

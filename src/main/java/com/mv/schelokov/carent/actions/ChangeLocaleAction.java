@@ -17,6 +17,7 @@ public class ChangeLocaleAction extends AbstractAction {
     private static final int ONE_MONTH = 60 * 60 * 24 * 30;
     private static final String LOCALE = "locale";
     private static final String URL = "url";
+    private static final String BACKSLASH = "/";
 
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
@@ -29,8 +30,8 @@ public class ChangeLocaleAction extends AbstractAction {
             res.addCookie(cookie);
         }
         String url = req.getParameter(URL);
-        if (url != null)
-            return new JspForward(url.replaceFirst("/", ""), true);
+        if (url != null && !url.equals(BACKSLASH))
+            return new JspForward(url.replaceFirst(BACKSLASH, ""), true);
         return new JspForward(Actions.getActionName(Actions.HOME), true);
     }
 }
