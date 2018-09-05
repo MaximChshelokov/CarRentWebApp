@@ -13,9 +13,6 @@
     <fmt:message key="user-select-car.start-date" var="start"/>
     <fmt:message key="user-select-car.end-date" var="end"/>
     <fmt:message key="admin-select-car.caption" var="caption"/>
-    <c:if test="${not empty error_message}">
-        <fmt:message key="${error_message}" var="error_msg"/>
-    </c:if>
 </fmt:bundle>
 <fmt:bundle basename="i18n" prefix="admin-car-list.">
     <t:generic>
@@ -23,13 +20,11 @@
             <header class="align-center">
                 <h3><c:out value="${caption}"/></h3>
             </header>
+            <t:validation-message/>
             <form method="post" action="<c:url value="action/update_order">
                       <c:param name="id" value="${order.id}" />
                   </c:url>">
             <div class="12u">
-                    <c:if test="${not empty error_msg}">
-                        <p style="color:#ff0000"><c:out value="${error_msg}"/>
-                        </c:if>
                 <div class="table-wrapper">
                     <table class="alt">
                         <thead>
