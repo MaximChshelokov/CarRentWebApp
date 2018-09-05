@@ -11,17 +11,9 @@
 <fmt:bundle basename="i18n">
     <fmt:message key="admin-user-add.caption" var="caption"/>
     <fmt:message key="application.form.submit" var="submit"/>
-    <c:choose>
-        <c:when test="${errParam==1}">
-            <fmt:message key="admin-user-edit.error" var="error_msg"/>
-        </c:when>
-        <c:when test="${errParam==2}">
-            <fmt:message key="admin-user-add.error" var="error_msg"/>
-        </c:when>
-        <c:when test="${errParam==3}">
-            <fmt:message key="admin-user-add.error-login" var="error_msg"/>
-        </c:when>   
-    </c:choose>
+    <c:if test="${not empty error_message}">
+        <fmt:message key="${error_message}" var="error_msg"/>
+    </c:if>
 </fmt:bundle>
 <fmt:bundle basename="i18n" prefix="admin-user-add.">
     <t:generic>
@@ -31,7 +23,7 @@
             </header>
             <div class="row">
                 <div class="12u">
-                    <c:if test="${errParam!=0}">
+                    <c:if test="${not empty error_msg}">
                         <p style="color:#ff0000"><c:out value="${error_msg}"/>
                         </c:if>
                 </div>
@@ -39,7 +31,7 @@
                     <div class="row uniform">
                         <div class="field half first">
                             <label for="login"><fmt:message key="email"/></label>
-                            <input type="text" name="login" placeholder="<fmt:message key="email"/>" value="${login}"/>
+                            <input type="text" name="login" placeholder="<fmt:message key="email"/>" value="${user_edit.login}"/>
                         </div>
                         <div class="field half">
                             <label for="role"><fmt:message key="role"/></label>
@@ -47,7 +39,7 @@
                                 <select name="role" id="role">
                                     <option value="">- <fmt:message key="role"/> -</option>
                                     <c:forEach items="${roles}" var="role">
-                                        <option value="${role.id}" ${role.id == roleId ? 'selected' : ''}>
+                                        <option value="${role.id}" ${role.id == user_edit.role.id ? 'selected' : ''}>
                                             <c:out value="${role.roleName}"/>
                                         </option>
                                     </c:forEach>
@@ -56,7 +48,7 @@
                         </div>
                         <div class="field half first">
                             <label for="password"><fmt:message key="password"/></label>
-                            <input type="password" name="password" placeholder="<fmt:message key="password"/>" value="${password}"/>
+                            <input type="password" name="password" placeholder="<fmt:message key="password"/>" value="${user_edit.password}"/>
                         </div>
                         <div class="field half first">
                             <label for="repeat"><fmt:message key="repeat"/></label>

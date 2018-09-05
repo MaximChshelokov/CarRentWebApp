@@ -25,7 +25,6 @@ public class SaveUserAction extends AbstractAction {
     
     private static final Logger LOG = Logger.getLogger(SaveUserAction.class);
     private static final String ERROR = "Unable to write user to database";
-    private static final String USER_EDIT = "user_edit";
     private static final String ROLE = "role";
 
     @Override
