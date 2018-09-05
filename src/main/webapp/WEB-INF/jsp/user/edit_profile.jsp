@@ -12,9 +12,6 @@
     <fmt:message key="application.form.submit" var="submit"/>
     <fmt:message key="user-edit-profile.caption" var="caption"/>
     <fmt:message key="login.password" var="password"/>
-    <c:if test="${not empty error_message}">
-        <fmt:message key="${error_message}" var="error_msg"/>
-    </c:if>
 </fmt:bundle>
 <fmt:bundle basename="i18n" prefix="admin-user-list.">
 <t:generic>
@@ -22,11 +19,9 @@
         <header class="align-center">
             <h3><c:out value="${caption}"/></h3>
         </header>
+        <t:validation-message/>
         <div class="12u">
-            <c:if test="${not empty error_msg}">
-                <p style="color:#ff0000"><c:out value="${error_msg}"/>
-                </c:if>
-                <form method="post" action="<c:url value="action/update_profile"/>">
+            <form method="post" action="<c:url value="action/update_profile"/>">
                 <div class="row uniform">
                     <div class="field half first">
                         <label for="login"><fmt:message key="login"/></label>

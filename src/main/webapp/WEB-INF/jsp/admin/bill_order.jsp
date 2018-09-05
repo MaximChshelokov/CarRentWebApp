@@ -17,11 +17,6 @@
     <fmt:message key="no-car" var="no_car"/>
     <fmt:message key="no-invoice" var="no_invoice"/>
 </fmt:bundle>
-<fmt:bundle basename="i18n">
-    <c:if test="${not empty error_message}">
-        <fmt:message key="${error_message}" var="error_msg"/>
-    </c:if>
-</fmt:bundle>
 <t:generic>
     <jsp:attribute name="content">
         <header class="align-center">
@@ -125,11 +120,7 @@
                 </c:otherwise>
             </c:choose>
             <hr>
-            <div class="12u">
-                <c:if test="${not empty error_msg}">
-                    <p style="color:#ff0000"><c:out value="${error_msg}"/>
-                    </c:if>
-            </div>
+            <t:validation-message/>
             <form method="POST" action="<c:url value="action/close_order">
                       <c:param name="id" value="${invoice.id}"/>
                   </c:url>">

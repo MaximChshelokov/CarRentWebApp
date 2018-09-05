@@ -11,9 +11,6 @@
 <fmt:bundle basename="i18n">
     <fmt:message key="admin-user-add.caption" var="caption"/>
     <fmt:message key="application.form.submit" var="submit"/>
-    <c:if test="${not empty error_message}">
-        <fmt:message key="${error_message}" var="error_msg"/>
-    </c:if>
 </fmt:bundle>
 <fmt:bundle basename="i18n" prefix="admin-user-add.">
     <t:generic>
@@ -22,11 +19,7 @@
                 <h3><c:out value="${caption}"/></h3>
             </header>
             <div class="row">
-                <div class="12u">
-                    <c:if test="${not empty error_msg}">
-                        <p style="color:#ff0000"><c:out value="${error_msg}"/>
-                        </c:if>
-                </div>
+                <t:validation-message/>
                 <form method="post" action="<c:url value="action/save_user"/>">
                     <div class="row uniform">
                         <div class="field half first">
