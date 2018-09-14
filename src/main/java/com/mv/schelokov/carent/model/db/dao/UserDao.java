@@ -170,14 +170,12 @@ public class UserDao extends AbstractSqlDao<User> {
     }
 
     @Override
-    protected boolean checkCriteriaInstance(Criteria criteria, 
-            boolean isDeleteCriteria) {
-        if (isDeleteCriteria) {
-            if (criteria instanceof DeleteCriteria)
-                return true;
-        } else if (criteria instanceof ReadCriteria)
-            return true;
-        return false;
+    protected boolean checkReadCriteriaInstance(Criteria criteria) {
+        return criteria instanceof ReadCriteria;
     }
-    
+
+    @Override
+    protected boolean checkDeleteCriteriaInstance(Criteria criteria) {
+        return criteria instanceof DeleteCriteria;
+    }
 }
