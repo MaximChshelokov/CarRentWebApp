@@ -2,10 +2,14 @@ package com.mv.schelokov.carent.actions.interfaces;
 
 import com.mv.schelokov.carent.actions.consts.SessionAttr;
 import com.mv.schelokov.carent.actions.exceptions.ActionException;
+import com.mv.schelokov.carent.model.entity.Role;
 import com.mv.schelokov.carent.model.entity.User;
+import com.mv.schelokov.carent.model.services.RoleService;
+import com.mv.schelokov.carent.model.services.exceptions.ServiceException;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -22,9 +26,10 @@ public abstract class AbstractAction implements Action {
     private static final String NUMER_PARSE_ERROR = "Numeric parameter parse "
             + "error";
     protected static final String WRONG_ID = "Wrong id parameter for order entity";
+    private static final String ROLE_ERROR = "Failed to get a role list";
 
-    private static final int ADMIN_ID = 1;
-    private static final int USER_ID = 2;
+    private static final String ADMIN = "admin";
+    private static final String USER = "user";
     
     protected static final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -53,12 +58,12 @@ public abstract class AbstractAction implements Action {
     protected static final String USER_EDIT = "user_edit";
     
     
-    public boolean isAdmin(HttpServletRequest req) {
-        return isUserLogged(req, ADMIN_ID);
+    public boolean isAdmin(HttpServletRequest req) throws ActionException {
+        return isUserLogged(req, ADMIN);
     }
     
-    public boolean isUser(HttpServletRequest req) {
-        return isUserLogged(req, USER_ID);
+    public boolean isUser(HttpServletRequest req) throws ActionException {
+        return isUserLogged(req, USER);
     }
     
     public int getIntParam(HttpServletRequest req, String name) {
@@ -74,11 +79,13 @@ public abstract class AbstractAction implements Action {
             return 0;
     }
     
-    public boolean isUserLogged(HttpServletRequest req, int roleId) {
+    public boolean isUserLogged(HttpServletRequest req, String roleName)
+            throws ActionException {
         HttpSession session = req.getSession(false);
         if (session != null) {
             User user = (User)session.getAttribute(SessionAttr.USER);
-            return user != null && user.getRole().getId() == roleId;
+            return user != null && user.getRole()
+                    .equals(getRoleWithName(req, roleName));
         }
         return false;
     }
@@ -92,4 +99,32 @@ public abstract class AbstractAction implements Action {
             throw new ActionException(SEND_ERROR, ex);
         }
     }
+    
+    private Role getRoleWithName(HttpServletRequest req, String roleName)
+            throws ActionException {
+        for (Role role : getRoleList(req))
+            if (roleName.equals(role.getRoleName()))
+                return role;
+        return new Role();
+    }
+    
+    private List<Role> getRoleList(HttpServletRequest req) throws ActionException {
+        List<Role> roleList = (List) req.getAttribute(ROLES);
+        if (roleList == null) {
+            roleList = getRoleListFromService();
+            req.getServletContext().setAttribute(ROLES, roleList);
+        }
+        return roleList;                    
+    }
+    
+    private List<Role> getRoleListFromService() throws ActionException {
+        try {
+            RoleService roleService = new RoleService();
+            return roleService.getAllRoles();
+        } catch (ServiceException ex) {
+            LOG.error(ROLE_ERROR, ex);
+            throw new ActionException(ROLE_ERROR, ex);
+        }
+    }
+    
 }

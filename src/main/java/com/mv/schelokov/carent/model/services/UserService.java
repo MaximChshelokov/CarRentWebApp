@@ -12,6 +12,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import org.apache.log4j.Logger;
 import com.mv.schelokov.carent.model.db.dao.interfaces.Dao;
+import com.mv.schelokov.carent.model.validators.UserValidator;
+import com.mv.schelokov.carent.model.validators.ValidationResult;
 
 /**
  *
@@ -26,6 +28,27 @@ public class UserService {
     private static final String REGISTER_ERROR = "Failed to create new user";
     private static final String UPDATE_ERROR = "Failed to update a user";
     private static final String DELETE_ERROR = "Failed to delete a user";
+    
+    public int validateAndCreateUser(User user, String repeatPassword)
+            throws ServiceException {
+        
+        int validationResult = new UserValidator(user).validate();
+
+        if (validationResult == ValidationResult.OK
+                && !user.getPassword().equals(repeatPassword)) {
+            validationResult = ValidationResult.PASSWORDS_NOT_MATCH;
+        }
+        
+        if (validationResult == ValidationResult.OK &&
+                !getUserByLogin(user.getLogin()).isEmpty()) {
+            validationResult = ValidationResult.SAME_LOGIN;
+        }
+        
+        if (validationResult == ValidationResult.OK)
+            registerNewUser(user);
+
+        return validationResult;
+    }
     
     public void registerNewUser(User user) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
