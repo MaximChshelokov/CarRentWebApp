@@ -6,7 +6,6 @@ import com.mv.schelokov.carent.actions.consts.SessionAttr;
 import com.mv.schelokov.carent.actions.exceptions.ActionException;
 import com.mv.schelokov.carent.actions.interfaces.AbstractAction;
 import com.mv.schelokov.carent.model.entity.User;
-import com.mv.schelokov.carent.model.entity.builders.RoleBuilder;
 import com.mv.schelokov.carent.model.entity.builders.UserBuilder;
 import com.mv.schelokov.carent.model.services.UserService;
 import com.mv.schelokov.carent.model.services.exceptions.ServiceException;
@@ -23,7 +22,6 @@ public class SignUpAction extends AbstractAction {
     
     private static final Logger LOG = Logger.getLogger(SignUpAction.class);
     private static final String ERROR = "Unable to create a new user";
-    private static final int USER_ROLE = 2;
     
     @Override
     public JspForward execute(HttpServletRequest req, HttpServletResponse res)
@@ -35,9 +33,7 @@ public class SignUpAction extends AbstractAction {
             User user = new UserBuilder()
                     .withLogin(req.getParameter(LOGIN))
                     .withPassword(req.getParameter(PASSWORD))
-                    .withRole(new RoleBuilder()
-                            .withId(USER_ROLE)
-                            .getRole())
+                    .withRole(getRoleWithName(req, USER))
                     .getUser();
             String repeatPassword = req.getParameter(REPEAT_PASSWORD);
 

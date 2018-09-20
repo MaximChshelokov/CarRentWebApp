@@ -28,8 +28,8 @@ public abstract class AbstractAction implements Action {
     protected static final String WRONG_ID = "Wrong id parameter for order entity";
     private static final String ROLE_ERROR = "Failed to get a role list";
 
-    private static final String ADMIN = "admin";
-    private static final String USER = "user";
+    protected static final String ADMIN = "admin";
+    protected static final String USER = "user";
     
     protected static final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -100,7 +100,7 @@ public abstract class AbstractAction implements Action {
         }
     }
     
-    private Role getRoleWithName(HttpServletRequest req, String roleName)
+    protected Role getRoleWithName(HttpServletRequest req, String roleName)
             throws ActionException {
         for (Role role : getRoleList(req))
             if (roleName.equals(role.getRoleName()))

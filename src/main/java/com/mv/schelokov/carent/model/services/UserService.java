@@ -50,6 +50,15 @@ public class UserService {
         return validationResult;
     }
     
+    public int validateLoginUser(User user) throws ServiceException {
+        int validationResult = new UserValidator(user).validate();
+        
+        if (getUserByCredentials(user).getId() == 0)
+            validationResult = ValidationResult.USER_NOT_FOUND;
+ 
+        return validationResult;
+    }
+    
     public void registerNewUser(User user) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
             User userCopy = (User) user.clone();
@@ -100,12 +109,11 @@ public class UserService {
         }
     }
     
-    public List getUserByCredentials(User user) 
-            throws ServiceException {
-        Criteria criteria = new CriteriaFactory()
-                .createUserFindLoginPasswordCriteria(
-                user.getLogin(), hashPassword(user.getPassword()));
-        return getUsersByCriteria(criteria);
+    public User getUserByCredentials(User user) throws ServiceException {
+        List<User> userList = getUserListByCredentials(user);
+        if (!userList.isEmpty())
+            return userList.get(0);
+        return new User();
     }
     
     public List getUserByLogin(String login) throws ServiceException {
@@ -122,6 +130,14 @@ public class UserService {
             return null;
         else
             return (User) userList.get(0);
+    }
+    
+    private List getUserListByCredentials(User user)
+            throws ServiceException {
+        Criteria criteria = new CriteriaFactory()
+                .createUserFindLoginPasswordCriteria(
+                        user.getLogin(), hashPassword(user.getPassword()));
+        return getUsersByCriteria(criteria);
     }
     
     private List getUsersByCriteria(Criteria criteria) throws ServiceException {

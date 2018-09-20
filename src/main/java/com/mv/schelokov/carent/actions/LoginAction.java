@@ -6,7 +6,6 @@ import com.mv.schelokov.carent.actions.consts.Jsps;
 import com.mv.schelokov.carent.actions.consts.SessionAttr;
 import com.mv.schelokov.carent.actions.exceptions.ActionException;
 import com.mv.schelokov.carent.model.entity.User;
-import com.mv.schelokov.carent.model.entity.builders.RoleBuilder;
 import com.mv.schelokov.carent.model.entity.builders.UserBuilder;
 import com.mv.schelokov.carent.model.services.UserService;
 import com.mv.schelokov.carent.model.services.exceptions.ServiceException;
@@ -33,26 +32,22 @@ public class LoginAction extends AbstractAction {
         User user = new UserBuilder()
                 .withLogin(req.getParameter(LOGIN))
                 .withPassword(req.getParameter(PASSWORD))
-                .withRole(new RoleBuilder().withId(1).getRole())
+                .withRole(getRoleWithName(req, ADMIN))
                 .getUser();
         try {
-            int validationResult = new UserValidator(user).validate();
+            UserService userService = new UserService();
+            int validationResult = userService.validateLoginUser(user);
             if (validationResult == ValidationResult.OK) {
-                List userList = new UserService()
-                        .getUserByCredentials(user);
-                if (userList.size() == 1) {
-                    user = (User) userList.get(0);
-                    HttpSession session = req.getSession();
-                    session.setAttribute(SessionAttr.USER, user);
-                    if (isAdmin(req)) {
-                        return new JspForward(Actions.getActionName(
-                                Actions.ADMIN_ACTIONS), true);
-                    } else {
-                        return new JspForward(Actions.getActionName(
-                                Actions.WELCOME), true);
-                    }
-                } else
-                    validationResult = ValidationResult.USER_NOT_FOUND;
+                HttpSession session = req.getSession();
+                session.setAttribute(SessionAttr.USER, 
+                        userService.getUserByCredentials(user));
+                if (isAdmin(req)) {
+                    return new JspForward(Actions.getActionName(
+                            Actions.ADMIN_ACTIONS), true);
+                } else {
+                    return new JspForward(Actions.getActionName(
+                            Actions.WELCOME), true);
+                }
             }
             req.setAttribute(ERROR_NUMBER, validationResult);
             req.setAttribute(SIGN_UP, false);
