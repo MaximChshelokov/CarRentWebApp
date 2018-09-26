@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `car_rent_test` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `car_rent_test`;
 -- MySQL dump 10.13  Distrib 5.7.23, for Linux (x86_64)
 --
 -- Host: localhost    Database: car_rent_test
@@ -48,15 +50,15 @@ DROP TABLE IF EXISTS `cars`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cars` (
   `car_id` int(11) NOT NULL AUTO_INCREMENT,
-  `model` int(11) NOT NULL,
+  `model_id` int(11) NOT NULL,
   `license_plate` varchar(8) NOT NULL,
   `year_of_make` int(4) NOT NULL,
   `price` int(11) NOT NULL,
   `available` bit(1) NOT NULL DEFAULT b'1',
   PRIMARY KEY (`car_id`),
-  KEY `fk_cars_1_idx` (`model`),
-  CONSTRAINT `fk_cars_1` FOREIGN KEY (`model`) REFERENCES `models` (`model_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=utf8;
+  KEY `fk_cars_1_idx` (`model_id`),
+  CONSTRAINT `fk_cars_1` FOREIGN KEY (`model_id`) REFERENCES `models` (`model_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -82,9 +84,9 @@ SET character_set_client = utf8;
  1 AS `license_plate`,
  1 AS `year_of_make`,
  1 AS `price`,
- 1 AS `model`,
- 1 AS `name`,
- 1 AS `make`,
+ 1 AS `model_id`,
+ 1 AS `model_name`,
+ 1 AS `make_id`,
  1 AS `make_name`,
  1 AS `available`*/;
 SET character_set_client = @saved_cs_client;
@@ -150,7 +152,7 @@ CREATE TABLE `invoice_lines` (
   `details` varchar(100) NOT NULL,
   `amount` int(11) NOT NULL,
   PRIMARY KEY (`line_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -237,9 +239,9 @@ DROP TABLE IF EXISTS `makes`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `makes` (
   `make_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(15) NOT NULL,
+  `make_name` varchar(15) NOT NULL,
   PRIMARY KEY (`make_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -261,12 +263,12 @@ DROP TABLE IF EXISTS `models`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `models` (
   `model_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(15) NOT NULL,
-  `make` int(11) NOT NULL,
+  `model_name` varchar(15) NOT NULL,
+  `make_id` int(11) NOT NULL,
   PRIMARY KEY (`model_id`),
-  KEY `fk_models_1_idx` (`make`),
-  CONSTRAINT `fk_models_1` FOREIGN KEY (`make`) REFERENCES `makes` (`make_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+  KEY `fk_models_1_idx` (`make_id`),
+  CONSTRAINT `fk_models_1` FOREIGN KEY (`make_id`) REFERENCES `makes` (`make_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -289,8 +291,8 @@ SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 /*!50001 CREATE VIEW `models_full` AS SELECT 
  1 AS `model_id`,
- 1 AS `name`,
- 1 AS `make`,
+ 1 AS `model_name`,
+ 1 AS `make_id`,
  1 AS `make_name`*/;
 SET character_set_client = @saved_cs_client;
 
@@ -339,7 +341,7 @@ CREATE TABLE `rent_orders` (
   CONSTRAINT `fk_rent_orders_1` FOREIGN KEY (`car`) REFERENCES `cars` (`car_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_rent_orders_2` FOREIGN KEY (`user`) REFERENCES `users` (`user_id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   CONSTRAINT `fk_rent_orders_3` FOREIGN KEY (`approved_by`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -364,19 +366,20 @@ SET character_set_client = utf8;
  1 AS `rent_id`,
  1 AS `start_date`,
  1 AS `end_date`,
- 1 AS `car`,
+ 1 AS `car_id`,
  1 AS `license_plate`,
  1 AS `year_of_make`,
  1 AS `price`,
- 1 AS `model`,
+ 1 AS `model_id`,
  1 AS `model_name`,
- 1 AS `make`,
+ 1 AS `make_id`,
  1 AS `make_name`,
- 1 AS `user`,
+ 1 AS `user_id`,
  1 AS `login`,
  1 AS `approved_by`,
  1 AS `approver_login`,
  1 AS `available`,
+ 1 AS `reason_id`,
  1 AS `reason`*/;
 SET character_set_client = @saved_cs_client;
 
@@ -391,7 +394,7 @@ CREATE TABLE `roles` (
   `role_id` int(11) NOT NULL AUTO_INCREMENT,
   `role_name` varchar(10) NOT NULL,
   PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -419,7 +422,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`user_id`),
   KEY `fk_users_1_idx` (`role`),
   CONSTRAINT `fk_users_1` FOREIGN KEY (`role`) REFERENCES `roles` (`role_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -474,7 +477,7 @@ SET character_set_client = utf8;
  1 AS `name`,
  1 AS `address`,
  1 AS `phone`,
- 1 AS `role`,
+ 1 AS `role_id`,
  1 AS `role_name`,
  1 AS `user_id`*/;
 SET character_set_client = @saved_cs_client;
@@ -491,7 +494,7 @@ SET character_set_client = utf8;
  1 AS `user_id`,
  1 AS `login`,
  1 AS `password`,
- 1 AS `role`,
+ 1 AS `role_id`,
  1 AS `role_name`*/;
 SET character_set_client = @saved_cs_client;
 
@@ -508,7 +511,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `cars_full` AS select `cars`.`car_id` AS `car_id`,`cars`.`license_plate` AS `license_plate`,`cars`.`year_of_make` AS `year_of_make`,`cars`.`price` AS `price`,`cars`.`model` AS `model`,`models`.`name` AS `name`,`models`.`make` AS `make`,`makes`.`name` AS `make_name`,`cars`.`available` AS `available` from ((`cars` left join `models` on((`cars`.`model` = `models`.`model_id`))) left join `makes` on((`models`.`make` = `makes`.`make_id`))) */;
+/*!50001 VIEW `cars_full` AS select `cars`.`car_id` AS `car_id`,`cars`.`license_plate` AS `license_plate`,`cars`.`year_of_make` AS `year_of_make`,`cars`.`price` AS `price`,`cars`.`model_id` AS `model_id`,`models`.`model_name` AS `model_name`,`models`.`make_id` AS `make_id`,`makes`.`make_name` AS `make_name`,`cars`.`available` AS `available` from ((`cars` left join `models` on((`cars`.`model_id` = `models`.`model_id`))) left join `makes` on((`models`.`make_id` = `makes`.`make_id`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -562,7 +565,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `models_full` AS select `models`.`model_id` AS `model_id`,`models`.`name` AS `name`,`models`.`make` AS `make`,`makes`.`name` AS `make_name` from (`models` left join `makes` on((`models`.`make` = `makes`.`make_id`))) */;
+/*!50001 VIEW `models_full` AS select `models`.`model_id` AS `model_id`,`models`.`model_name` AS `model_name`,`models`.`make_id` AS `make_id`,`makes`.`make_name` AS `make_name` from (`models` left join `makes` on((`models`.`make_id` = `makes`.`make_id`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -580,7 +583,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `rent_orders_full` AS select `rent_orders`.`rent_id` AS `rent_id`,`rent_orders`.`start_date` AS `start_date`,`rent_orders`.`end_date` AS `end_date`,`rent_orders`.`car` AS `car`,`cars`.`license_plate` AS `license_plate`,`cars`.`year_of_make` AS `year_of_make`,`cars`.`price` AS `price`,`cars`.`model` AS `model`,`m`.`name` AS `model_name`,`m`.`make` AS `make`,`k`.`name` AS `make_name`,`rent_orders`.`user` AS `user`,`u`.`login` AS `login`,`rent_orders`.`approved_by` AS `approved_by`,`a`.`login` AS `approver_login`,`cars`.`available` AS `available`,`rejection_reasons`.`reason` AS `reason` from ((((((`rent_orders` left join `cars` on((`rent_orders`.`car` = `cars`.`car_id`))) left join `models` `m` on((`cars`.`model` = `m`.`model_id`))) left join `makes` `k` on((`m`.`make` = `k`.`make_id`))) left join `users` `u` on((`rent_orders`.`user` = `u`.`user_id`))) left join `users` `a` on((`rent_orders`.`approved_by` = `a`.`user_id`))) left join `rejection_reasons` on((`rejection_reasons`.`reason_id` = `rent_orders`.`rent_id`))) */;
+/*!50001 VIEW `rent_orders_full` AS select `rent_orders`.`rent_id` AS `rent_id`,`rent_orders`.`start_date` AS `start_date`,`rent_orders`.`end_date` AS `end_date`,`rent_orders`.`car` AS `car_id`,`cars`.`license_plate` AS `license_plate`,`cars`.`year_of_make` AS `year_of_make`,`cars`.`price` AS `price`,`cars`.`model_id` AS `model_id`,`m`.`model_name` AS `model_name`,`m`.`make_id` AS `make_id`,`k`.`make_name` AS `make_name`,`rent_orders`.`user` AS `user_id`,`u`.`login` AS `login`,`rent_orders`.`approved_by` AS `approved_by`,`a`.`login` AS `approver_login`,`cars`.`available` AS `available`,`rent_orders`.`rent_id` AS `reason_id`,`rejection_reasons`.`reason` AS `reason` from ((((((`rent_orders` left join `cars` on((`rent_orders`.`car` = `cars`.`car_id`))) left join `models` `m` on((`cars`.`model_id` = `m`.`model_id`))) left join `makes` `k` on((`m`.`make_id` = `k`.`make_id`))) left join `users` `u` on((`rent_orders`.`user` = `u`.`user_id`))) left join `users` `a` on((`rent_orders`.`approved_by` = `a`.`user_id`))) left join `rejection_reasons` on((`rejection_reasons`.`reason_id` = `rent_orders`.`rent_id`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -598,7 +601,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `users_data_full` AS select `users_full`.`login` AS `login`,`users_full`.`password` AS `password`,`users_data`.`userdata_id` AS `userdata_id`,`users_data`.`name` AS `name`,`users_data`.`address` AS `address`,`users_data`.`phone` AS `phone`,`users_full`.`role` AS `role`,`users_full`.`role_name` AS `role_name`,`users_full`.`user_id` AS `user_id` from (`users_full` left join `users_data` on((`users_full`.`user_id` = `users_data`.`userdata_id`))) */;
+/*!50001 VIEW `users_data_full` AS select `users_full`.`login` AS `login`,`users_full`.`password` AS `password`,`users_data`.`userdata_id` AS `userdata_id`,`users_data`.`name` AS `name`,`users_data`.`address` AS `address`,`users_data`.`phone` AS `phone`,`users_full`.`role_id` AS `role_id`,`users_full`.`role_name` AS `role_name`,`users_full`.`user_id` AS `user_id` from (`users_full` left join `users_data` on((`users_full`.`user_id` = `users_data`.`userdata_id`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -616,7 +619,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `users_full` AS select `users`.`user_id` AS `user_id`,`users`.`login` AS `login`,`users`.`password` AS `password`,`users`.`role` AS `role`,`roles`.`role_name` AS `role_name` from (`users` left join `roles` on((`users`.`role` = `roles`.`role_id`))) */;
+/*!50001 VIEW `users_full` AS select `users`.`user_id` AS `user_id`,`users`.`login` AS `login`,`users`.`password` AS `password`,`users`.`role` AS `role_id`,`roles`.`role_name` AS `role_name` from (`users` left join `roles` on((`users`.`role` = `roles`.`role_id`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -630,4 +633,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-09-02 14:38:28
+-- Dump completed on 2018-09-26 14:51:39
