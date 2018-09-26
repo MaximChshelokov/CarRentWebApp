@@ -1,11 +1,10 @@
 package com.mv.schelokov.carent.model.db.dao;
 
+import com.mv.schelokov.carent.model.db.dao.factories.EntityFromResultSetFactory;
 import com.mv.schelokov.carent.model.db.dao.interfaces.AbstractSqlDao;
 import com.mv.schelokov.carent.model.db.dao.interfaces.Criteria;
 import com.mv.schelokov.carent.model.db.dao.interfaces.SqlCriteria;
 import com.mv.schelokov.carent.model.entity.User;
-import com.mv.schelokov.carent.model.entity.builders.RoleBuilder;
-import com.mv.schelokov.carent.model.entity.builders.UserBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,7 +24,7 @@ public class UserDao extends AbstractSqlDao<User> {
 
     public static class SelectAllCriteria implements ReadCriteria {
         private static final String QUERY = "SELECT user_id,login,password,"
-                + "role,role_name FROM users_full";
+                + "role_id,role_name FROM users_full";
 
         @Override
         public String toSqlQuery() {
@@ -148,15 +147,7 @@ public class UserDao extends AbstractSqlDao<User> {
 
     @Override
     protected User createItem(ResultSet rs) throws SQLException {
-        return new UserBuilder()
-                .withId(rs.getInt(Fields.USER_ID.name()))
-                .withLogin(rs.getString(Fields.LOGIN.name()))
-                .withPassword(rs.getString(Fields.PASSWORD.name()))
-                .withRole(new RoleBuilder()
-                        .withId(rs.getInt(Fields.ROLE.name()))
-                        .withRoleName(rs.getString(Fields.ROLE_NAME.name()))
-                        .getRole())
-                .getUser();
+        return new EntityFromResultSetFactory(rs).createUser();
     }
 
     @Override
@@ -170,12 +161,12 @@ public class UserDao extends AbstractSqlDao<User> {
     }
 
     @Override
-    protected boolean checkReadCriteriaInstance(Criteria criteria) {
+    protected boolean isReadCriteriaInstance(Criteria criteria) {
         return criteria instanceof ReadCriteria;
     }
 
     @Override
-    protected boolean checkDeleteCriteriaInstance(Criteria criteria) {
+    protected boolean isDeleteCriteriaInstance(Criteria criteria) {
         return criteria instanceof DeleteCriteria;
     }
 }

@@ -1,10 +1,10 @@
 package com.mv.schelokov.carent.model.db.dao;
 
+import com.mv.schelokov.carent.model.db.dao.factories.EntityFromResultSetFactory;
 import com.mv.schelokov.carent.model.db.dao.interfaces.AbstractSqlDao;
 import com.mv.schelokov.carent.model.db.dao.interfaces.Criteria;
 import com.mv.schelokov.carent.model.db.dao.interfaces.SqlCriteria;
 import com.mv.schelokov.carent.model.entity.Role;
-import com.mv.schelokov.carent.model.entity.builders.RoleBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -77,10 +77,7 @@ public class RoleDao extends AbstractSqlDao<Role> {
 
     @Override
     protected Role createItem(ResultSet rs) throws SQLException {
-        return new RoleBuilder()
-                .withId(rs.getInt(Fields.ROLE_ID.name()))
-                .withRoleName(rs.getString(Fields.ROLE_NAME.name()))
-                .getRole();
+        return new EntityFromResultSetFactory(rs).createRole();
     }
 
     @Override
@@ -92,12 +89,12 @@ public class RoleDao extends AbstractSqlDao<Role> {
     }
 
     @Override
-    protected boolean checkReadCriteriaInstance(Criteria criteria) {
+    protected boolean isReadCriteriaInstance(Criteria criteria) {
         return criteria instanceof ReadCriteria;
     }
 
     @Override
-    protected boolean checkDeleteCriteriaInstance(Criteria criteria) {
+    protected boolean isDeleteCriteriaInstance(Criteria criteria) {
         return criteria instanceof DeleteCriteria;
     }
 }

@@ -44,7 +44,7 @@ public abstract class AbstractSqlDao <T extends Entity>
     @Override
     public List<T> read(Criteria criteria) throws DbException {
         
-        if (!checkReadCriteriaInstance(criteria)) {
+        if (!isReadCriteriaInstance(criteria)) {
             LOG.error(CRITERIA_MISTMATCH);
             throw new CriteriaMismatchException(CRITERIA_MISTMATCH);
         }
@@ -81,7 +81,7 @@ public abstract class AbstractSqlDao <T extends Entity>
     @Override
     public boolean remove(Criteria criteria) throws DbException {
         
-        if (!checkDeleteCriteriaInstance(criteria)) {
+        if (!isDeleteCriteriaInstance(criteria)) {
             LOG.error(CRITERIA_MISTMATCH);
             throw new CriteriaMismatchException(CRITERIA_MISTMATCH);
         }
@@ -222,12 +222,12 @@ public abstract class AbstractSqlDao <T extends Entity>
      * @param criteria an object of class, implementing Criteria interface.
      * @return true, if criteria instance matches.
      */
-    protected abstract boolean checkReadCriteriaInstance(Criteria criteria);
+    protected abstract boolean isReadCriteriaInstance(Criteria criteria);
     
     /**
      *
      * @param criteria an object of class, implementing Criteria interface.
      * @return true, if criteria instance matches.
      */
-    protected abstract boolean checkDeleteCriteriaInstance(Criteria criteria);
+    protected abstract boolean isDeleteCriteriaInstance(Criteria criteria);
 }

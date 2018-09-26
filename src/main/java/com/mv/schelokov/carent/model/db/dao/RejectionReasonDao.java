@@ -1,10 +1,10 @@
 package com.mv.schelokov.carent.model.db.dao;
 
+import com.mv.schelokov.carent.model.db.dao.factories.EntityFromResultSetFactory;
 import com.mv.schelokov.carent.model.db.dao.interfaces.AbstractSqlDao;
 import com.mv.schelokov.carent.model.db.dao.interfaces.Criteria;
 import com.mv.schelokov.carent.model.db.dao.interfaces.SqlCriteria;
 import com.mv.schelokov.carent.model.entity.RejectionReason;
-import com.mv.schelokov.carent.model.entity.builders.RejectionReasonBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -102,10 +102,7 @@ public class RejectionReasonDao extends AbstractSqlDao<RejectionReason> {
 
     @Override
     protected RejectionReason createItem(ResultSet rs) throws SQLException {
-        return new RejectionReasonBuilder()
-                .withId(rs.getInt(Fields.REASON_ID.name()))
-                .dueReason(rs.getString(Fields.REASON.name()))
-                .getRejectionReason();
+        return new EntityFromResultSetFactory(rs).createRejectionReason();
     }
 
     @Override
@@ -121,12 +118,12 @@ public class RejectionReasonDao extends AbstractSqlDao<RejectionReason> {
     }
 
     @Override
-    protected boolean checkReadCriteriaInstance(Criteria criteria) {
+    protected boolean isReadCriteriaInstance(Criteria criteria) {
         return criteria instanceof ReadCriteria;
     }
 
     @Override
-    protected boolean checkDeleteCriteriaInstance(Criteria criteria) {
+    protected boolean isDeleteCriteriaInstance(Criteria criteria) {
         return criteria instanceof DeleteCriteria;
     }
 }

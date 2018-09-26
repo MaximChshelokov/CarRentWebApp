@@ -1,13 +1,11 @@
 package com.mv.schelokov.carent.model.db.dao;
 
+import com.mv.schelokov.carent.model.db.dao.factories.EntityFromResultSetFactory;
 import com.mv.schelokov.carent.model.db.dao.interfaces.AbstractSqlDao;
 import com.mv.schelokov.carent.model.db.dao.interfaces.Criteria;
 import com.mv.schelokov.carent.model.db.dao.interfaces.SqlCriteria;
 import com.mv.schelokov.carent.model.entity.User;
 import com.mv.schelokov.carent.model.entity.UserData;
-import com.mv.schelokov.carent.model.entity.builders.RoleBuilder;
-import com.mv.schelokov.carent.model.entity.builders.UserBuilder;
-import com.mv.schelokov.carent.model.entity.builders.UserDataBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,7 +26,8 @@ public class UserDataDao extends AbstractSqlDao<UserData> {
     
     public static class SelectAllCriteria implements ReadCriteria {
         private static final String QUERY = "SELECT login,password,userdata_id,"
-            + "name,address,phone,role,role_name,user_id FROM users_data_full";
+                + "name,address,phone,role_id,role_name,user_id FROM "
+                + "users_data_full";
         
         @Override
         public String toSqlQuery() {
@@ -110,21 +109,7 @@ public class UserDataDao extends AbstractSqlDao<UserData> {
 
     @Override
     protected UserData createItem(ResultSet rs) throws SQLException {
-        return new UserDataBuilder()
-                .withId(rs.getInt(Fields.USERDATA_ID.name()))
-                .withName(rs.getString(Fields.NAME.name()))
-                .residentAtAddress(rs.getString(Fields.ADDRESS.name()))
-                .withPhone(rs.getString(Fields.PHONE.name()))
-                .withUser(new UserBuilder()
-                        .withId(rs.getInt(Fields.USER_ID.name()))
-                        .withLogin(rs.getString(Fields.LOGIN.name()))
-                        .withPassword(rs.getString(Fields.PASSWORD.name()))
-                        .withRole(new RoleBuilder()
-                                .withId(rs.getInt(Fields.ROLE.name()))
-                                .withRoleName(rs.getString(Fields.ROLE_NAME.name()))
-                                .getRole())
-                        .getUser())
-                .getUserData();
+        return new EntityFromResultSetFactory(rs).createUserData();
     }
 
     @Override
@@ -144,12 +129,12 @@ public class UserDataDao extends AbstractSqlDao<UserData> {
     }
 
     @Override
-    protected boolean checkReadCriteriaInstance(Criteria criteria) {
+    protected boolean isReadCriteriaInstance(Criteria criteria) {
         return criteria instanceof ReadCriteria;
     }
 
     @Override
-    protected boolean checkDeleteCriteriaInstance(Criteria criteria) {
+    protected boolean isDeleteCriteriaInstance(Criteria criteria) {
         return criteria instanceof DeleteCriteria;
     }
 }

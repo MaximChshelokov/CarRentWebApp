@@ -1,12 +1,10 @@
 package com.mv.schelokov.carent.model.db.dao;
 
+import com.mv.schelokov.carent.model.db.dao.factories.EntityFromResultSetFactory;
 import com.mv.schelokov.carent.model.db.dao.interfaces.AbstractSqlDao;
 import com.mv.schelokov.carent.model.db.dao.interfaces.Criteria;
 import com.mv.schelokov.carent.model.db.dao.interfaces.SqlCriteria;
 import com.mv.schelokov.carent.model.entity.Car;
-import com.mv.schelokov.carent.model.entity.builders.CarBuilder;
-import com.mv.schelokov.carent.model.entity.builders.CarMakeBuilder;
-import com.mv.schelokov.carent.model.entity.builders.CarModelBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,8 +27,8 @@ public class CarDao extends AbstractSqlDao<Car> {
     public static class SelectAllCriteria implements ReadCriteria {
 
         private static final String QUERY = "SELECT car_id,license_plate,"
-                + "year_of_make,price,model,name,make,make_name,available "
-                + "FROM cars_full";
+                + "year_of_make,price,model_id,model_name,make_id,make_name,"
+                + "available FROM cars_full";
 
         @Override
         public String toSqlQuery() {
@@ -71,11 +69,11 @@ public class CarDao extends AbstractSqlDao<Car> {
         }
     }
     
-    private static final String CREATE_QUERY = "INSERT INTO cars (model,"
+    private static final String CREATE_QUERY = "INSERT INTO cars (model_id,"
             + "license_plate,year_of_make,price,available) VALUES (?,?,?,?,?)";
     private static final String REMOVE_QUERY = "DELETE FROM cars WHERE"
             + " car_id=?";
-    private static final String UPDATE_QUERY = "UPDATE cars SET model=?,"
+    private static final String UPDATE_QUERY = "UPDATE cars SET model_id=?,"
             + "license_plate=?,year_of_make=?,price=?,available=? "
             + "WHERE car_id=?";
     
@@ -117,21 +115,7 @@ public class CarDao extends AbstractSqlDao<Car> {
 
     @Override
     protected Car createItem(ResultSet rs) throws SQLException {
-        return new CarBuilder()
-                .withId(rs.getInt(Fields.CAR_ID.name()))
-                .withLicensePlate(rs.getString(Fields.LICENSE_PLATE.name()))
-                .inYearOfMake(rs.getInt(Fields.YEAR_OF_MAKE.name()))
-                .withPrice(rs.getInt(Fields.PRICE.name()))
-                .withAvailability(rs.getBoolean(Fields.AVAILABLE.name()))
-                .withModel(new CarModelBuilder()
-                        .withId(rs.getInt(Fields.MODEL.name()))
-                        .withName(rs.getString(Fields.NAME.name()))
-                        .withCarMake(new CarMakeBuilder()
-                                .withId(rs.getInt(Fields.MAKE.name()))
-                                .withName(rs.getString(Fields.MAKE_NAME.name()))
-                                .getCarMake())
-                        .getCarModel())
-                .getCar();
+        return new EntityFromResultSetFactory(rs).createCar();
     }
 
     @Override
@@ -147,12 +131,12 @@ public class CarDao extends AbstractSqlDao<Car> {
     }
 
     @Override
-    protected boolean checkReadCriteriaInstance(Criteria criteria) {
+    protected boolean isReadCriteriaInstance(Criteria criteria) {
         return criteria instanceof ReadCriteria;
     }
     
     @Override
-    protected boolean checkDeleteCriteriaInstance(Criteria criteria) {
+    protected boolean isDeleteCriteriaInstance(Criteria criteria) {
         return criteria instanceof DeleteCriteria;
     }
 }

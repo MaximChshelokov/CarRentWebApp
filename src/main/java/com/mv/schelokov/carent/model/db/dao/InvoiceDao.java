@@ -1,10 +1,10 @@
 package com.mv.schelokov.carent.model.db.dao;
 
+import com.mv.schelokov.carent.model.db.dao.factories.EntityFromResultSetFactory;
 import com.mv.schelokov.carent.model.db.dao.interfaces.AbstractSqlDao;
 import com.mv.schelokov.carent.model.db.dao.interfaces.Criteria;
 import com.mv.schelokov.carent.model.db.dao.interfaces.SqlCriteria;
 import com.mv.schelokov.carent.model.entity.Invoice;
-import com.mv.schelokov.carent.model.entity.builders.InvoiceBuilder;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -104,12 +104,7 @@ public class InvoiceDao extends AbstractSqlDao<Invoice> {
 
     @Override
     protected Invoice createItem(ResultSet rs) throws SQLException {
-        return new InvoiceBuilder()
-                .withId(rs.getInt(Fields.INVOICE_ID.name()))
-                .creationDate(rs.getDate(Fields.DATE.name()))
-                .initialPayment(rs.getInt(Fields.PAID.name()))
-                .estimatedTotal(rs.getInt(Fields.TOTAL.name()))
-                .getInvoice();
+        return new EntityFromResultSetFactory(rs).createInvoice();
     }
 
     @Override
@@ -127,12 +122,12 @@ public class InvoiceDao extends AbstractSqlDao<Invoice> {
     }
 
     @Override
-    protected boolean checkReadCriteriaInstance(Criteria criteria) {
+    protected boolean isReadCriteriaInstance(Criteria criteria) {
         return criteria instanceof ReadCriteria;
     }
 
     @Override
-    protected boolean checkDeleteCriteriaInstance(Criteria criteria) {
+    protected boolean isDeleteCriteriaInstance(Criteria criteria) {
         return criteria instanceof DeleteCriteria;
     }
 }

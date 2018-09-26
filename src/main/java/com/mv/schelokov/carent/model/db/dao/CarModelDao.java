@@ -1,11 +1,10 @@
 package com.mv.schelokov.carent.model.db.dao;
 
+import com.mv.schelokov.carent.model.db.dao.factories.EntityFromResultSetFactory;
 import com.mv.schelokov.carent.model.db.dao.interfaces.AbstractSqlDao;
 import com.mv.schelokov.carent.model.db.dao.interfaces.Criteria;
 import com.mv.schelokov.carent.model.db.dao.interfaces.SqlCriteria;
 import com.mv.schelokov.carent.model.entity.CarModel;
-import com.mv.schelokov.carent.model.entity.builders.CarMakeBuilder;
-import com.mv.schelokov.carent.model.entity.builders.CarModelBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,8 +21,8 @@ public class CarModelDao extends AbstractSqlDao<CarModel> {
     public interface DeleteCriteria extends SqlCriteria {}
 
     public static class SelectAllCriteria implements ReadCriteria {
-        private static final String QUERY = "SELECT model_id,name,make,"
-                + "make_name FROM models_full";
+        private static final String QUERY = "SELECT model_id,model_name,"
+                + "make_id,make_name FROM models_full";
 
         @Override
         public String toSqlQuery() {
@@ -35,7 +34,7 @@ public class CarModelDao extends AbstractSqlDao<CarModel> {
     }
     
     public static class FindModelCriteria extends SelectAllCriteria {
-        private static final String QUERY = " WHERE name=? AND make=?";
+        private static final String QUERY = " WHERE model_name=? AND make_id=?";
         private static final int NAME_INDEX = 1;
         private static final int MAKE_INDEX = 2;
         private final String name;
@@ -58,12 +57,12 @@ public class CarModelDao extends AbstractSqlDao<CarModel> {
         }
     }
     
-    private static final String CREATE_QUERY = "INSERT INTO models (name,"
-            + "make) VALUES (?,?)";
+    private static final String CREATE_QUERY = "INSERT INTO models (model_name,"
+            + "make_id) VALUES (?,?)";
     private static final String REMOVE_QUERY = "DELETE FROM models WHERE"
             + " model_id=?";
-    private static final String UPDATE_QUERY = "UPDATE models SET name=?,"
-            + "make=? WHERE model_id=?";
+    private static final String UPDATE_QUERY = "UPDATE models SET model_name=?,"
+            + "make_id=? WHERE model_id=?";
     
     /**
      * The Field enum has column names for read methods and number of column for
@@ -103,14 +102,7 @@ public class CarModelDao extends AbstractSqlDao<CarModel> {
 
     @Override
     protected CarModel createItem(ResultSet rs) throws SQLException {
-        return new CarModelBuilder()
-                .withId(rs.getInt(Fields.MODEL_ID.name()))
-                .withName(rs.getString(Fields.NAME.name()))
-                .withCarMake(new CarMakeBuilder()
-                        .withId(rs.getInt(Fields.MAKE.name()))
-                        .withName(rs.getString(Fields.MAKE_NAME.name()))
-                        .getCarMake())
-                .getCarModel();
+        return new EntityFromResultSetFactory(rs).createCarModel();
     }
 
     @Override
@@ -124,12 +116,12 @@ public class CarModelDao extends AbstractSqlDao<CarModel> {
     }
 
     @Override
-    protected boolean checkReadCriteriaInstance(Criteria criteria) {
+    protected boolean isReadCriteriaInstance(Criteria criteria) {
         return criteria instanceof ReadCriteria;
     }
 
     @Override
-    protected boolean checkDeleteCriteriaInstance(Criteria criteria) {
+    protected boolean isDeleteCriteriaInstance(Criteria criteria) {
         return criteria instanceof DeleteCriteria;
     }    
 }

@@ -1,10 +1,10 @@
 package com.mv.schelokov.carent.model.db.dao;
 
+import com.mv.schelokov.carent.model.db.dao.factories.EntityFromResultSetFactory;
 import com.mv.schelokov.carent.model.db.dao.interfaces.AbstractSqlDao;
 import com.mv.schelokov.carent.model.db.dao.interfaces.Criteria;
 import com.mv.schelokov.carent.model.db.dao.interfaces.SqlCriteria;
 import com.mv.schelokov.carent.model.entity.CarMake;
-import com.mv.schelokov.carent.model.entity.builders.CarMakeBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,7 +21,8 @@ public class CarMakeDao extends AbstractSqlDao<CarMake> {
     public interface DeleteCriteria extends SqlCriteria {}
 
     public static class SelectAllCriteria implements ReadCriteria {
-        private static final String QUERY = "SELECT make_id,name FROM makes";
+        private static final String QUERY = "SELECT make_id,make_name FROM "
+                + "makes";
 
         @Override
         public String toSqlQuery() {
@@ -34,7 +35,7 @@ public class CarMakeDao extends AbstractSqlDao<CarMake> {
     
     public static class FindNameCriteria extends SelectAllCriteria {
 
-        private static final String QUERY = " WHERE name=?";
+        private static final String QUERY = " WHERE make_name=?";
         private static final int NAME_INDEX = 1;
         private final String name;
 
@@ -53,11 +54,11 @@ public class CarMakeDao extends AbstractSqlDao<CarMake> {
         }
     }
     
-    private static final String CREATE_QUERY = "INSERT INTO makes (name) "
+    private static final String CREATE_QUERY = "INSERT INTO makes (make_name) "
             + "VALUES (?)";
     private static final String REMOVE_QUERY = "DELETE FROM makes WHERE"
             + " make_id=?";
-    private static final String UPDATE_QUERY = "UPDATE makes SET name=? "
+    private static final String UPDATE_QUERY = "UPDATE makes SET make_name=? "
             + "WHERE make_id=?";
     
     /**
@@ -95,10 +96,7 @@ public class CarMakeDao extends AbstractSqlDao<CarMake> {
 
     @Override
     protected CarMake createItem(ResultSet rs) throws SQLException {
-        return new CarMakeBuilder()
-                .withId(rs.getInt(Fields.MAKE_ID.name()))
-                .withName(rs.getString(Fields.NAME.name()))
-                .getCarMake();
+        return new EntityFromResultSetFactory(rs).createCarMake();
     }
 
     @Override
@@ -110,12 +108,12 @@ public class CarMakeDao extends AbstractSqlDao<CarMake> {
     }
     
     @Override
-    protected boolean checkReadCriteriaInstance(Criteria criteria) {
+    protected boolean isReadCriteriaInstance(Criteria criteria) {
         return criteria instanceof ReadCriteria;
     }
 
     @Override
-    protected boolean checkDeleteCriteriaInstance(Criteria criteria) {
+    protected boolean isDeleteCriteriaInstance(Criteria criteria) {
         return criteria instanceof DeleteCriteria;
     }    
 }

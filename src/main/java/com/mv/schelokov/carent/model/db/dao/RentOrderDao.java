@@ -1,16 +1,10 @@
 package com.mv.schelokov.carent.model.db.dao;
 
+import com.mv.schelokov.carent.model.db.dao.factories.EntityFromResultSetFactory;
 import com.mv.schelokov.carent.model.db.dao.interfaces.AbstractSqlDao;
 import com.mv.schelokov.carent.model.db.dao.interfaces.Criteria;
 import com.mv.schelokov.carent.model.db.dao.interfaces.SqlCriteria;
-import com.mv.schelokov.carent.model.entity.Car;
 import com.mv.schelokov.carent.model.entity.RentOrder;
-import com.mv.schelokov.carent.model.entity.builders.CarBuilder;
-import com.mv.schelokov.carent.model.entity.builders.CarMakeBuilder;
-import com.mv.schelokov.carent.model.entity.builders.CarModelBuilder;
-import com.mv.schelokov.carent.model.entity.builders.RejectionReasonBuilder;
-import com.mv.schelokov.carent.model.entity.builders.RentOrderBuilder;
-import com.mv.schelokov.carent.model.entity.builders.UserBuilder;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -36,9 +30,10 @@ public class RentOrderDao extends AbstractSqlDao<RentOrder> {
 
     public static class SelectAllCriteria implements ReadCriteria {
         private static final String QUERY = "SELECT rent_id,start_date,"
-                + "end_date,car,license_plate,year_of_make,price,model,"
-                + "model_name,make,make_name,user,login,approved_by,"
-                + "approver_login,available,reason FROM rent_orders_full";
+                + "end_date,car_id,license_plate,year_of_make,price,model_id,"
+                + "model_name,make_id,make_name,user_id,login,approved_by,"
+                + "approver_login,available,reason_id, reason FROM "
+                + "rent_orders_full";
 
         @Override
         public String toSqlQuery() {
@@ -154,42 +149,7 @@ public class RentOrderDao extends AbstractSqlDao<RentOrder> {
 
     @Override
     protected RentOrder createItem(ResultSet rs) throws SQLException {
-        return new RentOrderBuilder()
-                .withId(rs.getInt(Fields.RENT_ID.name()))
-                .startsAtDate(rs.getDate(Fields.START_DATE.name()))
-                .endsByDate(rs.getDate(Fields.END_DATE.name()))
-                .selectedCar(createCar(rs))
-                .byUser(new UserBuilder()
-                        .withId(rs.getInt(Fields.USER.name()))
-                        .withLogin(rs.getString(Fields.LOGIN.name()))
-                        .getUser())
-                .approvedBy(new UserBuilder()
-                        .withId(rs.getInt(Fields.APPROVED_BY.name()))
-                        .withLogin(rs.getString(Fields.APPROVER_LOGIN.name()))
-                        .getUser())
-                .rejectedDueReason(new RejectionReasonBuilder()
-                        .withId(rs.getInt(Fields.RENT_ID.name()))
-                        .dueReason(rs.getString(Fields.REASON.name()))
-                        .getRejectionReason())
-                .getRentOrder();
-    }
-    
-    private Car createCar(ResultSet rs) throws SQLException {
-        return new CarBuilder()
-                .withId(rs.getInt(Fields.CAR.name()))
-                .withLicensePlate(rs.getString(Fields.LICENSE_PLATE.name()))
-                .inYearOfMake(rs.getInt(Fields.YEAR_OF_MAKE.name()))
-                .withPrice(rs.getInt(Fields.PRICE.name()))
-                .withAvailability(rs.getBoolean(Fields.AVAILABLE.name()))
-                .withModel(new CarModelBuilder()
-                        .withId(rs.getInt(Fields.MODEL.name()))
-                        .withName(rs.getString(Fields.MODEL_NAME.name()))
-                        .withCarMake(new CarMakeBuilder()
-                                .withId(rs.getInt(Fields.MAKE.name()))
-                                .withName(rs.getString(Fields.MAKE_NAME.name()))
-                                .getCarMake())
-                        .getCarModel())
-                .getCar();
+        return new EntityFromResultSetFactory(rs).createRentOrder();
     }
     
     @Override
@@ -208,12 +168,12 @@ public class RentOrderDao extends AbstractSqlDao<RentOrder> {
     }
 
     @Override
-    protected boolean checkReadCriteriaInstance(Criteria criteria) {
+    protected boolean isReadCriteriaInstance(Criteria criteria) {
         return criteria instanceof ReadCriteria;
     }
 
     @Override
-    protected boolean checkDeleteCriteriaInstance(Criteria criteria) {
+    protected boolean isDeleteCriteriaInstance(Criteria criteria) {
         return criteria instanceof DeleteCriteria;
     }
 }
