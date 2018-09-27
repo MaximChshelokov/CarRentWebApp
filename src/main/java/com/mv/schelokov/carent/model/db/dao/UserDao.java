@@ -109,22 +109,11 @@ public class UserDao extends AbstractSqlDao<User> {
             + " user_id=?";
     private static final String UPDATE_QUERY = "UPDATE users SET login=?,"
             + "password=?,role=? WHERE user_id=?";
-    
-    /**
-     * The Field enum has column names for read methods and number of column for
-     * the update method and the add method (in the NUMBER attribute)
-     */
-    enum Fields {
-        USER_ID(4), LOGIN(1), PASSWORD(2), ROLE(3), ROLE_NAME;
-        
-        int NUMBER;
-        
-        Fields(int number) {
-            this.NUMBER = number;
-        }
-        Fields() {
-        }
-    }
+
+    private static final int LOGIN = 1;
+    private static final int PASSWORD = 2;
+    private static final int ROLE = 3;
+    private static final int USER_ID = 4;
 
     public UserDao(Connection connection) {
         super(connection);
@@ -151,13 +140,18 @@ public class UserDao extends AbstractSqlDao<User> {
     }
 
     @Override
-    protected void setStatement(PreparedStatement ps, User item, 
-            boolean isUpdateStatement) throws SQLException {
-        ps.setString(Fields.LOGIN.NUMBER, item.getLogin());
-        ps.setString(Fields.PASSWORD.NUMBER, item.getPassword());
-        ps.setInt(Fields.ROLE.NUMBER, item.getRole().getId());
-        if (isUpdateStatement)
-            ps.setInt(Fields.USER_ID.NUMBER, item.getId());
+    protected void setInsertStatement(PreparedStatement ps, User item)
+            throws SQLException {
+        ps.setString(LOGIN, item.getLogin());
+        ps.setString(PASSWORD, item.getPassword());
+        ps.setInt(ROLE, item.getRole().getId());   
+    }
+    
+    @Override
+    protected void setUpdateStatement(PreparedStatement ps, User item)
+            throws SQLException {
+        setInsertStatement(ps, item);
+        ps.setInt(USER_ID, item.getId());
     }
 
     @Override

@@ -77,22 +77,12 @@ public class CarDao extends AbstractSqlDao<Car> {
             + "license_plate=?,year_of_make=?,price=?,available=? "
             + "WHERE car_id=?";
     
-    /**
-     * The Field enum has column names for read methods and number of column for
-     * the update method and the add method (in the NUMBER attribute)
-     */
-    enum Fields {
-        CAR_ID(6), LICENSE_PLATE(2), YEAR_OF_MAKE(3), PRICE(4), MODEL(1), NAME, 
-        MAKE, MAKE_NAME, AVAILABLE(5);
-        
-        int NUMBER;
-        
-        Fields(int number) {
-            this.NUMBER = number;
-        }
-        Fields() {
-        }
-    }
+    private static final int CAR_ID = 6;
+    private static final int LICENSE_PLATE = 2;
+    private static final int YEAR_OF_MAKE = 3;
+    private static final int PRICE = 4;
+    private static final int MODEL = 1;
+    private static final int AVAILABLE = 5;
     
     public CarDao(Connection connection) {
         super(connection);
@@ -117,17 +107,22 @@ public class CarDao extends AbstractSqlDao<Car> {
     protected Car createItem(ResultSet rs) throws SQLException {
         return new EntityFromResultSetFactory(rs).createCar();
     }
+    
+    @Override
+    protected void setInsertStatement(PreparedStatement ps, Car item)
+            throws SQLException {
+        ps.setInt(MODEL, item.getCarModel().getId());
+        ps.setString(LICENSE_PLATE, item.getLicensePlate());
+        ps.setInt(YEAR_OF_MAKE, item.getYearOfMake());
+        ps.setInt(PRICE, item.getPrice());
+        ps.setBoolean(AVAILABLE, item.isAvailable()); 
+    }
 
     @Override
-    protected void setStatement(PreparedStatement ps, Car item, 
-            boolean isUpdateStatement) throws SQLException {
-        ps.setInt(Fields.MODEL.NUMBER, item.getCarModel().getId());
-        ps.setString(Fields.LICENSE_PLATE.NUMBER, item.getLicensePlate());
-        ps.setInt(Fields.YEAR_OF_MAKE.NUMBER, item.getYearOfMake());
-        ps.setInt(Fields.PRICE.NUMBER, item.getPrice());
-        ps.setBoolean(Fields.AVAILABLE.NUMBER, item.isAvailable());
-        if (isUpdateStatement)
-            ps.setInt(Fields.CAR_ID.NUMBER, item.getId());
+    protected void setUpdateStatement(PreparedStatement ps, Car item)
+            throws SQLException {
+        setInsertStatement(ps, item);
+        ps.setInt(CAR_ID, item.getId());
     }
 
     @Override

@@ -64,22 +64,9 @@ public class CarModelDao extends AbstractSqlDao<CarModel> {
     private static final String UPDATE_QUERY = "UPDATE models SET model_name=?,"
             + "make_id=? WHERE model_id=?";
     
-    /**
-     * The Field enum has column names for read methods and number of column for
-     * the update method and the add method (in the NUMBER attribute)
-     */
-    enum Fields {
-        MODEL_ID(3), NAME(1), MAKE(2), MAKE_NAME;
-        
-        int NUMBER;
-        
-        Fields(int number) {
-            this.NUMBER = number;
-        }
-        
-        Fields() {
-        }
-    }
+    private static final int NAME = 1;
+    private static final int MAKE = 2;
+    private static final int MODEL_ID = 3;
 
     public CarModelDao(Connection connection) {
         super(connection);
@@ -106,13 +93,17 @@ public class CarModelDao extends AbstractSqlDao<CarModel> {
     }
 
     @Override
-    protected void setStatement(PreparedStatement ps, CarModel item,
-            boolean isUpdateStatement) throws SQLException {
-        ps.setString(Fields.NAME.NUMBER, item.getName());
-        ps.setInt(Fields.MAKE.NUMBER, item.getCarMake().getId());
-        if (isUpdateStatement) {
-            ps.setInt(Fields.MODEL_ID.NUMBER, item.getId());
-        }
+    protected void setInsertStatement(PreparedStatement ps, CarModel item)
+            throws SQLException {
+        ps.setString(NAME, item.getName());
+        ps.setInt(MAKE, item.getCarMake().getId());  
+    }
+    
+    @Override
+    protected void setUpdateStatement(PreparedStatement ps, CarModel item)
+            throws SQLException {
+        setInsertStatement(ps, item);
+        ps.setInt(MODEL_ID, item.getId());
     }
 
     @Override

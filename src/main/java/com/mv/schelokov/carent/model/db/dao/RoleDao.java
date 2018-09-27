@@ -42,19 +42,8 @@ public class RoleDao extends AbstractSqlDao<Role> {
     private static final String UPDATE_QUERY = "UPDATE roles SET role_name=?"
             + " WHERE role_id=?";
     
-    /**
-     * The Field enum has column names for read methods and number of column for
-     * the update method and the add method (in the NUMBER attribute)
-     */
-    enum Fields {
-        ROLE_ID(2), ROLE_NAME(1);
-        
-        int NUMBER;
-        
-        Fields(int number) {
-            this.NUMBER = number;
-        }
-    }
+    private static final int ROLE_NAME = 1;
+    private static final int ROLE_ID = 2;
 
     public RoleDao(Connection connection) {
         super(connection);
@@ -81,11 +70,16 @@ public class RoleDao extends AbstractSqlDao<Role> {
     }
 
     @Override
-    protected void setStatement(PreparedStatement ps, Role item, 
-            boolean isUpdateStatement) throws SQLException {
-        ps.setString(Fields.ROLE_NAME.NUMBER, item.getRoleName());
-        if (isUpdateStatement)
-            ps.setInt(Fields.ROLE_ID.NUMBER, item.getId());
+    protected void setInsertStatement(PreparedStatement ps, Role item)
+            throws SQLException {
+        ps.setString(ROLE_NAME, item.getRoleName());
+    }
+    
+    @Override
+    protected void setUpdateStatement(PreparedStatement ps, Role item)
+            throws SQLException {
+        setInsertStatement(ps, item);
+        ps.setInt(ROLE_ID, item.getId());
     }
 
     @Override

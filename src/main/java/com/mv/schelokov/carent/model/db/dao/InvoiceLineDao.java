@@ -48,22 +48,10 @@ public class InvoiceLineDao extends AbstractSqlDao<InvoiceLine> {
     private static final String UPDATE_QUERY = "UPDATE invoice_lines SET "
             + "invoice_id=?,details=?,amount=? WHERE line_id=?";
 
-    /**
-     * The Field enum has column names for read methods and number of column for
-     * the update method and the add method (in the NUMBER attribute)
-     */
-    enum Fields {
-        LINE_ID(4), INVOICE_ID(1), DETAILS(2), AMOUNT(3);
-        
-        int NUMBER;
-        
-        Fields(int number) {
-            this.NUMBER = number;
-        }
-        
-        Fields() {
-        }
-    }
+    private static final int INVOICE_ID = 1;
+    private static final int DETAILS = 2;
+    private static final int AMOUNT = 3;
+    private static final int LINE_ID = 4;
 
     public InvoiceLineDao(Connection connection) {
         super(connection);
@@ -90,14 +78,18 @@ public class InvoiceLineDao extends AbstractSqlDao<InvoiceLine> {
     }
     
     @Override
-    protected void setStatement(PreparedStatement ps, InvoiceLine item, 
-            boolean isUpdateStatement) throws SQLException {
-        ps.setInt(Fields.INVOICE_ID.NUMBER, item.getInvoiceId());
-        ps.setString(Fields.DETAILS.NUMBER, item.getDetails());
-        ps.setInt(Fields.AMOUNT.NUMBER, item.getAmount());
-
-        if (isUpdateStatement)
-            ps.setInt(Fields.LINE_ID.NUMBER, item.getId());
+    protected void setInsertStatement(PreparedStatement ps, InvoiceLine item)
+            throws SQLException {
+        ps.setInt(INVOICE_ID, item.getInvoiceId());
+        ps.setString(DETAILS, item.getDetails());
+        ps.setInt(AMOUNT, item.getAmount());     
+    }
+    
+    @Override
+    protected void setUpdateStatement(PreparedStatement ps, InvoiceLine item)
+            throws SQLException {
+        setInsertStatement(ps, item);
+        ps.setInt(LINE_ID, item.getId());
     }
 
     @Override

@@ -65,21 +65,10 @@ public class RejectionReasonDao extends AbstractSqlDao<RejectionReason> {
     private static final String UPDATE_QUERY = "UPDATE rejection_reasons SET "
             + "reason=? WHERE reason_id=?";
 
-    /**
-     * The Field enum has column names for read methods and number of column for
-     * the update method and the add method (in the NUMBER attribute)
-     */
-    enum Fields {
-        REASON_ID(1, 2), REASON(2, 1);
-
-        int INSERT;
-        int UPDATE;
-
-        Fields(int insert, int update) {
-            this.INSERT = insert;
-            this.UPDATE = update;
-        }
-    }
+    private static final int INSERT_REASON_ID = 1;
+    private static final int INSERT_REASON = 2;
+    private static final int UPDATE_REASON_ID = 2;
+    private static final int UPDATE_REASON = 1;
 
     public RejectionReasonDao(Connection connection) {
         super(connection);
@@ -104,17 +93,19 @@ public class RejectionReasonDao extends AbstractSqlDao<RejectionReason> {
     protected RejectionReason createItem(ResultSet rs) throws SQLException {
         return new EntityFromResultSetFactory(rs).createRejectionReason();
     }
-
+    
     @Override
-    protected void setStatement(PreparedStatement ps, RejectionReason item,
-            boolean isUpdateStatement) throws SQLException {
-        if (isUpdateStatement) {
-            ps.setInt(Fields.REASON_ID.UPDATE, item.getId());
-            ps.setString(Fields.REASON.UPDATE, item.getReason());
-        } else {
-            ps.setInt(Fields.REASON_ID.INSERT, item.getId());
-            ps.setString(Fields.REASON.INSERT, item.getReason());
-        }
+    protected void setInsertStatement(PreparedStatement ps,
+            RejectionReason item) throws SQLException {
+        ps.setInt(INSERT_REASON_ID, item.getId());
+        ps.setString(INSERT_REASON, item.getReason());
+    }
+    
+    @Override
+    protected void setUpdateStatement(PreparedStatement ps,
+            RejectionReason item) throws SQLException {
+        ps.setInt(UPDATE_REASON_ID, item.getId());
+        ps.setString(UPDATE_REASON, item.getReason());
     }
 
     @Override

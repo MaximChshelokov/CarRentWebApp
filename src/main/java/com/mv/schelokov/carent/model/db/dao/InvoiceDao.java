@@ -65,23 +65,12 @@ public class InvoiceDao extends AbstractSqlDao<Invoice> {
     private static final String UPDATE_QUERY = "UPDATE invoices SET "
             + "date=?,paid=? WHERE invoice_id=?";
 
-    /**
-     * The Field enum has column names for read methods and number of column for
-     * the update method and the add method (in the NUMBER attribute)
-     */
-    enum Fields {
-        INVOICE_ID(1, 3), DATE(2, 1), PAID(3, 2), TOTAL;
-
-        int INSERT, UPDATE;
-
-        Fields(int insert, int update) {
-            this.INSERT = insert;
-            this.UPDATE = update;
-        }
-
-        Fields() {
-        }
-    }
+    private static final int INSERT_INVOICE_ID = 1;
+    private static final int INSERT_DATE = 2;
+    private static final int INSERT_PAID = 3;
+    private static final int UPDATE_INVOICE_ID = 3;
+    private static final int UPDATE_DATE = 1;
+    private static final int UPDATE_PAID = 2;
 
     public InvoiceDao(Connection connection) {
         super(connection);
@@ -106,19 +95,21 @@ public class InvoiceDao extends AbstractSqlDao<Invoice> {
     protected Invoice createItem(ResultSet rs) throws SQLException {
         return new EntityFromResultSetFactory(rs).createInvoice();
     }
-
+    
     @Override
-    protected void setStatement(PreparedStatement ps, Invoice item,
-            boolean isUpdateStatement) throws SQLException {
-        if (isUpdateStatement) {
-            ps.setInt(Fields.INVOICE_ID.UPDATE, item.getId());
-            ps.setDate(Fields.DATE.UPDATE, new Date(item.getDate().getTime()));
-            ps.setInt(Fields.PAID.UPDATE, item.getPaid());
-        } else {
-            ps.setInt(Fields.INVOICE_ID.INSERT, item.getId());
-            ps.setDate(Fields.DATE.INSERT, new Date(item.getDate().getTime()));
-            ps.setInt(Fields.PAID.INSERT, item.getPaid());
-        }
+    protected void setInsertStatement(PreparedStatement ps, Invoice item)
+            throws SQLException {
+        ps.setInt(INSERT_INVOICE_ID, item.getId());
+        ps.setDate(INSERT_DATE, new Date(item.getDate().getTime()));
+        ps.setInt(INSERT_PAID, item.getPaid());
+    }
+    
+    @Override
+    protected void setUpdateStatement(PreparedStatement ps, Invoice item)
+            throws SQLException {
+        ps.setInt(UPDATE_INVOICE_ID, item.getId());
+        ps.setDate(UPDATE_DATE, new Date(item.getDate().getTime()));
+        ps.setInt(UPDATE_PAID, item.getPaid());
     }
 
     @Override

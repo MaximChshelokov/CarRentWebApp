@@ -140,7 +140,7 @@ public abstract class AbstractSqlDao <T extends Entity>
     public boolean update(T item) throws DbException {
         try (PreparedStatement ps = connection
                 .prepareStatement(getUpdateQuery())) {
-            setStatement(ps, item, true);
+            setUpdateStatement(ps, item);
             return ps.executeUpdate() > 0;
         } catch (SQLException ex) {
             try {
@@ -165,7 +165,7 @@ public abstract class AbstractSqlDao <T extends Entity>
     public boolean add(T item) throws DbException {
         try (PreparedStatement ps = connection
                 .prepareStatement(getCreateQuery())) {
-            setStatement(ps, item, false);
+            setInsertStatement(ps, item);
             return ps.executeUpdate() > 0;
         } catch (SQLException ex) {
             try {
@@ -207,15 +207,26 @@ public abstract class AbstractSqlDao <T extends Entity>
     protected abstract T createItem(ResultSet rs) throws SQLException;
     
     /**
-     *  Puts the necessary data from entity to PreparedStatement object.
+     * Puts the necessary data from entity to PreparedStatement object for
+     * insert operation.
+     *
      * @param ps a target PreparedStatement object.
      * @param item a source entity object.
-     * @param isUpdateStatement must be set true if the update operation
-     * performed, due the different property order.
      * @throws SQLException
      */
-    protected abstract void setStatement(PreparedStatement ps, T item,
-            boolean isUpdateStatement) throws SQLException;
+    protected abstract void setInsertStatement(PreparedStatement ps, T item)
+            throws SQLException;
+    
+    /**
+     *  Puts the necessary data from entity to PreparedStatement object for
+     * update operation.
+     * 
+     * @param ps a target PreparedStatement object.
+     * @param item a source entity object.
+     * @throws SQLException
+     */
+    protected abstract void setUpdateStatement(PreparedStatement ps, T item)
+            throws SQLException;
     
     /**
      * 

@@ -68,25 +68,15 @@ public class UserDataDao extends AbstractSqlDao<UserData> {
             + " userdata_id=?";
     private static final String UPDATE_QUERY = "UPDATE users_data SET "
             + "name=?,address=?,phone=? WHERE userdata_id=?";
-    
-    /**
-     * The Field enum has column names for read methods and number of column for
-     * the update method and the add method (in the UPDATE attribute and the 
-     * INSERT attribute)
-     */
-    enum Fields {
-        USERDATA_ID(1, 4),  NAME(2, 1), ADDRESS(3, 2), PHONE(4, 3), ROLE,
-        ROLE_NAME, USER_ID, LOGIN, PASSWORD;
-        
-        int INSERT, UPDATE;
-        
-        Fields(int insert, int update) {
-            this.INSERT = insert;
-            this.UPDATE = update;
-        }
-        
-        Fields() {}
-    }
+
+    private static final int INSERT_USERDATA_ID = 1;
+    private static final int INSERT_NAME = 2;
+    private static final int INSERT_ADDRESS = 3;
+    private static final int INSERT_PHONE = 4;
+    private static final int UPDATE_USERDATA_ID = 4;
+    private static final int UPDATE_NAME = 1;
+    private static final int UPDATE_ADDRESS = 2;
+    private static final int UPDATE_PHONE = 3;
     
     public UserDataDao(Connection connection) {
         super(connection);
@@ -111,21 +101,23 @@ public class UserDataDao extends AbstractSqlDao<UserData> {
     protected UserData createItem(ResultSet rs) throws SQLException {
         return new EntityFromResultSetFactory(rs).createUserData();
     }
+    
+    @Override
+    protected void setInsertStatement(PreparedStatement ps, UserData item)
+            throws SQLException {
+        ps.setInt(INSERT_USERDATA_ID, item.getUser().getId());
+        ps.setString(INSERT_NAME,item.getName());
+        ps.setString(INSERT_ADDRESS, item.getAddress());
+        ps.setString(INSERT_PHONE, item.getPhone());
+    }
 
     @Override
-    protected void setStatement(PreparedStatement ps, UserData item, 
-            boolean isUpdateStatement) throws SQLException {
-        if (isUpdateStatement) {
-            ps.setInt(Fields.USERDATA_ID.UPDATE, item.getId());
-            ps.setString(Fields.NAME.UPDATE, item.getName());
-            ps.setString(Fields.ADDRESS.UPDATE, item.getAddress());
-            ps.setString(Fields.PHONE.UPDATE, item.getPhone());
-        } else {
-            ps.setInt(Fields.USERDATA_ID.INSERT, item.getUser().getId());
-            ps.setString(Fields.NAME.INSERT, item.getName());
-            ps.setString(Fields.ADDRESS.INSERT, item.getAddress());
-            ps.setString(Fields.PHONE.INSERT, item.getPhone());          
-        }
+    protected void setUpdateStatement(PreparedStatement ps, UserData item)
+            throws SQLException {
+        ps.setInt(UPDATE_USERDATA_ID, item.getId());
+        ps.setString(UPDATE_NAME, item.getName());
+        ps.setString(UPDATE_ADDRESS, item.getAddress());
+        ps.setString(UPDATE_PHONE, item.getPhone());
     }
 
     @Override

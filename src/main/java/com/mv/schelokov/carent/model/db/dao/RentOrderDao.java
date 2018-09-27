@@ -110,23 +110,12 @@ public class RentOrderDao extends AbstractSqlDao<RentOrder> {
     private static final String UPDATE_QUERY = "UPDATE rent_orders SET car=?,"
             + "user=?,start_date=?,end_date=?,approved_by=? WHERE rent_id=?";
     
-    /**
-     * The Field enum has column names for read methods and number of column for
-     * the update method and the add method (in the NUMBER attribute)
-     */
-    enum Fields {
-        RENT_ID(6), START_DATE(3), END_DATE(4), CAR(1), LICENSE_PLATE, 
-        YEAR_OF_MAKE, PRICE, MODEL, MODEL_NAME, MAKE, MAKE_NAME, USER(2), LOGIN, 
-        APPROVED_BY(5), APPROVER_LOGIN, AVAILABLE, REASON;
-        
-        int NUMBER;
-        
-        Fields(int number) {
-            this.NUMBER = number;
-        }
-        Fields() {
-        }
-    }
+    private static final int RENT_ID = 6;
+    private static final int START_DATE = 3;
+    private static final int END_DATE = 4;
+    private static final int CAR = 1;
+    private static final int USER = 2;
+    private static final int APPROVED_BY = 5;
 
     public RentOrderDao(Connection connection) {
         super(connection);
@@ -153,18 +142,24 @@ public class RentOrderDao extends AbstractSqlDao<RentOrder> {
     }
     
     @Override
-    protected void setStatement(PreparedStatement ps, RentOrder item, 
-            boolean isUpdateStatement) throws SQLException {
-        ps.setInt(Fields.CAR.NUMBER, item.getCar().getId());
-        ps.setInt(Fields.USER.NUMBER, item.getUser().getId());
-        ps.setDate(Fields.START_DATE.NUMBER, new Date(item.getStartDate().getTime()));
-        ps.setDate(Fields.END_DATE.NUMBER, new Date(item.getEndDate().getTime()));
-        if (item.getApprovedBy() == null || item.getApprovedBy().getId() == 0)
-            ps.setNull(Fields.APPROVED_BY.NUMBER, Types.INTEGER);
-        else
-            ps.setInt(Fields.APPROVED_BY.NUMBER, item.getApprovedBy().getId());
-        if (isUpdateStatement)
-            ps.setInt(Fields.RENT_ID.NUMBER, item.getId());
+    protected void setInsertStatement(PreparedStatement ps, RentOrder item)
+            throws SQLException {
+        ps.setInt(CAR, item.getCar().getId());
+        ps.setInt(USER, item.getUser().getId());
+        ps.setDate(START_DATE, new Date(item.getStartDate().getTime()));
+        ps.setDate(END_DATE, new Date(item.getEndDate().getTime()));
+        if (item.getApprovedBy() == null || item.getApprovedBy().getId() == 0) {
+            ps.setNull(APPROVED_BY, Types.INTEGER);
+        } else {
+            ps.setInt(APPROVED_BY, item.getApprovedBy().getId());
+        }
+    }
+    
+    @Override
+    protected void setUpdateStatement(PreparedStatement ps, RentOrder item)
+            throws SQLException {
+        setInsertStatement(ps, item);
+        ps.setInt(RENT_ID, item.getId());
     }
 
     @Override

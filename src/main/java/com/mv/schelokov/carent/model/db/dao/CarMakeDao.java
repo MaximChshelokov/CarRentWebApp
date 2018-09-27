@@ -61,19 +61,8 @@ public class CarMakeDao extends AbstractSqlDao<CarMake> {
     private static final String UPDATE_QUERY = "UPDATE makes SET make_name=? "
             + "WHERE make_id=?";
     
-    /**
-     * The Field enum has column names for read methods and number of column for
-     * the update method and the add method (in the NUMBER attribute)
-     */
-    enum Fields {
-        MAKE_ID(2), NAME(1);
-        
-        int NUMBER;
-        
-        Fields(int number) {
-            this.NUMBER = number;
-        }
-    }
+    private static final int NAME = 1;
+    private static final int MAKE_ID = 2;
 
     public CarMakeDao(Connection connection) {
         super(connection);
@@ -98,13 +87,18 @@ public class CarMakeDao extends AbstractSqlDao<CarMake> {
     protected CarMake createItem(ResultSet rs) throws SQLException {
         return new EntityFromResultSetFactory(rs).createCarMake();
     }
+    
+    @Override
+    protected void setInsertStatement(PreparedStatement ps, CarMake item)
+            throws SQLException {  
+        ps.setString(NAME, item.getName());
+    }
 
     @Override
-    protected void setStatement(PreparedStatement ps, CarMake item, 
-            boolean isUpdateStatement) throws SQLException {
-        ps.setString(Fields.NAME.NUMBER, item.getName());
-        if (isUpdateStatement)
-            ps.setInt(Fields.MAKE_ID.NUMBER, item.getId());
+    protected void setUpdateStatement(PreparedStatement ps, CarMake item)
+            throws SQLException {
+        setInsertStatement(ps, item);
+        ps.setInt(MAKE_ID, item.getId());
     }
     
     @Override
