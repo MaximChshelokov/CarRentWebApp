@@ -1,72 +1,71 @@
-# Car rent Java EE web app
+# Car rent Java EE web application
 
-## Содержание
+## Table of contents
 
-1. Подготовка необходимых инструментов
- + [Установка MySQL](#mysql)
- + [Установка среды Java](#jdk)
- + [Установка контейнера Tomcat](#tomcat)
- + [Подготовка директории развертывания](#tom_dir)
- + [Установка системы контроля версий Git](#git)
- + [Установка системы maven](#maven)
-2. Установка, сборка, подготовка к запуску
- + [Скачивание приложения](#clone)
- + [Развертывание дампа базы данных](#import)
- + [Создание пользователя базы данных](#setup_db)
- + [Настройка проекта](#set_param)
- + [Сборка приложения](#compile)
-3. Развертывание приложения
- + [Установка в контейнер Tomcat](#tomcat_deploy)
- + [Запуск Tomcat](#start_tomcat)
- + [Открытие приложения в браузере](#browse)
+1. Preparing required instruments
+ + [Installing MySQL](#mysql)
+ + [Installing Java Development Kit](#jdk)
+ + [Installing Tomcat](#tomcat)
+ + [Preparing a deployment directory](#tom_dir)
+ + [Installing Git version control system](#git)
+ + [Installing maven build automation system](#maven)
+2. Installing, building, preparing to run
+ + [Getting the application](#clone)
+ + [Database dump deploying](#import)
+ + [Database user creating](#setup_db)
+ + [Setting up the project](#set_param)
+ + [Application building](#compile)
+3. Application deploying
+ + [Installing Tomcat](#tomcat_deploy)
+ + [Running Tomcat](#start_tomcat)
+ + [Opening application in browser](#browse)
 
 
 
-Учебный проект веб-приложение Аренда машин.
+Car rent application studing project.
 
-##	Подготовка необходимых инструментов
-### <a name="mysql"></a>	Установка MySQL
+##	Preparing requires instruments
+### <a name="mysql"></a>	Installing MySQL
 
-Для корректной работы приложения требуется MySQL версии не ниже 5.7
+The application requires MySQL version 5.7 and higher.
 
-[Дистрибутив СУБД MySQL](https://dev.mysql.com/downloads/mysql/)
+[MySQL distributive](https://dev.mysql.com/downloads/mysql/)
 
-[Инструкция по установке СУБД MySQL](https://dev.mysql.com/doc/refman/8.0/en/installing.html)
+[MySQL install instruction](https://dev.mysql.com/doc/refman/8.0/en/installing.html)
 
-### <a name="jdk"></a>	Установка среды Java
+### <a name="jdk"></a>	Installing Java Development Kit
 
-Для корректной работы приложения требуется установить Java Development Kit версии 8 (1.8)
+The application requires Java Development Kit version 8 (1.8)
 
-[Страница для скачивания JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+[JDK 8 download page](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 
-[Инструкция по установке JDK](https://docs.oracle.com/javase/8/docs/technotes/guides/install/index.html)
+[JDK install instruction](https://docs.oracle.com/javase/8/docs/technotes/guides/install/index.html)
 
-### <a name="tomcat"></a>	Установка контейнера Tomcat
+### <a name="tomcat"></a>	Installing Tomcat
+The application has been tested in Tomcat 8.5
+Download and install Tomcat 8.5
 
-Приложение протестировано на работоспособность с контейнером Tomcat версии 8.5
-Скачайте и установите Tomcat 8.5
+[Tomcat 8.5 download page](https://tomcat.apache.org/download-70.cgi)
 
-[Страница для скачивания Tomcat 8.5](https://tomcat.apache.org/download-70.cgi)
+[Tomcat install instruction](https://tomcat.apache.org/tomcat-8.5-doc/setup.html)
 
-[Инструкция по установке Tomcat](https://tomcat.apache.org/tomcat-8.5-doc/setup.html)
+### <a name="tom_dir"></a>    Preparing a deployment directory
 
-### <a name="tom_dir"></a>    Подготовка директории развертывания
+Remove or move the content of tomcat/webapps/ROOT to another directory.
 
-Удалите или переместите содержимое директории tomcat/webapps/ROOT.
+### <a name="git"></a>	Installing Git version control system
 
-### <a name="git"></a>	Установка системы контроля версий Git
+Git installation is optional, in order to simplify downloading application from git-hub.
 
-Установка Git опциональна, и производится для удобства скачивания приложения из репозитория git-hub.
+[Git download page](https://git-scm.com/downloads)
 
-[Страница для скачивания Git](https://git-scm.com/downloads)
+### <a name="maven"></a> Installing maven build automation system
 
-### <a name="maven"></a> Установка системы maven
+Maven 3.3 build automation system is required to build, test and deploy application.
 
-Установка системы автоматической сборки и управления пакетами maven версии 3.3 или выше необходима для сборки, тестирования и размещения приложения.
+[Maven download page](https://maven.apache.org/download.cgi)
 
-[Страница для скачивания maven](https://maven.apache.org/download.cgi)
-
-[Инструкция по установке maven](https://maven.apache.org/install.html)
+[Maven install instruction](https://maven.apache.org/install.html)
 
 
 ## Установка, сборка, подготовка к запуску
