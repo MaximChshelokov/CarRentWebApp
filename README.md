@@ -24,7 +24,7 @@
 
 Car rent application studing project.
 
-##	Preparing requires instruments
+##	Preparing required instruments
 ### <a name="mysql"></a>	Installing MySQL
 
 The application requires MySQL version 5.7 and higher.
