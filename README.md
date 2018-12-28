@@ -10,13 +10,13 @@
  + [Installing Git version control system](#git)
  + [Installing maven build automation system](#maven)
 2. Installing, building, preparing to run
- + [Getting the application](#clone)
+ + [Downloading the application](#clone)
  + [Database dump deploying](#import)
  + [Database user creating](#setup_db)
  + [Setting up the project](#set_param)
  + [Application building](#compile)
-3. Application deploying
- + [Installing Tomcat](#tomcat_deploy)
+3. The application deploying
+ + [Deploying to Tomcat](#tomcat_deploy)
  + [Running Tomcat](#start_tomcat)
  + [Opening application in browser](#browse)
 
@@ -68,73 +68,72 @@ Maven 3.3 build automation system is required to build, test and deploy applicat
 [Maven install instruction](https://maven.apache.org/install.html)
 
 
-## Установка, сборка, подготовка к запуску
-### <a name="clone"></a>	Скачивание приложения
+## Installing, building, preparing to run
+### <a name="clone"></a>	Downdloading the application
 
-Для скачивания приложения из репозитория Git-hub введите в командной строке:
+To download the application use the following in command line:
 	
 	git clone https://github.com/MaximChshelokov/CarRentWebApp.git
 
 	
-### <a name="import"></a>	Развертывание дампа базы данных
+### <a name="import"></a>	Database dump deploying
 
-Для развертывания БД введите в командной строке:
+To deploy the database dump type in command line:
 	
-	mysql -u root -p < путь к проекту/db_dump.sql
-	
-Затем введите пароль root пользователя MySQL. База данных (схема) будет создана автоматически.
+	mysql -u root -p < project path/db_dump.sql
 
-Для развертывания тестовой БД (которая необходима для успешной сборки проекта) выполните в командной строке:
-	
-	mysql -u root -p < путь к проекту/test_db_dump.sql
-	
-Затем введите пароль root пользователя MySQL. База данных (схема) будет создана автоматически.
+Then input the root user's password. Database scheme will be created automatically.
 
-### <a name="setup_db"></a>	Создание пользователя базы данных
+To deploy the test database dump (whether is required to successfully build the project) input into command line:
+	
+	mysql -u root -p < project path/test_db_dump.sql
+	
+Then input the root user's password. Database scheme will be created automatically.	
 
-Приложение изначально настроено на работу с базой данных под учётной записью car_rent_app (и паролем Un3L41NoewVA).
-Для создание необходимого пользователя:
-Запустите терминал mysql, и выполните команду:
+### <a name="setup_db"></a>	Database user creating
+
+The application uses default database username car_rent_app (and password Un3L41NoewVA).
+To create the user run the mysql terminal and input:
 	
 	CREATE USER 'car_rent_app'@'localhost' IDENTIFIED BY 'Un3L41NoewVA';
-	
-Если вы хотите использовать другие имя пользователя и пароль, необходимо внести их в [файл настроек базы данных](#set_param).
 
-Чтобы предоставить доступ данному пользователю к базе данных (схеме) приложения, выполните команду:
+If you want to use another username and password, you have to specify them to [database properties file](#set_param)
+
+Use the following command to grant to the user access to the database (scheme):
     
     GRANT SELECT, INSERT, UPDATE, DELETE ON * . * TO 'car_rent_app'@'localhost';
     
-### Установка часового пояса MySQL для пользователей Windows
+### Setting up the timezone for the Windows users.
 
-При использовании СУБД MySQL под ОС Windows при подключении к БД может возникнуть ошибка, заключающаяся в невозможности автоматической установки часового пояса. Чтобы избежать данной ошибки запустите терминал mysql, и выполните команду:
+There is an error might occure during connect to the database if you're using the Windows OS because of MySQL couldn't set timezone automatically. To fix it run the mysql terminal and input:
     
-    SET GLOBAL time_zone = 'ВАШ ЧАСОВОЙ ПОЯС';
+    SET GLOBAL time_zone = 'YOUR TIMEZONE';
     
-Где вместо слов ВАШ ЧАСОВОЙ ПОЯС укажите свой часовой пояс в формате +7:00
+Give your timezone in +7:00 format instead of YOUR TIMEZONE.
 
-### <a name="set_param"></a>	Настройка проекта
+### <a name="set_param"></a>	Setting up the project
 
-В случае, если вы хотите использовать произвольные имя и пароль пользователя базы данных, измените строки в файле src/main/resources/db_params.properties
+In order to use an arbitrary username and password, change the following lines in src/main/resources/db_params.properties file:
 	
-	LOGIN=имя пользователя БД
-	PASSWORD=пароль пользователя БД
+	LOGIN=database user's name
+	PASSWORD=database user's password
 	
-Так же при необходимости, можно настроить другие параметры соединения с БД:
+You also could change another database connection parameters, if necessery:
 	
-	URL=jdbc:mysql://localhost/имя базы?autoReconnect=true&useSSL=false&characterEncoding=utf-8
-	POOL_SIZE=размер пула подключений к БД
+	URL=jdbc:mysql://localhost/DATABASE NAME?autoReconnect=true&useSSL=false&characterEncoding=utf-8
+	POOL_SIZE=CONNECTION POOS SIZE
 	
-### <a name="compile"></a>  Сборка приложения
+### <a name="compile"></a>  Application building
 
-Для сборки приложения введите в командной строке:
+Input the following command to build the project:
 	
 	mvn clean install
 	
-## Развертывание приложения
-### <a name="tomcat_deploy"></a> Установка в контейнер Tomcat
+## The application deploying
+### <a name="tomcat_deploy"></a> Deploying to Tomcat
 
-Скопируйте содержимое директории путь к проекту/target/car_rent-1.0-SNAPSHOT/ в директорию tomcat/webapps/ROOT
-Примечание: директория target создается в пункте [Сборка приложения](#compile)
+Copy directory project path/target/car_rent-1.0-SNAPSHOT/ content to the tomcat/webapps/ROOT directory.
+Note: target directory creation covered in [Application building](#compile)
 
 ### <a name="start_tomcat"></a>  Запуск Tomcat
 
